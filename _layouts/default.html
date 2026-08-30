@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>
+    {% if page.title %}
+      {{ page.title }} | Infograf+
+    {% else %}
+      Infograf+
+    {% endif %}
+  </title>
+
+  <meta
+    name="description"
+    content="{{ page.description | default: site.description | escape }}">
+
+  <meta name="theme-color" content="#635BFF">
+
+  <link
+    rel="manifest"
+    href="{{ '/manifest.json' | relative_url }}">
+
+  <link
+    rel="stylesheet"
+    href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+
+    <div class="header-inner">
+
+      <a
+        href="{{ '/' | relative_url }}"
+        class="brand"
+        aria-label="Infograf+ الرئيسية">
+
+        <span class="brand-name">Infograf</span><span class="brand-plus">+</span>
+
+      </a>
+
+
+      <nav class="desktop-navigation" aria-label="التنقل الرئيسي">
+
+        <a
+          href="{{ '/' | relative_url }}"
+          class="nav-link">
+          الرئيسية
+        </a>
+
+        <a
+          href="#categories"
+          class="nav-link">
+          الأقسام
+        </a>
+
+        <a
+          href="#latest"
+          class="nav-link">
+          أحدث الإنفوغرافيكات
+        </a>
+
+      </nav>
+
+
+      <button
+        type="button"
+        class="search-button"
+        id="open-search"
+        aria-label="البحث">
+
+        <span class="search-icon">⌕</span>
+
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- Search -->
+  <div
+    class="search-panel"
+    id="search-panel"
+    hidden>
+
+    <div class="search-panel-inner">
+
+      <div class="search-header">
+
+        <h2>ابحث في Infograf+</h2>
+
+        <button
+          type="button"
+          id="close-search"
+          class="close-search"
+          aria-label="إغلاق البحث">
+
+          ×
+
+        </button>
+
+      </div>
+
+      <label
+        for="site-search"
+        class="visually-hidden">
+        ابحث
+      </label>
+
+      <input
+        id="site-search"
+        type="search"
+        placeholder="اكتب كلمة للبحث..."
+        autocomplete="off">
+
+      <div
+        id="search-results"
+        class="search-results">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Main -->
+  <div class="page-wrapper">
+
+    {{ content }}
+
+  </div>
+
+
+  <!-- Mobile Navigation -->
+  <nav
+    class="mobile-navigation"
+    aria-label="تنقل الهاتف">
+
+    <a
+      href="{{ '/' | relative_url }}"
+      class="mobile-nav-item">
+
+      <span class="mobile-nav-icon">⌂</span>
+      <span>الرئيسية</span>
+
+    </a>
+
+
+    <a
+      href="#categories"
+      class="mobile-nav-item">
+
+      <span class="mobile-nav-icon">▦</span>
+      <span>الأقسام</span>
+
+    </a>
+
+
+    <button
+      type="button"
+      class="mobile-nav-item mobile-search-trigger"
+      id="mobile-search">
+
+      <span class="mobile-nav-icon">⌕</span>
+      <span>بحث</span>
+
+    </button>
+
+
+    <a
+      href="#latest"
+      class="mobile-nav-item">
+
+      <span class="mobile-nav-icon">✦</span>
+      <span>الأحدث</span>
+
+    </a>
+
+  </nav>
+
+
+  <!-- Footer -->
+  <footer class="site-footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <span class="brand-name">Infograf</span><span class="brand-plus">+</span>
+
+        <p>
+          معلومات وإنفوغرافيك بطريقة أبسط.
+        </p>
+
+      </div>
+
+
+      <div class="footer-info">
+
+        <span>
+          © {{ 'now' | date: "%Y" }} Infograf+
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script
+    src="{{ '/assets/js/app.js' | relative_url }}">
+  </script>
+
+</body>
+</html>
