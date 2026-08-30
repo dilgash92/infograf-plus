@@ -1297,3 +1297,166 @@ button {
   }
 
 }
+/* =========================================================
+   Categories Page
+   ========================================================= */
+
+.categories-page {
+  width: min(var(--max-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: 65px 0 100px;
+}
+
+
+.categories-page-header {
+  max-width: 680px;
+  margin-bottom: 40px;
+}
+
+
+.categories-page-header h1 {
+  margin: 0;
+  font-size: clamp(35px, 5vw, 52px);
+  line-height: 1.25;
+  letter-spacing: -1.5px;
+}
+
+
+.categories-page-header p {
+  margin: 13px 0 0;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+
+.all-categories {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+  margin-bottom: 75px;
+}
+
+
+.category-card {
+  min-height: 125px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 19px;
+
+  color: var(--text);
+  text-align: right;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.category-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+
+.category-card.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+
+.category-card-icon {
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  line-height: 1;
+}
+
+
+.category-card-name {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+
+.category-card-count {
+  color: var(--text-light);
+  font-size: 10px;
+}
+
+
+.category-card.active .category-card-count {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+
+.category-results {
+  padding-bottom: 30px;
+}
+
+
+@media (max-width: 900px) {
+
+  .all-categories {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .categories-page {
+    width: calc(100% - 28px);
+    padding: 40px 0 70px;
+  }
+
+
+  .categories-page-header {
+    margin-bottom: 28px;
+  }
+
+
+  .categories-page-header h1 {
+    font-size: 35px;
+  }
+
+
+  .categories-page-header p {
+    font-size: 14px;
+  }
+
+
+  .all-categories {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 50px;
+  }
+
+
+  .category-card {
+    min-height: 105px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+
+  .category-card-icon {
+    font-size: 22px;
+  }
+
+
+  .category-card-name {
+    font-size: 13px;
+  }
+
+}
