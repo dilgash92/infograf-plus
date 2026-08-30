@@ -1,0 +1,27 @@
+title: "Infograf+"
+description: "معلومات وإنفوغرافيك بطريقة أبسط"
+lang: "ar"
+direction: "rtl"
+
+url: ""
+baseurl: ""
+
+markdown: kramdown
+permalink: /infographic/:title/
+
+collections:
+  posts:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: infographic
+      lang: ar
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
