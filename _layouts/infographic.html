@@ -1,0 +1,76 @@
+---
+layout: default
+---
+
+<main class="infographic-page">
+
+  <header class="infographic-page-header">
+
+    {% if page.category %}
+      <span class="infographic-page-category">
+        {{ page.category }}
+      </span>
+    {% endif %}
+
+    <h1>
+      {{ page.title }}
+    </h1>
+
+    {% if page.description %}
+      <p class="infographic-page-description">
+        {{ page.description }}
+      </p>
+    {% endif %}
+
+    <div class="infographic-meta">
+
+      {% if page.date %}
+        <time datetime="{{ page.date | date_to_xmlschema }}">
+          {{ page.date | date: "%d/%m/%Y" }}
+        </time>
+      {% endif %}
+
+    </div>
+
+  </header>
+
+
+  {% if page.image %}
+
+    <figure class="infographic-main-image">
+
+      <img
+        src="{{ page.image | relative_url }}"
+        alt="{{ page.title | escape }}"
+        loading="eager">
+
+    </figure>
+
+  {% endif %}
+
+
+  {% if page.source %}
+
+    <div class="infographic-source">
+
+      <strong>المصدر:</strong>
+
+      {{ page.source }}
+
+    </div>
+
+  {% endif %}
+
+
+  {% if content != "" %}
+
+    <div class="infographic-extra-content">
+
+      {{ content }}
+
+    </div>
+
+  {% endif %}
+
+
+</main>
