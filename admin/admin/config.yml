@@ -1,0 +1,99 @@
+backend:
+  name: github
+  repo: dilgash92/infograf-plus
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+site_url: ""
+
+display_url: ""
+
+locale: "ar"
+
+collections:
+
+  - name: "posts"
+
+    label: "الإنفوغرافيكات"
+
+    label_singular: "إنفوغرافيك"
+
+    folder: "_posts"
+
+    create: true
+
+    delete: true
+
+    extension: "md"
+
+    format: "frontmatter"
+
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+
+    preview_path: "infographic/{{slug}}/"
+
+    fields:
+
+      - label: "العنوان"
+        name: "title"
+        widget: "string"
+        required: true
+
+
+      - label: "القسم"
+        name: "category"
+        widget: "select"
+        required: true
+
+        options:
+
+          - "العالم"
+          - "سياسة"
+          - "اقتصاد ومال"
+          - "تقنية"
+          - "علوم"
+          - "صحة"
+          - "رياضة"
+          - "ترفيه"
+          - "سيارات"
+          - "سفر"
+          - "تعليم"
+          - "تاريخ"
+          - "مجتمع"
+          - "فن وثقافة"
+          - "طبيعة وبيئة"
+          - "منوع"
+
+
+      - label: "صورة الإنفوغرافيك"
+        name: "image"
+        widget: "image"
+        required: true
+        choose_url: false
+
+
+      - label: "التاريخ"
+        name: "date"
+        widget: "datetime"
+        required: true
+        format: "YYYY-MM-DD HH:mm:ss ZZ"
+
+
+      - label: "المصدر"
+        name: "source"
+        widget: "string"
+        required: false
+
+
+      - label: "الوصف"
+        name: "description"
+        widget: "text"
+        required: false
+
+
+      - label: "المحتوى الإضافي"
+        name: "body"
+        widget: "markdown"
+        required: false
