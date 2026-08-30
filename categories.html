@@ -1,0 +1,501 @@
+---
+layout: default
+title: الأقسام
+description: "تصفح جميع أقسام Infograf+"
+---
+
+<main class="categories-page">
+
+  <section class="categories-page-header">
+
+    <span class="section-kicker">
+      Infograf+
+    </span>
+
+    <h1>
+      استكشف الأقسام
+    </h1>
+
+    <p>
+      اختر القسم الذي تريد تصفح محتواه.
+    </p>
+
+  </section>
+
+
+  <!-- Categories -->
+
+  <section class="all-categories">
+
+    <button
+      type="button"
+      class="category-card active"
+      data-category="all">
+
+      <span class="category-card-icon">✦</span>
+
+      <span class="category-card-name">
+        الكل
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts.size }}
+      </span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="العالم">
+
+      <span class="category-card-icon">🌍</span>
+      <span class="category-card-name">العالم</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="سياسة">
+
+      <span class="category-card-icon">🏛️</span>
+      <span class="category-card-name">سياسة</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="اقتصاد ومال">
+
+      <span class="category-card-icon">💰</span>
+      <span class="category-card-name">اقتصاد ومال</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="تقنية">
+
+      <span class="category-card-icon">💻</span>
+      <span class="category-card-name">تقنية</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="علوم">
+
+      <span class="category-card-icon">🔬</span>
+      <span class="category-card-name">علوم</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="صحة">
+
+      <span class="category-card-icon">🩺</span>
+      <span class="category-card-name">صحة</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="رياضة">
+
+      <span class="category-card-icon">⚽</span>
+      <span class="category-card-name">رياضة</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="ترفيه">
+
+      <span class="category-card-icon">🎬</span>
+      <span class="category-card-name">ترفيه</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="سيارات">
+
+      <span class="category-card-icon">🚗</span>
+      <span class="category-card-name">سيارات</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="سفر">
+
+      <span class="category-card-icon">✈️</span>
+      <span class="category-card-name">سفر</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="تعليم">
+
+      <span class="category-card-icon">📚</span>
+      <span class="category-card-name">تعليم</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="تاريخ">
+
+      <span class="category-card-icon">🏺</span>
+      <span class="category-card-name">تاريخ</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="مجتمع">
+
+      <span class="category-card-icon">👥</span>
+      <span class="category-card-name">مجتمع</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="فن وثقافة">
+
+      <span class="category-card-icon">🎨</span>
+      <span class="category-card-name">فن وثقافة</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="طبيعة وبيئة">
+
+      <span class="category-card-icon">🌱</span>
+      <span class="category-card-name">طبيعة وبيئة</span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="category-card"
+      data-category="منوع">
+
+      <span class="category-card-icon">✨</span>
+      <span class="category-card-name">منوع</span>
+
+    </button>
+
+  </section>
+
+
+  <!-- Posts -->
+
+  <section class="category-results">
+
+    <div class="section-heading">
+
+      <div>
+
+        <span class="section-kicker">
+          المحتوى
+        </span>
+
+        <h2 id="selected-category-title">
+          جميع الإنفوغرافيكات
+        </h2>
+
+      </div>
+
+      <span
+        class="section-count"
+        id="selected-category-count">
+
+        {{ site.posts.size }} إنفوغرافيك
+
+      </span>
+
+    </div>
+
+
+    {% if site.posts.size > 0 %}
+
+      <div
+        class="infographic-grid"
+        id="category-posts">
+
+
+        {% for post in site.posts %}
+
+          <article
+            class="infographic-card"
+            data-category="{{ post.category | escape }}">
+
+
+            <a
+              href="{{ post.url | relative_url }}"
+              class="infographic-image-link">
+
+              {% if post.image %}
+
+                <img
+                  src="{{ post.image | relative_url }}"
+                  alt="{{ post.title | escape }}"
+                  loading="lazy">
+
+              {% else %}
+
+                <div class="image-placeholder">
+
+                  <span>
+                    Infograf+
+                  </span>
+
+                </div>
+
+              {% endif %}
+
+            </a>
+
+
+            <div class="infographic-card-content">
+
+
+              {% if post.category %}
+
+                <span class="card-category">
+                  {{ post.category }}
+                </span>
+
+              {% endif %}
+
+
+              <h3>
+
+                <a href="{{ post.url | relative_url }}">
+                  {{ post.title }}
+                </a>
+
+              </h3>
+
+
+              {% if post.description %}
+
+                <p>
+                  {{ post.description }}
+                </p>
+
+              {% endif %}
+
+
+              <div class="card-meta">
+
+                <time
+                  datetime="{{ post.date | date_to_xmlschema }}">
+
+                  {{ post.date | date: "%d/%m/%Y" }}
+
+                </time>
+
+
+                <span class="read-more">
+
+                  عرض الإنفوغرافيك
+                  <span aria-hidden="true">←</span>
+
+                </span>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        {% endfor %}
+
+
+      </div>
+
+
+      <div
+        id="category-empty"
+        class="empty-state"
+        hidden>
+
+        <div class="empty-icon">
+          +
+        </div>
+
+        <h3>
+          لا يوجد محتوى في هذا القسم حالياً
+        </h3>
+
+        <p>
+          سيتم عرض الإنفوغرافيكات هنا عندما تتم إضافتها.
+        </p>
+
+      </div>
+
+
+    {% else %}
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          +
+        </div>
+
+        <h3>
+          لا يوجد إنفوغرافيكات بعد
+        </h3>
+
+        <p>
+          ستظهر الإنفوغرافيكات هنا بعد نشرها.
+        </p>
+
+      </div>
+
+    {% endif %}
+
+  </section>
+
+</main>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const buttons = Array.from(
+    document.querySelectorAll(".category-card")
+  );
+
+  const posts = Array.from(
+    document.querySelectorAll("#category-posts .infographic-card")
+  );
+
+  const title = document.getElementById(
+    "selected-category-title"
+  );
+
+  const count = document.getElementById(
+    "selected-category-count"
+  );
+
+  const empty = document.getElementById(
+    "category-empty"
+  );
+
+
+  buttons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+      const selected =
+        button.dataset.category || "all";
+
+
+      buttons.forEach(function (item) {
+
+        item.classList.remove("active");
+
+      });
+
+
+      button.classList.add("active");
+
+
+      let visibleCount = 0;
+
+
+      posts.forEach(function (post) {
+
+        const category =
+          (post.dataset.category || "").trim();
+
+
+        if (
+          selected === "all" ||
+          category === selected
+        ) {
+
+          post.style.display = "";
+          visibleCount++;
+
+        } else {
+
+          post.style.display = "none";
+
+        }
+
+      });
+
+
+      if (selected === "all") {
+
+        title.textContent =
+          "جميع الإنفوغرافيكات";
+
+      } else {
+
+        title.textContent =
+          selected;
+
+      }
+
+
+      count.textContent =
+        visibleCount +
+        (visibleCount === 1
+          ? " إنفوغرافيك"
+          : " إنفوغرافيكات");
+
+
+      if (empty) {
+
+        empty.hidden =
+          visibleCount !== 0;
+
+      }
+
+    });
+
+  });
+
+});
+
+</script>
