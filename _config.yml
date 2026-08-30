@@ -1,85 +1,36 @@
-backend:
-  name: git-gateway
-  branch: main
+title: "Infograf+"
 
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
+description: "معلومات وإنفوغرافيك بطريقة أبسط"
 
-site_url: "https://melodious-arithmetic-98a173.netlify.app"
+url: "https://melodious-arithmetic-98a173.netlify.app"
 
-display_url: "https://melodious-arithmetic-98a173.netlify.app"
+baseurl: ""
 
-locale: "ar"
+lang: "ar"
+
+direction: "rtl"
+
+timezone: "Europe/Berlin"
+
+markdown: kramdown
+
+theme: null
+
+permalink: /infographic/:title/
 
 collections:
+  posts:
+    output: true
 
-  - name: "posts"
-    label: "الإنفوغرافيكات"
-    label_singular: "إنفوغرافيك"
+defaults:
 
-    folder: "_posts"
+  - scope:
+      path: ""
+      type: "posts"
 
-    create: true
-    delete: true
+    values:
+      layout: "infographic"
 
-    extension: "md"
-    format: "frontmatter"
+      lang: "ar"
 
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-
-    fields:
-
-      - label: "العنوان"
-        name: "title"
-        widget: "string"
-        required: true
-
-      - label: "القسم"
-        name: "category"
-        widget: "select"
-        required: true
-
-        options:
-
-          - "العالم"
-          - "سياسة"
-          - "اقتصاد ومال"
-          - "تقنية"
-          - "علوم"
-          - "صحة"
-          - "رياضة"
-          - "ترفيه"
-          - "سيارات"
-          - "سفر"
-          - "تعليم"
-          - "تاريخ"
-          - "مجتمع"
-          - "فن وثقافة"
-          - "طبيعة وبيئة"
-          - "منوع"
-
-      - label: "صورة الإنفوغرافيك"
-        name: "image"
-        widget: "image"
-        required: true
-        choose_url: false
-
-      - label: "التاريخ"
-        name: "date"
-        widget: "datetime"
-        required: true
-
-      - label: "المصدر"
-        name: "source"
-        widget: "string"
-        required: false
-
-      - label: "الوصف"
-        name: "description"
-        widget: "text"
-        required: false
-
-      - label: "المحتوى الإضافي"
-        name: "body"
-        widget: "markdown"
-        required: false
+      direction: "rtl"
