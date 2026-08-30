@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 
   <meta charset="UTF-8">
@@ -20,7 +21,21 @@
     name="description"
     content="{{ page.description | default: site.description | escape }}">
 
-  <meta name="theme-color" content="#635BFF">
+  <meta
+    name="theme-color"
+    content="#635BFF">
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default">
 
   <link
     rel="manifest"
@@ -45,62 +60,103 @@
 
 </head>
 
+
 <body>
 
-  <!-- Header -->
+
+  <!-- ==================================================
+       HEADER
+       ================================================== -->
+
   <header class="site-header">
 
     <div class="header-inner">
 
+
+      <!-- Logo -->
+
       <a
         href="{{ '/' | relative_url }}"
         class="brand"
-        aria-label="Infograf+ الرئيسية">
+        aria-label="Infograf+">
 
-        <span class="brand-name">Infograf</span><span class="brand-plus">+</span>
+        <span class="brand-name">
+          Infograf
+        </span>
+
+        <span class="brand-plus">
+          +
+        </span>
 
       </a>
 
 
-      <nav class="desktop-navigation" aria-label="التنقل الرئيسي">
+      <!-- Desktop Navigation -->
+
+      <nav
+        class="desktop-navigation"
+        aria-label="التنقل الرئيسي">
+
 
         <a
           href="{{ '/' | relative_url }}"
           class="nav-link">
+
           الرئيسية
+
         </a>
 
+
         <a
-          href="#categories"
+          href="{{ '/categories.html' | relative_url }}"
           class="nav-link">
+
           الأقسام
+
         </a>
 
+
         <a
-          href="#latest"
+          href="{{ '/#latest' | relative_url }}"
           class="nav-link">
-          أحدث الإنفوغرافيكات
+
+          الأحدث
+
         </a>
+
 
       </nav>
 
+
+      <!-- Search -->
 
       <button
         type="button"
         class="search-button"
         id="open-search"
-        aria-label="البحث">
+        aria-label="فتح البحث">
 
-        <span class="search-icon">⌕</span>
+        <span
+          class="search-icon"
+          aria-hidden="true">
+
+          ⌕
+
+        </span>
 
       </button>
+
 
     </div>
 
   </header>
 
 
-  <!-- Search -->
+
+  <!-- ==================================================
+       SEARCH
+       ================================================== -->
+
   <div
     class="search-panel"
     id="search-panel"
@@ -108,9 +164,13 @@
 
     <div class="search-panel-inner">
 
+
       <div class="search-header">
 
-        <h2>ابحث في Infograf+</h2>
+        <h2>
+          ابحث في Infograf+
+        </h2>
+
 
         <button
           type="button"
@@ -124,11 +184,15 @@
 
       </div>
 
+
       <label
         for="site-search"
         class="visually-hidden">
-        ابحث
+
+        ابحث في الموقع
+
       </label>
+
 
       <input
         id="site-search"
@@ -136,17 +200,24 @@
         placeholder="اكتب كلمة للبحث..."
         autocomplete="off">
 
+
       <div
         id="search-results"
         class="search-results">
+
       </div>
+
 
     </div>
 
   </div>
 
 
-  <!-- Main -->
+
+  <!-- ==================================================
+       MAIN CONTENT
+       ================================================== -->
+
   <div class="page-wrapper">
 
     {{ content }}
@@ -154,62 +225,130 @@
   </div>
 
 
-  <!-- Mobile Navigation -->
+
+  <!-- ==================================================
+       MOBILE NAVIGATION
+       ================================================== -->
+
   <nav
     class="mobile-navigation"
-    aria-label="تنقل الهاتف">
+    aria-label="التنقل في الموقع">
+
+
+    <!-- Home -->
 
     <a
       href="{{ '/' | relative_url }}"
       class="mobile-nav-item">
 
-      <span class="mobile-nav-icon">⌂</span>
-      <span>الرئيسية</span>
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true">
+
+        ⌂
+
+      </span>
+
+      <span>
+        الرئيسية
+      </span>
 
     </a>
 
+
+    <!-- Categories -->
 
     <a
-      href="#categories"
+      href="{{ '/categories.html' | relative_url }}"
       class="mobile-nav-item">
 
-      <span class="mobile-nav-icon">▦</span>
-      <span>الأقسام</span>
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true">
+
+        ▦
+
+      </span>
+
+      <span>
+        الأقسام
+      </span>
 
     </a>
 
+
+    <!-- Search -->
 
     <button
       type="button"
       class="mobile-nav-item mobile-search-trigger"
       id="mobile-search">
 
-      <span class="mobile-nav-icon">⌕</span>
-      <span>بحث</span>
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true">
+
+        ⌕
+
+      </span>
+
+      <span>
+        بحث
+      </span>
 
     </button>
 
 
+    <!-- Latest -->
+
     <a
-      href="#latest"
+      href="{{ '/#latest' | relative_url }}"
       class="mobile-nav-item">
 
-      <span class="mobile-nav-icon">✦</span>
-      <span>الأحدث</span>
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true">
+
+        ✦
+
+      </span>
+
+      <span>
+        الأحدث
+      </span>
 
     </a>
+
 
   </nav>
 
 
-  <!-- Footer -->
+
+  <!-- ==================================================
+       FOOTER
+       ================================================== -->
+
   <footer class="site-footer">
 
     <div class="footer-inner">
 
+
       <div class="footer-brand">
 
-        <span class="brand-name">Infograf</span><span class="brand-plus">+</span>
+        <a
+          href="{{ '/' | relative_url }}"
+          class="brand">
+
+          <span class="brand-name">
+            Infograf
+          </span>
+
+          <span class="brand-plus">
+            +
+          </span>
+
+        </a>
+
 
         <p>
           معلومات وإنفوغرافيك بطريقة أبسط.
@@ -220,20 +359,27 @@
 
       <div class="footer-info">
 
-        <span>
-          © {{ 'now' | date: "%Y" }} Infograf+
-        </span>
+        © {{ 'now' | date: "%Y" }}
+        Infograf+
 
       </div>
+
 
     </div>
 
   </footer>
 
 
+
+  <!-- ==================================================
+       JAVASCRIPT
+       ================================================== -->
+
   <script
     src="{{ '/assets/js/app.js' | relative_url }}">
   </script>
 
+
 </body>
+
 </html>
