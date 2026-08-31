@@ -419,9 +419,19 @@
       "load",
       function () {
 
-        navigator.serviceWorker.register(
-          "/service-worker.js"
-        );
+      <script>
+  if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", function () {
+
+      navigator.serviceWorker.register(
+        "{{ '/service-worker.js' | relative_url }}"
+      );
+
+    });
+
+  }
+</script>
 
       }
     );
