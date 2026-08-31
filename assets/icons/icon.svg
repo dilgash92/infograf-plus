@@ -1,0 +1,23 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 512">
+
+  <rect
+    width="512"
+    height="512"
+    rx="112"
+    fill="#ffffff"/>
+
+  <text
+    x="256"
+    y="285"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="92"
+    font-weight="800"
+    letter-spacing="-5"
+    fill="#171827">
+    Infograf<tspan fill="#635BFF">+</tspan>
+  </text>
+
+</svg>
