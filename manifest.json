@@ -1,0 +1,26 @@
+{
+  "name": "Infograf+",
+  "short_name": "Infograf+",
+  "description": "معلومات وإنفوغرافيك بطريقة أبسط.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#635BFF",
+  "categories": [
+    "news",
+    "education",
+    "reference"
+  ],
+  "icons": [
+    {
+      "src": "/assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
