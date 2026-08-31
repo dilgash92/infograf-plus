@@ -37,6 +37,11 @@
     name="apple-mobile-web-app-status-bar-style"
     content="default">
 
+  <!-- Netlify Identity -->
+  <script
+    src="https://identity.netlify.com/v1/netlify-identity-widget.js">
+  </script>
+
   <link
     rel="manifest"
     href="{{ '/manifest.json' | relative_url }}">
@@ -97,7 +102,6 @@
         class="desktop-navigation"
         aria-label="التنقل الرئيسي">
 
-
         <a
           href="{{ '/' | relative_url }}"
           class="nav-link">
@@ -124,7 +128,6 @@
 
         </a>
 
-
       </nav>
 
 
@@ -145,7 +148,6 @@
         </span>
 
       </button>
-
 
     </div>
 
@@ -206,7 +208,6 @@
         class="search-results">
 
       </div>
-
 
     </div>
 
@@ -360,10 +361,10 @@
       <div class="footer-info">
 
         © {{ 'now' | date: "%Y" }}
+
         Infograf+
 
       </div>
-
 
     </div>
 
@@ -379,25 +380,39 @@
     src="{{ '/assets/js/app.js' | relative_url }}">
   </script>
 
-<script>
-  if (window.netlifyIdentity) {
 
-    window.netlifyIdentity.on("init", function(user) {
+  <!-- Netlify Identity redirect -->
 
-      if (!user) {
+  <script>
 
-        window.netlifyIdentity.on("login", function() {
+    if (window.netlifyIdentity) {
 
-          document.location.href = "/admin/";
+      window.netlifyIdentity.on(
+        "init",
+        function(user) {
 
-        });
+          if (!user) {
 
-      }
+            window.netlifyIdentity.on(
+              "login",
+              function() {
 
-    });
+                document.location.href =
+                  "/admin/";
 
-  }
-</script>
+              }
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+  </script>
+
+
 </body>
 
 </html>
