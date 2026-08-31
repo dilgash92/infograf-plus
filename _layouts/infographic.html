@@ -4,36 +4,74 @@ layout: default
 
 <main class="infographic-page">
 
+  <!-- ==================================================
+       HEADER
+       ================================================== -->
+
   <header class="infographic-page-header">
 
     {% if page.category %}
-      <span class="infographic-page-category">
+
+      <a
+        href="{{ '/categories.html' | relative_url }}"
+        class="infographic-page-category">
+
         {{ page.category }}
-      </span>
+
+      </a>
+
     {% endif %}
+
 
     <h1>
       {{ page.title }}
     </h1>
 
+
     {% if page.description %}
+
       <p class="infographic-page-description">
         {{ page.description }}
       </p>
+
     {% endif %}
+
 
     <div class="infographic-meta">
 
       {% if page.date %}
-        <time datetime="{{ page.date | date_to_xmlschema }}">
+
+        <time
+          datetime="{{ page.date | date_to_xmlschema }}">
+
           {{ page.date | date: "%d/%m/%Y" }}
+
         </time>
+
+      {% endif %}
+
+
+      {% if page.source %}
+
+        <span class="meta-separator">
+          •
+        </span>
+
+        <span>
+          {{ page.source }}
+        </span>
+
       {% endif %}
 
     </div>
 
   </header>
 
+
+
+  <!-- ==================================================
+       MAIN INFOGRAPHIC
+       ================================================== -->
 
   {% if page.image %}
 
@@ -42,35 +80,390 @@ layout: default
       <img
         src="{{ page.image | relative_url }}"
         alt="{{ page.title | escape }}"
-        loading="eager">
+        loading="eager"
+        decoding="async">
 
     </figure>
 
   {% endif %}
 
 
+
+  <!-- ==================================================
+       ACTIONS
+       ================================================== -->
+
+  <div class="infographic-actions">
+
+    <button
+      type="button"
+      class="infographic-action"
+      id="share-infographic">
+
+      <span aria-hidden="true">
+        ↗
+      </span>
+
+      مشاركة
+
+    </button>
+
+
+    <button
+      type="button"
+      class="infographic-action"
+      id="copy-infographic-link">
+
+      <span aria-hidden="true">
+        ⛓
+      </span>
+
+      نسخ الرابط
+
+    </button>
+
+
+    <a
+      href="{{ '/' | relative_url }}"
+      class="infographic-action">
+
+      <span aria-hidden="true">
+        ←
+      </span>
+
+      الرئيسية
+
+    </a>
+
+  </div>
+
+
+
+  <!-- ==================================================
+       SOURCE
+       ================================================== -->
+
   {% if page.source %}
 
     <div class="infographic-source">
 
-      <strong>المصدر:</strong>
+      <span class="source-label">
+        المصدر
+      </span>
 
-      {{ page.source }}
+      <strong>
+        {{ page.source }}
+      </strong>
 
     </div>
 
   {% endif %}
 
+
+
+  <!-- ==================================================
+       EXTRA CONTENT
+       ================================================== -->
 
   {% if content != "" %}
 
-    <div class="infographic-extra-content">
+    <section class="infographic-extra-content">
 
       {{ content }}
 
-    </div>
+    </section>
 
   {% endif %}
 
+
+
+  <!-- ==================================================
+       RELATED INFOGRAPHICS
+       ================================================== -->
+
+  {% assign related_posts = site.posts
+    | where: "category", page.category %}
+
+
+  {% if related_posts.size > 1 %}
+
+    <section class="related-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-kicker">
+            المزيد
+          </span>
+
+          <h2>
+            إنفوغرافيكات مشابهة
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="infographic-grid">
+
+        {% assign related_count = 0 %}
+
+        {% for post in related_posts %}
+
+          {% if post.url != page.url and related_count < 3 %}
+
+            <article class="infographic-card">
+
+              <a
+                href="{{ post.url | relative_url }}"
+                class="infographic-image-link">
+
+                {% if post.image %}
+
+                  <img
+                    src="{{ post.image | relative_url }}"
+                    alt="{{ post.title | escape }}"
+                    loading="lazy">
+
+                {% else %}
+
+                  <div class="image-placeholder">
+
+                    <span>
+                      Infograf+
+                    </span>
+
+                  </div>
+
+                {% endif %}
+
+              </a>
+
+
+              <div class="infographic-card-content">
+
+                {% if post.category %}
+
+                  <span class="card-category">
+                    {{ post.category }}
+                  </span>
+
+                {% endif %}
+
+
+                <h3>
+
+                  <a
+                    href="{{ post.url | relative_url }}">
+
+                    {{ post.title }}
+
+                  </a>
+
+                </h3>
+
+
+                {% if post.description %}
+
+                  <p>
+                    {{ post.description }}
+                  </p>
+
+                {% endif %}
+
+
+                <div class="card-meta">
+
+                  <time
+                    datetime="{{ post.date | date_to_xmlschema }}">
+
+                    {{ post.date | date: "%d/%m/%Y" }}
+
+                  </time>
+
+                  <span class="read-more">
+                    عرض
+                    <span aria-hidden="true">
+                      ←
+                    </span>
+                  </span>
+
+                </div>
+
+              </div>
+
+            </article>
+
+            {% assign related_count = related_count | plus: 1 %}
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+
+  <!-- ==================================================
+       SHARE / COPY SCRIPT
+       ================================================== -->
+
+  <script>
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        const shareButton =
+          document.getElementById(
+            "share-infographic"
+          );
+
+
+        const copyButton =
+          document.getElementById(
+            "copy-infographic-link"
+          );
+
+
+        const pageUrl =
+          window.location.href;
+
+
+        if (shareButton) {
+
+          shareButton.addEventListener(
+            "click",
+            async function () {
+
+              const shareData = {
+
+                title:
+                  document.title,
+
+                text:
+                  "{{ page.title | escape }}",
+
+                url:
+                  pageUrl
+
+              };
+
+
+              if (
+                navigator.share
+              ) {
+
+                try {
+
+                  await navigator.share(
+                    shareData
+                  );
+
+                } catch (error) {
+
+                  if (
+                    error.name !==
+                    "AbortError"
+                  ) {
+
+                    console.log(
+                      "Share cancelled or failed."
+                    );
+
+                  }
+
+                }
+
+              } else {
+
+                try {
+
+                  await navigator.clipboard.writeText(
+                    pageUrl
+                  );
+
+                  shareButton.innerHTML =
+                    '<span aria-hidden="true">✓</span> تم نسخ الرابط';
+
+                  setTimeout(
+                    function () {
+
+                      shareButton.innerHTML =
+                        '<span aria-hidden="true">↗</span> مشاركة';
+
+                    },
+                    2000
+                  );
+
+                } catch (error) {
+
+                  window.prompt(
+                    "انسخ الرابط:",
+                    pageUrl
+                  );
+
+                }
+
+              }
+
+            }
+          );
+
+        }
+
+
+        if (copyButton) {
+
+          copyButton.addEventListener(
+            "click",
+            async function () {
+
+              try {
+
+                await navigator.clipboard.writeText(
+                  pageUrl
+                );
+
+
+                copyButton.innerHTML =
+                  '<span aria-hidden="true">✓</span> تم النسخ';
+
+
+                setTimeout(
+                  function () {
+
+                    copyButton.innerHTML =
+                      '<span aria-hidden="true">⛓</span> نسخ الرابط';
+
+                  },
+                  2000
+                );
+
+
+              } catch (error) {
+
+                window.prompt(
+                  "انسخ الرابط:",
+                  pageUrl
+                );
+
+              }
+
+            }
+          );
+
+        }
+
+      }
+    );
+
+  </script>
 
 </main>
