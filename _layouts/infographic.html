@@ -13,7 +13,7 @@ layout: default
     {% if page.category %}
 
       <a
-        href="{{ '/categories.html' | relative_url }}"
+        href="{{ '/categories/' | relative_url }}"
         class="infographic-page-category">
 
         {{ page.category }}
@@ -75,7 +75,9 @@ layout: default
 
   {% if page.image %}
 
-    <figure class="infographic-main-image">
+    <figure
+      class="infographic-main-image"
+      id="infographic-image">
 
       <img
         src="{{ page.image | relative_url }}"
@@ -84,6 +86,24 @@ layout: default
         decoding="async">
 
     </figure>
+
+  {% else %}
+
+    <div class="empty-state">
+
+      <div class="empty-icon">
+        +
+      </div>
+
+      <h3>
+        لا توجد صورة لهذا الإنفوغرافيك
+      </h3>
+
+      <p>
+        سيتم عرض الصورة هنا عند إضافتها.
+      </p>
+
+    </div>
 
   {% endif %}
 
@@ -94,6 +114,8 @@ layout: default
        ================================================== -->
 
   <div class="infographic-actions">
+
+    <!-- SHARE -->
 
     <button
       type="button"
@@ -109,13 +131,15 @@ layout: default
     </button>
 
 
+    <!-- COPY -->
+
     <button
       type="button"
       class="infographic-action"
       id="copy-infographic-link">
 
       <span aria-hidden="true">
-        ⛓
+        🔗
       </span>
 
       نسخ الرابط
@@ -123,12 +147,33 @@ layout: default
     </button>
 
 
+    <!-- CATEGORY -->
+
+    {% if page.category %}
+
+      <a
+        href="{{ '/categories/' | relative_url }}"
+        class="infographic-action">
+
+        <span aria-hidden="true">
+          ←
+        </span>
+
+        الأقسام
+
+      </a>
+
+    {% endif %}
+
+
+    <!-- HOME -->
+
     <a
       href="{{ '/' | relative_url }}"
       class="infographic-action">
 
       <span aria-hidden="true">
-        ←
+        ⌂
       </span>
 
       الرئيسية
@@ -181,130 +226,162 @@ layout: default
        RELATED INFOGRAPHICS
        ================================================== -->
 
-  {% assign related_posts = site.posts
-    | where: "category", page.category %}
+  {% if page.category %}
+
+    {% assign related_posts = site.posts
+      | where: "category", page.category %}
+
+    {% if related_posts.size > 1 %}
+
+      <section class="related-section">
+
+        <div class="section-heading">
+
+          <div>
+
+            <span class="section-kicker">
+              المزيد
+            </span>
+
+            <h2>
+              إنفوغرافيكات مشابهة
+            </h2>
+
+          </div>
 
 
-  {% if related_posts.size > 1 %}
+          <a
+            href="{{ '/categories/' | relative_url }}"
+            class="section-count">
 
-    <section class="related-section">
+            عرض الكل ←
 
-      <div class="section-heading">
-
-        <div>
-
-          <span class="section-kicker">
-            المزيد
-          </span>
-
-          <h2>
-            إنفوغرافيكات مشابهة
-          </h2>
+          </a>
 
         </div>
 
-      </div>
 
 
-      <div class="infographic-grid">
+        <div class="infographic-grid">
 
-        {% assign related_count = 0 %}
+          {% assign related_count = 0 %}
 
-        {% for post in related_posts %}
+          {% for post in related_posts %}
 
-          {% if post.url != page.url and related_count < 3 %}
+            {% if post.url != page.url and related_count < 3 %}
 
-            <article class="infographic-card">
+              <article
+                class="infographic-card"
+                data-category="{{ post.category | escape }}">
 
-              <a
-                href="{{ post.url | relative_url }}"
-                class="infographic-image-link">
 
-                {% if post.image %}
+                <!-- IMAGE -->
 
-                  <img
-                    src="{{ post.image | relative_url }}"
-                    alt="{{ post.title | escape }}"
-                    loading="lazy">
+                <a
+                  href="{{ post.url | relative_url }}"
+                  class="infographic-image-link"
+                  aria-label="عرض {{ post.title | escape }}">
 
-                {% else %}
+                  {% if post.image %}
 
-                  <div class="image-placeholder">
+                    <img
+                      src="{{ post.image | relative_url }}"
+                      alt="{{ post.title | escape }}"
+                      loading="lazy">
 
-                    <span>
-                      Infograf+
+                  {% else %}
+
+                    <div class="image-placeholder">
+
+                      <span>
+                        Infograf+
+                      </span>
+
+                    </div>
+
+                  {% endif %}
+
+                </a>
+
+
+
+                <!-- CONTENT -->
+
+                <div class="infographic-card-content">
+
+                  {% if post.category %}
+
+                    <span class="card-category">
+                      {{ post.category }}
+                    </span>
+
+                  {% endif %}
+
+
+                  <h3>
+
+                    <a
+                      href="{{ post.url | relative_url }}">
+
+                      {{ post.title }}
+
+                    </a>
+
+                  </h3>
+
+
+                  {% if post.description %}
+
+                    <p>
+                      {{ post.description }}
+                    </p>
+
+                  {% endif %}
+
+
+                  <div class="card-meta">
+
+                    {% if post.date %}
+
+                      <time
+                        datetime="{{ post.date | date_to_xmlschema }}">
+
+                        {{ post.date | date: "%d/%m/%Y" }}
+
+                      </time>
+
+                    {% endif %}
+
+
+                    <span class="read-more">
+
+                      عرض
+
+                      <span aria-hidden="true">
+                        ←
+                      </span>
+
                     </span>
 
                   </div>
 
-                {% endif %}
-
-              </a>
-
-
-              <div class="infographic-card-content">
-
-                {% if post.category %}
-
-                  <span class="card-category">
-                    {{ post.category }}
-                  </span>
-
-                {% endif %}
-
-
-                <h3>
-
-                  <a
-                    href="{{ post.url | relative_url }}">
-
-                    {{ post.title }}
-
-                  </a>
-
-                </h3>
-
-
-                {% if post.description %}
-
-                  <p>
-                    {{ post.description }}
-                  </p>
-
-                {% endif %}
-
-
-                <div class="card-meta">
-
-                  <time
-                    datetime="{{ post.date | date_to_xmlschema }}">
-
-                    {{ post.date | date: "%d/%m/%Y" }}
-
-                  </time>
-
-                  <span class="read-more">
-                    عرض
-                    <span aria-hidden="true">
-                      ←
-                    </span>
-                  </span>
-
                 </div>
 
-              </div>
+              </article>
 
-            </article>
 
-            {% assign related_count = related_count | plus: 1 %}
+              {% assign related_count =
+                related_count | plus: 1 %}
 
-          {% endif %}
+            {% endif %}
 
-        {% endfor %}
+          {% endfor %}
 
-      </div>
+        </div>
 
-    </section>
+      </section>
+
+    {% endif %}
 
   {% endif %}
 
@@ -336,6 +413,10 @@ layout: default
           window.location.href;
 
 
+        /*
+         * SHARE
+         */
+
         if (shareButton) {
 
           shareButton.addEventListener(
@@ -356,6 +437,10 @@ layout: default
               };
 
 
+              /*
+               * الأجهزة التي تدعم المشاركة
+               */
+
               if (
                 navigator.share
               ) {
@@ -374,42 +459,44 @@ layout: default
                   ) {
 
                     console.log(
-                      "Share cancelled or failed."
+                      "Share failed.",
+                      error
                     );
 
                   }
 
                 }
 
-              } else {
+                return;
 
-                try {
+              }
 
-                  await navigator.clipboard.writeText(
-                    pageUrl
-                  );
 
-                  shareButton.innerHTML =
-                    '<span aria-hidden="true">✓</span> تم نسخ الرابط';
+              /*
+               * الأجهزة التي لا تدعم المشاركة
+               * ننسخ الرابط تلقائياً
+               */
 
-                  setTimeout(
-                    function () {
+              try {
 
-                      shareButton.innerHTML =
-                        '<span aria-hidden="true">↗</span> مشاركة';
+                await navigator.clipboard.writeText(
+                  pageUrl
+                );
 
-                    },
-                    2000
-                  );
 
-                } catch (error) {
+                showTemporaryMessage(
+                  shareButton,
+                  "✓",
+                  "تم نسخ الرابط"
+                );
 
-                  window.prompt(
-                    "انسخ الرابط:",
-                    pageUrl
-                  );
 
-                }
+              } catch (error) {
+
+                window.prompt(
+                  "انسخ الرابط:",
+                  pageUrl
+                );
 
               }
 
@@ -418,6 +505,11 @@ layout: default
 
         }
 
+
+
+        /*
+         * COPY LINK
+         */
 
         if (copyButton) {
 
@@ -432,18 +524,10 @@ layout: default
                 );
 
 
-                copyButton.innerHTML =
-                  '<span aria-hidden="true">✓</span> تم النسخ';
-
-
-                setTimeout(
-                  function () {
-
-                    copyButton.innerHTML =
-                      '<span aria-hidden="true">⛓</span> نسخ الرابط';
-
-                  },
-                  2000
+                showTemporaryMessage(
+                  copyButton,
+                  "✓",
+                  "تم نسخ الرابط"
                 );
 
 
@@ -457,6 +541,46 @@ layout: default
               }
 
             }
+          );
+
+        }
+
+
+
+        /*
+         * TEMPORARY BUTTON MESSAGE
+         */
+
+        function showTemporaryMessage(
+          button,
+          icon,
+          text
+        ) {
+
+          const originalHTML =
+            button.innerHTML;
+
+
+          button.innerHTML =
+            '<span aria-hidden="true">' +
+            icon +
+            '</span> ' +
+            text;
+
+
+          button.disabled = true;
+
+
+          setTimeout(
+            function () {
+
+              button.innerHTML =
+                originalHTML;
+
+              button.disabled = false;
+
+            },
+            2000
           );
 
         }
