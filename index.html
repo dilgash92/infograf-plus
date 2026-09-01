@@ -4,6 +4,323 @@ title: الرئيسية
 description: "Infograf+ — معلومات وإنفوغرافيك بطريقة أبسط"
 ---
 
+<style>
+
+/* =========================================================
+   Infograf+ — Homepage Improvements
+   ========================================================= */
+
+.site-home {
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero-section {
+  position: relative;
+  min-height: 570px;
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+
+/* =========================================================
+   HERO DECORATION
+   ========================================================= */
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  left: -220px;
+  top: 40px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  opacity: 0.45;
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  right: -150px;
+  bottom: -80px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  opacity: 0.35;
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HERO CONTENT
+   ========================================================= */
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  box-shadow: 0 6px 18px rgba(99, 91, 255, 0.10);
+}
+
+
+/* =========================================================
+   HERO VISUAL
+   ========================================================= */
+
+.hero-visual {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   QUICK BENEFITS
+   ========================================================= */
+
+.home-benefits {
+  width: min(var(--max-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: 0 0 55px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.home-benefit {
+  min-height: 92px;
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.home-benefit:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+.home-benefit-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: var(--accent-light);
+  color: var(--accent);
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.home-benefit strong {
+  display: block;
+  font-size: 14px;
+}
+
+.home-benefit span {
+  display: block;
+  margin-top: 2px;
+
+  color: var(--text-light);
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   CATEGORY SECTION
+   ========================================================= */
+
+.categories-section {
+  position: relative;
+}
+
+.category-list {
+  scrollbar-width: none;
+}
+
+
+/* =========================================================
+   LATEST SECTION
+   ========================================================= */
+
+.latest-section {
+  position: relative;
+}
+
+.latest-section .section-heading {
+  margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   FEATURED CARD
+   ========================================================= */
+
+.infographic-grid {
+  align-items: start;
+}
+
+.infographic-card.featured-card {
+  grid-column: span 2;
+}
+
+.featured-card .infographic-image-link {
+  aspect-ratio: 16 / 8;
+}
+
+.featured-card .infographic-card-content {
+  padding: 22px 24px 24px;
+}
+
+.featured-card h3 {
+  font-size: 22px;
+}
+
+
+/* =========================================================
+   NORMAL CARDS
+   ========================================================= */
+
+.infographic-card:not(.featured-card) {
+  height: 100%;
+}
+
+.infographic-card:not(.featured-card) .infographic-card-content {
+  min-height: 175px;
+}
+
+
+/* =========================================================
+   SECTION FOOTER
+   ========================================================= */
+
+.section-footer {
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+
+.about-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-section::before {
+  content: "+";
+
+  position: absolute;
+  left: 40px;
+  top: 20px;
+
+  font-size: 120px;
+  font-weight: 800;
+
+  color: var(--accent-light);
+
+  pointer-events: none;
+}
+
+.about-content,
+.about-mark {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+  .hero-section {
+    min-height: auto;
+  }
+
+  .home-benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .infographic-card.featured-card {
+    grid-column: span 2;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .hero-section {
+    padding-top: 35px;
+    padding-bottom: 40px;
+  }
+
+  .home-benefits {
+    width: calc(100% - 28px);
+    grid-template-columns: 1fr;
+    padding-bottom: 35px;
+  }
+
+  .home-benefit {
+    min-height: 78px;
+  }
+
+  .infographic-card.featured-card {
+    grid-column: auto;
+  }
+
+  .featured-card .infographic-image-link {
+    aspect-ratio: 4 / 3;
+  }
+
+  .featured-card h3 {
+    font-size: 19px;
+  }
+
+  .section-footer {
+    margin-top: 22px;
+  }
+
+}
+
+</style>
+
+
 <main class="site-home">
 
 
@@ -19,10 +336,12 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
         Infograf+
       </span>
 
+
       <h1>
         المعلومة أوضح<br>
         <span>لما تشوفها.</span>
       </h1>
+
 
       <p>
         إنفوغرافيكات مختصرة وموثوقة تساعدك على فهم
@@ -54,12 +373,11 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
     </div>
 
 
-    <!-- Hero visual -->
+    <!-- HERO VISUAL -->
 
     <div
       class="hero-visual"
       aria-hidden="true">
-
 
       <div class="visual-card visual-card-main">
 
@@ -111,6 +429,78 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
 
   <!-- ==================================================
+       QUICK BENEFITS
+       ================================================== -->
+
+  <section class="home-benefits">
+
+    <div class="home-benefit">
+
+      <div class="home-benefit-icon">
+        ✦
+      </div>
+
+      <div>
+
+        <strong>
+          معلومة مختصرة
+        </strong>
+
+        <span>
+          نصل إلى الفكرة بسرعة
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="home-benefit">
+
+      <div class="home-benefit-icon">
+        ◈
+      </div>
+
+      <div>
+
+        <strong>
+          عرض بصري واضح
+        </strong>
+
+        <span>
+          الأرقام أسهل عندما تراها
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="home-benefit">
+
+      <div class="home-benefit-icon">
+        ↗
+      </div>
+
+      <div>
+
+        <strong>
+          مشاركة سهلة
+        </strong>
+
+        <span>
+          شارك المعلومة مع الآخرين
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================================
        QUICK CATEGORIES
        ================================================== -->
 
@@ -143,6 +533,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
       </a>
 
     </div>
+
 
 
     <div class="category-list">
@@ -358,7 +749,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
 
           <article
-            class="infographic-card"
+            class="infographic-card {% if forloop.first %}featured-card{% endif %}"
             data-category="{{ post.category | escape }}">
 
 
@@ -367,7 +758,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
             <a
               href="{{ post.url | relative_url }}"
               class="infographic-image-link"
-              aria-label="عرض {{ post.title }}">
+              aria-label="عرض {{ post.title | escape }}">
 
 
               {% if post.image %}
@@ -375,7 +766,8 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
                 <img
                   src="{{ post.image | relative_url }}"
                   alt="{{ post.title | escape }}"
-                  loading="lazy">
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  decoding="async">
 
               {% else %}
 
@@ -505,12 +897,14 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
           +
         </div>
 
+
         <h3>
           أول إنفوغرافيك قريباً
         </h3>
 
+
         <p>
-          عندما تضيف أول إنفوغرافيك من لوحة التحكم،
+          عندما تضيف أول إنفوغرافيك،
           سيظهر هنا تلقائياً.
         </p>
 
@@ -579,16 +973,34 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
   </section>
 
-<script id="search-index" type="application/json">
+
+
+  <!-- ==================================================
+       SEARCH INDEX
+       ================================================== -->
+
+  <script
+    id="search-index"
+    type="application/json">
+
 [
   {% for post in site.posts %}
+
     {
       "title": {{ post.title | jsonify }},
       "description": {{ post.description | default: "" | jsonify }},
       "category": {{ post.category | default: "" | jsonify }},
       "url": {{ post.url | relative_url | jsonify }}
-    }{% unless forloop.last %},{% endunless %}
+    }
+
+    {% unless forloop.last %}
+      ,
+    {% endunless %}
+
   {% endfor %}
 ]
-</script>
+
+  </script>
+
+
 </main>
