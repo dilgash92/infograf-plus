@@ -28,11 +28,14 @@
   --max-width: 1180px;
 }
 
+
 /* =========================================================
    Reset
    ========================================================= */
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -78,6 +81,7 @@ button {
   color: #fff;
 }
 
+
 /* =========================================================
    Accessibility
    ========================================================= */
@@ -94,6 +98,7 @@ button {
   border: 0;
 }
 
+
 /* =========================================================
    Header
    ========================================================= */
@@ -102,8 +107,11 @@ button {
   position: sticky;
   top: 0;
   z-index: 100;
+
   background: rgba(255, 255, 255, 0.94);
+
   border-bottom: 1px solid rgba(232, 232, 239, 0.85);
+
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
@@ -111,6 +119,7 @@ button {
 .header-inner {
   width: min(var(--max-width), calc(100% - 40px));
   min-height: 74px;
+
   margin: 0 auto;
 
   display: flex;
@@ -119,6 +128,7 @@ button {
 
   gap: 30px;
 }
+
 
 /* =========================================================
    Brand
@@ -145,6 +155,7 @@ button {
   color: var(--accent);
   margin-left: 2px;
 }
+
 
 /* =========================================================
    Desktop Navigation
@@ -180,6 +191,7 @@ button {
   color: var(--accent);
 }
 
+
 /* =========================================================
    Search Button
    ========================================================= */
@@ -213,6 +225,7 @@ button {
   line-height: 1;
 }
 
+
 /* =========================================================
    Page Wrapper
    ========================================================= */
@@ -220,6 +233,7 @@ button {
 .page-wrapper {
   min-height: 70vh;
 }
+
 
 /* =========================================================
    Hero
@@ -350,6 +364,7 @@ button {
   border-color: var(--accent);
   color: var(--accent);
 }
+
 
 /* =========================================================
    Hero Visual
@@ -492,6 +507,74 @@ button {
   font-weight: 700;
 }
 
+
+/* =========================================================
+   Home Benefits
+   ========================================================= */
+
+.home-benefits {
+  width: min(var(--max-width), calc(100% - 40px));
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+
+  padding: 0 0 45px;
+}
+
+.home-benefit {
+  padding: 20px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 18px;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.home-benefit-icon {
+  width: 42px;
+  height: 42px;
+
+  margin-bottom: 13px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background: var(--accent-light);
+
+  color: var(--accent);
+
+  font-size: 19px;
+
+  font-weight: 800;
+}
+
+.home-benefit h3 {
+  margin: 0;
+
+  font-size: 15px;
+}
+
+.home-benefit p {
+  margin: 6px 0 0;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+
 /* =========================================================
    Sections
    ========================================================= */
@@ -550,6 +633,7 @@ button {
   font-size: 13px;
 }
 
+
 /* =========================================================
    Categories
    ========================================================= */
@@ -596,6 +680,7 @@ button {
 
 .category-chip:hover {
   border-color: var(--accent);
+
   color: var(--accent);
 }
 
@@ -606,6 +691,7 @@ button {
 
   color: #fff;
 }
+
 
 /* =========================================================
    Infographic Grid
@@ -761,6 +847,52 @@ button {
   font-weight: 700;
 }
 
+
+/* =========================================================
+   Featured Card
+   ========================================================= */
+
+.featured-card {
+  grid-column: span 2;
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.9fr);
+
+  min-height: 310px;
+}
+
+.featured-card .infographic-image-link {
+  height: 100%;
+
+  aspect-ratio: auto;
+}
+
+.featured-card .infographic-card-content {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  padding: 30px;
+}
+
+.featured-card h3 {
+  font-size: 25px;
+}
+
+.featured-card p {
+  -webkit-line-clamp: 4;
+
+  font-size: 14px;
+}
+
+.featured-card .card-meta {
+  margin-top: 24px;
+}
+
+
 /* =========================================================
    Empty State
    ========================================================= */
@@ -812,6 +944,7 @@ button {
 
   font-size: 13px;
 }
+
 
 /* =========================================================
    About
@@ -879,6 +1012,7 @@ button {
 .about-mark strong {
   color: var(--accent);
 }
+
 
 /* =========================================================
    Search Panel
@@ -1026,6 +1160,7 @@ button {
   font-size: 13px;
 }
 
+
 /* =========================================================
    Footer
    ========================================================= */
@@ -1082,6 +1217,7 @@ button {
   font-size: 11px;
 }
 
+
 /* =========================================================
    Mobile Navigation
    ========================================================= */
@@ -1089,6 +1225,7 @@ button {
 .mobile-navigation {
   display: none;
 }
+
 
 /* =========================================================
    Infographic Article Page
@@ -1175,7 +1312,14 @@ button {
   opacity: 0.5;
 }
 
+
+/* =========================================================
+   Main Infographic Image
+   ========================================================= */
+
 .infographic-main-image {
+  position: relative;
+
   margin: 0 auto;
 
   max-width: 900px;
@@ -1189,13 +1333,14 @@ button {
   overflow: hidden;
 
   box-shadow: var(--shadow-md);
+
+  user-select: none;
 }
 
 .infographic-main-image img {
   display: block;
 
   width: 100%;
-
   height: auto;
 
   max-height: none;
@@ -1204,8 +1349,13 @@ button {
 
   user-select: none;
 
+  -webkit-user-select: none;
+
   -webkit-user-drag: none;
+
+  pointer-events: auto;
 }
+
 
 /* =========================================================
    Infographic Actions
@@ -1258,13 +1408,16 @@ button {
   transition:
     transform 0.2s ease,
     background 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .infographic-action:hover {
   transform: translateY(-2px);
 
   border-color: var(--accent);
+
+  color: var(--accent);
 }
 
 .infographic-action:first-child {
@@ -1274,6 +1427,13 @@ button {
 
   color: #ffffff;
 }
+
+.infographic-action:first-child:hover {
+  background: var(--accent-dark);
+
+  color: #ffffff;
+}
+
 
 /* =========================================================
    Source
@@ -1307,6 +1467,7 @@ button {
   color: var(--text-light);
 }
 
+
 /* =========================================================
    Extra Content
    ========================================================= */
@@ -1337,6 +1498,7 @@ button {
   padding-right: 24px;
 }
 
+
 /* =========================================================
    Related
    ========================================================= */
@@ -1352,6 +1514,7 @@ button {
 .related-section .infographic-grid {
   margin-top: 25px;
 }
+
 
 /* =========================================================
    Categories Page
@@ -1476,12 +1639,12 @@ button {
   padding-bottom: 30px;
 }
 
+
 /* =========================================================
    Tablet
    ========================================================= */
 
 @media (max-width: 950px) {
-
   .hero-section {
     grid-template-columns: 1fr;
 
@@ -1503,19 +1666,26 @@ button {
       repeat(2, minmax(0, 1fr));
   }
 
+  .featured-card {
+    grid-column: span 2;
+  }
+
   .all-categories {
     grid-template-columns:
       repeat(3, minmax(0, 1fr));
   }
 
+  .home-benefits {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
+
 
 /* =========================================================
    Mobile
    ========================================================= */
 
 @media (max-width: 700px) {
-
   body {
     padding-bottom: 72px;
   }
@@ -1538,6 +1708,26 @@ button {
     width: 40px;
     height: 40px;
   }
+
+
+  /* Home Benefits */
+
+  .home-benefits {
+    width: calc(100% - 28px);
+
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+
+    padding-bottom: 30px;
+  }
+
+  .home-benefit {
+    padding: 17px;
+  }
+
+
+  /* Home */
 
   .hero-section,
   .categories-section,
@@ -1610,6 +1800,9 @@ button {
     width: 155px;
   }
 
+
+  /* Sections */
+
   .categories-section {
     padding-bottom: 28px;
   }
@@ -1636,6 +1829,9 @@ button {
     margin-left: -2px;
   }
 
+
+  /* Cards */
+
   .infographic-grid {
     grid-template-columns: 1fr;
 
@@ -1653,6 +1849,31 @@ button {
   .infographic-card h3 {
     font-size: 17px;
   }
+
+  .featured-card {
+    grid-column: auto;
+
+    display: block;
+
+    min-height: 0;
+  }
+
+  .featured-card .infographic-image-link {
+    height: auto;
+
+    aspect-ratio: 4 / 3;
+  }
+
+  .featured-card .infographic-card-content {
+    padding: 20px;
+  }
+
+  .featured-card h3 {
+    font-size: 21px;
+  }
+
+
+  /* About */
 
   .about-section {
     margin-bottom: 40px;
@@ -1678,6 +1899,9 @@ button {
     font-size: 25px;
   }
 
+
+  /* Footer */
+
   .footer-inner {
     width: calc(100% - 28px);
 
@@ -1691,6 +1915,7 @@ button {
   .footer-info {
     margin-top: 15px;
   }
+
 
   /* Mobile Navigation */
 
@@ -1777,6 +2002,7 @@ button {
     font-family: inherit;
   }
 
+
   /* Search */
 
   .search-panel {
@@ -1790,6 +2016,7 @@ button {
 
     border-radius: 19px;
   }
+
 
   /* Infographic Page */
 
@@ -1817,6 +2044,16 @@ button {
 
   .infographic-main-image {
     border-radius: 16px;
+
+    box-shadow: var(--shadow-sm);
+  }
+
+  .infographic-main-image img {
+    width: 100%;
+
+    height: auto;
+
+    max-width: 100%;
   }
 
   .infographic-actions {
@@ -1866,6 +2103,7 @@ button {
     padding-top: 40px;
   }
 
+
   /* Categories Page */
 
   .categories-page {
@@ -1910,15 +2148,14 @@ button {
   .category-card-name {
     font-size: 13px;
   }
-
 }
+
 
 /* =========================================================
    Very Small Screens
    ========================================================= */
 
 @media (max-width: 380px) {
-
   .hero-content h1 {
     font-size: 36px;
   }
@@ -1934,15 +2171,14 @@ button {
 
     bottom: 6px;
   }
-
 }
+
 
 /* =========================================================
    Reduced Motion
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   html {
     scroll-behavior: auto;
   }
@@ -1951,6 +2187,9 @@ button {
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
-  }
 
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+  }
 }
