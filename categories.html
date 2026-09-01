@@ -478,8 +478,11 @@ description: "تصفح جميع أقسام Infograf+"
 
               <h3>
 
-                <a href="{{ post.url | relative_url }}">
+                <a
+                  href="{{ post.url | relative_url }}">
+
                   {{ post.title }}
+
                 </a>
 
               </h3>
@@ -587,9 +590,10 @@ document.addEventListener(
   function () {
 
     const buttons = Array.from(
-      document.querySelectorAll(".category-card")
+      document.querySelectorAll(
+        ".category-card"
+      )
     );
-
 
     const posts = Array.from(
       document.querySelectorAll(
@@ -597,18 +601,15 @@ document.addEventListener(
       )
     );
 
-
     const title =
       document.getElementById(
         "selected-category-title"
       );
 
-
     const count =
       document.getElementById(
         "selected-category-count"
       );
-
 
     const empty =
       document.getElementById(
@@ -616,9 +617,9 @@ document.addEventListener(
       );
 
 
-    /*
-     * Arabic normalization
-     */
+    /* ==================================================
+       Arabic normalization
+    ================================================== */
 
     function normalizeArabic(text) {
 
@@ -626,18 +627,32 @@ document.addEventListener(
         .toString()
         .trim()
         .toLowerCase()
-        .replace(/[\u064B-\u065F\u0670]/g, "")
-        .replace(/[إأآا]/g, "ا")
-        .replace(/ى/g, "ي")
-        .replace(/ة/g, "ه")
-        .replace(/ـ/g, "");
+        .replace(
+          /[\u064B-\u065F\u0670]/g,
+          ""
+        )
+        .replace(
+          /[إأآا]/g,
+          "ا"
+        )
+        .replace(
+          /ى/g,
+          "ي"
+        )
+        .replace(
+          /ة/g,
+          "ه"
+        )
+        .replace(
+          /ـ/g,
+          "");
 
     }
 
 
-    /*
-     * Filter
-     */
+    /* ==================================================
+       Filter category
+    ================================================== */
 
     function filterCategory(selected) {
 
@@ -645,22 +660,29 @@ document.addEventListener(
         normalizeArabic(selected);
 
 
+      /* Active button */
+
       buttons.forEach(
         function (button) {
 
           const category =
-            button.dataset.category || "all";
+            button.dataset.category ||
+            "all";
 
           if (
             normalizeArabic(category) ===
             normalizedSelected
           ) {
 
-            button.classList.add("active");
+            button.classList.add(
+              "active"
+            );
 
           } else {
 
-            button.classList.remove("active");
+            button.classList.remove(
+              "active"
+            );
 
           }
 
@@ -668,15 +690,15 @@ document.addEventListener(
       );
 
 
-      let visibleCount = 0;
+      /* Filter posts */
 
+      let visibleCount = 0;
 
       posts.forEach(
         function (post) {
 
           const category =
             post.dataset.category || "";
-
 
           const matches =
             normalizedSelected === "all" ||
@@ -700,13 +722,15 @@ document.addEventListener(
       );
 
 
-      /*
-       * Heading
-       */
+      /* ==================================================
+         Heading
+      ================================================== */
 
       if (title) {
 
-        if (normalizedSelected === "all") {
+        if (
+          normalizedSelected === "all"
+        ) {
 
           title.textContent =
             "جميع الإنفوغرافيكات";
@@ -727,9 +751,12 @@ document.addEventListener(
 
           title.textContent =
             activeButton
-              ? activeButton.querySelector(
-                  ".category-card-name"
-                ).textContent.trim()
+              ? activeButton
+                  .querySelector(
+                    ".category-card-name"
+                  )
+                  .textContent
+                  .trim()
               : selected;
 
         }
@@ -737,9 +764,9 @@ document.addEventListener(
       }
 
 
-      /*
-       * Count
-       */
+      /* ==================================================
+         Count
+      ================================================== */
 
       if (count) {
 
@@ -754,9 +781,9 @@ document.addEventListener(
       }
 
 
-      /*
-       * Empty state
-       */
+      /* ==================================================
+         Empty state
+      ================================================== */
 
       if (empty) {
 
@@ -766,11 +793,13 @@ document.addEventListener(
       }
 
 
-      /*
-       * Update URL hash
-       */
+      /* ==================================================
+         URL
+      ================================================== */
 
-      if (selected === "all") {
+      if (
+        normalizedSelected === "all"
+      ) {
 
         history.replaceState(
           null,
@@ -793,9 +822,9 @@ document.addEventListener(
     }
 
 
-    /*
-     * Button click
-     */
+    /* ==================================================
+       Button click
+    ================================================== */
 
     buttons.forEach(
       function (button) {
@@ -805,9 +834,12 @@ document.addEventListener(
           function () {
 
             const selected =
-              button.dataset.category || "all";
+              button.dataset.category ||
+              "all";
 
-            filterCategory(selected);
+            filterCategory(
+              selected
+            );
 
           }
         );
@@ -816,12 +848,12 @@ document.addEventListener(
     );
 
 
-    /*
-     * Open a category directly from URL
-     *
-     * Example:
-     * categories.html#العالم
-     */
+    /* ==================================================
+       Open category from URL
+       
+       Example:
+       /categories/#العالم
+    ================================================== */
 
     const hash =
       decodeURIComponent(
@@ -837,7 +869,8 @@ document.addEventListener(
 
             return normalizeArabic(
               button.dataset.category || ""
-            ) === normalizeArabic(hash);
+            ) ===
+            normalizeArabic(hash);
 
           }
         );
