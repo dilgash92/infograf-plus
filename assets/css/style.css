@@ -3,7 +3,7 @@
    ========================================================= */
 
 :root {
-  --accent: #635BFF;
+  --accent: #635bff;
   --accent-dark: #5149e8;
   --accent-light: #eeedff;
 
@@ -14,12 +14,12 @@
   --background: #f8f8fb;
   --surface: #ffffff;
   --surface-soft: #f4f4f8;
-
   --border: #e8e8ef;
+
+  --success: #22a06b;
 
   --shadow-sm: 0 4px 16px rgba(20, 20, 40, 0.05);
   --shadow-md: 0 12px 35px rgba(20, 20, 40, 0.08);
-  --shadow-lg: 0 22px 60px rgba(20, 20, 40, 0.12);
 
   --radius-sm: 12px;
   --radius-md: 18px;
@@ -27,7 +27,6 @@
 
   --max-width: 1180px;
 }
-
 
 /* =========================================================
    Reset
@@ -44,13 +43,10 @@ html {
 body {
   margin: 0;
   padding: 0;
-
   background: var(--background);
   color: var(--text);
-
   font-family: "Cairo", sans-serif;
   line-height: 1.7;
-
   direction: rtl;
 }
 
@@ -82,7 +78,6 @@ button {
   color: #fff;
 }
 
-
 /* =========================================================
    Accessibility
    ========================================================= */
@@ -99,7 +94,6 @@ button {
   border: 0;
 }
 
-
 /* =========================================================
    Header
    ========================================================= */
@@ -108,11 +102,8 @@ button {
   position: sticky;
   top: 0;
   z-index: 100;
-
   background: rgba(255, 255, 255, 0.94);
-
   border-bottom: 1px solid rgba(232, 232, 239, 0.85);
-
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
@@ -120,7 +111,6 @@ button {
 .header-inner {
   width: min(var(--max-width), calc(100% - 40px));
   min-height: 74px;
-
   margin: 0 auto;
 
   display: flex;
@@ -129,7 +119,6 @@ button {
 
   gap: 30px;
 }
-
 
 /* =========================================================
    Brand
@@ -143,7 +132,6 @@ button {
 
   font-size: 25px;
   font-weight: 800;
-
   letter-spacing: -0.8px;
 
   white-space: nowrap;
@@ -157,7 +145,6 @@ button {
   color: var(--accent);
   margin-left: 2px;
 }
-
 
 /* =========================================================
    Desktop Navigation
@@ -193,9 +180,8 @@ button {
   color: var(--accent);
 }
 
-
 /* =========================================================
-   Search
+   Search Button
    ========================================================= */
 
 .search-button {
@@ -219,8 +205,6 @@ button {
 .search-button:hover {
   background: var(--accent-light);
   color: var(--accent);
-
-  transform: translateY(-2px);
 }
 
 .search-icon {
@@ -229,15 +213,13 @@ button {
   line-height: 1;
 }
 
-
 /* =========================================================
-   Page
+   Page Wrapper
    ========================================================= */
 
 .page-wrapper {
   min-height: 70vh;
 }
-
 
 /* =========================================================
    Hero
@@ -248,7 +230,7 @@ button {
 
   margin: 0 auto;
 
-  padding: 58px 0 48px;
+  padding: 60px 0 45px;
 
   display: grid;
 
@@ -258,9 +240,7 @@ button {
 
   align-items: center;
 
-  gap: 60px;
-
-  min-height: 570px;
+  gap: 55px;
 }
 
 .hero-content {
@@ -289,7 +269,7 @@ button {
 .hero-content h1 {
   margin: 0;
 
-  font-size: clamp(42px, 5vw, 66px);
+  font-size: clamp(42px, 5vw, 68px);
 
   line-height: 1.12;
 
@@ -305,28 +285,23 @@ button {
 .hero-content p {
   max-width: 570px;
 
-  margin: 21px 0 0;
+  margin: 22px 0 0;
 
   color: var(--text-secondary);
 
-  font-size: 17px;
-
+  font-size: 18px;
   line-height: 2;
 }
 
 .hero-actions {
   display: flex;
+
   flex-wrap: wrap;
 
   gap: 12px;
 
-  margin-top: 27px;
+  margin-top: 26px;
 }
-
-
-/* =========================================================
-   Buttons
-   ========================================================= */
 
 .btn {
   min-height: 48px;
@@ -334,7 +309,6 @@ button {
   padding: 11px 21px;
 
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
 
@@ -346,8 +320,7 @@ button {
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+    background 0.2s ease;
 }
 
 .btn:hover {
@@ -358,19 +331,16 @@ button {
   background: var(--accent);
   color: #fff;
 
-  box-shadow:
-    0 9px 22px rgba(99, 91, 255, 0.22);
+  box-shadow: 0 9px 22px rgba(99, 91, 255, 0.22);
 }
 
 .btn-primary:hover {
   background: var(--accent-dark);
-
-  box-shadow:
-    0 13px 28px rgba(99, 91, 255, 0.28);
 }
 
 .btn-secondary {
   background: var(--surface);
+
   color: var(--text);
 
   border: 1px solid var(--border);
@@ -381,18 +351,16 @@ button {
   color: var(--accent);
 }
 
-
 /* =========================================================
    Hero Visual
    ========================================================= */
 
 .hero-visual {
-  min-height: 370px;
+  min-height: 360px;
 
   position: relative;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 }
@@ -402,26 +370,19 @@ button {
 
   border: 1px solid var(--border);
 
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .visual-card-main {
-  width: min(390px, 86%);
+  width: min(390px, 85%);
 
-  min-height: 285px;
+  min-height: 275px;
 
   padding: 24px;
 
   border-radius: 28px;
 
   transform: rotate(-3deg);
-
-  transition:
-    transform 0.35s ease;
-}
-
-.hero-visual:hover .visual-card-main {
-  transform: rotate(-1deg) translateY(-5px);
 }
 
 .visual-top {
@@ -442,9 +403,9 @@ button {
 }
 
 .visual-bars {
-  height: 165px;
+  height: 155px;
 
-  margin-top: 40px;
+  margin-top: 38px;
 
   display: flex;
 
@@ -461,10 +422,11 @@ button {
 
   min-height: 30px;
 
-  border-radius:
-    9px 9px 4px 4px;
+  border-radius: 9px 9px 4px 4px;
 
   background: var(--accent-light);
+
+  position: relative;
 }
 
 .visual-bars div:nth-child(2),
@@ -477,7 +439,7 @@ button {
 
   width: 65%;
 
-  margin: 23px auto 0;
+  margin: 20px auto 0;
 
   border-radius: 100px;
 
@@ -488,7 +450,7 @@ button {
   position: absolute;
 
   left: 4%;
-  bottom: 3px;
+  bottom: 10px;
 
   width: 180px;
 
@@ -497,7 +459,6 @@ button {
   border-radius: 19px;
 
   display: flex;
-
   align-items: center;
 
   gap: 10px;
@@ -505,15 +466,6 @@ button {
   direction: rtl;
 
   transform: rotate(4deg);
-
-  box-shadow: var(--shadow-md);
-
-  transition:
-    transform 0.3s ease;
-}
-
-.hero-visual:hover .visual-card-small {
-  transform: rotate(2deg) translateY(-4px);
 }
 
 .visual-card-small strong {
@@ -540,7 +492,6 @@ button {
   font-weight: 700;
 }
 
-
 /* =========================================================
    Sections
    ========================================================= */
@@ -550,23 +501,21 @@ button {
 .about-section {
   width: min(var(--max-width), calc(100% - 40px));
 
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 .categories-section {
-  padding: 18px 0 48px;
+  padding: 5px 0 45px;
 }
 
 .latest-section {
-  padding: 25px 0 75px;
+  padding: 5px 0 55px;
 }
 
 .section-heading {
   display: flex;
 
   align-items: end;
-
   justify-content: space-between;
 
   gap: 20px;
@@ -577,12 +526,11 @@ button {
 .section-kicker {
   display: block;
 
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 
   color: var(--accent);
 
   font-size: 12px;
-
   font-weight: 800;
 }
 
@@ -601,7 +549,6 @@ button {
 
   font-size: 13px;
 }
-
 
 /* =========================================================
    Categories
@@ -639,22 +586,17 @@ button {
   border: 1px solid var(--border);
 
   font-size: 13px;
-
   font-weight: 700;
 
   transition:
     background 0.2s ease,
     color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+    border-color 0.2s ease;
 }
 
 .category-chip:hover {
   border-color: var(--accent);
-
   color: var(--accent);
-
-  transform: translateY(-2px);
 }
 
 .category-chip.active {
@@ -664,7 +606,6 @@ button {
 
   color: #fff;
 }
-
 
 /* =========================================================
    Infographic Grid
@@ -676,7 +617,7 @@ button {
   grid-template-columns:
     repeat(3, minmax(0, 1fr));
 
-  gap: 20px;
+  gap: 24px;
 }
 
 .infographic-card {
@@ -719,8 +660,7 @@ button {
 
   object-fit: cover;
 
-  transition:
-    transform 0.35s ease;
+  transition: transform 0.35s ease;
 }
 
 .infographic-card:hover
@@ -733,7 +673,6 @@ button {
   height: 100%;
 
   display: grid;
-
   place-items: center;
 
   background: var(--accent-light);
@@ -741,14 +680,13 @@ button {
   color: var(--accent);
 
   font-size: 22px;
-
   font-weight: 800;
 
   direction: ltr;
 }
 
 .infographic-card-content {
-  padding: 19px;
+  padding: 20px;
 }
 
 .card-category {
@@ -763,22 +701,17 @@ button {
   color: var(--accent);
 
   font-size: 11px;
-
   font-weight: 800;
 }
 
 .infographic-card h3 {
-  margin: 11px 0 7px;
+  margin: 12px 0 8px;
 
   font-size: 18px;
 
   line-height: 1.55;
 
   letter-spacing: -0.3px;
-}
-
-.infographic-card h3 a {
-  transition: color 0.2s ease;
 }
 
 .infographic-card h3 a:hover {
@@ -804,16 +737,15 @@ button {
 }
 
 .card-meta {
-  margin-top: 18px;
+  margin-top: 19px;
 
-  padding-top: 13px;
+  padding-top: 14px;
 
   border-top: 1px solid var(--border);
 
   display: flex;
 
   align-items: center;
-
   justify-content: space-between;
 
   gap: 12px;
@@ -829,26 +761,12 @@ button {
   font-weight: 700;
 }
 
-
-/* =========================================================
-   Section Footer
-   ========================================================= */
-
-.section-footer {
-  display: flex;
-
-  justify-content: center;
-
-  margin-top: 30px;
-}
-
-
 /* =========================================================
    Empty State
    ========================================================= */
 
 .empty-state {
-  padding: 65px 25px;
+  padding: 70px 25px;
 
   text-align: center;
 
@@ -866,7 +784,6 @@ button {
   margin: 0 auto 15px;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 17px;
@@ -896,51 +813,39 @@ button {
   font-size: 13px;
 }
 
-
 /* =========================================================
    About
    ========================================================= */
 
 .about-section {
-  margin-bottom: 75px;
+  margin-bottom: 55px;
 
-  padding: 42px 48px;
+  padding: 35px;
 
-  min-height: 250px;
+  min-height: 190px;
 
   display: flex;
 
   align-items: center;
-
   justify-content: space-between;
 
   gap: 35px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #ffffff 0%,
-      #ffffff 65%,
-      #f4f2ff 100%
-    );
+  background: var(--surface);
 
   border: 1px solid var(--border);
 
   border-radius: 30px;
-
-  overflow: hidden;
-
-  position: relative;
 }
 
 .about-content {
-  max-width: 610px;
+  max-width: 570px;
 }
 
 .about-content h2 {
   margin: 0;
 
-  font-size: 33px;
+  font-size: 34px;
 
   line-height: 1.4;
 
@@ -952,17 +857,13 @@ button {
 }
 
 .about-content p {
-  margin: 14px 0 0;
+  margin: 15px 0 0;
 
   color: var(--text-secondary);
-
-  line-height: 1.9;
 }
 
 .about-mark {
-  position: relative;
-
-  padding: 30px;
+  padding: 25px;
 
   color: var(--text);
 
@@ -978,7 +879,6 @@ button {
 .about-mark strong {
   color: var(--accent);
 }
-
 
 /* =========================================================
    Search Panel
@@ -1015,15 +915,13 @@ button {
 
   border-radius: 23px;
 
-  box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18);
 }
 
 .search-header {
   display: flex;
 
   align-items: center;
-
   justify-content: space-between;
 
   gap: 15px;
@@ -1079,8 +977,7 @@ button {
 #site-search:focus {
   border-color: var(--accent);
 
-  box-shadow:
-    0 0 0 4px var(--accent-light);
+  box-shadow: 0 0 0 4px var(--accent-light);
 }
 
 .search-results {
@@ -1129,7 +1026,6 @@ button {
   font-size: 13px;
 }
 
-
 /* =========================================================
    Footer
    ========================================================= */
@@ -1143,16 +1039,15 @@ button {
 .footer-inner {
   width: min(var(--max-width), calc(100% - 40px));
 
-  min-height: 150px;
+  min-height: 140px;
 
   margin: 0 auto;
 
-  padding: 32px 0;
+  padding: 30px 0;
 
   display: flex;
 
   align-items: center;
-
   justify-content: space-between;
 
   gap: 30px;
@@ -1187,7 +1082,6 @@ button {
   font-size: 11px;
 }
 
-
 /* =========================================================
    Mobile Navigation
    ========================================================= */
@@ -1195,7 +1089,6 @@ button {
 .mobile-navigation {
   display: none;
 }
-
 
 /* =========================================================
    Infographic Article Page
@@ -1206,7 +1099,7 @@ button {
 
   margin: 0 auto;
 
-  padding: 55px 0 90px;
+  padding: 55px 0 85px;
 }
 
 .infographic-page-header {
@@ -1224,8 +1117,6 @@ button {
 
   padding: 7px 13px;
 
-  margin-bottom: 15px;
-
   background: var(--accent-light);
 
   color: var(--accent);
@@ -1235,26 +1126,30 @@ button {
   font-size: 12px;
 
   font-weight: 800;
+
+  text-decoration: none;
+
+  margin-bottom: 18px;
 }
 
 .infographic-page-header h1 {
   margin: 0;
 
-  font-size: clamp(32px, 5vw, 56px);
+  font-size: clamp(32px, 5vw, 58px);
 
-  line-height: 1.3;
+  line-height: 1.25;
 
-  letter-spacing: -1.5px;
+  letter-spacing: -1.8px;
 }
 
 .infographic-page-description {
   max-width: 700px;
 
-  margin: 16px auto 0;
+  margin: 17px auto 0;
 
   color: var(--text-secondary);
 
-  font-size: 16px;
+  font-size: 17px;
 
   line-height: 1.9;
 }
@@ -1263,14 +1158,13 @@ button {
   display: flex;
 
   justify-content: center;
-
   align-items: center;
 
   flex-wrap: wrap;
 
   gap: 10px;
 
-  margin-top: 16px;
+  margin-top: 18px;
 
   color: var(--text-light);
 
@@ -1304,8 +1198,18 @@ button {
 
   height: auto;
 
+  max-height: none;
+
   object-fit: contain;
+
+  user-select: none;
+
+  -webkit-user-drag: none;
 }
+
+/* =========================================================
+   Infographic Actions
+   ========================================================= */
 
 .infographic-actions {
   display: flex;
@@ -1325,7 +1229,6 @@ button {
   display: inline-flex;
 
   align-items: center;
-
   justify-content: center;
 
   gap: 8px;
@@ -1369,8 +1272,12 @@ button {
 
   border-color: var(--accent);
 
-  color: #fff;
+  color: #ffffff;
 }
+
+/* =========================================================
+   Source
+   ========================================================= */
 
 .infographic-source {
   display: flex;
@@ -1400,10 +1307,14 @@ button {
   color: var(--text-light);
 }
 
+/* =========================================================
+   Extra Content
+   ========================================================= */
+
 .infographic-extra-content {
   max-width: 760px;
 
-  margin: 40px auto 0;
+  margin: 45px auto 0;
 
   color: var(--text);
 
@@ -1426,6 +1337,10 @@ button {
   padding-right: 24px;
 }
 
+/* =========================================================
+   Related
+   ========================================================= */
+
 .related-section {
   margin-top: 75px;
 
@@ -1434,6 +1349,9 @@ button {
   border-top: 1px solid var(--border);
 }
 
+.related-section .infographic-grid {
+  margin-top: 25px;
+}
 
 /* =========================================================
    Categories Page
@@ -1444,7 +1362,7 @@ button {
 
   margin: 0 auto;
 
-  padding: 55px 0 90px;
+  padding: 55px 0 80px;
 }
 
 .categories-page-header {
@@ -1479,7 +1397,7 @@ button {
 
   gap: 13px;
 
-  margin-bottom: 65px;
+  margin-bottom: 60px;
 }
 
 .category-card {
@@ -1527,7 +1445,7 @@ button {
 
   border-color: var(--accent);
 
-  color: #fff;
+  color: #ffffff;
 }
 
 .category-card-icon {
@@ -1550,15 +1468,13 @@ button {
   font-size: 10px;
 }
 
-.category-card.active
-.category-card-count {
+.category-card.active .category-card-count {
   color: rgba(255, 255, 255, 0.75);
 }
 
 .category-results {
   padding-bottom: 30px;
 }
-
 
 /* =========================================================
    Tablet
@@ -1569,11 +1485,9 @@ button {
   .hero-section {
     grid-template-columns: 1fr;
 
-    gap: 20px;
+    gap: 25px;
 
     padding-top: 45px;
-
-    min-height: auto;
   }
 
   .hero-content {
@@ -1593,8 +1507,8 @@ button {
     grid-template-columns:
       repeat(3, minmax(0, 1fr));
   }
-}
 
+}
 
 /* =========================================================
    Mobile
@@ -1625,15 +1539,17 @@ button {
     height: 40px;
   }
 
-
-  /* Hero */
+  .hero-section,
+  .categories-section,
+  .latest-section,
+  .about-section {
+    width: calc(100% - 28px);
+  }
 
   .hero-section {
-    width: calc(100% - 28px);
+    padding: 38px 0 25px;
 
-    padding: 38px 0 30px;
-
-    gap: 12px;
+    gap: 15px;
   }
 
   .hero-content h1 {
@@ -1655,20 +1571,15 @@ button {
 
     grid-template-columns: 1fr;
 
-    margin-top: 23px;
+    margin-top: 22px;
   }
 
   .btn {
     width: 100%;
   }
 
-
-  /* Hero visual */
-
   .hero-visual {
-    min-height: 275px;
-
-    margin-top: 8px;
+    min-height: 270px;
   }
 
   .visual-card-main {
@@ -1684,7 +1595,7 @@ button {
 
     gap: 12px;
 
-    margin-top: 27px;
+    margin-top: 25px;
   }
 
   .visual-bars div {
@@ -1694,34 +1605,21 @@ button {
   .visual-card-small {
     left: 0;
 
-    bottom: 0;
+    bottom: 3px;
 
     width: 155px;
-
-    padding: 13px;
-  }
-
-
-  /* Sections */
-
-  .categories-section,
-  .latest-section,
-  .about-section {
-    width: calc(100% - 28px);
   }
 
   .categories-section {
-    padding: 18px 0 35px;
+    padding-bottom: 28px;
   }
 
   .latest-section {
-    padding: 20px 0 55px;
+    padding-bottom: 45px;
   }
 
   .section-heading {
     align-items: flex-start;
-
-    margin-bottom: 17px;
   }
 
   .section-heading h2 {
@@ -1732,29 +1630,16 @@ button {
     display: none;
   }
 
-
-  /* Categories */
-
   .category-list {
     margin-right: -2px;
+
     margin-left: -2px;
   }
-
-  .category-chip {
-    min-height: 40px;
-
-    padding: 7px 14px;
-
-    font-size: 12px;
-  }
-
-
-  /* Cards */
 
   .infographic-grid {
     grid-template-columns: 1fr;
 
-    gap: 16px;
+    gap: 17px;
   }
 
   .infographic-card {
@@ -1769,13 +1654,12 @@ button {
     font-size: 17px;
   }
 
-
-  /* About */
-
   .about-section {
-    margin-bottom: 45px;
+    margin-bottom: 40px;
 
     padding: 28px 22px;
+
+    min-height: 0;
 
     display: block;
 
@@ -1786,10 +1670,6 @@ button {
     font-size: 27px;
   }
 
-  .about-content p {
-    font-size: 14px;
-  }
-
   .about-mark {
     margin-top: 25px;
 
@@ -1797,9 +1677,6 @@ button {
 
     font-size: 25px;
   }
-
-
-  /* Footer */
 
   .footer-inner {
     width: calc(100% - 28px);
@@ -1815,14 +1692,15 @@ button {
     margin-top: 15px;
   }
 
-
-  /* Mobile bottom navigation */
+  /* Mobile Navigation */
 
   .mobile-navigation {
     position: fixed;
 
     right: 10px;
+
     bottom: 10px;
+
     left: 10px;
 
     z-index: 150;
@@ -1895,6 +1773,9 @@ button {
     line-height: 1.1;
   }
 
+  .mobile-search-trigger {
+    font-family: inherit;
+  }
 
   /* Search */
 
@@ -1910,8 +1791,7 @@ button {
     border-radius: 19px;
   }
 
-
-  /* Infographic page */
+  /* Infographic Page */
 
   .infographic-page {
     width: calc(100% - 24px);
@@ -1986,13 +1866,12 @@ button {
     padding-top: 40px;
   }
 
-
-  /* Categories page */
+  /* Categories Page */
 
   .categories-page {
     width: calc(100% - 28px);
 
-    padding: 40px 0 70px;
+    padding: 40px 0 65px;
   }
 
   .categories-page-header {
@@ -2031,8 +1910,8 @@ button {
   .category-card-name {
     font-size: 13px;
   }
-}
 
+}
 
 /* =========================================================
    Very Small Screens
@@ -2050,12 +1929,13 @@ button {
 
   .mobile-navigation {
     right: 6px;
+
     left: 6px;
+
     bottom: 6px;
   }
 
 }
-
 
 /* =========================================================
    Reduced Motion
@@ -2072,4 +1952,5 @@ button {
   *::after {
     transition-duration: 0.01ms !important;
   }
+
 }
