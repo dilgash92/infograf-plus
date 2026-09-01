@@ -6,9 +6,10 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
 <main class="site-home">
 
-  <!-- =========================
+
+  <!-- ==================================================
        HERO
-       ========================= -->
+       ================================================== -->
 
   <section class="hero-section">
 
@@ -24,22 +25,28 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
       </h1>
 
       <p>
-        إنفوغرافيكات مختصرة وموثوقة تساعدك تفهم
+        إنفوغرافيكات مختصرة وموثوقة تساعدك على فهم
         الأرقام والأحداث والأفكار بطريقة بصرية بسيطة.
       </p>
+
 
       <div class="hero-actions">
 
         <a
           href="#latest"
           class="btn btn-primary">
+
           اكتشف الإنفوغرافيكات
+
         </a>
 
+
         <a
-          href="#categories"
+          href="{{ site.baseurl }}/categories/"
           class="btn btn-secondary">
+
           تصفح الأقسام
+
         </a>
 
       </div>
@@ -52,6 +59,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
     <div
       class="hero-visual"
       aria-hidden="true">
+
 
       <div class="visual-card visual-card-main">
 
@@ -66,15 +74,15 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
         <div class="visual-bars">
 
-          <div style="height: 42%;"></div>
+          <div style="height:42%;"></div>
 
-          <div style="height: 68%;"></div>
+          <div style="height:68%;"></div>
 
-          <div style="height: 52%;"></div>
+          <div style="height:52%;"></div>
 
-          <div style="height: 88%;"></div>
+          <div style="height:88%;"></div>
 
-          <div style="height: 74%;"></div>
+          <div style="height:74%;"></div>
 
         </div>
 
@@ -86,7 +94,9 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
       <div class="visual-card visual-card-small">
 
-        <strong>+</strong>
+        <strong>
+          +
+        </strong>
 
         <span>
           معلومة جديدة
@@ -99,13 +109,15 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
   </section>
 
 
-  <!-- =========================
-       CATEGORIES
-       ========================= -->
+
+  <!-- ==================================================
+       QUICK CATEGORIES
+       ================================================== -->
 
   <section
     class="categories-section"
     id="categories">
+
 
     <div class="section-heading">
 
@@ -116,205 +128,193 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
         </span>
 
         <h2>
-          الأقسام
+          تصفح حسب القسم
         </h2>
 
       </div>
 
 
-      <span class="section-count">
+      <a
+        href="{{ site.baseurl }}/categories/"
+        class="section-count">
 
-        {{ site.posts.size }}
-        إنفوغرافيك
+        جميع الأقسام ←
 
-      </span>
+      </a>
 
     </div>
 
 
     <div class="category-list">
 
-      <button
-        type="button"
-        class="category-chip active"
-        data-category="all">
+
+      <a
+        href="{{ site.baseurl }}/categories/"
+        class="category-chip active">
 
         الكل
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="العالم">
+      <a
+        href="{{ site.baseurl }}/categories/#العالم"
+        class="category-chip">
 
         العالم
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="سياسة">
+      <a
+        href="{{ site.baseurl }}/categories/#سياسة"
+        class="category-chip">
 
         سياسة
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="اقتصاد ومال">
+      <a
+        href="{{ site.baseurl }}/categories/#اقتصاد ومال"
+        class="category-chip">
 
         اقتصاد ومال
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="تقنية">
+      <a
+        href="{{ site.baseurl }}/categories/#تقنية"
+        class="category-chip">
 
         تقنية
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="علوم">
+      <a
+        href="{{ site.baseurl }}/categories/#علوم"
+        class="category-chip">
 
         علوم
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="صحة">
+      <a
+        href="{{ site.baseurl }}/categories/#صحة"
+        class="category-chip">
 
         صحة
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="رياضة">
+      <a
+        href="{{ site.baseurl }}/categories/#رياضة"
+        class="category-chip">
 
         رياضة
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="ترفيه">
+      <a
+        href="{{ site.baseurl }}/categories/#ترفيه"
+        class="category-chip">
 
         ترفيه
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="سيارات">
+      <a
+        href="{{ site.baseurl }}/categories/#سيارات"
+        class="category-chip">
 
         سيارات
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="سفر">
+      <a
+        href="{{ site.baseurl }}/categories/#سفر"
+        class="category-chip">
 
         سفر
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="تعليم">
+      <a
+        href="{{ site.baseurl }}/categories/#تعليم"
+        class="category-chip">
 
         تعليم
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="تاريخ">
+      <a
+        href="{{ site.baseurl }}/categories/#تاريخ"
+        class="category-chip">
 
         تاريخ
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="مجتمع">
+      <a
+        href="{{ site.baseurl }}/categories/#مجتمع"
+        class="category-chip">
 
         مجتمع
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="فن وثقافة">
+      <a
+        href="{{ site.baseurl }}/categories/#فن وثقافة"
+        class="category-chip">
 
         فن وثقافة
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="طبيعة وبيئة">
+      <a
+        href="{{ site.baseurl }}/categories/#طبيعة وبيئة"
+        class="category-chip">
 
         طبيعة وبيئة
 
-      </button>
+      </a>
 
 
-      <button
-        type="button"
-        class="category-chip"
-        data-category="منوع">
+      <a
+        href="{{ site.baseurl }}/categories/#منوع"
+        class="category-chip">
 
         منوع
 
-      </button>
+      </a>
+
 
     </div>
 
   </section>
 
 
-  <!-- =========================
+
+  <!-- ==================================================
        LATEST INFOGRAPHICS
-       ========================= -->
+       ================================================== -->
 
   <section
     class="latest-section"
     id="latest">
+
 
     <div class="section-heading">
 
@@ -330,29 +330,45 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
       </div>
 
+
+      {% if site.posts.size > 0 %}
+
+        <span class="section-count">
+
+          {{ site.posts.size }}
+          إنفوغرافيك
+
+        </span>
+
+      {% endif %}
+
     </div>
 
 
+
     {% if site.posts.size > 0 %}
+
 
       <div
         class="infographic-grid"
         id="infographic-grid">
 
 
-        {% for post in site.posts %}
+        {% for post in site.posts limit:6 %}
+
 
           <article
             class="infographic-card"
             data-category="{{ post.category | escape }}">
 
 
-            <!-- Image -->
+            <!-- IMAGE -->
 
             <a
               href="{{ post.url | relative_url }}"
               class="infographic-image-link"
               aria-label="عرض {{ post.title }}">
+
 
               {% if post.image %}
 
@@ -373,10 +389,12 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
               {% endif %}
 
+
             </a>
 
 
-            <!-- Content -->
+
+            <!-- CONTENT -->
 
             <div class="infographic-card-content">
 
@@ -384,9 +402,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
               {% if post.category %}
 
                 <span class="card-category">
-
                   {{ post.category }}
-
                 </span>
 
               {% endif %}
@@ -407,9 +423,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
               {% if post.description %}
 
                 <p>
-
                   {{ post.description }}
-
                 </p>
 
               {% endif %}
@@ -440,11 +454,14 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
                 </span>
 
+
               </div>
 
             </div>
 
+
           </article>
+
 
         {% endfor %}
 
@@ -452,10 +469,35 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
       </div>
 
 
+
+      <!-- VIEW ALL -->
+
+      {% if site.posts.size > 6 %}
+
+        <div class="section-footer">
+
+          <a
+            href="{{ site.baseurl }}/categories/"
+            class="btn btn-secondary">
+
+            عرض جميع الإنفوغرافيكات
+
+            <span aria-hidden="true">
+              ←
+            </span>
+
+          </a>
+
+        </div>
+
+      {% endif %}
+
+
+
     {% else %}
 
 
-      <!-- Empty state -->
+      <!-- EMPTY STATE -->
 
       <div class="empty-state">
 
@@ -463,11 +505,9 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
           +
         </div>
 
-
         <h3>
           أول إنفوغرافيك قريباً
         </h3>
-
 
         <p>
           عندما تضيف أول إنفوغرافيك من لوحة التحكم،
@@ -479,16 +519,20 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
     {% endif %}
 
+
   </section>
 
 
-  <!-- =========================
+
+  <!-- ==================================================
        ABOUT
-       ========================= -->
+       ================================================== -->
 
   <section class="about-section">
 
+
     <div class="about-content">
+
 
       <span class="section-kicker">
         عن Infograf+
@@ -509,9 +553,11 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
       <p>
 
         نحول البيانات والأرقام والأحداث
-        إلى محتوى بصري مختصر وسهل القراءة.
+        إلى محتوى بصري مختصر وسهل القراءة،
+        حتى تصل إلى المعلومة بسرعة ووضوح.
 
       </p>
+
 
     </div>
 
@@ -530,6 +576,8 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
     </div>
 
+
   </section>
+
 
 </main>
