@@ -23,7 +23,7 @@ description: "تصفح جميع أقسام Infograf+"
   </section>
 
 
-  <!-- Categories -->
+  <!-- الأقسام -->
 
   <section class="all-categories">
 
@@ -223,7 +223,8 @@ description: "تصفح جميع أقسام Infograf+"
   </section>
 
 
-  <!-- Posts -->
+
+  <!-- نتائج القسم -->
 
   <section class="category-results">
 
@@ -241,6 +242,7 @@ description: "تصفح جميع أقسام Infograf+"
 
       </div>
 
+
       <span
         class="section-count"
         id="selected-category-count">
@@ -250,6 +252,7 @@ description: "تصفح جميع أقسام Infograf+"
       </span>
 
     </div>
+
 
 
     {% if site.posts.size > 0 %}
@@ -270,6 +273,7 @@ description: "تصفح جميع أقسام Infograf+"
               href="{{ post.url | relative_url }}"
               class="infographic-image-link">
 
+
               {% if post.image %}
 
                 <img
@@ -288,6 +292,7 @@ description: "تصفح جميع أقسام Infograf+"
                 </div>
 
               {% endif %}
+
 
             </a>
 
@@ -335,11 +340,15 @@ description: "تصفح جميع أقسام Infograf+"
                 <span class="read-more">
 
                   عرض الإنفوغرافيك
-                  <span aria-hidden="true">←</span>
+
+                  <span aria-hidden="true">
+                    ←
+                  </span>
 
                 </span>
 
               </div>
+
 
             </div>
 
@@ -373,6 +382,7 @@ description: "تصفح جميع أقسام Infograf+"
 
     {% else %}
 
+
       <div class="empty-state">
 
         <div class="empty-icon">
@@ -389,111 +399,176 @@ description: "تصفح جميع أقسام Infograf+"
 
       </div>
 
+
     {% endif %}
+
 
   </section>
 
 </main>
 
 
+
+<!-- ==================================================
+     FILTER SCRIPT
+     ================================================== -->
+
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
-
-  const buttons = Array.from(
-    document.querySelectorAll(".category-card")
-  );
-
-  const posts = Array.from(
-    document.querySelectorAll("#category-posts .infographic-card")
-  );
-
-  const title = document.getElementById(
-    "selected-category-title"
-  );
-
-  const count = document.getElementById(
-    "selected-category-count"
-  );
-
-  const empty = document.getElementById(
-    "category-empty"
-  );
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
 
 
-  buttons.forEach(function (button) {
-
-    button.addEventListener("click", function () {
-
-      const selected =
-        button.dataset.category || "all";
+    const buttons = Array.from(
+      document.querySelectorAll(".category-card")
+    );
 
 
-      buttons.forEach(function (item) {
-
-        item.classList.remove("active");
-
-      });
-
-
-      button.classList.add("active");
+    const posts = Array.from(
+      document.querySelectorAll(
+        "#category-posts .infographic-card"
+      )
+    );
 
 
-      let visibleCount = 0;
+    const title =
+      document.getElementById(
+        "selected-category-title"
+      );
 
 
-      posts.forEach(function (post) {
-
-        const category =
-          (post.dataset.category || "").trim();
-
-
-        if (
-          selected === "all" ||
-          category === selected
-        ) {
-
-          post.style.display = "";
-          visibleCount++;
-
-        } else {
-
-          post.style.display = "none";
-
-        }
-
-      });
+    const count =
+      document.getElementById(
+        "selected-category-count"
+      );
 
 
-      if (selected === "all") {
+    const empty =
+      document.getElementById(
+        "category-empty"
+      );
 
-        title.textContent =
-          "جميع الإنفوغرافيكات";
 
-      } else {
+    buttons.forEach(
+      function (button) {
 
-        title.textContent =
-          selected;
+
+        button.addEventListener(
+          "click",
+          function () {
+
+
+            const selected =
+              button.dataset.category || "all";
+
+
+            /* إزالة التفعيل عن كل الأزرار */
+
+            buttons.forEach(
+              function (item) {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+            /* تفعيل الزر الحالي */
+
+            button.classList.add(
+              "active"
+            );
+
+
+            let visibleCount = 0;
+
+
+            /* فلترة الإنفوغرافيكات */
+
+            posts.forEach(
+              function (post) {
+
+
+                const category =
+                  (
+                    post.dataset.category || ""
+                  ).trim();
+
+
+                if (
+                  selected === "all" ||
+                  category === selected
+                ) {
+
+
+                  post.style.display = "";
+
+                  visibleCount++;
+
+
+                } else {
+
+
+                  post.style.display = "none";
+
+
+                }
+
+
+              }
+            );
+
+
+            /* تغيير العنوان */
+
+            if (
+              selected === "all"
+            ) {
+
+              title.textContent =
+                "جميع الإنفوغرافيكات";
+
+            } else {
+
+              title.textContent =
+                selected;
+
+            }
+
+
+            /* تحديث العدد */
+
+            count.textContent =
+              visibleCount +
+              (
+                visibleCount === 1
+                  ? " إنفوغرافيك"
+                  : " إنفوغرافيكات"
+              );
+
+
+            /* رسالة عدم وجود محتوى */
+
+            if (empty) {
+
+              empty.hidden =
+                visibleCount !== 0;
+
+            }
+
+
+          }
+        );
+
 
       }
+    );
 
 
-      count.textContent =
-        visibleCount +
-        (visibleCount === 1
-          ? " إنفوغرافيك"
-          : " إنفوغرافيكات");
-
-
-      if (empty) {
-
-        empty.hidden =
-          visibleCount !== 0;
-
-      }
-
-    });
-
-  });
+  }
+);
 
 </script>
