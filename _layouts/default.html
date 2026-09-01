@@ -9,34 +9,84 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
+  <!-- SEO Title -->
   <title>
     {% if page.title %}
       {{ page.title }} | Infograf+
     {% else %}
-      Infograf+
+      Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط
     {% endif %}
   </title>
 
+  <!-- SEO Description -->
   <meta
     name="description"
     content="{{ page.description | default: site.description | escape }}">
 
+  <!-- Search Engine Instructions -->
+  <meta
+    name="robots"
+    content="index, follow">
+
+  <!-- Canonical URL -->
+  <link
+    rel="canonical"
+    href="{{ page.url | absolute_url }}">
+
+  <!-- Theme -->
   <meta
     name="theme-color"
     content="#635BFF">
 
+  <!-- Open Graph -->
   <meta
-    name="mobile-web-app-capable"
-    content="yes">
+    property="og:type"
+    content="{% if page.title %}article{% else %}website{% endif %}">
 
   <meta
-    name="apple-mobile-web-app-capable"
-    content="yes">
+    property="og:title"
+    content="{% if page.title %}{{ page.title }} | Infograf+{% else %}Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط{% endif %}">
 
   <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="default">
+    property="og:description"
+    content="{{ page.description | default: site.description | escape }}">
 
+  <meta
+    property="og:url"
+    content="{{ page.url | absolute_url }}">
+
+  <meta
+    property="og:site_name"
+    content="Infograf+">
+
+  <meta
+    property="og:locale"
+    content="ar_AR">
+
+  {% if page.image %}
+  <meta
+    property="og:image"
+    content="{{ page.image | absolute_url }}">
+  {% endif %}
+
+  <!-- Twitter / X -->
+  <meta
+    name="twitter:card"
+    content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
+
+  <meta
+    name="twitter:title"
+    content="{% if page.title %}{{ page.title }} | Infograf+{% else %}Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط{% endif %}">
+
+  <meta
+    name="twitter:description"
+    content="{{ page.description | default: site.description | escape }}">
+
+  {% if page.image %}
+  <meta
+    name="twitter:image"
+    content="{{ page.image | absolute_url }}">
+  {% endif %}
 
   <!-- Netlify Identity -->
 
