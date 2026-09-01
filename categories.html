@@ -11,7 +11,6 @@ description: "تصفح جميع أقسام Infograf+"
   ================================================== -->
 
   <section class="categories-page-header">
-
     <span class="section-kicker">
       Infograf+
     </span>
@@ -23,7 +22,6 @@ description: "تصفح جميع أقسام Infograf+"
     <p>
       اختر القسم الذي تريد تصفح محتواه.
     </p>
-
   </section>
 
 
@@ -34,7 +32,6 @@ description: "تصفح جميع أقسام Infograf+"
   <section class="all-categories">
 
     <!-- ALL -->
-
     <button
       type="button"
       class="category-card active"
@@ -54,7 +51,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- WORLD -->
-
     <button
       type="button"
       class="category-card"
@@ -75,7 +71,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- POLITICS -->
-
     <button
       type="button"
       class="category-card"
@@ -96,7 +91,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- ECONOMY -->
-
     <button
       type="button"
       class="category-card"
@@ -117,7 +111,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- TECHNOLOGY -->
-
     <button
       type="button"
       class="category-card"
@@ -138,7 +131,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- SCIENCE -->
-
     <button
       type="button"
       class="category-card"
@@ -159,7 +151,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- HEALTH -->
-
     <button
       type="button"
       class="category-card"
@@ -180,7 +171,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- SPORTS -->
-
     <button
       type="button"
       class="category-card"
@@ -201,7 +191,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- ENTERTAINMENT -->
-
     <button
       type="button"
       class="category-card"
@@ -222,7 +211,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- CARS -->
-
     <button
       type="button"
       class="category-card"
@@ -243,7 +231,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- TRAVEL -->
-
     <button
       type="button"
       class="category-card"
@@ -264,7 +251,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- EDUCATION -->
-
     <button
       type="button"
       class="category-card"
@@ -285,7 +271,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- HISTORY -->
-
     <button
       type="button"
       class="category-card"
@@ -306,7 +291,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- SOCIETY -->
-
     <button
       type="button"
       class="category-card"
@@ -327,7 +311,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- ART & CULTURE -->
-
     <button
       type="button"
       class="category-card"
@@ -348,7 +331,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- NATURE -->
-
     <button
       type="button"
       class="category-card"
@@ -369,7 +351,6 @@ description: "تصفح جميع أقسام Infograf+"
 
 
     <!-- MISC -->
-
     <button
       type="button"
       class="category-card"
@@ -395,7 +376,9 @@ description: "تصفح جميع أقسام Infograf+"
        RESULTS
   ================================================== -->
 
-  <section class="category-results">
+  <section
+    class="category-results"
+    id="category-results">
 
     <div class="section-heading">
 
@@ -478,11 +461,8 @@ description: "تصفح جميع أقسام Infograf+"
 
               <h3>
 
-                <a
-                  href="{{ post.url | relative_url }}">
-
+                <a href="{{ post.url | relative_url }}">
                   {{ post.title }}
-
                 </a>
 
               </h3>
@@ -590,10 +570,9 @@ document.addEventListener(
   function () {
 
     const buttons = Array.from(
-      document.querySelectorAll(
-        ".category-card"
-      )
+      document.querySelectorAll(".category-card")
     );
+
 
     const posts = Array.from(
       document.querySelectorAll(
@@ -601,15 +580,18 @@ document.addEventListener(
       )
     );
 
+
     const title =
       document.getElementById(
         "selected-category-title"
       );
 
+
     const count =
       document.getElementById(
         "selected-category-count"
       );
+
 
     const empty =
       document.getElementById(
@@ -617,9 +599,15 @@ document.addEventListener(
       );
 
 
-    /* ==================================================
-       Arabic normalization
-    ================================================== */
+    const resultsSection =
+      document.getElementById(
+        "category-results"
+      );
+
+
+    /*
+     * Arabic normalization
+     */
 
     function normalizeArabic(text) {
 
@@ -627,62 +615,80 @@ document.addEventListener(
         .toString()
         .trim()
         .toLowerCase()
-        .replace(
-          /[\u064B-\u065F\u0670]/g,
-          ""
-        )
-        .replace(
-          /[إأآا]/g,
-          "ا"
-        )
-        .replace(
-          /ى/g,
-          "ي"
-        )
-        .replace(
-          /ة/g,
-          "ه"
-        )
-        .replace(
-          /ـ/g,
-          "");
+        .replace(/[\u064B-\u065F\u0670]/g, "")
+        .replace(/[إأآا]/g, "ا")
+        .replace(/ى/g, "ي")
+        .replace(/ة/g, "ه")
+        .replace(/ـ/g, "");
 
     }
 
 
-    /* ==================================================
-       Filter category
-    ================================================== */
+    /*
+     * Scroll to results
+     */
 
-    function filterCategory(selected) {
+    function scrollToResults() {
+
+      if (!resultsSection) {
+        return;
+      }
+
+
+      const headerOffset = 90;
+
+
+      const targetPosition =
+        resultsSection.getBoundingClientRect().top +
+        window.scrollY -
+        headerOffset;
+
+
+      window.scrollTo({
+
+        top: targetPosition,
+
+        behavior: "smooth"
+
+      });
+
+    }
+
+
+    /*
+     * Filter
+     */
+
+    function filterCategory(
+      selected,
+      shouldScroll = false
+    ) {
 
       const normalizedSelected =
         normalizeArabic(selected);
 
 
-      /* Active button */
+      /*
+       * Active button
+       */
 
       buttons.forEach(
         function (button) {
 
           const category =
-            button.dataset.category ||
-            "all";
+            button.dataset.category || "all";
+
 
           if (
             normalizeArabic(category) ===
             normalizedSelected
           ) {
 
-            button.classList.add(
-              "active"
-            );
+            button.classList.add("active");
 
           } else {
 
-            button.classList.remove(
-              "active"
-            );
+            button.classList.remove("active");
 
           }
 
@@ -690,15 +696,19 @@ document.addEventListener(
       );
 
 
-      /* Filter posts */
+      /*
+       * Filter posts
+       */
 
       let visibleCount = 0;
+
 
       posts.forEach(
         function (post) {
 
           const category =
             post.dataset.category || "";
+
 
           const matches =
             normalizedSelected === "all" ||
@@ -722,9 +732,9 @@ document.addEventListener(
       );
 
 
-      /* ==================================================
-         Heading
-      ================================================== */
+      /*
+       * Heading
+       */
 
       if (title) {
 
@@ -764,9 +774,9 @@ document.addEventListener(
       }
 
 
-      /* ==================================================
-         Count
-      ================================================== */
+      /*
+       * Count
+       */
 
       if (count) {
 
@@ -781,9 +791,9 @@ document.addEventListener(
       }
 
 
-      /* ==================================================
-         Empty state
-      ================================================== */
+      /*
+       * Empty state
+       */
 
       if (empty) {
 
@@ -793,13 +803,11 @@ document.addEventListener(
       }
 
 
-      /* ==================================================
-         URL
-      ================================================== */
+      /*
+       * Update URL hash
+       */
 
-      if (
-        normalizedSelected === "all"
-      ) {
+      if (normalizedSelected === "all") {
 
         history.replaceState(
           null,
@@ -819,12 +827,30 @@ document.addEventListener(
 
       }
 
+
+      /*
+       * Scroll only after user click
+       */
+
+      if (shouldScroll) {
+
+        setTimeout(
+          function () {
+
+            scrollToResults();
+
+          },
+          50
+        );
+
+      }
+
     }
 
 
-    /* ==================================================
-       Button click
-    ================================================== */
+    /*
+     * Button click
+     */
 
     buttons.forEach(
       function (button) {
@@ -834,11 +860,16 @@ document.addEventListener(
           function () {
 
             const selected =
-              button.dataset.category ||
-              "all";
+              button.dataset.category || "all";
+
+
+            /*
+             * true = scroll after click
+             */
 
             filterCategory(
-              selected
+              selected,
+              true
             );
 
           }
@@ -848,12 +879,12 @@ document.addEventListener(
     );
 
 
-    /* ==================================================
-       Open category from URL
-       
-       Example:
-       /categories/#العالم
-    ================================================== */
+    /*
+     * Open a category directly from URL
+     *
+     * Example:
+     * /categories/#العالم
+     */
 
     const hash =
       decodeURIComponent(
@@ -869,8 +900,7 @@ document.addEventListener(
 
             return normalizeArabic(
               button.dataset.category || ""
-            ) ===
-            normalizeArabic(hash);
+            ) === normalizeArabic(hash);
 
           }
         );
@@ -878,8 +908,13 @@ document.addEventListener(
 
       if (matchingButton) {
 
+        /*
+         * false = don't scroll on direct URL
+         */
+
         filterCategory(
-          matchingButton.dataset.category
+          matchingButton.dataset.category,
+          false
         );
 
       }
