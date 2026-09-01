@@ -37,18 +37,29 @@
     name="apple-mobile-web-app-status-bar-style"
     content="default">
 
+
   <!-- Netlify Identity -->
+
   <script
     src="https://identity.netlify.com/v1/netlify-identity-widget.js">
   </script>
 
+
+  <!-- PWA Manifest -->
+
   <link
     rel="manifest"
-    href="{{ '/manifest.json' | relative_url }}">
+    href="{{ site.baseurl }}/manifest.json">
+
+
+  <!-- Main CSS -->
 
   <link
     rel="stylesheet"
-    href="{{ '/assets/css/style.css' | relative_url }}">
+    href="{{ site.baseurl }}/assets/css/style.css">
+
+
+  <!-- Google Fonts -->
 
   <link
     rel="preconnect"
@@ -81,7 +92,7 @@
       <!-- Logo -->
 
       <a
-        href="{{ '/' | relative_url }}"
+        href="{{ site.baseurl }}/"
         class="brand"
         aria-label="Infograf+">
 
@@ -102,8 +113,11 @@
         class="desktop-navigation"
         aria-label="التنقل الرئيسي">
 
+
+        <!-- الرئيسية -->
+
         <a
-          href="{{ '/' | relative_url }}"
+          href="{{ site.baseurl }}/"
           class="nav-link">
 
           الرئيسية
@@ -111,8 +125,10 @@
         </a>
 
 
+        <!-- الأقسام -->
+
         <a
-          href="{{ '/categories.html' | relative_url }}"
+          href="{{ site.baseurl }}/categories.html"
           class="nav-link">
 
           الأقسام
@@ -120,13 +136,16 @@
         </a>
 
 
+        <!-- الأحدث -->
+
         <a
-          href="{{ '/#latest' | relative_url }}"
+          href="{{ site.baseurl }}/#latest"
           class="nav-link">
 
           الأحدث
 
         </a>
+
 
       </nav>
 
@@ -148,6 +167,7 @@
         </span>
 
       </button>
+
 
     </div>
 
@@ -206,8 +226,8 @@
       <div
         id="search-results"
         class="search-results">
-
       </div>
+
 
     </div>
 
@@ -236,10 +256,10 @@
     aria-label="التنقل في الموقع">
 
 
-    <!-- Home -->
+    <!-- الرئيسية -->
 
     <a
-      href="{{ '/' | relative_url }}"
+      href="{{ site.baseurl }}/"
       class="mobile-nav-item">
 
       <span
@@ -257,10 +277,10 @@
     </a>
 
 
-    <!-- Categories -->
+    <!-- الأقسام -->
 
     <a
-      href="{{ '/categories.html' | relative_url }}"
+      href="{{ site.baseurl }}/categories.html"
       class="mobile-nav-item">
 
       <span
@@ -278,7 +298,7 @@
     </a>
 
 
-    <!-- Search -->
+    <!-- البحث -->
 
     <button
       type="button"
@@ -300,10 +320,10 @@
     </button>
 
 
-    <!-- Latest -->
+    <!-- الأحدث -->
 
     <a
-      href="{{ '/#latest' | relative_url }}"
+      href="{{ site.baseurl }}/#latest"
       class="mobile-nav-item">
 
       <span
@@ -337,7 +357,7 @@
       <div class="footer-brand">
 
         <a
-          href="{{ '/' | relative_url }}"
+          href="{{ site.baseurl }}/"
           class="brand">
 
           <span class="brand-name">
@@ -366,6 +386,7 @@
 
       </div>
 
+
     </div>
 
   </footer>
@@ -377,11 +398,14 @@
        ================================================== -->
 
   <script
-    src="{{ '/assets/js/app.js' | relative_url }}">
+    src="{{ site.baseurl }}/assets/js/app.js">
   </script>
 
 
-  <!-- Netlify Identity redirect -->
+
+  <!-- ==================================================
+       NETLIFY IDENTITY
+       ================================================== -->
 
   <script>
 
@@ -398,7 +422,7 @@
               function() {
 
                 document.location.href =
-                  "/admin/";
+                  "{{ site.baseurl }}/admin/";
 
               }
             );
@@ -412,32 +436,7 @@
 
   </script>
 
-<script>
-  if ("serviceWorker" in navigator) {
 
-    window.addEventListener(
-      "load",
-      function () {
-
-      <script>
-  if ("serviceWorker" in navigator) {
-
-    window.addEventListener("load", function () {
-
-      navigator.serviceWorker.register(
-        "{{ '/service-worker.js' | relative_url }}"
-      );
-
-    });
-
-  }
-</script>
-
-      }
-    );
-
-  }
-</script>
 </body>
 
 </html>
