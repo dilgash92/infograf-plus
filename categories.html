@@ -6,6 +6,10 @@ description: "تصفح جميع أقسام Infograf+"
 
 <main class="categories-page">
 
+  <!-- ==================================================
+       HEADER
+  ================================================== -->
+
   <section class="categories-page-header">
 
     <span class="section-kicker">
@@ -23,9 +27,13 @@ description: "تصفح جميع أقسام Infograf+"
   </section>
 
 
-  <!-- الأقسام -->
+  <!-- ==================================================
+       CATEGORIES
+  ================================================== -->
 
   <section class="all-categories">
+
+    <!-- ALL -->
 
     <button
       type="button"
@@ -39,11 +47,13 @@ description: "تصفح جميع أقسام Infograf+"
       </span>
 
       <span class="category-card-count">
-        {{ site.posts.size }}
+        {{ site.posts.size }} إنفوغرافيك
       </span>
 
     </button>
 
+
+    <!-- WORLD -->
 
     <button
       type="button"
@@ -51,10 +61,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="العالم">
 
       <span class="category-card-icon">🌍</span>
-      <span class="category-card-name">العالم</span>
+
+      <span class="category-card-name">
+        العالم
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "العالم" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- POLITICS -->
 
     <button
       type="button"
@@ -62,10 +82,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="سياسة">
 
       <span class="category-card-icon">🏛️</span>
-      <span class="category-card-name">سياسة</span>
+
+      <span class="category-card-name">
+        سياسة
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "سياسة" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- ECONOMY -->
 
     <button
       type="button"
@@ -73,10 +103,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="اقتصاد ومال">
 
       <span class="category-card-icon">💰</span>
-      <span class="category-card-name">اقتصاد ومال</span>
+
+      <span class="category-card-name">
+        اقتصاد ومال
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "اقتصاد ومال" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- TECHNOLOGY -->
 
     <button
       type="button"
@@ -84,10 +124,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="تقنية">
 
       <span class="category-card-icon">💻</span>
-      <span class="category-card-name">تقنية</span>
+
+      <span class="category-card-name">
+        تقنية
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "تقنية" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- SCIENCE -->
 
     <button
       type="button"
@@ -95,10 +145,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="علوم">
 
       <span class="category-card-icon">🔬</span>
-      <span class="category-card-name">علوم</span>
+
+      <span class="category-card-name">
+        علوم
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "علوم" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- HEALTH -->
 
     <button
       type="button"
@@ -106,10 +166,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="صحة">
 
       <span class="category-card-icon">🩺</span>
-      <span class="category-card-name">صحة</span>
+
+      <span class="category-card-name">
+        صحة
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "صحة" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- SPORTS -->
 
     <button
       type="button"
@@ -117,10 +187,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="رياضة">
 
       <span class="category-card-icon">⚽</span>
-      <span class="category-card-name">رياضة</span>
+
+      <span class="category-card-name">
+        رياضة
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "رياضة" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- ENTERTAINMENT -->
 
     <button
       type="button"
@@ -128,10 +208,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="ترفيه">
 
       <span class="category-card-icon">🎬</span>
-      <span class="category-card-name">ترفيه</span>
+
+      <span class="category-card-name">
+        ترفيه
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "ترفيه" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- CARS -->
 
     <button
       type="button"
@@ -139,10 +229,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="سيارات">
 
       <span class="category-card-icon">🚗</span>
-      <span class="category-card-name">سيارات</span>
+
+      <span class="category-card-name">
+        سيارات
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "سيارات" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- TRAVEL -->
 
     <button
       type="button"
@@ -150,10 +250,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="سفر">
 
       <span class="category-card-icon">✈️</span>
-      <span class="category-card-name">سفر</span>
+
+      <span class="category-card-name">
+        سفر
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "سفر" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- EDUCATION -->
 
     <button
       type="button"
@@ -161,10 +271,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="تعليم">
 
       <span class="category-card-icon">📚</span>
-      <span class="category-card-name">تعليم</span>
+
+      <span class="category-card-name">
+        تعليم
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "تعليم" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- HISTORY -->
 
     <button
       type="button"
@@ -172,10 +292,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="تاريخ">
 
       <span class="category-card-icon">🏺</span>
-      <span class="category-card-name">تاريخ</span>
+
+      <span class="category-card-name">
+        تاريخ
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "تاريخ" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- SOCIETY -->
 
     <button
       type="button"
@@ -183,10 +313,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="مجتمع">
 
       <span class="category-card-icon">👥</span>
-      <span class="category-card-name">مجتمع</span>
+
+      <span class="category-card-name">
+        مجتمع
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "مجتمع" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- ART & CULTURE -->
 
     <button
       type="button"
@@ -194,10 +334,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="فن وثقافة">
 
       <span class="category-card-icon">🎨</span>
-      <span class="category-card-name">فن وثقافة</span>
+
+      <span class="category-card-name">
+        فن وثقافة
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "فن وثقافة" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- NATURE -->
 
     <button
       type="button"
@@ -205,10 +355,20 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="طبيعة وبيئة">
 
       <span class="category-card-icon">🌱</span>
-      <span class="category-card-name">طبيعة وبيئة</span>
+
+      <span class="category-card-name">
+        طبيعة وبيئة
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "طبيعة وبيئة" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
+
+    <!-- MISC -->
 
     <button
       type="button"
@@ -216,15 +376,24 @@ description: "تصفح جميع أقسام Infograf+"
       data-category="منوع">
 
       <span class="category-card-icon">✨</span>
-      <span class="category-card-name">منوع</span>
+
+      <span class="category-card-name">
+        منوع
+      </span>
+
+      <span class="category-card-count">
+        {{ site.posts | where: "category", "منوع" | size }}
+        إنفوغرافيك
+      </span>
 
     </button>
 
   </section>
 
 
-
-  <!-- نتائج القسم -->
+  <!-- ==================================================
+       RESULTS
+  ================================================== -->
 
   <section class="category-results">
 
@@ -242,7 +411,6 @@ description: "تصفح جميع أقسام Infograf+"
 
       </div>
 
-
       <span
         class="section-count"
         id="selected-category-count">
@@ -254,13 +422,11 @@ description: "تصفح جميع أقسام Infograf+"
     </div>
 
 
-
     {% if site.posts.size > 0 %}
 
       <div
         class="infographic-grid"
         id="category-posts">
-
 
         {% for post in site.posts %}
 
@@ -268,11 +434,12 @@ description: "تصفح جميع أقسام Infograf+"
             class="infographic-card"
             data-category="{{ post.category | escape }}">
 
+            <!-- IMAGE -->
 
             <a
               href="{{ post.url | relative_url }}"
-              class="infographic-image-link">
-
+              class="infographic-image-link"
+              aria-label="عرض {{ post.title | escape }}">
 
               {% if post.image %}
 
@@ -293,12 +460,12 @@ description: "تصفح جميع أقسام Infograf+"
 
               {% endif %}
 
-
             </a>
 
 
-            <div class="infographic-card-content">
+            <!-- CONTENT -->
 
+            <div class="infographic-card-content">
 
               {% if post.category %}
 
@@ -329,12 +496,16 @@ description: "تصفح جميع أقسام Infograf+"
 
               <div class="card-meta">
 
-                <time
-                  datetime="{{ post.date | date_to_xmlschema }}">
+                {% if post.date %}
 
-                  {{ post.date | date: "%d/%m/%Y" }}
+                  <time
+                    datetime="{{ post.date | date_to_xmlschema }}">
 
-                </time>
+                    {{ post.date | date: "%d/%m/%Y" }}
+
+                  </time>
+
+                {% endif %}
 
 
                 <span class="read-more">
@@ -349,16 +520,16 @@ description: "تصفح جميع أقسام Infograf+"
 
               </div>
 
-
             </div>
 
           </article>
 
         {% endfor %}
 
-
       </div>
 
+
+      <!-- EMPTY -->
 
       <div
         id="category-empty"
@@ -382,7 +553,6 @@ description: "تصفح جميع أقسام Infograf+"
 
     {% else %}
 
-
       <div class="empty-state">
 
         <div class="empty-icon">
@@ -399,26 +569,22 @@ description: "تصفح جميع أقسام Infograf+"
 
       </div>
 
-
     {% endif %}
-
 
   </section>
 
 </main>
 
 
-
 <!-- ==================================================
-     FILTER SCRIPT
-     ================================================== -->
+     CATEGORY FILTER
+================================================== -->
 
 <script>
 
 document.addEventListener(
   "DOMContentLoaded",
   function () {
-
 
     const buttons = Array.from(
       document.querySelectorAll(".category-card")
@@ -450,123 +616,242 @@ document.addEventListener(
       );
 
 
+    /*
+     * Arabic normalization
+     */
+
+    function normalizeArabic(text) {
+
+      return text
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replace(/[\u064B-\u065F\u0670]/g, "")
+        .replace(/[إأآا]/g, "ا")
+        .replace(/ى/g, "ي")
+        .replace(/ة/g, "ه")
+        .replace(/ـ/g, "");
+
+    }
+
+
+    /*
+     * Filter
+     */
+
+    function filterCategory(selected) {
+
+      const normalizedSelected =
+        normalizeArabic(selected);
+
+
+      buttons.forEach(
+        function (button) {
+
+          const category =
+            button.dataset.category || "all";
+
+          if (
+            normalizeArabic(category) ===
+            normalizedSelected
+          ) {
+
+            button.classList.add("active");
+
+          } else {
+
+            button.classList.remove("active");
+
+          }
+
+        }
+      );
+
+
+      let visibleCount = 0;
+
+
+      posts.forEach(
+        function (post) {
+
+          const category =
+            post.dataset.category || "";
+
+
+          const matches =
+            normalizedSelected === "all" ||
+            normalizeArabic(category) ===
+            normalizedSelected;
+
+
+          if (matches) {
+
+            post.style.display = "";
+
+            visibleCount++;
+
+          } else {
+
+            post.style.display = "none";
+
+          }
+
+        }
+      );
+
+
+      /*
+       * Heading
+       */
+
+      if (title) {
+
+        if (normalizedSelected === "all") {
+
+          title.textContent =
+            "جميع الإنفوغرافيكات";
+
+        } else {
+
+          const activeButton =
+            buttons.find(
+              function (button) {
+
+                return normalizeArabic(
+                  button.dataset.category || ""
+                ) === normalizedSelected;
+
+              }
+            );
+
+
+          title.textContent =
+            activeButton
+              ? activeButton.querySelector(
+                  ".category-card-name"
+                ).textContent.trim()
+              : selected;
+
+        }
+
+      }
+
+
+      /*
+       * Count
+       */
+
+      if (count) {
+
+        count.textContent =
+          visibleCount +
+          (
+            visibleCount === 1
+              ? " إنفوغرافيك"
+              : " إنفوغرافيكات"
+          );
+
+      }
+
+
+      /*
+       * Empty state
+       */
+
+      if (empty) {
+
+        empty.hidden =
+          visibleCount !== 0;
+
+      }
+
+
+      /*
+       * Update URL hash
+       */
+
+      if (selected === "all") {
+
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname
+        );
+
+      } else {
+
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname +
+          "#" +
+          encodeURIComponent(selected)
+        );
+
+      }
+
+    }
+
+
+    /*
+     * Button click
+     */
+
     buttons.forEach(
       function (button) {
-
 
         button.addEventListener(
           "click",
           function () {
 
-
             const selected =
               button.dataset.category || "all";
 
+            filterCategory(selected);
 
-            /* إزالة التفعيل عن كل الأزرار */
+          }
+        );
 
-            buttons.forEach(
-              function (item) {
-
-                item.classList.remove(
-                  "active"
-                );
-
-              }
-            );
+      }
+    );
 
 
-            /* تفعيل الزر الحالي */
+    /*
+     * Open a category directly from URL
+     *
+     * Example:
+     * categories.html#العالم
+     */
 
-            button.classList.add(
-              "active"
-            );
-
-
-            let visibleCount = 0;
-
-
-            /* فلترة الإنفوغرافيكات */
-
-            posts.forEach(
-              function (post) {
+    const hash =
+      decodeURIComponent(
+        window.location.hash.substring(1)
+      );
 
 
-                const category =
-                  (
-                    post.dataset.category || ""
-                  ).trim();
+    if (hash) {
 
+      const matchingButton =
+        buttons.find(
+          function (button) {
 
-                if (
-                  selected === "all" ||
-                  category === selected
-                ) {
-
-
-                  post.style.display = "";
-
-                  visibleCount++;
-
-
-                } else {
-
-
-                  post.style.display = "none";
-
-
-                }
-
-
-              }
-            );
-
-
-            /* تغيير العنوان */
-
-            if (
-              selected === "all"
-            ) {
-
-              title.textContent =
-                "جميع الإنفوغرافيكات";
-
-            } else {
-
-              title.textContent =
-                selected;
-
-            }
-
-
-            /* تحديث العدد */
-
-            count.textContent =
-              visibleCount +
-              (
-                visibleCount === 1
-                  ? " إنفوغرافيك"
-                  : " إنفوغرافيكات"
-              );
-
-
-            /* رسالة عدم وجود محتوى */
-
-            if (empty) {
-
-              empty.hidden =
-                visibleCount !== 0;
-
-            }
-
+            return normalizeArabic(
+              button.dataset.category || ""
+            ) === normalizeArabic(hash);
 
           }
         );
 
 
-      }
-    );
+      if (matchingButton) {
 
+        filterCategory(
+          matchingButton.dataset.category
+        );
+
+      }
+
+    }
 
   }
 );
