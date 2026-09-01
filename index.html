@@ -579,5 +579,16 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
   </section>
 
-
+<script id="search-index" type="application/json">
+[
+  {% for post in site.posts %}
+    {
+      "title": {{ post.title | jsonify }},
+      "description": {{ post.description | default: "" | jsonify }},
+      "category": {{ post.category | default: "" | jsonify }},
+      "url": {{ post.url | relative_url | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]
+</script>
 </main>
