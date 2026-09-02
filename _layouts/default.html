@@ -27,6 +27,7 @@
     rel="canonical"
     href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
 
+
   <!-- =========================
        Open Graph
        ========================= -->
@@ -61,6 +62,7 @@
     content="{{ site.url }}{{ site.baseurl }}{{ page.image }}">
   {% endif %}
 
+
   <!-- =========================
        Twitter / X
        ========================= -->
@@ -82,6 +84,52 @@
     name="twitter:image"
     content="{{ site.url }}{{ site.baseurl }}{{ page.image }}">
   {% endif %}
+
+
+  <!-- =========================
+       Structured Data / JSON-LD
+       ========================= -->
+
+  {% if page.title %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ page.description | default: site.description | jsonify }},
+    "url": {{ page.url | absolute_url | jsonify }},
+    "inLanguage": "ar",
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+    "publisher": {
+      "@type": "Organization",
+      "name": "Infograf+",
+      "url": {{ site.url | append: site.baseurl | jsonify }}
+    }
+    {% if page.image %},
+    "image": {
+      "@type": "ImageObject",
+      "url": {{ page.image | absolute_url | jsonify }}
+    }
+    {% endif %}
+  }
+  </script>
+
+  {% else %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Infograf+",
+    "url": {{ site.url | append: site.baseurl | jsonify }},
+    "description": {{ site.description | jsonify }},
+    "inLanguage": "ar"
+  }
+  </script>
+
+  {% endif %}
+
 
   <!-- =========================
        Theme
@@ -377,6 +425,7 @@
 
       <span>
         بحث
+
       </span>
 
     </button>
