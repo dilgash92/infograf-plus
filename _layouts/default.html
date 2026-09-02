@@ -9,6 +9,7 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
+
   <!-- =========================
        SEO
        ========================= -->
@@ -34,7 +35,7 @@
 
   <meta
     property="og:type"
-    content="{% if page.title %}article{% else %}website{% endif %}">
+    content="{% if page.url == '/' %}website{% else %}article{% endif %}">
 
   <meta
     property="og:title"
@@ -90,7 +91,20 @@
        Structured Data / JSON-LD
        ========================= -->
 
-  {% if page.title %}
+  {% if page.url == "/" %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Infograf+",
+    "url": {{ site.url | append: site.baseurl | jsonify }},
+    "description": {{ site.description | jsonify }},
+    "inLanguage": "ar"
+  }
+  </script>
+
+  {% else %}
 
   <script type="application/ld+json">
   {
@@ -99,8 +113,10 @@
     "headline": {{ page.title | jsonify }},
     "description": {{ page.description | default: site.description | jsonify }},
     "url": {{ page.url | absolute_url | jsonify }},
-    "inLanguage": "ar",
-    "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+    "inLanguage": "ar"
+    {% if page.date %},
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }}
+    {% endif %},
     "publisher": {
       "@type": "Organization",
       "name": "Infograf+",
@@ -112,19 +128,6 @@
       "url": {{ page.image | absolute_url | jsonify }}
     }
     {% endif %}
-  }
-  </script>
-
-  {% else %}
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Infograf+",
-    "url": {{ site.url | append: site.baseurl | jsonify }},
-    "description": {{ site.description | jsonify }},
-    "inLanguage": "ar"
   }
   </script>
 
@@ -236,6 +239,8 @@
         aria-label="التنقل الرئيسي">
 
 
+        <!-- الرئيسية -->
+
         <a
           href="{{ site.baseurl }}/"
           class="nav-link">
@@ -245,6 +250,8 @@
         </a>
 
 
+        <!-- الأقسام -->
+
         <a
           href="{{ site.baseurl }}/categories/"
           class="nav-link">
@@ -253,6 +260,8 @@
 
         </a>
 
+
+        <!-- الأحدث -->
 
         <a
           href="{{ site.baseurl }}/#latest"
@@ -372,6 +381,8 @@
     aria-label="التنقل في الموقع">
 
 
+    <!-- الرئيسية -->
+
     <a
       href="{{ site.baseurl }}/"
       class="mobile-nav-item">
@@ -390,6 +401,8 @@
 
     </a>
 
+
+    <!-- الأقسام -->
 
     <a
       href="{{ site.baseurl }}/categories/"
@@ -410,6 +423,8 @@
     </a>
 
 
+    <!-- البحث -->
+
     <button
       type="button"
       class="mobile-nav-item mobile-search-trigger"
@@ -425,11 +440,12 @@
 
       <span>
         بحث
-
       </span>
 
     </button>
 
+
+    <!-- الأحدث -->
 
     <a
       href="{{ site.baseurl }}/#latest"
