@@ -22,6 +22,9 @@ collections:
   posts:
     output: true
 
+include:
+  - admin
+
 defaults:
   - scope:
       path: ""
