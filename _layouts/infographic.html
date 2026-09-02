@@ -2,7 +2,9 @@
 layout: default
 ---
 
-<main class="infographic-page">
+<main
+  class="infographic-page"
+  aria-labelledby="infographic-title">
 
   <!-- ==================================================
        HEADER
@@ -23,7 +25,7 @@ layout: default
     {% endif %}
 
 
-    <h1>
+    <h1 id="infographic-title">
       {{ page.title }}
     </h1>
 
@@ -81,8 +83,9 @@ layout: default
 
       <img
         src="{{ page.image | relative_url }}"
-        alt="{{ page.title | escape }}"
+        alt="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}"
         loading="eager"
+        fetchpriority="high"
         decoding="async">
 
     </figure>
@@ -212,7 +215,9 @@ layout: default
 
   {% if content != "" %}
 
-    <section class="infographic-extra-content">
+    <section
+      class="infographic-extra-content"
+      aria-label="معلومات إضافية">
 
       {{ content }}
 
@@ -233,7 +238,9 @@ layout: default
 
     {% if related_posts.size > 1 %}
 
-      <section class="related-section">
+      <section
+        class="related-section"
+        aria-labelledby="related-infographics-title">
 
         <div class="section-heading">
 
@@ -243,7 +250,7 @@ layout: default
               المزيد
             </span>
 
-            <h2>
+            <h2 id="related-infographics-title">
               إنفوغرافيكات مشابهة
             </h2>
 
@@ -286,8 +293,9 @@ layout: default
 
                     <img
                       src="{{ post.image | relative_url }}"
-                      alt="{{ post.title | escape }}"
-                      loading="lazy">
+                      alt="إنفوغرافيك: {{ post.title | escape }}"
+                      loading="lazy"
+                      decoding="async">
 
                   {% else %}
 
