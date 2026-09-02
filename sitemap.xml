@@ -12,11 +12,13 @@ layout: null
   </url>
 
 
-  <!-- جميع الصفحات -->
+  <!-- صفحات الموقع -->
 
   {% for page in site.pages %}
 
-    {% if page.url and page.url != "/sitemap.xml" %}
+    {% if page.url
+      and page.url != "/"
+      and page.url != "/sitemap.xml" %}
 
     <url>
       <loc>{{ site.url }}{{ site.baseurl }}{{ page.url }}</loc>
