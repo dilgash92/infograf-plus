@@ -9,36 +9,28 @@
     name="viewport"
     content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO Title -->
-  <title>
-    {% if page.title %}
-      {{ page.title }} | Infograf+
-    {% else %}
-      Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط
-    {% endif %}
-  </title>
+  <!-- =========================
+       SEO
+       ========================= -->
 
-  <!-- SEO Description -->
+  <title>{% if page.title %}{{ page.title }} | Infograf+{% else %}Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط{% endif %}</title>
+
   <meta
     name="description"
     content="{{ page.description | default: site.description | escape }}">
 
-  <!-- Search Engine Instructions -->
   <meta
     name="robots"
     content="index, follow">
 
-  <!-- Canonical URL -->
   <link
     rel="canonical"
-    href="{{ page.url | absolute_url }}">
+    href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
 
-  <!-- Theme -->
-  <meta
-    name="theme-color"
-    content="#635BFF">
+  <!-- =========================
+       Open Graph
+       ========================= -->
 
-  <!-- Open Graph -->
   <meta
     property="og:type"
     content="{% if page.title %}article{% else %}website{% endif %}">
@@ -53,7 +45,7 @@
 
   <meta
     property="og:url"
-    content="{{ page.url | absolute_url }}">
+    content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
 
   <meta
     property="og:site_name"
@@ -66,10 +58,13 @@
   {% if page.image %}
   <meta
     property="og:image"
-    content="{{ page.image | absolute_url }}">
+    content="{{ site.url }}{{ site.baseurl }}{{ page.image }}">
   {% endif %}
 
-  <!-- Twitter / X -->
+  <!-- =========================
+       Twitter / X
+       ========================= -->
+
   <meta
     name="twitter:card"
     content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
@@ -85,31 +80,60 @@
   {% if page.image %}
   <meta
     name="twitter:image"
-    content="{{ page.image | absolute_url }}">
+    content="{{ site.url }}{{ site.baseurl }}{{ page.image }}">
   {% endif %}
 
-  <!-- Netlify Identity -->
+  <!-- =========================
+       Theme
+       ========================= -->
+
+  <meta
+    name="theme-color"
+    content="#635BFF">
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default">
+
+
+  <!-- =========================
+       Netlify Identity
+       ========================= -->
 
   <script
     src="https://identity.netlify.com/v1/netlify-identity-widget.js">
   </script>
 
 
-  <!-- PWA Manifest -->
+  <!-- =========================
+       PWA Manifest
+       ========================= -->
 
   <link
     rel="manifest"
     href="{{ site.baseurl }}/manifest.json">
 
 
-  <!-- Main CSS -->
+  <!-- =========================
+       Main CSS
+       ========================= -->
 
   <link
     rel="stylesheet"
     href="{{ site.baseurl }}/assets/css/style.css">
 
 
-  <!-- Google Fonts -->
+  <!-- =========================
+       Google Fonts
+       ========================= -->
 
   <link
     rel="preconnect"
@@ -164,8 +188,6 @@
         aria-label="التنقل الرئيسي">
 
 
-        <!-- الرئيسية -->
-
         <a
           href="{{ site.baseurl }}/"
           class="nav-link">
@@ -175,8 +197,6 @@
         </a>
 
 
-        <!-- الأقسام -->
-
         <a
           href="{{ site.baseurl }}/categories/"
           class="nav-link">
@@ -185,8 +205,6 @@
 
         </a>
 
-
-        <!-- الأحدث -->
 
         <a
           href="{{ site.baseurl }}/#latest"
@@ -306,8 +324,6 @@
     aria-label="التنقل في الموقع">
 
 
-    <!-- الرئيسية -->
-
     <a
       href="{{ site.baseurl }}/"
       class="mobile-nav-item">
@@ -326,8 +342,6 @@
 
     </a>
 
-
-    <!-- الأقسام -->
 
     <a
       href="{{ site.baseurl }}/categories/"
@@ -348,8 +362,6 @@
     </a>
 
 
-    <!-- البحث -->
-
     <button
       type="button"
       class="mobile-nav-item mobile-search-trigger"
@@ -369,8 +381,6 @@
 
     </button>
 
-
-    <!-- الأحدث -->
 
     <a
       href="{{ site.baseurl }}/#latest"
