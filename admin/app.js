@@ -163,13 +163,22 @@
     return new Intl.DateTimeFormat('ar-DE', { dateStyle: 'medium' }).format(d);
   }
 
-  function assetUrl(value) {
+  // Stored in Jekyll frontmatter: /assets/uploads/file.png
+  // Displayed by the admin: /infograf-plus/assets/uploads/file.png
+  function contentImagePath(value) {
     const path = String(value || '').trim();
     if (!path) return '';
     if (/^https?:\/\//i.test(path)) return path;
-    if (path.startsWith(`${SITE_BASE}/`)) return path;
-    if (path.startsWith('/')) return `${SITE_BASE}${path}`;
-    return `${SITE_BASE}/${path}`;
+    if (path.startsWith(`${SITE_BASE}/`)) return path.slice(SITE_BASE.length);
+    if (!path.startsWith('/')) return `/${path}`;
+    return path;
+  }
+
+  function assetUrl(value) {
+    const path = contentImagePath(value);
+    if (!path) return '';
+    if (/^https?:\/\//i.test(path)) return path;
+    return `${SITE_BASE}${path}`;
   }
 
   function livePostUrl(post) {
@@ -259,7 +268,7 @@
     $('field-body-editor').value = post.body || '';
     $('field-image').value = '';
     $('current-image').textContent = post.data.image
-      ? `الصورة الحالية: ${post.data.image}`
+      ? `الصورة الحالية: ${contentImagePath(post.data.image)}`
       : 'لا توجد صورة حالياً.';
     $('image-preview').hidden = true;
     $('image-preview').innerHTML = '';
@@ -381,7 +390,8 @@
       })
     });
 
-    return `${SITE_BASE}/${path}`;
+    // Important: save the repository path, not the site base URL.
+    return `/${path}`;
   }
 
   async function savePost(event) {
@@ -405,24 +415,42 @@
       if (!title || !category || !date) throw new Error('يرجى تعبئة العنوان والقسم والتاريخ.');
       if (!wasEditing && !file) throw new Error('يرجى اختيار صورة الإنفوغرافيك.');
 
-      let image = editingPost?.data?.image || '';
+      // Always keep frontmatter image paths relative to the site root.
+      let image = contentImagePath(editingPost?.data?.image || '');
       if (file) image = await uploadImage(file);
-      image = assetUrl(image);
 
       const isoDate = new Date(date).toISOString();
-      const markdown = makePostMarkdown({ title, category, date: isoDate, description, source, image_alt: imageAlt, image, body });
+      const markdown = makePostMarkdown({
+        title,
+        category,
+        date: isoDate,
+        description,
+        source,
+        image_alt: imageAlt,
+        image,
+        body
+      });
 
       if (wasEditing) {
         await api('/api/file', {
           method: 'PUT',
-          body: JSON.stringify({ path: editingPost.path, sha: editingPost.sha, content: base64FromText(markdown), message: `Update infographic: ${title}` })
+          body: JSON.stringify({
+            path: editingPost.path,
+            sha: editingPost.sha,
+            content: base64FromText(markdown),
+            message: `Update infographic: ${title}`
+          })
         });
         showStatus($('global-status'), 'تم حفظ التعديلات بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       } else {
         const filename = `${isoDate.slice(0, 10)}-${slugify(title)}.md`;
         await api('/api/file', {
           method: 'PUT',
-          body: JSON.stringify({ path: `_posts/${filename}`, content: base64FromText(markdown), message: `Add infographic: ${title}` })
+          body: JSON.stringify({
+            path: `_posts/${filename}`,
+            content: base64FromText(markdown),
+            message: `Add infographic: ${title}`
+          })
         });
         showStatus($('global-status'), 'تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       }
@@ -440,13 +468,17 @@
 
   async function deletePost(post) {
     const title = post.data.title || 'هذا الإنفوغرافيك';
-    if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nلا يمكن التراجع عن حذف المنشور من المستودع.`)) return;
+    if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nسيتم حذف ملف الإنفوغرافيك فقط، ولن تُحذف الصورة تلقائياً.`)) return;
 
     try {
       showStatus($('global-status'), 'جارٍ الحذف...');
       await api('/api/file', {
         method: 'DELETE',
-        body: JSON.stringify({ path: post.path, sha: post.sha, message: `Delete infographic: ${title}` })
+        body: JSON.stringify({
+          path: post.path,
+          sha: post.sha,
+          message: `Delete infographic: ${title}`
+        })
       });
       showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
       await loadPosts();
