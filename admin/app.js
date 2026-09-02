@@ -2,16 +2,13 @@
   'use strict';
 
   const API = 'https://calm-dream-ae41.dilgash-ibrahim.workers.dev';
+  const SITE_BASE = '/infograf-plus';
   const SESSION_KEY = 'infograf_plus_admin_session';
-  const categories = [
-    'العالم','سياسة','اقتصاد ومال','تقنية','علوم','صحة','رياضة','ترفيه',
-    'سيارات','سفر','تعليم','تاريخ','مجتمع','فن وثقافة','طبيعة وبيئة','منوع'
-  ];
 
   let posts = [];
   let editingPost = null;
 
-  const $ = (id) => document.getElementById(id);
+  const $ = id => document.getElementById(id);
 
   function showStatus(target, message, type = '') {
     if (!target) return;
@@ -22,10 +19,6 @@
 
   function hideStatus(target) {
     if (target) target.hidden = true;
-  }
-
-  function setGlobalStatus(message, type = '') {
-    showStatus($('global-status'), message, type);
   }
 
   function getSession() {
@@ -74,9 +67,8 @@
   function base64FromText(text) {
     const bytes = new TextEncoder().encode(text);
     let binary = '';
-    const chunk = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunk) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
     }
     return btoa(binary);
   }
@@ -96,25 +88,20 @@
     if (!match) return { data: {}, body: '' };
 
     const data = {};
-    const lines = match[1].split('\n');
     let currentKey = null;
 
-    for (const rawLine of lines) {
+    for (const rawLine of match[1].split('\n')) {
       if (!rawLine.trim()) continue;
 
       const scalar = rawLine.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
       if (scalar) {
         currentKey = scalar[1];
-        let value = scalar[2].trim();
-
+        const value = scalar[2].trim();
         if (value === '|') {
           data[currentKey] = '';
         } else {
-          try {
-            data[currentKey] = JSON.parse(value);
-          } catch (_) {
-            data[currentKey] = value.replace(/^['"]|['"]$/g, '');
-          }
+          try { data[currentKey] = JSON.parse(value); }
+          catch (_) { data[currentKey] = value.replace(/^['"]|['"]$/g, ''); }
         }
         continue;
       }
@@ -146,16 +133,9 @@
       `image: ${yamlQuote(fields.image)}`
     ];
 
-    if (fields.image_alt) {
-      lines.push(`image_alt: ${yamlQuote(fields.image_alt)}`);
-    }
-
+    if (fields.image_alt) lines.push(`image_alt: ${yamlQuote(fields.image_alt)}`);
     lines.push('---', '');
-
-    if (fields.body) {
-      lines.push(fields.body.trim(), '');
-    }
-
+    if (fields.body) lines.push(fields.body.trim(), '');
     return lines.join('\n');
   }
 
@@ -172,7 +152,6 @@
     if (!value) return '';
     const d = new Date(value);
     if (Number.isNaN(d.getTime())) return String(value).slice(0, 16);
-
     const pad = n => String(n).padStart(2, '0');
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
@@ -184,12 +163,21 @@
     return new Intl.DateTimeFormat('ar-DE', { dateStyle: 'medium' }).format(d);
   }
 
+  function assetUrl(value) {
+    const path = String(value || '').trim();
+    if (!path) return '';
+    if (/^https?:\/\//i.test(path)) return path;
+    if (path.startsWith(`${SITE_BASE}/`)) return path;
+    if (path.startsWith('/')) return `${SITE_BASE}${path}`;
+    return `${SITE_BASE}/${path}`;
+  }
+
   function livePostUrl(post) {
     const filename = String(post?.path || '').split('/').pop() || '';
-    const withoutExtension = filename.replace(/\.md$/i, '');
-    const match = withoutExtension.match(/^\d{4}-\d{2}-\d{2}-(.+)$/);
+    const base = filename.replace(/\.md$/i, '');
+    const match = base.match(/^\d{4}-\d{2}-\d{2}-(.+)$/);
     const slug = match ? match[1] : slugify(post?.data?.title || '');
-    return `../infographic/${encodeURIComponent(slug)}/`;
+    return `${SITE_BASE}/infographic/${encodeURIComponent(slug)}/`;
   }
 
   function switchView(view) {
@@ -209,6 +197,7 @@
 
     $('page-heading').textContent = titles[view] || 'لوحة التحكم';
     hideStatus($('global-status'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function showLogin() {
@@ -232,17 +221,14 @@
     const button = $('login-button');
     button.disabled = true;
     button.textContent = 'جارٍ فتح GitHub...';
-    hideStatus($('login-status'));
     window.location.href = `${API}/auth/login`;
   }
 
   function consumeAuthFragment() {
     const hash = window.location.hash || '';
     if (!hash.startsWith('#auth=')) return false;
-
     const value = decodeURIComponent(hash.slice('#auth='.length));
     if (value) setSession(value);
-
     history.replaceState(null, document.title, window.location.pathname + window.location.search);
     return Boolean(value);
   }
@@ -261,12 +247,9 @@
 
   function editPost(post) {
     editingPost = post;
-    switchView('editor');
-
     $('editor-eyebrow').textContent = 'تعديل';
     $('editor-title').textContent = 'تعديل الإنفوغرافيك';
     $('save-post').textContent = 'حفظ التعديلات';
-
     $('field-title').value = post.data.title || '';
     $('field-category').value = post.data.category || '';
     $('field-date').value = normalizeDateForInput(post.data.date);
@@ -275,13 +258,12 @@
     $('field-alt').value = post.data.image_alt || '';
     $('field-body-editor').value = post.body || '';
     $('field-image').value = '';
-
     $('current-image').textContent = post.data.image
       ? `الصورة الحالية: ${post.data.image}`
       : 'لا توجد صورة حالياً.';
-
     $('image-preview').hidden = true;
     $('image-preview').innerHTML = '';
+    switchView('editor');
   }
 
   function renderRecent() {
@@ -298,7 +280,7 @@
     container.innerHTML = recent.map(post => `
       <div class="mini-post">
         ${post.data.image
-          ? `<img src="${escapeHtml(post.data.image)}" alt="">`
+          ? `<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">`
           : '<div class="mini-post img"></div>'}
         <div>
           <strong>${escapeHtml(post.data.title || 'بدون عنوان')}</strong>
@@ -308,17 +290,21 @@
     `).join('');
   }
 
+  function normalizeSearch(value) {
+    return String(value || '')
+      .toLowerCase().trim()
+      .replace(/[\u064B-\u065F\u0670]/g, '')
+      .replace(/[إأآٱ]/g, 'ا')
+      .replace(/ى/g, 'ي').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي')
+      .replace(/ة/g, 'ه').replace(/ـ/g, '').replace(/\s+/g, ' ');
+  }
+
   function renderPosts(filter = '') {
     const container = $('posts-list');
     const q = normalizeSearch(filter);
-
     const filtered = posts
-      .filter(post => {
-        if (!q) return true;
-        return [post.data.title, post.data.category, post.data.description]
-          .filter(Boolean)
-          .some(value => normalizeSearch(value).includes(q));
-      })
+      .filter(post => !q || [post.data.title, post.data.category, post.data.description]
+        .filter(Boolean).some(value => normalizeSearch(value).includes(q)))
       .sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0));
 
     if (!filtered.length) {
@@ -331,7 +317,7 @@
       return `
         <article class="post-row">
           ${post.data.image
-            ? `<img src="${escapeHtml(post.data.image)}" alt="">`
+            ? `<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">`
             : '<div></div>'}
           <div class="post-info">
             <strong>${escapeHtml(post.data.title || 'بدون عنوان')}</strong>
@@ -349,56 +335,24 @@
 
   function updateStats() {
     $('stat-total').textContent = posts.length;
-
-    const latest = [...posts]
-      .sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0))[0];
-
+    const latest = [...posts].sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0))[0];
     $('stat-latest').textContent = latest ? formatDate(latest.data.date) : '—';
-    $('stat-categories').textContent = new Set(
-      posts.map(post => post.data.category).filter(Boolean)
-    ).size;
-  }
-
-  function normalizeSearch(value) {
-    return String(value || '')
-      .toLowerCase()
-      .trim()
-      .replace(/[\u064B-\u065F\u0670]/g, '')
-      .replace(/[إأآٱ]/g, 'ا')
-      .replace(/ى/g, 'ي')
-      .replace(/ؤ/g, 'و')
-      .replace(/ئ/g, 'ي')
-      .replace(/ة/g, 'ه')
-      .replace(/ـ/g, '')
-      .replace(/\s+/g, ' ');
+    $('stat-categories').textContent = new Set(posts.map(post => post.data.category).filter(Boolean)).size;
   }
 
   function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>'"]/g, ch => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;'
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
     }[ch]));
   }
 
   async function loadPosts() {
     const data = await api('/api/posts');
-
     const loaded = [];
-
     for (const file of Array.isArray(data) ? data : []) {
-      const text = safeDecodeBase64(file.content || '');
-      const parsed = parseFrontMatter(text);
-      loaded.push({
-        path: file.path,
-        sha: file.sha,
-        data: parsed.data,
-        body: parsed.body
-      });
+      const parsed = parseFrontMatter(safeDecodeBase64(file.content || ''));
+      loaded.push({ path: file.path, sha: file.sha, data: parsed.data, body: parsed.body });
     }
-
     posts = loaded;
     updateStats();
     renderRecent();
@@ -408,45 +362,34 @@
   async function uploadImage(file) {
     if (!file) return null;
 
-    const ext = (file.name.split('.').pop() || 'png')
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '') || 'png';
-
-    const cleanBase = slugify(
-      file.name.replace(/\.[^.]+$/, '')
-    ).slice(0, 70);
-
+    const ext = (file.name.split('.').pop() || 'png').toLowerCase().replace(/[^a-z0-9]/g, '') || 'png';
+    const cleanBase = slugify(file.name.replace(/\.[^.]+$/, '')).slice(0, 70);
     const filename = `${Date.now()}-${cleanBase || 'infographic'}.${ext}`;
     const path = `assets/uploads/${filename}`;
-    const buffer = await file.arrayBuffer();
-
-    const bytes = new Uint8Array(buffer);
+    const bytes = new Uint8Array(await file.arrayBuffer());
     let binary = '';
-    const chunk = 0x8000;
-    for (let i = 0; i < bytes.length; i += chunk) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
     }
-
-    const content = btoa(binary);
 
     await api('/api/file', {
       method: 'PUT',
       body: JSON.stringify({
         path,
-        content,
+        content: btoa(binary),
         message: `Upload infographic image: ${filename}`
       })
     });
 
-    return `/${path}`;
+    return `${SITE_BASE}/${path}`;
   }
 
   async function savePost(event) {
     event.preventDefault();
-
     const button = $('save-post');
+    const wasEditing = Boolean(editingPost);
     button.disabled = true;
-    button.textContent = editingPost ? 'جارٍ الحفظ...' : 'جارٍ الإنشاء...';
+    button.textContent = wasEditing ? 'جارٍ الحفظ...' : 'جارٍ الإنشاء...';
     hideStatus($('global-status'));
 
     try {
@@ -459,113 +402,74 @@
       const body = $('field-body-editor').value.trim();
       const file = $('field-image').files[0];
 
-      if (!title || !category || !date) {
-        throw new Error('يرجى تعبئة العنوان والقسم والتاريخ.');
-      }
-
-      if (!editingPost && !file) {
-        throw new Error('يرجى اختيار صورة الإنفوغرافيك.');
-      }
+      if (!title || !category || !date) throw new Error('يرجى تعبئة العنوان والقسم والتاريخ.');
+      if (!wasEditing && !file) throw new Error('يرجى اختيار صورة الإنفوغرافيك.');
 
       let image = editingPost?.data?.image || '';
       if (file) image = await uploadImage(file);
+      image = assetUrl(image);
 
       const isoDate = new Date(date).toISOString();
-      const markdown = makePostMarkdown({
-        title,
-        category,
-        date: isoDate,
-        description,
-        source,
-        image_alt: imageAlt,
-        image,
-        body
-      });
+      const markdown = makePostMarkdown({ title, category, date: isoDate, description, source, image_alt: imageAlt, image, body });
 
-      if (editingPost) {
+      if (wasEditing) {
         await api('/api/file', {
           method: 'PUT',
-          body: JSON.stringify({
-            path: editingPost.path,
-            sha: editingPost.sha,
-            content: base64FromText(markdown),
-            message: `Update infographic: ${title}`
-          })
+          body: JSON.stringify({ path: editingPost.path, sha: editingPost.sha, content: base64FromText(markdown), message: `Update infographic: ${title}` })
         });
-
-        setGlobalStatus('تم حفظ التعديلات بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
+        showStatus($('global-status'), 'تم حفظ التعديلات بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       } else {
         const filename = `${isoDate.slice(0, 10)}-${slugify(title)}.md`;
-        const path = `_posts/${filename}`;
-
         await api('/api/file', {
           method: 'PUT',
-          body: JSON.stringify({
-            path,
-            content: base64FromText(markdown),
-            message: `Add infographic: ${title}`
-          })
+          body: JSON.stringify({ path: `_posts/${filename}`, content: base64FromText(markdown), message: `Add infographic: ${title}` })
         });
-
-        setGlobalStatus('تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
+        showStatus($('global-status'), 'تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       }
 
       await loadPosts();
       resetEditor();
       switchView('posts');
     } catch (error) {
-      setGlobalStatus(error.message || 'تعذر حفظ الإنفوغرافيك.', 'error');
+      showStatus($('global-status'), error.message || 'تعذر حفظ الإنفوغرافيك.', 'error');
     } finally {
       button.disabled = false;
-      button.textContent = editingPost ? 'حفظ التعديلات' : 'حفظ الإنفوغرافيك';
+      button.textContent = wasEditing ? 'حفظ التعديلات' : 'حفظ الإنفوغرافيك';
     }
   }
 
   async function deletePost(post) {
     const title = post.data.title || 'هذا الإنفوغرافيك';
-    const confirmed = window.confirm(
-      `هل أنت متأكد من حذف «${title}»؟\n\nلا يمكن التراجع عن حذف المنشور من المستودع.`
-    );
-
-    if (!confirmed) return;
+    if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nلا يمكن التراجع عن حذف المنشور من المستودع.`)) return;
 
     try {
-      setGlobalStatus('جارٍ الحذف...');
-
+      showStatus($('global-status'), 'جارٍ الحذف...');
       await api('/api/file', {
         method: 'DELETE',
-        body: JSON.stringify({
-          path: post.path,
-          sha: post.sha,
-          message: `Delete infographic: ${title}`
-        })
+        body: JSON.stringify({ path: post.path, sha: post.sha, message: `Delete infographic: ${title}` })
       });
-
-      setGlobalStatus('تم حذف الإنفوغرافيك بنجاح.', 'success');
+      showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
       await loadPosts();
     } catch (error) {
-      setGlobalStatus(error.message || 'تعذر حذف الإنفوغرافيك.', 'error');
+      showStatus($('global-status'), error.message || 'تعذر حذف الإنفوغرافيك.', 'error');
     }
   }
 
   function previewSelectedImage() {
     const file = $('field-image').files[0];
     const preview = $('image-preview');
-
     if (!file) {
       preview.hidden = true;
       preview.innerHTML = '';
       return;
     }
-
     const url = URL.createObjectURL(file);
     preview.hidden = false;
-    preview.innerHTML = `<img src="${url}" alt="معاينة الصورة المختارة">`;
+    preview.innerHTML = `<img src="${escapeHtml(url)}" alt="معاينة الصورة المختارة">`;
   }
 
   async function initialize() {
     consumeAuthFragment();
-
     if (!getSession()) {
       showLogin();
       return;
@@ -577,9 +481,9 @@
       await loadPosts();
       switchView('dashboard');
     } catch (error) {
-      if (getSession()) {
-        showStatus($('login-status'), error.message || 'تعذر تحميل لوحة الإدارة.', 'error');
-      }
+      clearSession();
+      showLogin();
+      showStatus($('login-status'), error.message || 'تعذر تحميل لوحة الإدارة.', 'error');
     }
   }
 
@@ -615,18 +519,15 @@
 
     $('post-form').addEventListener('submit', savePost);
     $('field-image').addEventListener('change', previewSelectedImage);
-
-    $('post-search').addEventListener('input', event => {
-      renderPosts(event.target.value);
-    });
+    $('post-search').addEventListener('input', event => renderPosts(event.target.value));
 
     $('refresh-posts').addEventListener('click', async () => {
       try {
-        setGlobalStatus('جارٍ تحديث القائمة...');
+        showStatus($('global-status'), 'جارٍ تحديث القائمة...');
         await loadPosts();
-        setGlobalStatus('تم تحديث القائمة.', 'success');
+        showStatus($('global-status'), 'تم تحديث القائمة.', 'success');
       } catch (error) {
-        setGlobalStatus(error.message || 'تعذر تحديث القائمة.', 'error');
+        showStatus($('global-status'), error.message || 'تعذر تحديث القائمة.', 'error');
       }
     });
 
