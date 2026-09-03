@@ -51,6 +51,20 @@
     return btoa(binary);
   }
 
+  function injectStyles() {
+    if ($('categories-manager-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'categories-manager-styles';
+    style.textContent = `
+      .category-manager-add{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end;margin:20px 0}
+      .category-manager-list{display:grid;gap:10px;margin-top:14px}
+      .category-manager-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border:1px solid #e5e7eb;border-radius:14px;background:#f8fafc}
+      .category-manager-row strong{display:block}.category-manager-row small{display:block;margin-top:4px;color:#94a3b8;font-size:11px}
+      @media(max-width:600px){.category-manager-add{grid-template-columns:1fr}.category-manager-add .button{width:100%}.category-manager-row{align-items:flex-start}}
+    `;
+    document.head.appendChild(style);
+  }
+
   async function loadCategories() {
     try {
       const response = await fetch(`${SITE_BASE}/categories.json`, { cache: 'no-store' });
@@ -120,7 +134,7 @@
       <div class="category-manager-row">
         <div>
           <strong>${escapeHtml(category)}</strong>
-          <small>${index + 1}</small>
+          <small>القسم رقم ${index + 1}</small>
         </div>
         <button class="button button-danger" type="button" data-delete-category="${escapeHtml(category)}">حذف</button>
       </div>
@@ -131,7 +145,7 @@
     if ($('categories-manager-view')) return;
 
     const nav = document.querySelector('.sidebar-nav');
-    if (nav) {
+    if (nav && !nav.querySelector('[data-view="categories-manager"]')) {
       const button = document.createElement('button');
       button.className = 'nav-item';
       button.type = 'button';
@@ -157,7 +171,7 @@
           </div>
           <span id="categories-manager-count" class="role-badge">0 قسم</span>
         </div>
-        <p class="muted">أضف أو احذف الأقسام التي تظهر في محرر الإنفوغرافيك. التعديل لا يغيّر الإنفوغرافيكات المنشورة تلقائياً.</p>
+        <p class="muted">أضف أو احذف الأقسام التي تظهر في محرر الإنفوغرافيك. الإنفوغرافيكات المنشورة لا تتغير عند حذف قسم.</p>
         <div class="category-manager-add">
           <label>اسم القسم<input id="new-category-name" type="text" maxlength="60" placeholder="مثال: اقتصاد ومال" autocomplete="off"></label>
           <button id="add-category-button" class="button button-primary" type="button">+ إضافة قسم</button>
@@ -226,6 +240,7 @@
 
   function boot() {
     if (!session()) return;
+    injectStyles();
     injectUI();
     loadCategories();
     setTimeout(() => {
