@@ -1,12 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#f8f9ff"/>
-  <circle cx="1020" cy="-20" r="250" fill="#635BFF" opacity="0.12"/>
-  <circle cx="120" cy="650" r="220" fill="#635BFF" opacity="0.10"/>
-  <rect x="170" y="120" width="860" height="390" rx="48" fill="#ffffff" stroke="#e6e8f0" stroke-width="3"/>
-  <rect x="230" y="180" width="130" height="130" rx="34" fill="#635BFF"/>
-  <text x="295" y="276" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="104" font-weight="900" fill="#ffffff">I<tspan fill="#E9E7FF">+</tspan></text>
-  <text x="410" y="250" font-family="Arial, Helvetica, sans-serif" font-size="74" font-weight="800" fill="#171827">Infograf<tspan fill="#635BFF">+</tspan></text>
-  <text x="410" y="320" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#64748b">معلومات وإنفوغرافيك بطريقة أبسط</text>
-  <rect x="230" y="385" width="720" height="4" rx="2" fill="#ebeaff"/>
-  <text x="230" y="445" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#94a3b8">إنفوغرافيك • معلومات • حقائق</text>
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <svg x="435" y="65" width="330" height="500" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet">
+    <rect width="512" height="512" rx="112" fill="#ffffff"/>
+    <rect x="3" y="3" width="506" height="506" rx="109" fill="none" stroke="#e5e7eb" stroke-width="6"/>
+    <text x="256" y="306" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="900" letter-spacing="-4" fill="#111827">Infograf<tspan fill="#4f46ff">+</tspan></text>
+  </svg>
 </svg>
