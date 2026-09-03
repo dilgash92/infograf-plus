@@ -1,0 +1,47 @@
+name: Generate Infograf+ Icons
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'assets/icons/icon.svg'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate PNG icons
+        run: |
+          python -m pip install --disable-pip-version-check pillow cairosvg
+          python - <<'PY'
+          import cairosvg
+          from pathlib import Path
+
+          svg = Path('assets/icons/icon.svg')
+          cairosvg.svg2png(url=str(svg), write_to='/tmp/icon.png', output_width=512, output_height=512)
+
+          from PIL import Image
+          source = Image.open('/tmp/icon.png').convert('RGBA')
+          for size, name in [(180, 'icon-180.png'), (192, 'icon-192.png'), (512, 'icon-512.png')]:
+              source.resize((size, size), Image.Resampling.LANCZOS).save(Path('assets/icons') / name, 'PNG', optimize=True)
+
+          cairosvg.svg2png(url='assets/icons/og-image.svg', write_to='assets/icons/og-image.png', output_width=1200, output_height=630)
+          PY
+
+      - name: Commit generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/icons/*.png
+          if git diff --cached --quiet; then
+            echo "No icon changes to commit."
+            exit 0
+          fi
+          git commit -m "Generate Infograf+ PNG icons"
+          git push
