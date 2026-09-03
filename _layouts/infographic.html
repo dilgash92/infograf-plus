@@ -2,6 +2,82 @@
 layout: default
 ---
 
+<style>
+  .share-menu {
+    position: relative;
+  }
+
+  .share-menu-panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    z-index: 30;
+    width: min(340px, calc(100vw - 32px));
+    padding: 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .share-menu-panel[hidden] {
+    display: none;
+  }
+
+  .share-menu-title {
+    margin: 0 0 10px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .share-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .share-menu-link,
+  .share-menu-copy {
+    min-height: 42px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 11px;
+    border: 1px solid var(--border);
+    background: var(--surface-soft);
+    color: var(--text);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .share-menu-link:hover,
+  .share-menu-copy:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .share-menu-status {
+    min-height: 18px;
+    margin: 10px 0 0;
+    color: var(--text-light);
+    font-size: 11px;
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    .share-menu-panel {
+      right: 50%;
+      transform: translateX(50%);
+    }
+  }
+</style>
+
 <main class="infographic-page" aria-labelledby="infographic-title">
 
   <header class="infographic-page-header">
@@ -48,10 +124,24 @@ layout: default
   {% endif %}
 
   <div class="infographic-actions">
-    <button type="button" class="infographic-action" id="share-infographic">
-      <span aria-hidden="true">↗</span>
-      مشاركة
-    </button>
+    <div class="share-menu">
+      <button type="button" class="infographic-action" id="share-infographic" aria-haspopup="true" aria-expanded="false">
+        <span aria-hidden="true">↗</span>
+        مشاركة
+      </button>
+
+      <div id="share-menu-panel" class="share-menu-panel" hidden>
+        <p class="share-menu-title">شارك الإنفوغرافيك</p>
+        <div class="share-menu-grid">
+          <a id="share-whatsapp" class="share-menu-link" href="#" target="_blank" rel="noopener noreferrer">💬 واتساب</a>
+          <a id="share-telegram" class="share-menu-link" href="#" target="_blank" rel="noopener noreferrer">✈️ تيليغرام</a>
+          <a id="share-facebook" class="share-menu-link" href="#" target="_blank" rel="noopener noreferrer">f فيسبوك</a>
+          <a id="share-x" class="share-menu-link" href="#" target="_blank" rel="noopener noreferrer">𝕏 X</a>
+          <button type="button" id="share-copy-fallback" class="share-menu-copy">🔗 نسخ الرابط</button>
+        </div>
+        <p id="share-menu-status" class="share-menu-status" aria-live="polite"></p>
+      </div>
+    </div>
 
     <button type="button" class="infographic-action" id="copy-infographic-link">
       <span aria-hidden="true">🔗</span>
@@ -142,47 +232,29 @@ layout: default
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const shareButton = document.getElementById("share-infographic");
+      const sharePanel = document.getElementById("share-menu-panel");
       const copyButton = document.getElementById("copy-infographic-link");
+      const fallbackCopyButton = document.getElementById("share-copy-fallback");
+      const shareStatus = document.getElementById("share-menu-status");
       const pageUrl = window.location.href;
+      const shareTitle = document.title;
+      const shareText = "{{ page.title | escape }}";
 
-      if (shareButton) {
-        shareButton.addEventListener("click", async function () {
-          const shareData = {
-            title: document.title,
-            text: "{{ page.title | escape }}",
-            url: pageUrl
-          };
+      const encodedUrl = encodeURIComponent(pageUrl);
+      const encodedText = encodeURIComponent(shareText);
 
-          if (navigator.share) {
-            try {
-              await navigator.share(shareData);
-            } catch (error) {
-              if (error.name !== "AbortError") console.log("Share failed.", error);
-            }
-            return;
-          }
+      const whatsapp = document.getElementById("share-whatsapp");
+      const telegram = document.getElementById("share-telegram");
+      const facebook = document.getElementById("share-facebook");
+      const shareX = document.getElementById("share-x");
 
-          try {
-            await navigator.clipboard.writeText(pageUrl);
-            showTemporaryMessage(shareButton, "✓", "تم نسخ الرابط");
-          } catch (error) {
-            window.prompt("انسخ الرابط:", pageUrl);
-          }
-        });
-      }
-
-      if (copyButton) {
-        copyButton.addEventListener("click", async function () {
-          try {
-            await navigator.clipboard.writeText(pageUrl);
-            showTemporaryMessage(copyButton, "✓", "تم نسخ الرابط");
-          } catch (error) {
-            window.prompt("انسخ الرابط:", pageUrl);
-          }
-        });
-      }
+      if (whatsapp) whatsapp.href = "https://wa.me/?text=" + encodeURIComponent(shareText + "\n" + pageUrl);
+      if (telegram) telegram.href = "https://t.me/share/url?url=" + encodedUrl + "&text=" + encodedText;
+      if (facebook) facebook.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl;
+      if (shareX) shareX.href = "https://x.com/intent/post?text=" + encodedText + "&url=" + encodedUrl;
 
       function showTemporaryMessage(button, icon, text) {
+        if (!button) return;
         const originalHTML = button.innerHTML;
         button.innerHTML = '<span aria-hidden="true">' + icon + '</span> ' + text;
         button.disabled = true;
@@ -191,6 +263,64 @@ layout: default
           button.disabled = false;
         }, 2000);
       }
+
+      async function copyPageUrl(button) {
+        try {
+          await navigator.clipboard.writeText(pageUrl);
+          showTemporaryMessage(button, "✓", "تم نسخ الرابط");
+          if (shareStatus) shareStatus.textContent = "تم نسخ الرابط بنجاح.";
+        } catch (error) {
+          window.prompt("انسخ الرابط:", pageUrl);
+        }
+      }
+
+      function toggleShareMenu(force) {
+        if (!sharePanel || !shareButton) return;
+        const shouldOpen = typeof force === "boolean" ? force : sharePanel.hidden;
+        sharePanel.hidden = !shouldOpen;
+        shareButton.setAttribute("aria-expanded", String(shouldOpen));
+      }
+
+      if (shareButton) {
+        shareButton.addEventListener("click", async function () {
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: shareTitle,
+                text: shareText,
+                url: pageUrl
+              });
+            } catch (error) {
+              if (error.name === "AbortError") return;
+              toggleShareMenu(true);
+            }
+            return;
+          }
+
+          toggleShareMenu();
+        });
+      }
+
+      if (fallbackCopyButton) {
+        fallbackCopyButton.addEventListener("click", function () {
+          copyPageUrl(fallbackCopyButton);
+        });
+      }
+
+      if (copyButton) {
+        copyButton.addEventListener("click", function () {
+          copyPageUrl(copyButton);
+        });
+      }
+
+      document.addEventListener("click", function (event) {
+        if (!sharePanel || sharePanel.hidden) return;
+        if (!event.target.closest(".share-menu")) toggleShareMenu(false);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") toggleShareMenu(false);
+      });
     });
   </script>
 
