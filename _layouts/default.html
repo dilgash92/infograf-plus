@@ -12,8 +12,10 @@
 
   <!-- Site icons -->
   <link rel="icon" href="{{ '/assets/icons/icon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="icon" href="{{ '/assets/icons/icon-192.png' | relative_url }}" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/icon-180.png' | relative_url }}">
   <meta name="apple-mobile-web-app-title" content="Infograf+">
+  <meta name="application-name" content="Infograf+">
 
   <!-- Open Graph -->
   <meta property="og:type" content="{% if page.url == '/' %}website{% else %}article{% endif %}">
@@ -35,11 +37,11 @@
   <meta property="og:image:type" content="image/png">
   {% endif %}
   {% elsif page.url == '/' %}
-  <meta property="og:image" content="{{ '/assets/icons/icon.svg' | absolute_url }}">
-  <meta property="og:image:secure_url" content="{{ '/assets/icons/icon.svg' | absolute_url }}">
-  <meta property="og:image:type" content="image/svg+xml">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
+  <meta property="og:image" content="{{ '/assets/icons/og-image.png' | absolute_url }}">
+  <meta property="og:image:secure_url" content="{{ '/assets/icons/og-image.png' | absolute_url }}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="شعار Infograf+">
   {% endif %}
 
@@ -51,14 +53,14 @@
   {% endif %}
 
   <!-- Twitter / X -->
-  <meta name="twitter:card" content="{% if page.image %}summary_large_image{% else %}summary{% endif %}">
+  <meta name="twitter:card" content="{% if page.image or page.url == '/' %}summary_large_image{% else %}summary{% endif %}">
   <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | Infograf+{% else %}Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط{% endif %}">
   <meta name="twitter:description" content="{{ page.description | default: site.description | escape }}">
   {% if page.image %}
   <meta name="twitter:image" content="{{ page.image | absolute_url }}">
   <meta name="twitter:image:alt" content="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}">
   {% elsif page.url == '/' %}
-  <meta name="twitter:image" content="{{ '/assets/icons/icon.svg' | absolute_url }}">
+  <meta name="twitter:image" content="{{ '/assets/icons/og-image.png' | absolute_url }}">
   <meta name="twitter:image:alt" content="شعار Infograf+">
   {% endif %}
 
