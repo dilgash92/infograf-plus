@@ -1,0 +1,37 @@
+/* Infograf+ — Homepage premium/lightweight layer */
+.site-home{overflow:hidden}
+.hero-section{min-height:500px;padding:42px 0 30px;gap:42px}
+.hero-content{max-width:590px}
+.hero-badge{margin-bottom:14px;padding:6px 12px;font-size:12px}
+.hero-content h1{font-size:clamp(40px,4.7vw,62px);letter-spacing:-2.2px}
+.hero-content p{max-width:540px;margin-top:18px;font-size:16px;line-height:1.95}
+.hero-actions{margin-top:22px}
+.hero-visual{min-height:300px}
+.visual-card-main{width:min(360px,84%);min-height:245px;padding:21px;border-radius:26px}
+.visual-bars{height:130px;margin-top:30px;gap:17px}
+.visual-bars div{width:30px;border-radius:8px 8px 4px 4px}
+.visual-line{height:6px;margin-top:17px}
+.visual-card-small{left:3%;bottom:4px;width:170px;padding:14px;border-radius:17px}
+.home-benefits{padding-bottom:38px;gap:12px}
+.home-benefit{min-height:82px;padding:16px 18px;border-radius:17px;gap:12px}
+.home-benefit-icon{width:40px;height:40px;margin-bottom:0;border-radius:11px;font-size:18px}
+.home-benefit strong{font-size:13px}
+.home-benefit span{margin-top:1px;font-size:11px}
+.categories-section{padding:8px 0 38px}
+.latest-section{padding:8px 0 52px}
+.section-heading{margin-bottom:18px}
+.section-heading h2{font-size:26px}
+.category-list{gap:8px;padding-bottom:9px}
+.category-chip{min-height:40px;padding:7px 15px;font-size:12px}
+.infographic-grid{gap:18px}
+.infographic-card{border-radius:22px;box-shadow:var(--shadow-sm)}
+.infographic-card:hover{transform:translateY(-4px)}
+.infographic-card.featured-card{grid-column:span 2}
+.featured-card .infographic-image-link{aspect-ratio:16/7}
+.featured-card .infographic-card-content{padding:19px 22px 21px}
+.featured-card h3{font-size:20px}
+.infographic-card:not(.featured-card) .infographic-card-content{min-height:150px}
+.featured-card{box-shadow:0 10px 32px rgba(20,20,40,.07)}
+.about-section{border-radius:26px}
+@media(max-width:950px){.hero-section{min-height:auto;padding-top:34px;padding-bottom:26px;gap:28px}.hero-content h1{font-size:clamp(38px,7vw,54px)}.hero-visual{min-height:270px}.home-benefits{grid-template-columns:1fr;padding-bottom:32px}.infographic-card.featured-card{grid-column:span 2}}
+@media(max-width:700px){.hero-section{padding-top:28px;padding-bottom:22px}.hero-content h1{font-size:clamp(35px,10vw,47px);letter-spacing:-1.5px}.hero-content p{margin-top:15px;font-size:14px;line-height:1.9}.hero-actions{margin-top:19px}.hero-visual{min-height:240px}.visual-card-main{width:min(340px,88%);min-height:220px}.visual-bars{height:112px;gap:14px}.visual-bars div{width:27px}.visual-card-small{left:1%;bottom:0;width:154px;padding:12px}.categories-section{padding-bottom:32px}.latest-section{padding-bottom:42px}.section-heading h2{font-size:23px}.section-count{font-size:11px}.infographic-grid{gap:14px}.infographic-card.featured-card{grid-column:auto}.featured-card .infographic-image-link{aspect-ratio:4/3}.featured-card h3{font-size:18px}}
