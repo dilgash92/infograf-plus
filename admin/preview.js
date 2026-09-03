@@ -176,13 +176,24 @@
     saveButton.parentNode.insertBefore(button, saveButton);
   }
 
+  function loadCategoryManager() {
+    if (document.querySelector('script[data-category-manager]')) return;
+    const script = document.createElement('script');
+    script.src = '/infograf-plus/admin/categories-manager.js';
+    script.defer = true;
+    script.dataset.categoryManager = '1';
+    document.head.appendChild(script);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     setupPhonePreview();
     addPreviewButton();
+    loadCategoryManager();
     setTimeout(() => {
       setupPhonePreview();
       addPreviewButton();
       refreshPreview();
+      loadCategoryManager();
     }, 500);
   });
 })();
