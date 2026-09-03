@@ -1,23 +1,7 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 512 512">
-
-  <rect
-    width="512"
-    height="512"
-    rx="112"
-    fill="#ffffff"/>
-
-  <text
-    x="256"
-    y="285"
-    text-anchor="middle"
-    font-family="Arial, Helvetica, sans-serif"
-    font-size="92"
-    font-weight="800"
-    letter-spacing="-5"
-    fill="#171827">
-    Infograf<tspan fill="#635BFF">+</tspan>
-  </text>
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Infograf+</title>
+  <desc id="desc">شعار Infograf+</desc>
+  <rect width="512" height="512" rx="112" fill="#635BFF"/>
+  <rect x="88" y="88" width="336" height="336" rx="76" fill="#ffffff" opacity="0.12"/>
+  <text x="256" y="330" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="190" font-weight="900" letter-spacing="-14" fill="#ffffff">I<tspan fill="#E9E7FF">+</tspan></text>
 </svg>
