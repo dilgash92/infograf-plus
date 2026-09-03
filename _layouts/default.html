@@ -10,6 +10,11 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
 
+  <!-- Site icons -->
+  <link rel="icon" href="{{ '/assets/icons/icon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ '/assets/icons/icon.svg' | relative_url }}">
+  <meta name="apple-mobile-web-app-title" content="Infograf+">
+
   <!-- Open Graph -->
   <meta property="og:type" content="{% if page.url == '/' %}website{% else %}article{% endif %}">
   <meta property="og:title" content="{% if page.title %}{{ page.title }} | Infograf+{% else %}Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط{% endif %}">
@@ -17,11 +22,19 @@
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <meta property="og:site_name" content="Infograf+">
   <meta property="og:locale" content="ar_AR">
+
   {% if page.image %}
-  <meta property="og:image" content="{{ page.image | absolute_url }}">
-  <meta property="og:image:secure_url" content="{{ page.image | absolute_url }}">
-  <meta property="og:image:alt" content="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}">
-  <meta property="og:image:type" content="image/png">
+    <meta property="og:image" content="{{ page.image | absolute_url }}">
+    <meta property="og:image:secure_url" content="{{ page.image | absolute_url }}">
+    <meta property="og:image:alt" content="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}">
+    <meta property="og:image:type" content="image/png">
+  {% elsif page.url == '/' %}
+    <meta property="og:image" content="{{ '/assets/icons/og-image.svg' | absolute_url }}">
+    <meta property="og:image:secure_url" content="{{ '/assets/icons/og-image.svg' | absolute_url }}">
+    <meta property="og:image:type" content="image/svg+xml">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="شعار Infograf+ — معلومات وإنفوغرافيك بطريقة أبسط">
   {% endif %}
 
   {% if page.date %}
@@ -38,6 +51,9 @@
   {% if page.image %}
   <meta name="twitter:image" content="{{ page.image | absolute_url }}">
   <meta name="twitter:image:alt" content="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}">
+  {% elsif page.url == '/' %}
+  <meta name="twitter:image" content="{{ '/assets/icons/og-image.svg' | absolute_url }}">
+  <meta name="twitter:image:alt" content="شعار Infograf+ — معلومات وإنفوغرافيك بطريقة أبسط">
   {% endif %}
 
   <!-- Structured Data -->
@@ -47,7 +63,7 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Infograf+",
-    "url": {{ site.url | append: site.baseurl | jsonify }},
+    "url": {{ site.url | jsonify }},
     "description": {{ site.description | jsonify }},
     "inLanguage": "ar"
   }
@@ -70,7 +86,7 @@
     "publisher": {
       "@type": "Organization",
       "name": "Infograf+",
-      "url": {{ site.url | append: site.baseurl | jsonify }}
+      "url": {{ site.url | jsonify }}
     }
     {% if page.image %},
     "image": {
@@ -84,6 +100,7 @@
   {% endif %}
 
   <meta name="theme-color" content="#635BFF">
+  <meta name="application-name" content="Infograf+">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
