@@ -771,6 +771,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =====================================================
+     IMAGE PROTECTION
+     =====================================================
+     This blocks the easy/traditional ways of saving images
+     while keeping normal page scrolling and mobile pinch-zoom.
+     It cannot prevent screenshots or advanced extraction.
+  ===================================================== */
+
+  const protectedImages =
+    document.querySelectorAll(
+      ".infographic-main-image img, .infographic-image-link img"
+    );
+
+  protectedImages.forEach(function (image) {
+
+    image.setAttribute("draggable", "false");
+
+    image.addEventListener(
+      "contextmenu",
+      function (event) {
+        event.preventDefault();
+      }
+    );
+
+    image.addEventListener(
+      "dragstart",
+      function (event) {
+        event.preventDefault();
+      }
+    );
+
+    image.addEventListener(
+      "selectstart",
+      function (event) {
+        event.preventDefault();
+      }
+    );
+
+  });
+
+
+  /* =====================================================
      INITIALIZE
   ===================================================== */
 
