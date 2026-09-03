@@ -171,5 +171,15 @@
     }
   }
 
+  function loadCategoriesManager() {
+    if (document.querySelector('script[data-categories-manager]')) return;
+    const script = document.createElement('script');
+    script.src = '/infograf-plus/admin/categories.js';
+    script.dataset.categoriesManager = 'true';
+    script.async = true;
+    document.body.appendChild(script);
+  }
+
   document.addEventListener('click', handleDeleteClick, true);
+  document.addEventListener('DOMContentLoaded', loadCategoriesManager, { once: true });
 })();
