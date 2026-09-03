@@ -16,7 +16,7 @@ markdown: kramdown
 
 theme: null
 
-permalink: /infographic/:title/
+permalink: /i/:slug/
 
 collections:
   posts:
