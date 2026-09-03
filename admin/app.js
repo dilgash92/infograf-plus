@@ -2,7 +2,7 @@
   'use strict';
 
   const API = 'https://calm-dream-ae41.dilgash-ibrahim.workers.dev';
-  const SITE_BASE = '/infograf-plus';
+  const SITE_BASE = '';
   const SESSION_KEY = 'infograf_plus_admin_session';
 
   let posts = [];
@@ -92,20 +92,17 @@
 
     for (const rawLine of match[1].split('\n')) {
       if (!rawLine.trim()) continue;
-
       const scalar = rawLine.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
       if (scalar) {
         currentKey = scalar[1];
         const value = scalar[2].trim();
-        if (value === '|') {
-          data[currentKey] = '';
-        } else {
+        if (value === '|') data[currentKey] = '';
+        else {
           try { data[currentKey] = JSON.parse(value); }
           catch (_) { data[currentKey] = value.replace(/^['"]|['"]$/g, ''); }
         }
         continue;
       }
-
       if (currentKey && /^\s{2,}/.test(rawLine)) {
         const continuation = rawLine.trim();
         data[currentKey] = data[currentKey]
@@ -121,12 +118,26 @@
     return JSON.stringify(String(value ?? ''));
   }
 
+  function normalizeSlug(value) {
+    return String(value || '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9-]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .replace(/-{2,}/g, '-');
+  }
+
+  function autoSlug(value) {
+    return normalizeSlug(value) || `ig-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+  }
+
   function makePostMarkdown(fields) {
     const lines = [
       '---',
       'layout: infographic',
       `title: ${yamlQuote(fields.title)}`,
       `date: ${yamlQuote(fields.date)}`,
+      `slug: ${yamlQuote(fields.slug)}`,
       `category: ${yamlQuote(fields.category)}`,
       `description: ${yamlQuote(fields.description)}`,
       `source: ${yamlQuote(fields.source)}`,
@@ -137,15 +148,6 @@
     lines.push('---', '');
     if (fields.body) lines.push(fields.body.trim(), '');
     return lines.join('\n');
-  }
-
-  function slugify(value) {
-    return String(value || '')
-      .toLowerCase()
-      .trim()
-      .replace(/[^\p{L}\p{N}]+/gu, '-')
-      .replace(/^-+|-+$/g, '')
-      || `infographic-${Date.now()}`;
   }
 
   function normalizeDateForInput(value) {
@@ -163,30 +165,31 @@
     return new Intl.DateTimeFormat('ar-DE', { dateStyle: 'medium' }).format(d);
   }
 
-  // Stored in Jekyll frontmatter: /assets/uploads/file.png
-  // Displayed by the admin: /infograf-plus/assets/uploads/file.png
   function contentImagePath(value) {
     const path = String(value || '').trim();
     if (!path) return '';
     if (/^https?:\/\//i.test(path)) return path;
-    if (path.startsWith(`${SITE_BASE}/`)) return path.slice(SITE_BASE.length);
-    if (!path.startsWith('/')) return `/${path}`;
-    return path;
+    if (path.startsWith('/infograf-plus/')) return path.slice('/infograf-plus'.length);
+    if (path.startsWith('infograf-plus/')) return `/${path.slice('infograf-plus/'.length)}`;
+    return path.startsWith('/') ? path : `/${path}`;
   }
 
   function assetUrl(value) {
     const path = contentImagePath(value);
     if (!path) return '';
     if (/^https?:\/\//i.test(path)) return path;
-    return `${SITE_BASE}${path}`;
+    return `${SITE_BASE}${path}` || path;
   }
 
   function livePostUrl(post) {
+    const slug = normalizeSlug(post?.data?.slug || '');
+    if (slug) return `/i/${encodeURIComponent(slug)}/`;
+
     const filename = String(post?.path || '').split('/').pop() || '';
     const base = filename.replace(/\.md$/i, '');
     const match = base.match(/^\d{4}-\d{2}-\d{2}-(.+)$/);
-    const slug = match ? match[1] : slugify(post?.data?.title || '');
-    return `${SITE_BASE}/infographic/${encodeURIComponent(slug)}/`;
+    const fallback = match ? match[1] : autoSlug(post?.data?.title || '');
+    return `/i/${encodeURIComponent(fallback)}/`;
   }
 
   function switchView(view) {
@@ -251,6 +254,7 @@
     $('current-image').textContent = '';
     $('image-preview').hidden = true;
     $('image-preview').innerHTML = '';
+    $('field-slug').value = autoSlug('');
     $('field-date').value = normalizeDateForInput(new Date().toISOString());
   }
 
@@ -260,6 +264,7 @@
     $('editor-title').textContent = 'تعديل الإنفوغرافيك';
     $('save-post').textContent = 'حفظ التعديلات';
     $('field-title').value = post.data.title || '';
+    $('field-slug').value = normalizeSlug(post.data.slug || '') || autoSlug(post.data.title || '');
     $('field-category').value = post.data.category || '';
     $('field-date').value = normalizeDateForInput(post.data.date);
     $('field-source').value = post.data.source || '';
@@ -288,9 +293,7 @@
 
     container.innerHTML = recent.map(post => `
       <div class="mini-post">
-        ${post.data.image
-          ? `<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">`
-          : '<div class="mini-post img"></div>'}
+        ${post.data.image ? `<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">` : '<div class="mini-post img"></div>'}
         <div>
           <strong>${escapeHtml(post.data.title || 'بدون عنوان')}</strong>
           <small>${escapeHtml(post.data.category || '')} · ${escapeHtml(formatDate(post.data.date))}</small>
@@ -312,7 +315,7 @@
     const container = $('posts-list');
     const q = normalizeSearch(filter);
     const filtered = posts
-      .filter(post => !q || [post.data.title, post.data.category, post.data.description]
+      .filter(post => !q || [post.data.title, post.data.category, post.data.description, post.data.slug]
         .filter(Boolean).some(value => normalizeSearch(value).includes(q)))
       .sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0));
 
@@ -325,20 +328,17 @@
       const index = posts.indexOf(post);
       return `
         <article class="post-row">
-          ${post.data.image
-            ? `<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">`
-            : '<div></div>'}
+          ${post.data.image ? `<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">` : '<div></div>'}
           <div class="post-info">
             <strong>${escapeHtml(post.data.title || 'بدون عنوان')}</strong>
-            <small>${escapeHtml(post.data.category || 'بدون قسم')} · ${escapeHtml(formatDate(post.data.date))}</small>
+            <small>${escapeHtml(post.data.category || 'بدون قسم')} · /i/${escapeHtml(post.data.slug || '—')}</small>
           </div>
           <div class="post-actions">
             <button class="button button-secondary" type="button" data-edit-index="${index}">تعديل</button>
             <a class="button button-secondary" href="${livePostUrl(post)}" target="_blank" rel="noopener">عرض</a>
             <button class="button button-danger" type="button" data-delete-index="${index}">حذف</button>
           </div>
-        </article>
-      `;
+        </article>`;
     }).join('');
   }
 
@@ -350,9 +350,7 @@
   }
 
   function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>'"]/g, ch => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-    }[ch]));
+    return String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
   }
 
   async function loadPosts() {
@@ -370,28 +368,22 @@
 
   async function uploadImage(file) {
     if (!file) return null;
-
     const ext = (file.name.split('.').pop() || 'png').toLowerCase().replace(/[^a-z0-9]/g, '') || 'png';
-    const cleanBase = slugify(file.name.replace(/\.[^.]+$/, '')).slice(0, 70);
-    const filename = `${Date.now()}-${cleanBase || 'infographic'}.${ext}`;
+    const filename = `${Date.now()}-${autoSlug(file.name.replace(/\.[^.]+$/, '')).slice(0, 60)}.${ext}`;
     const path = `assets/uploads/${filename}`;
     const bytes = new Uint8Array(await file.arrayBuffer());
     let binary = '';
-    for (let i = 0; i < bytes.length; i += 0x8000) {
-      binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-    }
-
+    for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
     await api('/api/file', {
       method: 'PUT',
-      body: JSON.stringify({
-        path,
-        content: btoa(binary),
-        message: `Upload infographic image: ${filename}`
-      })
+      body: JSON.stringify({ path, content: btoa(binary), message: `Upload infographic image: ${filename}` })
     });
-
-    // Important: save the repository path, not the site base URL.
     return `/${path}`;
+  }
+
+  function slugExists(slug) {
+    const currentPath = editingPost?.path || '';
+    return posts.some(post => post.path !== currentPath && normalizeSlug(post.data.slug || '') === slug);
   }
 
   async function savePost(event) {
@@ -404,6 +396,8 @@
 
     try {
       const title = $('field-title').value.trim();
+      const rawSlug = $('field-slug').value.trim();
+      const slug = normalizeSlug(rawSlug);
       const category = $('field-category').value;
       const date = $('field-date').value;
       const description = $('field-description').value.trim();
@@ -412,24 +406,18 @@
       const body = $('field-body-editor').value.trim();
       const file = $('field-image').files[0];
 
-      if (!title || !category || !date) throw new Error('يرجى تعبئة العنوان والقسم والتاريخ.');
+      if (!title || !category || !date || !slug) throw new Error('يرجى تعبئة العنوان والقسم والتاريخ والرابط المختصر.');
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug.length < 2 || slug.length > 60) {
+        throw new Error('الرابط المختصر يجب أن يحتوي على أحرف إنجليزية صغيرة وأرقام وشرطة فقط، بطول 2–60 حرفاً.');
+      }
+      if (slugExists(slug)) throw new Error('هذا الرابط المختصر مستخدم مسبقاً. اختر رابطاً آخر.');
       if (!wasEditing && !file) throw new Error('يرجى اختيار صورة الإنفوغرافيك.');
 
-      // Always keep frontmatter image paths relative to the site root.
       let image = contentImagePath(editingPost?.data?.image || '');
       if (file) image = await uploadImage(file);
 
       const isoDate = new Date(date).toISOString();
-      const markdown = makePostMarkdown({
-        title,
-        category,
-        date: isoDate,
-        description,
-        source,
-        image_alt: imageAlt,
-        image,
-        body
-      });
+      const markdown = makePostMarkdown({ title, slug, category, date: isoDate, description, source, image_alt: imageAlt, image, body });
 
       if (wasEditing) {
         await api('/api/file', {
@@ -443,7 +431,7 @@
         });
         showStatus($('global-status'), 'تم حفظ التعديلات بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       } else {
-        const filename = `${isoDate.slice(0, 10)}-${slugify(title)}.md`;
+        const filename = `${isoDate.slice(0, 10)}-${slug}.md`;
         await api('/api/file', {
           method: 'PUT',
           body: JSON.stringify({
@@ -468,18 +456,10 @@
 
   async function deletePost(post) {
     const title = post.data.title || 'هذا الإنفوغرافيك';
-    if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nسيتم حذف ملف الإنفوغرافيك فقط، ولن تُحذف الصورة تلقائياً.`)) return;
-
+    if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nسيتم حذف ملف الإنفوغرافيك فقط.`)) return;
     try {
       showStatus($('global-status'), 'جارٍ الحذف...');
-      await api('/api/file', {
-        method: 'DELETE',
-        body: JSON.stringify({
-          path: post.path,
-          sha: post.sha,
-          message: `Delete infographic: ${title}`
-        })
-      });
+      await api('/api/file', { method: 'DELETE', body: JSON.stringify({ path: post.path, sha: post.sha, message: `Delete infographic: ${title}` }) });
       showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
       await loadPosts();
     } catch (error) {
@@ -490,11 +470,7 @@
   function previewSelectedImage() {
     const file = $('field-image').files[0];
     const preview = $('image-preview');
-    if (!file) {
-      preview.hidden = true;
-      preview.innerHTML = '';
-      return;
-    }
+    if (!file) { preview.hidden = true; preview.innerHTML = ''; return; }
     const url = URL.createObjectURL(file);
     preview.hidden = false;
     preview.innerHTML = `<img src="${escapeHtml(url)}" alt="معاينة الصورة المختارة">`;
@@ -502,11 +478,7 @@
 
   async function initialize() {
     consumeAuthFragment();
-    if (!getSession()) {
-      showLogin();
-      return;
-    }
-
+    if (!getSession()) { showLogin(); return; }
     try {
       const user = await api('/api/me');
       showAdmin(user);
@@ -520,9 +492,8 @@
   }
 
   function bindEvents() {
-    $('login-button').addEventListener('click', startLogin);
-
-    $('logout-button').addEventListener('click', () => {
+    $('login-button')?.addEventListener('click', startLogin);
+    $('logout-button')?.addEventListener('click', () => {
       clearSession();
       showLogin();
       showStatus($('login-status'), 'تم تسجيل الخروج.', 'success');
@@ -544,16 +515,20 @@
       });
     });
 
-    $('cancel-edit').addEventListener('click', () => {
-      resetEditor();
-      switchView('posts');
+    $('cancel-edit')?.addEventListener('click', () => { resetEditor(); switchView('posts'); });
+    $('post-form')?.addEventListener('submit', savePost);
+    $('field-image')?.addEventListener('change', previewSelectedImage);
+    $('field-title')?.addEventListener('input', () => {
+      const slug = $('field-slug');
+      if (!editingPost && slug && !slug.dataset.touched) slug.value = autoSlug($('field-title').value);
     });
+    $('field-slug')?.addEventListener('input', event => {
+      event.target.value = normalizeSlug(event.target.value);
+      event.target.dataset.touched = '1';
+    });
+    $('post-search')?.addEventListener('input', event => renderPosts(event.target.value));
 
-    $('post-form').addEventListener('submit', savePost);
-    $('field-image').addEventListener('change', previewSelectedImage);
-    $('post-search').addEventListener('input', event => renderPosts(event.target.value));
-
-    $('refresh-posts').addEventListener('click', async () => {
+    $('refresh-posts')?.addEventListener('click', async () => {
       try {
         showStatus($('global-status'), 'جارٍ تحديث القائمة...');
         await loadPosts();
@@ -563,14 +538,13 @@
       }
     });
 
-    $('posts-list').addEventListener('click', event => {
+    $('posts-list')?.addEventListener('click', event => {
       const editButton = event.target.closest('[data-edit-index]');
       if (editButton) {
         const post = posts[Number(editButton.dataset.editIndex)];
         if (post) editPost(post);
         return;
       }
-
       const deleteButton = event.target.closest('[data-delete-index]');
       if (deleteButton) {
         const post = posts[Number(deleteButton.dataset.deleteIndex)];
