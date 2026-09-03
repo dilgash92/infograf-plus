@@ -10,6 +10,9 @@ permalink: /admin/
 <meta name="robots" content="noindex,nofollow">
 <title>Infograf+ — لوحة التحكم</title>
 <link rel="stylesheet" href="{{ site.baseurl }}/admin/style.css">
+<style>
+.admin-users-list{display:grid;gap:12px;margin-top:20px}.admin-user-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff}.admin-user-name{font-weight:700}.admin-user-meta{display:block;margin-top:4px;font-size:13px;opacity:.65}.admin-add-row{display:flex;gap:10px;align-items:end}.admin-add-row label{flex:1}.admin-danger{white-space:nowrap}.role-badge{display:inline-flex;align-items:center;margin-inline-start:8px;padding:4px 9px;border-radius:999px;font-size:12px;background:rgba(0,0,0,.06)}@media(max-width:700px){.admin-add-row{display:grid}.admin-user-row{align-items:flex-start;flex-direction:column}.admin-user-row .button{width:100%}}
+</style>
 </head>
 <body>
 <div id="app">
@@ -18,10 +21,10 @@ permalink: /admin/
 <div class="brand-mark">Infograf<span>+</span></div>
 <p class="eyebrow">لوحة إدارة الموقع</p>
 <h1>مرحباً بك</h1>
-<p class="muted">سجّل الدخول بحساب GitHub المالك للموقع لإدارة الإنفوغرافيكات مباشرة.</p>
+<p class="muted">سجّل الدخول بحساب GitHub المالك أو المشرف المعتمد لإدارة الإنفوغرافيكات مباشرة.</p>
 <button id="login-button" class="button button-primary button-wide" type="button">تسجيل الدخول عبر GitHub</button>
 <div id="login-status" class="status" hidden></div>
-<p class="security-note">الدخول مخصص لحساب إدارة Infograf+ فقط.</p>
+<p class="security-note">الدخول متاح للمالك والمشرفين المعتمدين فقط.</p>
 </div>
 </section>
 <div id="admin-view" class="admin-shell" hidden>
@@ -31,6 +34,7 @@ permalink: /admin/
 <button class="nav-item active" data-view="dashboard" type="button">لوحة التحكم</button>
 <button class="nav-item" data-view="posts" type="button">الإنفوغرافيكات</button>
 <button class="nav-item" data-view="editor" type="button">إضافة جديد</button>
+<button id="admins-nav" class="nav-item" data-view="admins" type="button" hidden>المشرفون</button>
 </nav>
 <div class="sidebar-bottom">
 <a class="nav-item link-item" href="{{ site.baseurl }}/" target="_blank" rel="noopener">عرض الموقع ↗</a>
@@ -38,7 +42,7 @@ permalink: /admin/
 </div>
 </aside>
 <main class="main-area">
-<header class="topbar"><div><p class="eyebrow">Infograf+</p><h1 id="page-heading">لوحة التحكم</h1></div><div class="user-box"><span id="user-name">GitHub</span><span class="online-dot" aria-hidden="true"></span></div></header>
+<header class="topbar"><div><p class="eyebrow">Infograf+</p><h1 id="page-heading">لوحة التحكم</h1></div><div class="user-box"><span id="user-name">GitHub</span><span id="user-role" class="role-badge">—</span><span class="online-dot" aria-hidden="true"></span></div></header>
 <div id="global-status" class="status" hidden></div>
 <section id="dashboard-view" class="view active-view">
 <div class="welcome-panel"><div><p class="eyebrow">إدارة سهلة</p><h2>كل محتوى Infograf+ من مكان واحد.</h2><p class="muted">أضف أو عدّل أو احذف الإنفوغرافيكات، وستُحفظ التغييرات مباشرة في مستودع الموقع.</p></div><button class="button button-primary" data-go="editor" type="button">+ إضافة إنفوغرافيك</button></div>
@@ -64,9 +68,125 @@ permalink: /admin/
 </aside>
 </form>
 </section>
+<section id="admins-view" class="view" hidden>
+<div class="section-card">
+<div class="section-title-row"><div><p class="eyebrow">الصلاحيات</p><h2>إدارة المشرفين</h2></div></div>
+<p class="muted">هذه الصفحة متاحة للمالك فقط. أضف اسم مستخدم GitHub ليحصل على صلاحية إدارة الإنفوغرافيكات.</p>
+<div class="admin-add-row">
+<label>اسم مستخدم GitHub<input id="admin-login-input" type="text" maxlength="39" placeholder="مثال: username" autocomplete="off"></label>
+<button id="add-admin-button" class="button button-primary" type="button">إضافة مشرف</button>
+</div>
+<div id="admins-status" class="status" hidden></div>
+<div id="admins-list" class="admin-users-list"><div class="empty-admin">جاري تحميل المشرفين...</div></div>
+</div>
+</section>
 </main>
 </div>
 </div>
 <script src="{{ site.baseurl }}/admin/app.js"></script>
+<script>
+(() => {
+  'use strict';
+  const API = 'https://calm-dream-ae41.dilgash-ibrahim.workers.dev';
+  const SESSION_KEY = 'infograf_plus_admin_session';
+  const $ = id => document.getElementById(id);
+  const session = () => sessionStorage.getItem(SESSION_KEY) || '';
+  const headers = () => ({Accept:'application/json','Content-Type':'application/json',Authorization:`Bearer ${session()}`});
+
+  async function roleRequest(path, options = {}) {
+    const response = await fetch(`${API}${path}`, {...options, headers:{...headers(), ...(options.headers || {})}});
+    let data = null; try { data = await response.json(); } catch (_) {}
+    if (!response.ok) throw new Error(data?.message || data?.error || `حدث خطأ (${response.status})`);
+    return data;
+  }
+
+  function setRole(user) {
+    const role = user?.role || '';
+    $('user-role').textContent = role === 'owner' ? 'المالك' : role === 'admin' ? 'مشرف' : '—';
+    $('admins-nav').hidden = role !== 'owner';
+  }
+
+  function renderAdmins(list) {
+    const container = $('admins-list');
+    if (!Array.isArray(list) || !list.length) {
+      container.innerHTML = '<div class="empty-admin">لا يوجد مشرفون مضافون حالياً.</div>';
+      return;
+    }
+    container.innerHTML = list.map(login => `
+      <div class="admin-user-row">
+        <div><span class="admin-user-name">${escapeHtml(login)}</span><span class="admin-user-meta">صلاحية مشرف</span></div>
+        <button class="button button-danger admin-danger" type="button" data-remove-admin="${escapeHtml(login)}">حذف الصلاحية</button>
+      </div>`).join('');
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+  }
+
+  async function loadRoleAndAdmins() {
+    if (!session()) return;
+    try {
+      const user = await roleRequest('/api/me');
+      setRole(user);
+      if (user?.role === 'owner') await loadAdmins();
+    } catch (_) {}
+  }
+
+  async function loadAdmins() {
+    try {
+      const data = await roleRequest('/api/admins');
+      renderAdmins(data?.admins || []);
+    } catch (error) {
+      $('admins-list').innerHTML = `<div class="empty-admin">${escapeHtml(error.message)}</div>`;
+    }
+  }
+
+  async function addAdmin() {
+    const input = $('admin-login-input');
+    const login = input.value.trim();
+    if (!login) return;
+    const button = $('add-admin-button');
+    button.disabled = true;
+    try {
+      const data = await roleRequest('/api/admins', {method:'POST', body:JSON.stringify({login})});
+      input.value = '';
+      $('admins-status').textContent = data?.message || 'تمت إضافة المشرف.';
+      $('admins-status').className = 'status success';
+      $('admins-status').hidden = false;
+      renderAdmins(data?.admins || []);
+    } catch (error) {
+      $('admins-status').textContent = error.message;
+      $('admins-status').className = 'status error';
+      $('admins-status').hidden = false;
+    } finally { button.disabled = false; }
+  }
+
+  async function removeAdmin(login) {
+    if (!confirm(`هل تريد حذف صلاحية المشرف للحساب ${login}؟`)) return;
+    try {
+      const data = await roleRequest('/api/admins', {method:'DELETE', body:JSON.stringify({login})});
+      renderAdmins(data?.admins || []);
+      $('admins-status').textContent = data?.message || 'تم حذف صلاحية المشرف.';
+      $('admins-status').className = 'status success';
+      $('admins-status').hidden = false;
+    } catch (error) {
+      $('admins-status').textContent = error.message;
+      $('admins-status').className = 'status error';
+      $('admins-status').hidden = false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    $('add-admin-button')?.addEventListener('click', addAdmin);
+    $('admin-login-input')?.addEventListener('keydown', event => { if (event.key === 'Enter') addAdmin(); });
+    $('admins-list')?.addEventListener('click', event => {
+      const button = event.target.closest('[data-remove-admin]');
+      if (button) removeAdmin(button.dataset.removeAdmin);
+    });
+    loadRoleAndAdmins();
+    setTimeout(loadRoleAndAdmins, 1200);
+  });
+})();
+</script>
 </body>
 </html>
