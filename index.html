@@ -104,6 +104,53 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
     </div>
   </section>
 
+  {% assign featured_posts = site.posts | where: "featured", true %}
+  {% if featured_posts.size > 0 %}
+    <section class="featured-section" id="featured">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">مختارات</span>
+          <h2>إنفوغرافيكات مميزة</h2>
+        </div>
+        <span class="section-count">{{ featured_posts.size }} مميز</span>
+      </div>
+
+      <div class="featured-grid">
+        {% for post in featured_posts limit:6 %}
+          <article class="infographic-card featured-item">
+            <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
+              {% if post.image %}
+                <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+              {% else %}
+                <div class="image-placeholder"><span>Infograf+</span></div>
+              {% endif %}
+            </a>
+
+            <div class="infographic-card-content">
+              <span class="featured-label">★ مميز</span>
+              {% if post.category %}
+                <span class="card-category">{{ post.category }}</span>
+              {% endif %}
+
+              <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+
+              {% if post.description %}
+                <p>{{ post.description }}</p>
+              {% endif %}
+
+              <div class="card-meta">
+                {% if post.date %}
+                  <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>
+                {% endif %}
+                <span class="read-more">عرض الإنفوغرافيك <span aria-hidden="true">←</span></span>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
   <section class="latest-section" id="latest">
     <div class="section-heading">
       <div>
@@ -119,10 +166,10 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
     {% if site.posts.size > 0 %}
       <div class="infographic-grid" id="infographic-grid">
         {% for post in site.posts limit:6 %}
-          <article class="infographic-card {% if forloop.first %}featured-card{% endif %}" data-category="{{ post.category | escape }}">
+          <article class="infographic-card" data-category="{{ post.category | escape }}">
             <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
               {% if post.image %}
-                <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+                <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
               {% else %}
                 <div class="image-placeholder"><span>Infograf+</span></div>
               {% endif %}
