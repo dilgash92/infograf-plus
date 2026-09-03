@@ -182,7 +182,8 @@
 
       if (!match || normalize(hash) === 'all') return;
 
-      categoryGrid.hidden = true;
+      categoryGrid.hidden = false;
+      categoryGrid.style.display = 'none';
 
       const backLink = document.createElement('a');
       backLink.href = '{{ site.baseurl }}/categories/';
