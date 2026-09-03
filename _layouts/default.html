@@ -154,6 +154,45 @@
     {{ content }}
   </div>
 
+  <!-- Direct category view: when a category is opened from the homepage, show its posts without the category grid. -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const page = document.querySelector('.categories-page');
+      const categoryGrid = page?.querySelector('.all-categories');
+      const results = page?.querySelector('#category-results');
+      if (!page || !categoryGrid || !results) return;
+
+      const hash = decodeURIComponent(window.location.hash.substring(1)).trim();
+      if (!hash) return;
+
+      const normalize = function (text) {
+        return String(text || '')
+          .trim()
+          .toLowerCase()
+          .replace(/[\u064B-\u065F\u0670]/g, '')
+          .replace(/[إأآا]/g, 'ا')
+          .replace(/ى/g, 'ي')
+          .replace(/ة/g, 'ه')
+          .replace(/ـ/g, '');
+      };
+
+      const match = Array.from(page.querySelectorAll('.category-card')).find(function (button) {
+        return normalize(button.dataset.category || '') === normalize(hash);
+      });
+
+      if (!match || normalize(hash) === 'all') return;
+
+      categoryGrid.hidden = true;
+
+      const backLink = document.createElement('a');
+      backLink.href = '{{ site.baseurl }}/categories/';
+      backLink.className = 'btn btn-secondary';
+      backLink.textContent = '← تغيير القسم';
+      backLink.style.marginBottom = '18px';
+      results.insertBefore(backLink, results.firstChild);
+    });
+  </script>
+
   <!-- Homepage layer is loaded after page content so it can safely override homepage-only styles. -->
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/homepage.css">
 
