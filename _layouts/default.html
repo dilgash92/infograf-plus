@@ -156,15 +156,6 @@
 
 
   <!-- =========================
-       Netlify Identity
-       ========================= -->
-
-  <script
-    src="https://identity.netlify.com/v1/netlify-identity-widget.js">
-  </script>
-
-
-  <!-- =========================
        PWA Manifest
        ========================= -->
 
@@ -196,8 +187,8 @@
     crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">
 
 </head>
 
@@ -212,9 +203,6 @@
   <header class="site-header">
 
     <div class="header-inner">
-
-
-      <!-- Logo -->
 
       <a
         href="{{ site.baseurl }}/"
@@ -232,50 +220,16 @@
       </a>
 
 
-      <!-- Desktop Navigation -->
-
       <nav
         class="desktop-navigation"
         aria-label="التنقل الرئيسي">
 
-
-        <!-- الرئيسية -->
-
-        <a
-          href="{{ site.baseurl }}/"
-          class="nav-link">
-
-          الرئيسية
-
-        </a>
-
-
-        <!-- الأقسام -->
-
-        <a
-          href="{{ site.baseurl }}/categories/"
-          class="nav-link">
-
-          الأقسام
-
-        </a>
-
-
-        <!-- الأحدث -->
-
-        <a
-          href="{{ site.baseurl }}/#latest"
-          class="nav-link">
-
-          الأحدث
-
-        </a>
-
+        <a href="{{ site.baseurl }}/" class="nav-link">الرئيسية</a>
+        <a href="{{ site.baseurl }}/categories/" class="nav-link">الأقسام</a>
+        <a href="{{ site.baseurl }}/#latest" class="nav-link">الأحدث</a>
 
       </nav>
 
-
-      <!-- Search -->
 
       <button
         type="button"
@@ -286,18 +240,14 @@
         <span
           class="search-icon"
           aria-hidden="true">
-
           ⌕
-
         </span>
 
       </button>
 
-
     </div>
 
   </header>
-
 
 
   <!-- ==================================================
@@ -311,35 +261,23 @@
 
     <div class="search-panel-inner">
 
-
       <div class="search-header">
-
-        <h2>
-          ابحث في Infograf+
-        </h2>
-
+        <h2>ابحث في Infograf+</h2>
 
         <button
           type="button"
           id="close-search"
           class="close-search"
           aria-label="إغلاق البحث">
-
           ×
-
         </button>
-
       </div>
-
 
       <label
         for="site-search"
         class="visually-hidden">
-
         ابحث في الموقع
-
       </label>
-
 
       <input
         id="site-search"
@@ -347,17 +285,14 @@
         placeholder="اكتب كلمة للبحث..."
         autocomplete="off">
 
-
       <div
         id="search-results"
         class="search-results">
       </div>
 
-
     </div>
 
   </div>
-
 
 
   <!-- ==================================================
@@ -365,11 +300,8 @@
        ================================================== -->
 
   <div class="page-wrapper">
-
     {{ content }}
-
   </div>
-
 
 
   <!-- ==================================================
@@ -380,94 +312,30 @@
     class="mobile-navigation"
     aria-label="التنقل في الموقع">
 
-
-    <!-- الرئيسية -->
-
-    <a
-      href="{{ site.baseurl }}/"
-      class="mobile-nav-item">
-
-      <span
-        class="mobile-nav-icon"
-        aria-hidden="true">
-
-        ⌂
-
-      </span>
-
-      <span>
-        الرئيسية
-      </span>
-
+    <a href="{{ site.baseurl }}/" class="mobile-nav-item">
+      <span class="mobile-nav-icon" aria-hidden="true">⌂</span>
+      <span>الرئيسية</span>
     </a>
 
-
-    <!-- الأقسام -->
-
-    <a
-      href="{{ site.baseurl }}/categories/"
-      class="mobile-nav-item">
-
-      <span
-        class="mobile-nav-icon"
-        aria-hidden="true">
-
-        ▦
-
-      </span>
-
-      <span>
-        الأقسام
-      </span>
-
+    <a href="{{ site.baseurl }}/categories/" class="mobile-nav-item">
+      <span class="mobile-nav-icon" aria-hidden="true">▦</span>
+      <span>الأقسام</span>
     </a>
-
-
-    <!-- البحث -->
 
     <button
       type="button"
       class="mobile-nav-item mobile-search-trigger"
       id="mobile-search">
-
-      <span
-        class="mobile-nav-icon"
-        aria-hidden="true">
-
-        ⌕
-
-      </span>
-
-      <span>
-        بحث
-      </span>
-
+      <span class="mobile-nav-icon" aria-hidden="true">⌕</span>
+      <span>بحث</span>
     </button>
 
-
-    <!-- الأحدث -->
-
-    <a
-      href="{{ site.baseurl }}/#latest"
-      class="mobile-nav-item">
-
-      <span
-        class="mobile-nav-icon"
-        aria-hidden="true">
-
-        ✦
-
-      </span>
-
-      <span>
-        الأحدث
-      </span>
-
+    <a href="{{ site.baseurl }}/#latest" class="mobile-nav-item">
+      <span class="mobile-nav-icon" aria-hidden="true">✦</span>
+      <span>الأحدث</span>
     </a>
 
-
   </nav>
-
 
 
   <!-- ==================================================
@@ -478,44 +346,24 @@
 
     <div class="footer-inner">
 
-
       <div class="footer-brand">
-
-        <a
-          href="{{ site.baseurl }}/"
-          class="brand">
-
-          <span class="brand-name">
-            Infograf
-          </span>
-
-          <span class="brand-plus">
-            +
-          </span>
-
+        <a href="{{ site.baseurl }}/" class="brand">
+          <span class="brand-name">Infograf</span>
+          <span class="brand-plus">+</span>
         </a>
-
 
         <p>
           معلومات وإنفوغرافيك بطريقة أبسط.
         </p>
-
       </div>
-
 
       <div class="footer-info">
-
-        © {{ 'now' | date: "%Y" }}
-
-        Infograf+
-
+        © {{ 'now' | date: "%Y" }} Infograf+
       </div>
-
 
     </div>
 
   </footer>
-
 
 
   <!-- ==================================================
@@ -523,44 +371,9 @@
        ================================================== -->
 
   <script
-    src="{{ site.baseurl }}/assets/js/app.js">
+    src="{{ site.baseurl }}/assets/js/app.js"
+    defer>
   </script>
-
-
-
-  <!-- ==================================================
-       NETLIFY IDENTITY
-       ================================================== -->
-
-  <script>
-
-    if (window.netlifyIdentity) {
-
-      window.netlifyIdentity.on(
-        "init",
-        function(user) {
-
-          if (!user) {
-
-            window.netlifyIdentity.on(
-              "login",
-              function() {
-
-                document.location.href =
-                  "{{ site.baseurl }}/admin/";
-
-              }
-            );
-
-          }
-
-        }
-      );
-
-    }
-
-  </script>
-
 
 </body>
 
