@@ -116,7 +116,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/homepage.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">
 </head>
 
@@ -154,6 +153,9 @@
   <div class="page-wrapper">
     {{ content }}
   </div>
+
+  <!-- Homepage layer is loaded after page content so it can safely override homepage-only styles. -->
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/homepage.css">
 
   <nav class="mobile-navigation" aria-label="التنقل في الموقع">
     <a href="{{ site.baseurl }}/" class="mobile-nav-item"><span class="mobile-nav-icon" aria-hidden="true">⌂</span><span>الرئيسية</span></a>
