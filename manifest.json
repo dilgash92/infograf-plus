@@ -1,11 +1,12 @@
 {
+  "id": "/",
   "name": "Infograf+",
   "short_name": "Infograf+",
   "description": "معلومات وإنفوغرافيك بطريقة أبسط.",
   "lang": "ar",
   "dir": "rtl",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
@@ -17,10 +18,10 @@
   ],
   "icons": [
     {
-      "src": "assets/icons/icon.svg",
+      "src": "/assets/icons/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }
