@@ -60,7 +60,7 @@ permalink: /admin/
 <label>المحتوى الإضافي<textarea id="field-body-editor" rows="8" placeholder="معلومات إضافية اختيارية... يمكنك استخدام Markdown البسيط."></textarea></label>
 <label>المصدر<input id="field-source" maxlength="180" type="text"></label></div>
 <aside class="section-card editor-side">
-<label>القسم <span>*</span><select id="field-category" required><option value="">اختر القسم</option><option>العالم</option><option>سياسة</option><option>اقتصاد ومال</option><option>تقنية</option><option>علوم</option><option>صحة</option><option>رياضة</option><option>ترفيه</option><option>سيارات</option><option>سفر</option><option>تعليم</option><option>تاريخ</option><option>مجتمع</option><option>فن وثقافة</option><option>طبيعة وبيئة</option><option>منوع</option></select></label>
+<label>القسم <span>*</span><select id="field-category" required><option value="">تحميل الأقسام...</option></select></label>
 <label>التاريخ <span>*</span><input id="field-date" required type="datetime-local"></label>
 <label>الوصف البديل للصورة (Alt Text)<input id="field-alt" maxlength="300" type="text" placeholder="وصف دقيق لمحتوى الصورة"></label>
 <div class="upload-box"><span class="upload-label">صورة الإنفوغرافيك <b>*</b></span><input id="field-image" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"><div id="image-preview" class="image-preview" hidden></div><p id="current-image" class="muted small"></p></div>
@@ -86,6 +86,7 @@ permalink: /admin/
 <script src="{{ site.baseurl }}/admin/app.js"></script>
 <script src="{{ site.baseurl }}/admin/preview.js"></script>
 <script src="{{ site.baseurl }}/admin/delete-cleanup.js"></script>
+<script src="{{ site.baseurl }}/admin/categories.js"></script>
 <script>
 (() => {
   'use strict';
