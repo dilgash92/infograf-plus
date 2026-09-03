@@ -2,6 +2,7 @@
   'use strict';
 
   const API = 'https://calm-dream-ae41.dilgash-ibrahim.workers.dev';
+  const GITHUB_CONTENTS = 'https://api.github.com/repos/dilgash92/infograf-plus/contents/';
   const SESSION_KEY = 'infograf_plus_admin_session';
 
   const session = () => sessionStorage.getItem(SESSION_KEY) || '';
@@ -27,16 +28,56 @@
       const binary = atob(String(value || '').replace(/\n/g, ''));
       const bytes = Uint8Array.from(binary, ch => ch.charCodeAt(0));
       return new TextDecoder('utf-8').decode(bytes);
-    } catch (_) {
-      return '';
+    } catch (_) { return ''; }
+  }
+
+  function parseImage(text) {
+    const match = String(text || '').match(/^image:\s*(.*)$/m);
+    if (!match) return '';
+    const value = match[1].trim();
+    try { return normalizePath(JSON.parse(value)); } catch (_) {}
+    return normalizePath(value.replace(/^['"]|['"]$/g, ''));
+  }
+
+  function normalizePath(value) {
+    const path = String(value || '').trim();
+    if (!path || /^https?:\/\//i.test(path)) return '';
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+
+  function githubPath(path) {
+    return path.replace(/^\/+/, '').split('/').map(encodeURIComponent).join('/');
+  }
+
+  async function deleteUnusedImage(path, remainingFiles) {
+    const target = normalizePath(path);
+    if (!target || !target.startsWith('/assets/uploads/')) return;
+
+    for (const file of Array.isArray(remainingFiles) ? remainingFiles : []) {
+      if (parseImage(decodeBase64(file.content || '')) === target) return;
     }
+
+    const response = await fetch(`${GITHUB_CONTENTS}${githubPath(target)}?ref=main`, {
+      headers: {Accept:'application/vnd.github+json'}
+    });
+    if (response.status === 404) return;
+    if (!response.ok) throw new Error('تعذر العثور على صورة الإنفوغرافيك للحذف.');
+    const meta = await response.json();
+
+    await api('/api/file', {
+      method: 'DELETE',
+      body: JSON.stringify({
+        path: target,
+        sha: meta.sha,
+        message: `Delete infographic image: ${target.split('/').pop()}`
+      })
+    });
   }
 
   async function handleDeleteClick(event) {
     const button = event.target.closest('[data-delete-index]');
     if (!button) return;
 
-    // Make this capture handler the only delete path.
     event.preventDefault();
     event.stopPropagation();
     if (event.stopImmediatePropagation) event.stopImmediatePropagation();
@@ -45,18 +86,19 @@
     if (!Number.isInteger(index)) return;
 
     try {
-      const data = await api('/api/posts');
-      const files = Array.isArray(data) ? data : [];
-      const target = files[index];
+      const files = await api('/api/posts');
+      const posts = Array.isArray(files) ? files : [];
+      const target = posts[index];
       if (!target) throw new Error('تعذر العثور على الإنفوغرافيك المحدد. حدّث القائمة وحاول مجدداً.');
 
       const text = decodeBase64(target.content || '');
       const title = (text.match(/^title:\s*["']?(.+?)["']?\s*$/m) || [])[1] || target.path;
-      if (!window.confirm(`هل أنت متأكد من حذف «${String(title).trim()}»؟\n\nسيُحذف ملف الإنفوغرافيك فقط.`)) return;
+      const image = parseImage(text);
+      if (!window.confirm(`هل أنت متأكد من حذف «${String(title).trim()}»؟\n\nسيتم حذف المنشور وصورته نهائياً من ملفات الموقع.`)) return;
 
       const status = document.getElementById('global-status');
       if (status) {
-        status.textContent = 'جارٍ حذف الإنفوغرافيك...';
+        status.textContent = 'جارٍ حذف الإنفوغرافيك والصورة...';
         status.className = 'status';
         status.hidden = false;
       }
@@ -70,9 +112,17 @@
         })
       });
 
+      const remaining = posts.filter((_, i) => i !== index);
+      let imageWarning = '';
+      try {
+        await deleteUnusedImage(image, remaining);
+      } catch (error) {
+        imageWarning = ` المنشور حُذف، لكن تعذر حذف الصورة: ${error.message}`;
+      }
+
       if (status) {
-        status.textContent = 'تم حذف الإنفوغرافيك بنجاح.';
-        status.className = 'status success';
+        status.textContent = imageWarning || 'تم حذف الإنفوغرافيك والصورة بنجاح.';
+        status.className = imageWarning ? 'status error' : 'status success';
         status.hidden = false;
       }
 
