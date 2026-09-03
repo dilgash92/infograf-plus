@@ -1,0 +1,64 @@
+---
+layout: default
+title: الصفحة غير موجودة
+permalink: /404.html
+---
+
+<section class="error-page" aria-labelledby="error-title">
+  <div class="error-page-inner">
+    <span class="error-code" aria-hidden="true">404</span>
+    <h1 id="error-title">هذه الصفحة غير موجودة</h1>
+    <p>يبدو أن الرابط تغيّر أو أن الصفحة لم تعد متاحة.</p>
+
+    <div class="error-actions">
+      <a href="{{ site.baseurl }}/" class="btn btn-primary">العودة للرئيسية</a>
+      <a href="{{ site.baseurl }}/categories/" class="btn btn-secondary">تصفح الأقسام</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .error-page {
+    min-height: 65vh;
+    width: min(var(--max-width), calc(100% - 40px));
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+
+  .error-page-inner {
+    width: min(620px, 100%);
+    padding: 50px 20px;
+  }
+
+  .error-code {
+    display: block;
+    color: var(--accent);
+    font-size: clamp(72px, 15vw, 150px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -6px;
+    direction: ltr;
+  }
+
+  .error-page h1 {
+    margin: 25px 0 8px;
+    font-size: clamp(24px, 4vw, 34px);
+    line-height: 1.4;
+  }
+
+  .error-page p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  .error-actions {
+    margin-top: 26px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
