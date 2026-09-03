@@ -4,1003 +4,198 @@ title: الرئيسية
 description: "Infograf+ — معلومات وإنفوغرافيك بطريقة أبسط"
 ---
 
-<style>
-
-/* =========================================================
-   Infograf+ — Homepage Improvements
-   ========================================================= */
-
-.site-home {
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.hero-section {
-  position: relative;
-  min-height: 570px;
-  padding-top: 70px;
-  padding-bottom: 70px;
-}
-
-
-/* =========================================================
-   HERO DECORATION
-   ========================================================= */
-
-.hero-section::before {
-  content: "";
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  left: -220px;
-  top: 40px;
-  border-radius: 50%;
-  background: var(--accent-light);
-  opacity: 0.45;
-  filter: blur(20px);
-  pointer-events: none;
-}
-
-.hero-section::after {
-  content: "";
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  right: -150px;
-  bottom: -80px;
-  border-radius: 50%;
-  background: var(--accent-light);
-  opacity: 0.35;
-  filter: blur(20px);
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   HERO CONTENT
-   ========================================================= */
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-}
-
-.hero-badge {
-  box-shadow: 0 6px 18px rgba(99, 91, 255, 0.10);
-}
-
-
-/* =========================================================
-   HERO VISUAL
-   ========================================================= */
-
-.hero-visual {
-  position: relative;
-  z-index: 2;
-}
-
-
-/* =========================================================
-   QUICK BENEFITS
-   ========================================================= */
-
-.home-benefits {
-  width: min(var(--max-width), calc(100% - 40px));
-  margin: 0 auto;
-  padding: 0 0 55px;
-
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
-.home-benefit {
-  min-height: 92px;
-  padding: 18px 20px;
-
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-
-  box-shadow: var(--shadow-sm);
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.home-benefit:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent);
-  box-shadow: var(--shadow-md);
-}
-
-.home-benefit-icon {
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 13px;
-
-  background: var(--accent-light);
-  color: var(--accent);
-
-  font-size: 20px;
-  font-weight: 800;
-}
-
-.home-benefit strong {
-  display: block;
-  font-size: 14px;
-}
-
-.home-benefit span {
-  display: block;
-  margin-top: 2px;
-
-  color: var(--text-light);
-  font-size: 11px;
-}
-
-
-/* =========================================================
-   CATEGORY SECTION
-   ========================================================= */
-
-.categories-section {
-  position: relative;
-}
-
-.category-list {
-  scrollbar-width: none;
-}
-
-
-/* =========================================================
-   LATEST SECTION
-   ========================================================= */
-
-.latest-section {
-  position: relative;
-}
-
-.latest-section .section-heading {
-  margin-bottom: 30px;
-}
-
-
-/* =========================================================
-   FEATURED CARD
-   ========================================================= */
-
-.infographic-grid {
-  align-items: start;
-}
-
-.infographic-card.featured-card {
-  grid-column: span 2;
-}
-
-.featured-card .infographic-image-link {
-  aspect-ratio: 16 / 8;
-}
-
-.featured-card .infographic-card-content {
-  padding: 22px 24px 24px;
-}
-
-.featured-card h3 {
-  font-size: 22px;
-}
-
-
-/* =========================================================
-   NORMAL CARDS
-   ========================================================= */
-
-.infographic-card:not(.featured-card) {
-  height: 100%;
-}
-
-.infographic-card:not(.featured-card) .infographic-card-content {
-  min-height: 175px;
-}
-
-
-/* =========================================================
-   SECTION FOOTER
-   ========================================================= */
-
-.section-footer {
-  margin-top: 30px;
-
-  display: flex;
-  justify-content: center;
-}
-
-
-/* =========================================================
-   ABOUT
-   ========================================================= */
-
-.about-section {
-  position: relative;
-  overflow: hidden;
-}
-
-.about-section::before {
-  content: "+";
-
-  position: absolute;
-  left: 40px;
-  top: 20px;
-
-  font-size: 120px;
-  font-weight: 800;
-
-  color: var(--accent-light);
-
-  pointer-events: none;
-}
-
-.about-content,
-.about-mark {
-  position: relative;
-  z-index: 2;
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 950px) {
-
-  .hero-section {
-    min-height: auto;
-  }
-
-  .home-benefits {
-    grid-template-columns: 1fr;
-  }
-
-  .infographic-card.featured-card {
-    grid-column: span 2;
-  }
-
-}
-
-
-@media (max-width: 700px) {
-
-  .hero-section {
-    padding-top: 35px;
-    padding-bottom: 40px;
-  }
-
-  .home-benefits {
-    width: calc(100% - 28px);
-    grid-template-columns: 1fr;
-    padding-bottom: 35px;
-  }
-
-  .home-benefit {
-    min-height: 78px;
-  }
-
-  .infographic-card.featured-card {
-    grid-column: auto;
-  }
-
-  .featured-card .infographic-image-link {
-    aspect-ratio: 4 / 3;
-  }
-
-  .featured-card h3 {
-    font-size: 19px;
-  }
-
-  .section-footer {
-    margin-top: 22px;
-  }
-
-}
-
-</style>
-
-
 <main class="site-home">
 
-
-  <!-- ==================================================
-       HERO
-       ================================================== -->
-
   <section class="hero-section">
-
     <div class="hero-content">
-
-      <span class="hero-badge">
-        Infograf+
-      </span>
-
+      <span class="hero-badge">Infograf+</span>
 
       <h1>
         المعلومة أوضح<br>
         <span>لما تشوفها.</span>
       </h1>
 
-
       <p>
         إنفوغرافيكات مختصرة وموثوقة تساعدك على فهم
         الأرقام والأحداث والأفكار بطريقة بصرية بسيطة.
       </p>
 
-
       <div class="hero-actions">
-
-        <a
-          href="#latest"
-          class="btn btn-primary">
-
-          اكتشف الإنفوغرافيكات
-
-        </a>
-
-
-        <a
-          href="{{ site.baseurl }}/categories/"
-          class="btn btn-secondary">
-
-          تصفح الأقسام
-
-        </a>
-
+        <a href="#latest" class="btn btn-primary">اكتشف الإنفوغرافيكات</a>
+        <a href="{{ site.baseurl }}/categories/" class="btn btn-secondary">تصفح الأقسام</a>
       </div>
-
     </div>
 
-
-    <!-- HERO VISUAL -->
-
-    <div
-      class="hero-visual"
-      aria-hidden="true">
-
+    <div class="hero-visual" aria-hidden="true">
       <div class="visual-card visual-card-main">
-
         <div class="visual-top">
-
-          <span></span>
-          <span></span>
-          <span></span>
-
+          <span></span><span></span><span></span>
         </div>
-
-
         <div class="visual-bars">
-
           <div style="height:42%;"></div>
-
           <div style="height:68%;"></div>
-
           <div style="height:52%;"></div>
-
           <div style="height:88%;"></div>
-
           <div style="height:74%;"></div>
-
         </div>
-
-
         <div class="visual-line"></div>
-
       </div>
-
 
       <div class="visual-card visual-card-small">
-
-        <strong>
-          +
-        </strong>
-
-        <span>
-          معلومة جديدة
-        </span>
-
+        <strong>+</strong>
+        <span>معلومة جديدة</span>
       </div>
-
     </div>
-
   </section>
-
-
-
-  <!-- ==================================================
-       QUICK BENEFITS
-       ================================================== -->
 
   <section class="home-benefits">
-
     <div class="home-benefit">
-
-      <div class="home-benefit-icon">
-        ✦
-      </div>
-
+      <div class="home-benefit-icon">✦</div>
       <div>
-
-        <strong>
-          معلومة مختصرة
-        </strong>
-
-        <span>
-          نصل إلى الفكرة بسرعة
-        </span>
-
+        <strong>معلومة مختصرة</strong>
+        <span>نصل إلى الفكرة بسرعة</span>
       </div>
-
     </div>
 
-
     <div class="home-benefit">
-
-      <div class="home-benefit-icon">
-        ◈
-      </div>
-
+      <div class="home-benefit-icon">◈</div>
       <div>
-
-        <strong>
-          عرض بصري واضح
-        </strong>
-
-        <span>
-          الأرقام أسهل عندما تراها
-        </span>
-
+        <strong>عرض بصري واضح</strong>
+        <span>الأرقام أسهل عندما تراها</span>
       </div>
-
     </div>
 
-
     <div class="home-benefit">
-
-      <div class="home-benefit-icon">
-        ↗
-      </div>
-
+      <div class="home-benefit-icon">↗</div>
       <div>
-
-        <strong>
-          مشاركة سهلة
-        </strong>
-
-        <span>
-          شارك المعلومة مع الآخرين
-        </span>
-
+        <strong>مشاركة سهلة</strong>
+        <span>شارك المعلومة مع الآخرين</span>
       </div>
-
     </div>
-
   </section>
 
-
-
-  <!-- ==================================================
-       QUICK CATEGORIES
-       ================================================== -->
-
-  <section
-    class="categories-section"
-    id="categories">
-
-
+  <section class="categories-section" id="categories">
     <div class="section-heading">
-
       <div>
-
-        <span class="section-kicker">
-          استكشف
-        </span>
-
-        <h2>
-          تصفح حسب القسم
-        </h2>
-
+        <span class="section-kicker">استكشف</span>
+        <h2>تصفح حسب القسم</h2>
       </div>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/"
-        class="section-count">
-
-        جميع الأقسام ←
-
-      </a>
-
+      <a href="{{ site.baseurl }}/categories/" class="section-count">جميع الأقسام ←</a>
     </div>
-
-
 
     <div class="category-list">
-
-
-      <a
-        href="{{ site.baseurl }}/categories/"
-        class="category-chip active">
-
-        الكل
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#العالم"
-        class="category-chip">
-
-        العالم
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#سياسة"
-        class="category-chip">
-
-        سياسة
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#اقتصاد ومال"
-        class="category-chip">
-
-        اقتصاد ومال
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#تقنية"
-        class="category-chip">
-
-        تقنية
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#علوم"
-        class="category-chip">
-
-        علوم
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#صحة"
-        class="category-chip">
-
-        صحة
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#رياضة"
-        class="category-chip">
-
-        رياضة
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#ترفيه"
-        class="category-chip">
-
-        ترفيه
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#سيارات"
-        class="category-chip">
-
-        سيارات
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#سفر"
-        class="category-chip">
-
-        سفر
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#تعليم"
-        class="category-chip">
-
-        تعليم
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#تاريخ"
-        class="category-chip">
-
-        تاريخ
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#مجتمع"
-        class="category-chip">
-
-        مجتمع
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#فن وثقافة"
-        class="category-chip">
-
-        فن وثقافة
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#طبيعة وبيئة"
-        class="category-chip">
-
-        طبيعة وبيئة
-
-      </a>
-
-
-      <a
-        href="{{ site.baseurl }}/categories/#منوع"
-        class="category-chip">
-
-        منوع
-
-      </a>
-
-
+      <a href="{{ site.baseurl }}/categories/" class="category-chip active">الكل</a>
+      <a href="{{ site.baseurl }}/categories/#العالم" class="category-chip">العالم</a>
+      <a href="{{ site.baseurl }}/categories/#سياسة" class="category-chip">سياسة</a>
+      <a href="{{ site.baseurl }}/categories/#اقتصاد ومال" class="category-chip">اقتصاد ومال</a>
+      <a href="{{ site.baseurl }}/categories/#تقنية" class="category-chip">تقنية</a>
+      <a href="{{ site.baseurl }}/categories/#علوم" class="category-chip">علوم</a>
+      <a href="{{ site.baseurl }}/categories/#صحة" class="category-chip">صحة</a>
+      <a href="{{ site.baseurl }}/categories/#رياضة" class="category-chip">رياضة</a>
+      <a href="{{ site.baseurl }}/categories/#ترفيه" class="category-chip">ترفيه</a>
+      <a href="{{ site.baseurl }}/categories/#سيارات" class="category-chip">سيارات</a>
+      <a href="{{ site.baseurl }}/categories/#سفر" class="category-chip">سفر</a>
+      <a href="{{ site.baseurl }}/categories/#تعليم" class="category-chip">تعليم</a>
+      <a href="{{ site.baseurl }}/categories/#تاريخ" class="category-chip">تاريخ</a>
+      <a href="{{ site.baseurl }}/categories/#مجتمع" class="category-chip">مجتمع</a>
+      <a href="{{ site.baseurl }}/categories/#فن وثقافة" class="category-chip">فن وثقافة</a>
+      <a href="{{ site.baseurl }}/categories/#طبيعة وبيئة" class="category-chip">طبيعة وبيئة</a>
+      <a href="{{ site.baseurl }}/categories/#منوع" class="category-chip">منوع</a>
     </div>
-
   </section>
 
-
-
-  <!-- ==================================================
-       LATEST INFOGRAPHICS
-       ================================================== -->
-
-  <section
-    class="latest-section"
-    id="latest">
-
-
+  <section class="latest-section" id="latest">
     <div class="section-heading">
-
       <div>
-
-        <span class="section-kicker">
-          آخر ما نُشر
-        </span>
-
-        <h2>
-          أحدث الإنفوغرافيكات
-        </h2>
-
+        <span class="section-kicker">آخر ما نُشر</span>
+        <h2>أحدث الإنفوغرافيكات</h2>
       </div>
-
 
       {% if site.posts.size > 0 %}
-
-        <span class="section-count">
-
-          {{ site.posts.size }}
-          إنفوغرافيك
-
-        </span>
-
+        <span class="section-count">{{ site.posts.size }} إنفوغرافيك</span>
       {% endif %}
-
     </div>
 
-
-
     {% if site.posts.size > 0 %}
-
-
-      <div
-        class="infographic-grid"
-        id="infographic-grid">
-
-
+      <div class="infographic-grid" id="infographic-grid">
         {% for post in site.posts limit:6 %}
-
-
-          <article
-            class="infographic-card {% if forloop.first %}featured-card{% endif %}"
-            data-category="{{ post.category | escape }}">
-
-
-            <!-- IMAGE -->
-
-            <a
-              href="{{ post.url | relative_url }}"
-              class="infographic-image-link"
-              aria-label="عرض {{ post.title | escape }}">
-
-
+          <article class="infographic-card {% if forloop.first %}featured-card{% endif %}" data-category="{{ post.category | escape }}">
+            <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
               {% if post.image %}
-
-                <img
-                  src="{{ post.image | relative_url }}"
-                  alt="{{ post.title | escape }}"
-                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                  decoding="async">
-
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
               {% else %}
-
-                <div class="image-placeholder">
-
-                  <span>
-                    Infograf+
-                  </span>
-
-                </div>
-
+                <div class="image-placeholder"><span>Infograf+</span></div>
               {% endif %}
-
-
             </a>
 
-
-
-            <!-- CONTENT -->
-
             <div class="infographic-card-content">
-
-
               {% if post.category %}
-
-                <span class="card-category">
-                  {{ post.category }}
-                </span>
-
+                <span class="card-category">{{ post.category }}</span>
               {% endif %}
-
 
               <h3>
-
-                <a
-                  href="{{ post.url | relative_url }}">
-
-                  {{ post.title }}
-
-                </a>
-
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
               </h3>
 
-
               {% if post.description %}
-
-                <p>
-                  {{ post.description }}
-                </p>
-
+                <p>{{ post.description }}</p>
               {% endif %}
 
-
               <div class="card-meta">
-
-
                 {% if post.date %}
-
-                  <time
-                    datetime="{{ post.date | date_to_xmlschema }}">
-
-                    {{ post.date | date: "%d/%m/%Y" }}
-
-                  </time>
-
+                  <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>
                 {% endif %}
-
-
-                <span class="read-more">
-
-                  عرض الإنفوغرافيك
-
-                  <span aria-hidden="true">
-                    ←
-                  </span>
-
-                </span>
-
-
+                <span class="read-more">عرض الإنفوغرافيك <span aria-hidden="true">←</span></span>
               </div>
-
             </div>
-
-
           </article>
-
-
         {% endfor %}
-
-
       </div>
-
-
-
-      <!-- VIEW ALL -->
 
       {% if site.posts.size > 6 %}
-
         <div class="section-footer">
-
-          <a
-            href="{{ site.baseurl }}/categories/"
-            class="btn btn-secondary">
-
-            عرض جميع الإنفوغرافيكات
-
-            <span aria-hidden="true">
-              ←
-            </span>
-
+          <a href="{{ site.baseurl }}/categories/" class="btn btn-secondary">
+            عرض جميع الإنفوغرافيكات <span aria-hidden="true">←</span>
           </a>
-
         </div>
-
       {% endif %}
-
-
-
     {% else %}
-
-
-      <!-- EMPTY STATE -->
-
       <div class="empty-state">
-
-        <div class="empty-icon">
-          +
-        </div>
-
-
-        <h3>
-          أول إنفوغرافيك قريباً
-        </h3>
-
-
-        <p>
-          عندما تضيف أول إنفوغرافيك،
-          سيظهر هنا تلقائياً.
-        </p>
-
+        <div class="empty-icon">+</div>
+        <h3>أول إنفوغرافيك قريباً</h3>
+        <p>عندما تضيف أول إنفوغرافيك، سيظهر هنا تلقائياً.</p>
       </div>
-
-
     {% endif %}
-
-
   </section>
 
-
-
-  <!-- ==================================================
-       ABOUT
-       ================================================== -->
-
   <section class="about-section">
-
-
     <div class="about-content">
-
-
-      <span class="section-kicker">
-        عن Infograf+
-      </span>
-
-
-      <h2>
-
-        معلومات كثيرة.<br>
-
-        <span>
-          طريقة أبسط لفهمها.
-        </span>
-
-      </h2>
-
-
+      <span class="section-kicker">عن Infograf+</span>
+      <h2>معلومات كثيرة.<br><span>طريقة أبسط لفهمها.</span></h2>
       <p>
-
         نحول البيانات والأرقام والأحداث
         إلى محتوى بصري مختصر وسهل القراءة،
         حتى تصل إلى المعلومة بسرعة ووضوح.
-
       </p>
-
-
     </div>
 
-
-    <div
-      class="about-mark"
-      aria-hidden="true">
-
-      <span>
-        Infograf
-      </span>
-
-      <strong>
-        +
-      </strong>
-
+    <div class="about-mark" aria-hidden="true">
+      <span>Infograf</span>
+      <strong>+</strong>
     </div>
-
-
   </section>
 
-
-
-  <!-- ==================================================
-       SEARCH INDEX
-       ================================================== -->
-
-  <script
-    id="search-index"
-    type="application/json">
-
+  <script id="search-index" type="application/json">
 [
   {% for post in site.posts %}
-
     {
       "title": {{ post.title | jsonify }},
       "description": {{ post.description | default: "" | jsonify }},
       "category": {{ post.category | default: "" | jsonify }},
       "url": {{ post.url | relative_url | jsonify }}
-    }
-
-    {% unless forloop.last %}
-      ,
-    {% endunless %}
-
+    }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ]
-
   </script>
-
 
 </main>
