@@ -2,600 +2,196 @@
 layout: default
 ---
 
-<main
-  class="infographic-page"
-  aria-labelledby="infographic-title">
-
-  <!-- ==================================================
-       HEADER
-       ================================================== -->
+<main class="infographic-page" aria-labelledby="infographic-title">
 
   <header class="infographic-page-header">
-
     {% if page.category %}
-
-      <a
-        href="{{ '/categories/' | relative_url }}"
-        class="infographic-page-category">
-
+      <a href="{{ '/categories/' | relative_url }}" class="infographic-page-category">
         {{ page.category }}
-
       </a>
-
     {% endif %}
 
-
-    <h1 id="infographic-title">
-      {{ page.title }}
-    </h1>
-
+    <h1 id="infographic-title">{{ page.title }}</h1>
 
     {% if page.description %}
-
-      <p class="infographic-page-description">
-        {{ page.description }}
-      </p>
-
+      <p class="infographic-page-description">{{ page.description }}</p>
     {% endif %}
 
-
     <div class="infographic-meta">
-
       {% if page.date %}
-
-        <time
-          datetime="{{ page.date | date_to_xmlschema }}">
-
-          {{ page.date | date: "%d/%m/%Y" }}
-
-        </time>
-
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d/%m/%Y" }}</time>
       {% endif %}
-
-
       {% if page.source %}
-
-        <span class="meta-separator">
-          •
-        </span>
-
-        <span>
-          {{ page.source }}
-        </span>
-
+        <span class="meta-separator">•</span>
+        <span>{{ page.source }}</span>
       {% endif %}
-
     </div>
-
   </header>
 
-
-
-  <!-- ==================================================
-       MAIN INFOGRAPHIC
-       ================================================== -->
-
   {% if page.image %}
-
-    <figure
-      class="infographic-main-image"
-      id="infographic-image">
-
+    <figure class="infographic-main-image" id="infographic-image">
       <img
         src="{{ page.image | relative_url }}"
         alt="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}"
         loading="eager"
         fetchpriority="high"
-        decoding="async">
-
+        decoding="async"
+        draggable="false"
+        style="-webkit-touch-callout:none; -webkit-user-select:none; user-select:none; -webkit-user-drag:none;">
     </figure>
-
   {% else %}
-
     <div class="empty-state">
-
-      <div class="empty-icon">
-        +
-      </div>
-
-      <h3>
-        لا توجد صورة لهذا الإنفوغرافيك
-      </h3>
-
-      <p>
-        سيتم عرض الصورة هنا عند إضافتها.
-      </p>
-
+      <div class="empty-icon">+</div>
+      <h3>لا توجد صورة لهذا الإنفوغرافيك</h3>
+      <p>سيتم عرض الصورة هنا عند إضافتها.</p>
     </div>
-
   {% endif %}
-
-
-
-  <!-- ==================================================
-       ACTIONS
-       ================================================== -->
 
   <div class="infographic-actions">
-
-    <!-- SHARE -->
-
-    <button
-      type="button"
-      class="infographic-action"
-      id="share-infographic">
-
-      <span aria-hidden="true">
-        ↗
-      </span>
-
+    <button type="button" class="infographic-action" id="share-infographic">
+      <span aria-hidden="true">↗</span>
       مشاركة
-
     </button>
 
-
-    <!-- COPY -->
-
-    <button
-      type="button"
-      class="infographic-action"
-      id="copy-infographic-link">
-
-      <span aria-hidden="true">
-        🔗
-      </span>
-
+    <button type="button" class="infographic-action" id="copy-infographic-link">
+      <span aria-hidden="true">🔗</span>
       نسخ الرابط
-
     </button>
-
-
-    <!-- CATEGORY -->
 
     {% if page.category %}
-
-      <a
-        href="{{ '/categories/' | relative_url }}"
-        class="infographic-action">
-
-        <span aria-hidden="true">
-          ←
-        </span>
-
+      <a href="{{ '/categories/' | relative_url }}" class="infographic-action">
+        <span aria-hidden="true">←</span>
         الأقسام
-
       </a>
-
     {% endif %}
 
-
-    <!-- HOME -->
-
-    <a
-      href="{{ '/' | relative_url }}"
-      class="infographic-action">
-
-      <span aria-hidden="true">
-        ⌂
-      </span>
-
+    <a href="{{ '/' | relative_url }}" class="infographic-action">
+      <span aria-hidden="true">⌂</span>
       الرئيسية
-
     </a>
-
   </div>
 
-
-
-  <!-- ==================================================
-       SOURCE
-       ================================================== -->
-
   {% if page.source %}
-
     <div class="infographic-source">
-
-      <span class="source-label">
-        المصدر
-      </span>
-
-      <strong>
-        {{ page.source }}
-      </strong>
-
+      <span class="source-label">المصدر</span>
+      <strong>{{ page.source }}</strong>
     </div>
-
   {% endif %}
-
-
-
-  <!-- ==================================================
-       EXTRA CONTENT
-       ================================================== -->
 
   {% if content != "" %}
-
-    <section
-      class="infographic-extra-content"
-      aria-label="معلومات إضافية">
-
+    <section class="infographic-extra-content" aria-label="معلومات إضافية">
       {{ content }}
-
     </section>
-
   {% endif %}
 
-
-
-  <!-- ==================================================
-       RELATED INFOGRAPHICS
-       ================================================== -->
-
   {% if page.category %}
-
-    {% assign related_posts = site.posts
-      | where: "category", page.category %}
-
+    {% assign related_posts = site.posts | where: "category", page.category %}
     {% if related_posts.size > 1 %}
-
-      <section
-        class="related-section"
-        aria-labelledby="related-infographics-title">
-
+      <section class="related-section" aria-labelledby="related-infographics-title">
         <div class="section-heading">
-
           <div>
-
-            <span class="section-kicker">
-              المزيد
-            </span>
-
-            <h2 id="related-infographics-title">
-              إنفوغرافيكات مشابهة
-            </h2>
-
+            <span class="section-kicker">المزيد</span>
+            <h2 id="related-infographics-title">إنفوغرافيكات مشابهة</h2>
           </div>
-
-
-          <a
-            href="{{ '/categories/' | relative_url }}"
-            class="section-count">
-
-            عرض الكل ←
-
-          </a>
-
+          <a href="{{ '/categories/' | relative_url }}" class="section-count">عرض الكل ←</a>
         </div>
 
-
-
         <div class="infographic-grid">
-
           {% assign related_count = 0 %}
-
           {% for post in related_posts %}
-
             {% if post.url != page.url and related_count < 3 %}
-
-              <article
-                class="infographic-card"
-                data-category="{{ post.category | escape }}">
-
-
-                <!-- IMAGE -->
-
-                <a
-                  href="{{ post.url | relative_url }}"
-                  class="infographic-image-link"
-                  aria-label="عرض {{ post.title | escape }}">
-
+              <article class="infographic-card" data-category="{{ post.category | escape }}">
+                <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
                   {% if post.image %}
-
                     <img
                       src="{{ post.image | relative_url }}"
                       alt="إنفوغرافيك: {{ post.title | escape }}"
                       loading="lazy"
-                      decoding="async">
-
+                      decoding="async"
+                      draggable="false"
+                      style="-webkit-touch-callout:none; -webkit-user-select:none; user-select:none; -webkit-user-drag:none;">
                   {% else %}
-
-                    <div class="image-placeholder">
-
-                      <span>
-                        Infograf+
-                      </span>
-
-                    </div>
-
+                    <div class="image-placeholder"><span>Infograf+</span></div>
                   {% endif %}
-
                 </a>
 
-
-
-                <!-- CONTENT -->
-
                 <div class="infographic-card-content">
-
                   {% if post.category %}
-
-                    <span class="card-category">
-                      {{ post.category }}
-                    </span>
-
+                    <span class="card-category">{{ post.category }}</span>
                   {% endif %}
-
-
-                  <h3>
-
-                    <a
-                      href="{{ post.url | relative_url }}">
-
-                      {{ post.title }}
-
-                    </a>
-
-                  </h3>
-
-
+                  <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
                   {% if post.description %}
-
-                    <p>
-                      {{ post.description }}
-                    </p>
-
+                    <p>{{ post.description }}</p>
                   {% endif %}
-
-
                   <div class="card-meta">
-
                     {% if post.date %}
-
-                      <time
-                        datetime="{{ post.date | date_to_xmlschema }}">
-
-                        {{ post.date | date: "%d/%m/%Y" }}
-
-                      </time>
-
+                      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>
                     {% endif %}
-
-
-                    <span class="read-more">
-
-                      عرض
-
-                      <span aria-hidden="true">
-                        ←
-                      </span>
-
-                    </span>
-
+                    <span class="read-more">عرض <span aria-hidden="true">←</span></span>
                   </div>
-
                 </div>
-
               </article>
-
-
-              {% assign related_count =
-                related_count | plus: 1 %}
-
+              {% assign related_count = related_count | plus: 1 %}
             {% endif %}
-
           {% endfor %}
-
         </div>
-
       </section>
-
     {% endif %}
-
   {% endif %}
 
-
-
-  <!-- ==================================================
-       SHARE / COPY SCRIPT
-       ================================================== -->
-
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const shareButton = document.getElementById("share-infographic");
+      const copyButton = document.getElementById("copy-infographic-link");
+      const pageUrl = window.location.href;
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      function () {
+      if (shareButton) {
+        shareButton.addEventListener("click", async function () {
+          const shareData = {
+            title: document.title,
+            text: "{{ page.title | escape }}",
+            url: pageUrl
+          };
 
-        const shareButton =
-          document.getElementById(
-            "share-infographic"
-          );
-
-
-        const copyButton =
-          document.getElementById(
-            "copy-infographic-link"
-          );
-
-
-        const pageUrl =
-          window.location.href;
-
-
-        /*
-         * SHARE
-         */
-
-        if (shareButton) {
-
-          shareButton.addEventListener(
-            "click",
-            async function () {
-
-              const shareData = {
-
-                title:
-                  document.title,
-
-                text:
-                  "{{ page.title | escape }}",
-
-                url:
-                  pageUrl
-
-              };
-
-
-              /*
-               * الأجهزة التي تدعم المشاركة
-               */
-
-              if (
-                navigator.share
-              ) {
-
-                try {
-
-                  await navigator.share(
-                    shareData
-                  );
-
-                } catch (error) {
-
-                  if (
-                    error.name !==
-                    "AbortError"
-                  ) {
-
-                    console.log(
-                      "Share failed.",
-                      error
-                    );
-
-                  }
-
-                }
-
-                return;
-
-              }
-
-
-              /*
-               * الأجهزة التي لا تدعم المشاركة
-               * ننسخ الرابط تلقائياً
-               */
-
-              try {
-
-                await navigator.clipboard.writeText(
-                  pageUrl
-                );
-
-
-                showTemporaryMessage(
-                  shareButton,
-                  "✓",
-                  "تم نسخ الرابط"
-                );
-
-
-              } catch (error) {
-
-                window.prompt(
-                  "انسخ الرابط:",
-                  pageUrl
-                );
-
-              }
-
+          if (navigator.share) {
+            try {
+              await navigator.share(shareData);
+            } catch (error) {
+              if (error.name !== "AbortError") console.log("Share failed.", error);
             }
-          );
+            return;
+          }
 
-        }
-
-
-
-        /*
-         * COPY LINK
-         */
-
-        if (copyButton) {
-
-          copyButton.addEventListener(
-            "click",
-            async function () {
-
-              try {
-
-                await navigator.clipboard.writeText(
-                  pageUrl
-                );
-
-
-                showTemporaryMessage(
-                  copyButton,
-                  "✓",
-                  "تم نسخ الرابط"
-                );
-
-
-              } catch (error) {
-
-                window.prompt(
-                  "انسخ الرابط:",
-                  pageUrl
-                );
-
-              }
-
-            }
-          );
-
-        }
-
-
-
-        /*
-         * TEMPORARY BUTTON MESSAGE
-         */
-
-        function showTemporaryMessage(
-          button,
-          icon,
-          text
-        ) {
-
-          const originalHTML =
-            button.innerHTML;
-
-
-          button.innerHTML =
-            '<span aria-hidden="true">' +
-            icon +
-            '</span> ' +
-            text;
-
-
-          button.disabled = true;
-
-
-          setTimeout(
-            function () {
-
-              button.innerHTML =
-                originalHTML;
-
-              button.disabled = false;
-
-            },
-            2000
-          );
-
-        }
-
+          try {
+            await navigator.clipboard.writeText(pageUrl);
+            showTemporaryMessage(shareButton, "✓", "تم نسخ الرابط");
+          } catch (error) {
+            window.prompt("انسخ الرابط:", pageUrl);
+          }
+        });
       }
-    );
 
+      if (copyButton) {
+        copyButton.addEventListener("click", async function () {
+          try {
+            await navigator.clipboard.writeText(pageUrl);
+            showTemporaryMessage(copyButton, "✓", "تم نسخ الرابط");
+          } catch (error) {
+            window.prompt("انسخ الرابط:", pageUrl);
+          }
+        });
+      }
+
+      function showTemporaryMessage(button, icon, text) {
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<span aria-hidden="true">' + icon + '</span> ' + text;
+        button.disabled = true;
+        setTimeout(function () {
+          button.innerHTML = originalHTML;
+          button.disabled = false;
+        }, 2000);
+      }
+    });
   </script>
 
 </main>
