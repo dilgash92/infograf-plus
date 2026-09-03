@@ -1,8 +1,13 @@
 (() => {
   'use strict';
 
+  const API = 'https://calm-dream-ae41.dilgash-ibrahim.workers.dev';
+  const GITHUB_CONTENTS = 'https://api.github.com/repos/dilgash92/infograf-plus/contents/';
+  const SESSION_KEY = 'infograf_plus_admin_session';
   const $ = id => document.getElementById(id);
   let objectUrl = '';
+  let pendingOldImage = '';
+  let cleanupRunning = false;
 
   function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>'"]/g, ch => ({
@@ -150,12 +155,128 @@
     saveButton.parentNode.insertBefore(button, saveButton);
   }
 
+  function cleanImagePath(value) {
+    const path = String(value || '').trim();
+    if (!path || /^https?:\/\//i.test(path)) return '';
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+
+  function githubPath(path) {
+    return path.replace(/^\/+/, '').split('/').map(encodeURIComponent).join('/');
+  }
+
+  function parsePostImage(text) {
+    const match = String(text || '').match(/^image:\s*(.*)$/m);
+    if (!match) return '';
+    const value = match[1].trim();
+    try { return cleanImagePath(JSON.parse(value)); } catch (_) {}
+    return cleanImagePath(value.replace(/^['"]|['"]$/g, ''));
+  }
+
+  function decodeUtf8Base64(value) {
+    try {
+      const binary = atob(String(value || '').replace(/\n/g, ''));
+      const bytes = Uint8Array.from(binary, ch => ch.charCodeAt(0));
+      return new TextDecoder('utf-8').decode(bytes);
+    } catch (_) { return ''; }
+  }
+
+  async function getPosts() {
+    const session = sessionStorage.getItem(SESSION_KEY) || '';
+    const response = await fetch(`${API}/api/posts`, {
+      headers: {Accept:'application/json', ...(session ? {Authorization:`Bearer ${session}`} : {})}
+    });
+    if (!response.ok) throw new Error('تعذر التحقق من استخدام الصورة.');
+    return Array.isArray(await response.json()) ? await (async () => {
+      const data = await fetch(`${API}/api/posts`, {headers:{Accept:'application/json', ...(session ? {Authorization:`Bearer ${session}`} : {})}});
+      return data.ok ? data.json() : [];
+    })() : [];
+  }
+
+  async function imageStillUsed(path) {
+    const target = cleanImagePath(path);
+    if (!target) return true;
+    const session = sessionStorage.getItem(SESSION_KEY) || '';
+    const response = await fetch(`${API}/api/posts`, {
+      headers: {Accept:'application/json', ...(session ? {Authorization:`Bearer ${session}`} : {})}
+    });
+    if (!response.ok) return true;
+    const files = await response.json();
+    for (const file of Array.isArray(files) ? files : []) {
+      const text = decodeUtf8Base64(file.content || '');
+      if (parsePostImage(text) === target) return true;
+    }
+    return false;
+  }
+
+  async function deleteImage(path) {
+    const target = cleanImagePath(path);
+    if (!target || !target.startsWith('/assets/uploads/')) return;
+    if (await imageStillUsed(target)) return;
+
+    const response = await fetch(`${GITHUB_CONTENTS}${githubPath(target)}?ref=main`, {
+      headers:{Accept:'application/vnd.github+json'}
+    });
+    if (response.status === 404) return;
+    if (!response.ok) throw new Error('تعذر العثور على ملف الصورة القديمة.');
+    const meta = await response.json();
+    const session = sessionStorage.getItem(SESSION_KEY) || '';
+    const deleteResponse = await fetch(`${API}/api/file`, {
+      method:'DELETE',
+      headers:{Accept:'application/json','Content-Type':'application/json',...(session ? {Authorization:`Bearer ${session}`} : {})},
+      body:JSON.stringify({path:target,sha:meta.sha,message:`Delete unused infographic image: ${target.split('/').pop()}`})
+    });
+    if (!deleteResponse.ok) {
+      let data=null; try { data=await deleteResponse.json(); } catch (_) {}
+      throw new Error(data?.message || data?.error || 'تعذر حذف الصورة القديمة.');
+    }
+  }
+
+  async function cleanupReplacedImage() {
+    const oldImage = pendingOldImage;
+    pendingOldImage = '';
+    if (!oldImage || cleanupRunning) return;
+    cleanupRunning = true;
+    try {
+      await deleteImage(oldImage);
+    } catch (error) {
+      console.warn('Infograf+ image cleanup:', error);
+    } finally {
+      cleanupRunning = false;
+    }
+  }
+
+  function watchSuccessfulUpdate() {
+    const status = $('global-status');
+    if (!status) return;
+    const observer = new MutationObserver(() => {
+      const text = status.textContent || '';
+      if (text.includes('تم حفظ التعديلات بنجاح')) {
+        cleanupReplacedImage();
+      }
+    });
+    observer.observe(status, {childList:true, characterData:true, subtree:true});
+  }
+
+  function captureOldImageBeforeSubmit() {
+    const form = $('post-form');
+    if (!form) return;
+    form.addEventListener('submit', () => {
+      const current = cleanImagePath(($('current-image')?.textContent || '').replace(/^الصورة الحالية:\s*/, ''));
+      const newFile = $('field-image')?.files?.[0];
+      pendingOldImage = newFile && current ? current : '';
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     setupPhonePreview();
     addPreviewButton();
+    captureOldImageBeforeSubmit();
+    watchSuccessfulUpdate();
     setTimeout(() => {
       setupPhonePreview();
       addPreviewButton();
+      captureOldImageBeforeSubmit();
       refreshPreview();
     }, 500);
   });
