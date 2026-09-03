@@ -44,9 +44,7 @@
   function setFeatured(text, enabled) {
     const source = String(text || '');
     const line = `featured: ${enabled ? 'true' : 'false'}`;
-    if (/^featured:\s*(?:true|false)\s*$/mi.test(source)) {
-      return source.replace(/^featured:\s*(?:true|false)\s*$/mi, line);
-    }
+    if (/^featured:\s*(?:true|false)\s*$/mi.test(source)) return source.replace(/^featured:\s*(?:true|false)\s*$/mi, line);
     return source.replace(/^---\s*\n/, `---\n${line}\n`);
   }
 
@@ -96,6 +94,8 @@
       if (!edit) return;
       const state = Boolean(states[Number(edit.dataset.editIndex)]);
       row.dataset.featured = state ? 'true' : 'false';
+      row.querySelector('[data-feature-index]')?.remove();
+      row.querySelector('.featured-badge')?.remove();
     });
     decorateRows();
   }
