@@ -73,7 +73,6 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="application-name" content="Infograf+">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <link rel="manifest" href="{{ site.baseurl }}/manifest.json?v=3">
@@ -95,35 +94,54 @@
 
   {% assign brand_plus_color = '#635BFF' %}
 
-  {% if page.category == 'صحة' or page.category == 'الصحة' %}
-    {% assign brand_plus_color = '#22A06B' %}
-
-  {% elsif page.category == 'سيارات' or page.category == 'السيارات' %}
-    {% assign brand_plus_color = '#343A40' %}
-
-  {% elsif page.category == 'العالم' %}
+  {% if page.category == 'العالم' %}
     {% assign brand_plus_color = '#2563EB' %}
 
-  {% elsif page.category == 'اقتصاد' or page.category == 'الاقتصاد' %}
+  {% elsif page.category == 'سياسة' %}
+    {% assign brand_plus_color = '#1E3A5F' %}
+
+  {% elsif page.category == 'اقتصاد ومال' %}
     {% assign brand_plus_color = '#D99A00' %}
 
-  {% elsif page.category == 'رياضة' or page.category == 'الرياضة' %}
-    {% assign brand_plus_color = '#E53935' %}
-
-  {% elsif page.category == 'تكنولوجيا' or page.category == 'التكنولوجيا' %}
+  {% elsif page.category == 'تقنية' %}
     {% assign brand_plus_color = '#7C3AED' %}
 
-  {% elsif page.category == 'علوم' or page.category == 'العلوم' %}
+  {% elsif page.category == 'علوم' %}
     {% assign brand_plus_color = '#0D9488' %}
 
-  {% elsif page.category == 'ألعاب' or page.category == 'الألعاب' %}
-    {% assign brand_plus_color = '#008CFF' %}
+  {% elsif page.category == 'صحة' %}
+    {% assign brand_plus_color = '#22A06B' %}
 
-  {% elsif page.category == 'سفر' or page.category == 'السفر' %}
+  {% elsif page.category == 'رياضة' %}
+    {% assign brand_plus_color = '#E53935' %}
+
+  {% elsif page.category == 'ترفيه' %}
+    {% assign brand_plus_color = '#DB2777' %}
+
+  {% elsif page.category == 'سيارات' %}
+    {% assign brand_plus_color = '#343A40' %}
+
+  {% elsif page.category == 'سفر' %}
     {% assign brand_plus_color = '#38BDF8' %}
 
-  {% elsif page.category == 'مجتمع' or page.category == 'المجتمع' or page.category == 'مجتمع/الحياة' %}
+  {% elsif page.category == 'تعليم' %}
+    {% assign brand_plus_color = '#4F46E5' %}
+
+  {% elsif page.category == 'تاريخ' %}
+    {% assign brand_plus_color = '#A16207' %}
+
+  {% elsif page.category == 'مجتمع' %}
     {% assign brand_plus_color = '#F97316' %}
+
+  {% elsif page.category == 'فن وثقافة' %}
+    {% assign brand_plus_color = '#C026D3' %}
+
+  {% elsif page.category == 'طبيعة وبيئة' %}
+    {% assign brand_plus_color = '#65A30D' %}
+
+  {% elsif page.category == 'منوع' %}
+    {% assign brand_plus_color = '#8B5CF6' %}
+
   {% endif %}
 
   <header class="site-header">
