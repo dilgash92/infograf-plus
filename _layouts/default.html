@@ -10,7 +10,6 @@
   <meta name="robots" content="index, follow">
 
   <link rel="canonical" href="{{ page.url | absolute_url }}">
-
   <link rel="icon" href="{{ '/assets/icons/icon.png?v=3' | relative_url }}" type="image/png">
   <link rel="apple-touch-icon" href="{{ '/assets/icons/icon.png?v=3' | relative_url }}">
 
@@ -40,14 +39,12 @@
   {% endif %}
 
   {% elsif page.url == '/' %}
-
   <meta property="og:image" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta property="og:image:secure_url" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="شعار Infograf+">
-
   {% endif %}
 
   {% if page.date %}
@@ -63,19 +60,14 @@
   <meta name="twitter:description" content="{{ page.description | default: site.description | escape }}">
 
   {% if page.image %}
-
   <meta name="twitter:image" content="{{ page.image | absolute_url }}">
   <meta name="twitter:image:alt" content="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}">
-
   {% elsif page.url == '/' %}
-
   <meta name="twitter:image" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta name="twitter:image:alt" content="شعار Infograf+">
-
   {% endif %}
 
   {% if page.url == "/" %}
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -86,9 +78,7 @@
     "inLanguage": "ar"
   }
   </script>
-
   {% else %}
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -117,7 +107,6 @@
     {% endif %}
   }
   </script>
-
   {% endif %}
 
   <meta name="theme-color" content="#ffffff">
@@ -132,87 +121,84 @@
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">
-
 </head>
 
 <body>
 
   {% comment %}
     Infograf+ Brand Plus Colors
-
     الصفحة الرئيسية = البنفسجي الأصلي
-
     صفحات الإنفوغرافيك = لون حسب القسم
 
-    ملاحظة:
     يتم تغيير لون + الموجود في الهيدر فقط.
     كلمة Infograf لا تتغير.
     شعار الـ Footer لا يتغير.
   {% endcomment %}
 
   {% assign brand_plus_color = '#635BFF' %}
+  {% assign current_category = page.category | strip %}
 
-  {% if page.category == 'العالم' %}
+  {% if current_category == 'العالم' %}
 
     {% assign brand_plus_color = '#2563EB' %}
 
-  {% elsif page.category == 'سياسة' %}
+  {% elsif current_category == 'سياسة' %}
 
     {% assign brand_plus_color = '#1E3A5F' %}
 
-  {% elsif page.category == 'اقتصاد ومال' %}
+  {% elsif current_category == 'اقتصاد ومال' %}
 
     {% assign brand_plus_color = '#D99A00' %}
 
-  {% elsif page.category == 'تقنية' %}
+  {% elsif current_category == 'تقنية' %}
 
     {% assign brand_plus_color = '#7C3AED' %}
 
-  {% elsif page.category == 'علوم' %}
+  {% elsif current_category == 'علوم' %}
 
     {% assign brand_plus_color = '#0D9488' %}
 
-  {% elsif page.category == 'صحة' %}
+  {% elsif current_category == 'صحة' %}
 
     {% assign brand_plus_color = '#22A06B' %}
 
-  {% elsif page.category == 'رياضة' %}
+  {% elsif current_category == 'رياضة' %}
 
     {% assign brand_plus_color = '#E53935' %}
 
-  {% elsif page.category == 'ترفيه' %}
+  {% elsif current_category == 'ترفيه' %}
 
     {% assign brand_plus_color = '#DB2777' %}
 
-  {% elsif page.category == 'سيارات' %}
+  {% elsif current_category == 'سيارات' %}
 
     {% assign brand_plus_color = '#343A40' %}
 
-  {% elsif page.category == 'سفر' %}
+  {% elsif current_category == 'سفر' %}
 
     {% assign brand_plus_color = '#38BDF8' %}
 
-  {% elsif page.category == 'تعليم' %}
+  {% elsif current_category == 'تعليم' %}
 
     {% assign brand_plus_color = '#4F46E5' %}
 
-  {% elsif page.category == 'تاريخ' %}
+  {% elsif current_category == 'تاريخ' %}
 
     {% assign brand_plus_color = '#A16207' %}
 
-  {% elsif page.category == 'مجتمع' %}
+  {% elsif current_category == 'مجتمع' %}
 
     {% assign brand_plus_color = '#F97316' %}
 
-  {% elsif page.category == 'فن وثقافة' %}
+  {% elsif current_category == 'فن وثقافة' %}
 
     {% assign brand_plus_color = '#C026D3' %}
 
-  {% elsif page.category == 'طبيعة وبيئة' %}
+  {% elsif current_category == 'طبيعة وبيئة' %}
 
     {% assign brand_plus_color = '#65A30D' %}
 
-  {% elsif page.category == 'منوع' %}
+  {% elsif current_category == 'منوع' %}
 
     {% assign brand_plus_color = '#8B5CF6' %}
 
@@ -220,28 +206,18 @@
 
 
   <header class="site-header">
-
     <div class="header-inner">
 
       <a href="{{ site.baseurl }}/" class="brand" aria-label="Infograf+">
-
         <span class="brand-name">Infograf</span>
-
         <span class="brand-plus" style="color: {{ brand_plus_color }};">+</span>
-
       </a>
 
-
       <nav class="desktop-navigation" aria-label="التنقل الرئيسي">
-
         <a href="{{ site.baseurl }}/" class="nav-link">الرئيسية</a>
-
         <a href="{{ site.baseurl }}/categories/" class="nav-link">الأقسام</a>
-
         <a href="{{ site.baseurl }}/latest/" class="nav-link">الأحدث</a>
-
       </nav>
-
 
       <button
         type="button"
@@ -253,16 +229,13 @@
       </button>
 
     </div>
-
   </header>
 
 
   <div class="search-panel" id="search-panel" hidden>
-
     <div class="search-panel-inner">
 
       <div class="search-header">
-
         <h2>ابحث في Infograf+</h2>
 
         <button
@@ -273,14 +246,11 @@
         >
           ×
         </button>
-
       </div>
-
 
       <label for="site-search" class="visually-hidden">
         ابحث في الموقع
       </label>
-
 
       <input
         id="site-search"
@@ -289,11 +259,9 @@
         autocomplete="off"
       >
 
-
       <div id="search-results" class="search-results"></div>
 
     </div>
-
   </div>
 
 
@@ -306,25 +274,18 @@
     document.addEventListener('DOMContentLoaded', function () {
 
       const page = document.querySelector('.categories-page');
-
       const categoryGrid = page?.querySelector('.all-categories');
-
       const results = page?.querySelector('#category-results');
 
-
       if (!page || !categoryGrid || !results) return;
-
 
       const hash = decodeURIComponent(
         window.location.hash.substring(1)
       ).trim();
 
-
       if (!hash) return;
 
-
       const normalize = function (text) {
-
         return String(text || '')
           .trim()
           .toLowerCase()
@@ -333,40 +294,27 @@
           .replace(/ى/g, 'ي')
           .replace(/ة/g, 'ه')
           .replace(/ـ/g, '');
-
       };
-
 
       const match = Array.from(
         page.querySelectorAll('.category-card')
       ).find(function (button) {
-
         return normalize(
           button.dataset.category || ''
         ) === normalize(hash);
-
       });
-
 
       if (!match || normalize(hash) === 'all') return;
 
-
       categoryGrid.hidden = false;
-
       categoryGrid.style.display = 'none';
-
 
       const backLink = document.createElement('a');
 
-
       backLink.href = '{{ site.baseurl }}/categories/';
-
       backLink.className = 'btn btn-secondary';
-
       backLink.textContent = '← تغيير القسم';
-
       backLink.style.marginBottom = '18px';
-
 
       results.insertBefore(
         backLink,
@@ -395,9 +343,7 @@
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
-      >
-        ⌂
-      </span>
+      >⌂</span>
 
       <span>الرئيسية</span>
     </a>
@@ -410,9 +356,7 @@
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
-      >
-        ▦
-      </span>
+      >▦</span>
 
       <span>الأقسام</span>
     </a>
@@ -426,9 +370,7 @@
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
-      >
-        ⌕
-      </span>
+      >⌕</span>
 
       <span>بحث</span>
     </button>
@@ -441,9 +383,7 @@
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
-      >
-        ✦
-      </span>
+      >✦</span>
 
       <span>الأحدث</span>
     </a>
@@ -468,7 +408,6 @@
 
         </a>
 
-
         <p>
           معلومات وإنفوغرافيك بطريقة أبسط.
         </p>
@@ -477,9 +416,7 @@
 
 
       <div class="footer-info">
-
         © {{ 'now' | date: "%Y" }} Infograf+
-
       </div>
 
     </div>
@@ -491,7 +428,6 @@
     src="{{ site.baseurl }}/assets/js/app.js"
     defer
   ></script>
-
 
 </body>
 </html>
