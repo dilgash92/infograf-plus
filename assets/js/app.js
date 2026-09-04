@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
+      .replace(/\"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
 
@@ -220,6 +220,51 @@ document.addEventListener("DOMContentLoaded", function () {
     aboutLink.setAttribute("data-nav-about", "true");
     aboutLink.setAttribute("aria-label", "من نحن - Infograf+");
     desktopNavigation.appendChild(aboutLink);
+  }
+
+  /* Mobile header: show About next to the Instagram/search controls. */
+  const headerInner = document.querySelector(".header-inner");
+  if (headerInner && !headerInner.querySelector(".about-header-mobile")) {
+    const mobileAbout = document.createElement("a");
+    mobileAbout.href = aboutHref;
+    mobileAbout.className = "about-header-mobile";
+    mobileAbout.textContent = "من نحن";
+    mobileAbout.setAttribute("aria-label", "من نحن - Infograf+");
+
+    const instagramLink = headerInner.querySelector(".instagram-header-link");
+    if (instagramLink) {
+      headerInner.insertBefore(mobileAbout, instagramLink);
+    } else {
+      headerInner.appendChild(mobileAbout);
+    }
+
+    const style = document.createElement("style");
+    style.textContent = `
+      .about-header-mobile { display: none; }
+      @media (max-width: 700px) {
+        .about-header-mobile {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 40px;
+          padding: 0 9px;
+          border-radius: 11px;
+          background: var(--surface-soft);
+          color: var(--text);
+          font-size: 11px;
+          font-weight: 700;
+          white-space: nowrap;
+          text-decoration: none;
+          flex-shrink: 0;
+        }
+        .about-header-mobile:hover,
+        .about-header-mobile:focus-visible {
+          background: var(--accent-light);
+          color: var(--accent);
+        }
+      }
+    `;
+    document.head.appendChild(style);
   }
 
   const footerNavigation = document.querySelector(".footer-navigation");
