@@ -106,48 +106,58 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
   {% assign featured_posts = site.posts | where: "featured", true %}
   {% if featured_posts.size > 0 %}
-    <section class="featured-section" id="featured">
+    <section class="featured-section" id="featured" aria-labelledby="featured-title">
       <div class="section-heading">
         <div>
           <span class="section-kicker">مختارات</span>
-          <h2>إنفوغرافيكات مميزة</h2>
+          <h2 id="featured-title">إنفوغرافيكات مميزة</h2>
         </div>
         <span class="section-count">{{ featured_posts.size }} مميز</span>
       </div>
 
-      <div class="featured-grid">
-        {% for post in featured_posts limit:6 %}
-          <article class="infographic-card featured-item">
-            <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
-              {% if post.image %}
-                <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
-              {% else %}
-                <div class="image-placeholder"><span>Infograf+</span></div>
-              {% endif %}
-            </a>
+      <div class="featured-carousel" data-featured-carousel>
+        <button type="button" class="featured-carousel-arrow featured-carousel-prev" data-featured-prev aria-label="الإنفوغرافيك المميز السابق">→</button>
+        <div class="featured-carousel-viewport">
+          <div class="featured-carousel-track" data-featured-track>
+            {% for post in featured_posts limit:6 %}
+              <article class="infographic-card featured-item">
+                <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
+                  {% if post.image %}
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async" draggable="false">
+                  {% else %}
+                    <div class="image-placeholder"><span>Infograf+</span></div>
+                  {% endif %}
+                </a>
 
-            <div class="infographic-card-content">
-              <span class="featured-label">★ مميز</span>
-              {% if post.category %}
-                <span class="card-category">{{ post.category }}</span>
-              {% endif %}
+                <div class="infographic-card-content">
+                  <span class="featured-label">★ مميز</span>
+                  {% if post.category %}
+                    <span class="card-category">{{ post.category }}</span>
+                  {% endif %}
 
-              <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+                  <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
 
-              {% if post.description %}
-                <p>{{ post.description }}</p>
-              {% endif %}
+                  {% if post.description %}
+                    <p>{{ post.description }}</p>
+                  {% endif %}
 
-              <div class="card-meta">
-                {% if post.date %}
-                  <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>
-                {% endif %}
-                <span class="read-more">عرض الإنفوغرافيك <span aria-hidden="true">←</span></span>
-              </div>
-            </div>
-          </article>
-        {% endfor %}
+                  <div class="card-meta">
+                    {% if post.date %}
+                      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>
+                    {% endif %}
+                    <span class="read-more">عرض الإنفوغرافيك <span aria-hidden="true">←</span></span>
+                  </div>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+        <button type="button" class="featured-carousel-arrow featured-carousel-next" data-featured-next aria-label="الإنفوغرافيك المميز التالي">←</button>
       </div>
+
+      {% if featured_posts.size > 1 %}
+        <div class="featured-carousel-dots" data-featured-dots aria-label="اختيار الإنفوغرافيك المميز"></div>
+      {% endif %}
     </section>
   {% endif %}
 
@@ -169,7 +179,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
           <article class="infographic-card" data-category="{{ post.category | escape }}">
             <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
               {% if post.image %}
-                <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+                <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async" draggable="false">
               {% else %}
                 <div class="image-placeholder"><span>Infograf+</span></div>
               {% endif %}
@@ -201,7 +211,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
       {% if site.posts.size > 6 %}
         <div class="section-footer">
-          <a href="{{ site.baseurl }}/categories/" class="btn btn-secondary">
+          <a href="{{ site.baseurl }}/latest/" class="btn btn-secondary">
             عرض جميع الإنفوغرافيكات <span aria-hidden="true">←</span>
           </a>
         </div>
@@ -243,6 +253,74 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
     }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ]
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const carousel = document.querySelector('[data-featured-carousel]');
+      if (!carousel) return;
+
+      const viewport = carousel.querySelector('.featured-carousel-viewport');
+      const track = carousel.querySelector('[data-featured-track]');
+      const slides = Array.from(track?.children || []);
+      const prev = carousel.querySelector('[data-featured-prev]');
+      const next = carousel.querySelector('[data-featured-next]');
+      const dots = carousel.querySelector('[data-featured-dots]');
+      if (!viewport || !track || slides.length < 2) return;
+
+      let index = 0;
+
+      const visibleCount = () => window.matchMedia('(max-width: 700px)').matches ? 1 : window.matchMedia('(max-width: 950px)').matches ? 2 : 3;
+      const maxIndex = () => Math.max(0, slides.length - visibleCount());
+
+      function renderDots() {
+        if (!dots) return;
+        dots.innerHTML = '';
+        const total = maxIndex() + 1;
+        for (let i = 0; i < total; i += 1) {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'featured-carousel-dot' + (i === index ? ' active' : '');
+          dot.setAttribute('aria-label', 'عرض مجموعة ' + (i + 1));
+          dot.addEventListener('click', () => { index = i; render(); });
+          dots.appendChild(dot);
+        }
+      }
+
+      function render() {
+        index = Math.min(index, maxIndex());
+        const first = slides[0];
+        if (!first) return;
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        const distance = first.getBoundingClientRect().width + gap;
+        track.style.transform = 'translateX(' + (index * distance) + 'px)';
+        if (prev) prev.disabled = index === 0;
+        if (next) next.disabled = index === maxIndex();
+        carousel.setAttribute('data-position', String(index + 1));
+        carousel.setAttribute('aria-label', 'سلايدر الإنفوغرافيكات المميزة، مجموعة ' + (index + 1) + ' من ' + (maxIndex() + 1));
+        renderDots();
+      }
+
+      prev?.addEventListener('click', () => { if (index > 0) { index -= 1; render(); } });
+      next?.addEventListener('click', () => { if (index < maxIndex()) { index += 1; render(); } });
+
+      let startX = 0;
+      let startScroll = 0;
+      viewport.addEventListener('touchstart', event => {
+        startX = event.touches[0]?.clientX || 0;
+        startScroll = index;
+      }, { passive: true });
+      viewport.addEventListener('touchend', event => {
+        const endX = event.changedTouches[0]?.clientX || startX;
+        const delta = endX - startX;
+        if (Math.abs(delta) < 45) return;
+        index = delta < 0 ? Math.min(startScroll + 1, maxIndex()) : Math.max(startScroll - 1, 0);
+        render();
+      }, { passive: true });
+
+      window.addEventListener('resize', render, { passive: true });
+      render();
+    });
   </script>
 
 </main>
