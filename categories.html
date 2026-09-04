@@ -132,12 +132,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     renderCategories([]);
   }
 
-  const hash = decodeURIComponent(window.location.hash.substring(1));
   if (hash) {
-    const matching = Array.from(list.querySelectorAll('.category-card')).find(button => normalizeArabic(button.dataset.category || '') === normalizeArabic(hash));
-    if (matching) filterCategory(matching.dataset.category, false);
-  } else {
-    filterCategory('all', false);
-  }
+  const matching = Array.from(list.querySelectorAll('.category-card')).find(
+    button => normalizeArabic(button.dataset.category || '') === normalizeArabic(hash)
+  );
+
+  if (matching) filterCategory(matching.dataset.category, true);
+} else {
+  filterCategory('all', false);
+}
 });
 </script>
