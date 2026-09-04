@@ -172,6 +172,7 @@
     {% assign brand_plus_color = '#E74F1B' %}
   {% endif %}
 
+
   <header class="site-header">
     <div class="header-inner">
 
@@ -180,30 +181,98 @@
         <span class="brand-plus" style="color: {{ brand_plus_color }} !important;">+</span>
       </a>
 
+
       <nav class="desktop-navigation" aria-label="التنقل الرئيسي">
-        <a href="{{ site.baseurl }}/" class="nav-link">الرئيسية</a>
-        <a href="{{ site.baseurl }}/categories/" class="nav-link">الأقسام</a>
-        <a href="{{ site.baseurl }}/latest/" class="nav-link">الأحدث</a>
+
+        <a
+          href="{{ site.baseurl }}/"
+          class="nav-link"
+        >
+          الرئيسية
+        </a>
+
+        <a
+          href="{{ site.baseurl }}/categories/"
+          class="nav-link"
+        >
+          الأقسام
+        </a>
+
+        <a
+          href="{{ site.baseurl }}/latest/"
+          class="nav-link"
+        >
+          الأحدث
+        </a>
+
       </nav>
 
+
+      <!-- Instagram -->
+      <a
+        href="https://www.instagram.com/infografplus"
+        class="instagram-header-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram - Infograf+"
+        title="Instagram - Infograf+"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <rect
+            x="3"
+            y="3"
+            width="18"
+            height="18"
+            rx="5"
+            ry="5"
+          ></rect>
+
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+          ></circle>
+
+          <circle
+            cx="17.5"
+            cy="6.5"
+            r="1"
+          ></circle>
+        </svg>
+      </a>
+
+
+      <!-- Search -->
       <button
         type="button"
         class="search-button"
         id="open-search"
         aria-label="فتح البحث"
       >
-        <span class="search-icon" aria-hidden="true">⌕</span>
+        <span
+          class="search-icon"
+          aria-hidden="true"
+        >⌕</span>
       </button>
 
     </div>
   </header>
 
 
+
   <div class="search-panel" id="search-panel" hidden>
+
     <div class="search-panel-inner">
 
       <div class="search-header">
-        <h2>ابحث في Infograf+</h2>
+
+        <h2>
+          ابحث في Infograf+
+        </h2>
 
         <button
           type="button"
@@ -213,11 +282,17 @@
         >
           ×
         </button>
+
       </div>
 
-      <label for="site-search" class="visually-hidden">
+
+      <label
+        for="site-search"
+        class="visually-hidden"
+      >
         ابحث في الموقع
       </label>
+
 
       <input
         id="site-search"
@@ -226,15 +301,22 @@
         autocomplete="off"
       >
 
-      <div id="search-results" class="search-results"></div>
+
+      <div
+        id="search-results"
+        class="search-results"
+      ></div>
 
     </div>
+
   </div>
+
 
 
   <div class="page-wrapper">
     {{ content }}
   </div>
+
 
 
   <script>
@@ -266,9 +348,11 @@
       const match = Array.from(
         page.querySelectorAll('.category-card')
       ).find(function (button) {
+
         return normalize(
           button.dataset.category || ''
         ) === normalize(hash);
+
       });
 
       if (!match || normalize(hash) === 'all') return;
@@ -292,10 +376,12 @@
   </script>
 
 
+
   <link
     rel="stylesheet"
     href="{{ site.baseurl }}/assets/css/homepage.css"
   >
+
 
 
   <nav
@@ -307,26 +393,36 @@
       href="{{ site.baseurl }}/"
       class="mobile-nav-item"
     >
+
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
       >⌂</span>
 
-      <span>الرئيسية</span>
+      <span>
+        الرئيسية
+      </span>
+
     </a>
+
 
 
     <a
       href="{{ site.baseurl }}/categories/"
       class="mobile-nav-item"
     >
+
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
       >▦</span>
 
-      <span>الأقسام</span>
+      <span>
+        الأقسام
+      </span>
+
     </a>
+
 
 
     <button
@@ -334,28 +430,38 @@
       class="mobile-nav-item mobile-search-trigger"
       id="mobile-search"
     >
+
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
       >⌕</span>
 
-      <span>بحث</span>
+      <span>
+        بحث
+      </span>
+
     </button>
+
 
 
     <a
       href="{{ site.baseurl }}/latest/"
       class="mobile-nav-item"
     >
+
       <span
         class="mobile-nav-icon"
         aria-hidden="true"
       >✦</span>
 
-      <span>الأحدث</span>
+      <span>
+        الأحدث
+      </span>
+
     </a>
 
   </nav>
+
 
 
   <footer class="site-footer">
@@ -369,61 +475,23 @@
           class="brand"
         >
 
-          <span class="brand-name">Infograf</span>
+          <span class="brand-name">
+            Infograf
+          </span>
 
-          <span class="brand-plus">+</span>
+          <span class="brand-plus">
+            +
+          </span>
 
         </a>
+
 
         <p>
           معلومات وإنفوغرافيك بطريقة أبسط.
         </p>
 
-        <!-- Instagram -->
-        <a
-          href="https://www.instagram.com/infografplus"
-          class="footer-instagram"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram - Infograf+"
-          title="Instagram - Infograf+"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <rect
-              x="3"
-              y="3"
-              width="18"
-              height="18"
-              rx="5"
-              ry="5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-            <circle
-              cx="12"
-              cy="12"
-              r="4"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-            <circle
-              cx="17.5"
-              cy="6.5"
-              r="1"
-              fill="currentColor"
-            />
-          </svg>
-
-          <span>Instagram</span>
-        </a>
-
       </div>
+
 
 
       <div class="footer-info">
@@ -433,6 +501,7 @@
     </div>
 
   </footer>
+
 
 
   <script
