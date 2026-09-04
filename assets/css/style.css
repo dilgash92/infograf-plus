@@ -172,7 +172,7 @@ button {
 }
 
 .brand-plus {
-  color: var(--accent);
+  color: var(--brand-plus-color, var(--accent));
 
   margin-left: 2px;
 }
