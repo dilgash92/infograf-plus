@@ -25,121 +25,421 @@ description: "تصفح جميع أقسام Infograf+"
         <span class="section-kicker">المحتوى</span>
         <h2 id="selected-category-title">جميع الإنفوغرافيكات</h2>
       </div>
-      <span class="section-count" id="selected-category-count">{{ site.posts.size }} إنفوغرافيك</span>
+      <span class="section-count" id="selected-category-count">
+        {{ site.posts.size }} إنفوغرافيك
+      </span>
     </div>
 
     {% if site.posts.size > 0 %}
       <div class="infographic-grid" id="category-posts">
         {% for post in site.posts %}
           <article class="infographic-card" data-category="{{ post.category | escape }}">
-            <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
+            <a
+              href="{{ post.url | relative_url }}"
+              class="infographic-image-link"
+              aria-label="عرض {{ post.title | escape }}"
+            >
               {% if post.image %}
-                <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="lazy" decoding="async" draggable="false">
+                <img
+                  src="{{ post.image | relative_url }}"
+                  alt="{{ post.image_alt | default: post.title | escape }}"
+                  loading="lazy"
+                  decoding="async"
+                  draggable="false"
+                >
               {% else %}
-                <div class="image-placeholder"><span>Infograf+</span></div>
+                <div class="image-placeholder">
+                  <span>Infograf+</span>
+                </div>
               {% endif %}
             </a>
+
             <div class="infographic-card-content">
-              {% if post.category %}<span class="card-category">{{ post.category }}</span>{% endif %}
-              <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-              {% if post.description %}<p>{{ post.description }}</p>{% endif %}
+              {% if post.category %}
+                <span class="card-category">{{ post.category }}</span>
+              {% endif %}
+
+              <h3>
+                <a href="{{ post.url | relative_url }}">
+                  {{ post.title }}
+                </a>
+              </h3>
+
+              {% if post.description %}
+                <p>{{ post.description }}</p>
+              {% endif %}
+
               <div class="card-meta">
-                {% if post.date %}<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>{% endif %}
-                <span class="read-more">عرض الإنفوغرافيك <span aria-hidden="true">←</span></span>
+                {% if post.date %}
+                  <time datetime="{{ post.date | date_to_xmlschema }}">
+                    {{ post.date | date: "%d/%m/%Y" }}
+                  </time>
+                {% endif %}
+
+                <span class="read-more">
+                  عرض الإنفوغرافيك
+                  <span aria-hidden="true">←</span>
+                </span>
               </div>
             </div>
           </article>
         {% endfor %}
       </div>
+
       <div id="category-empty" class="empty-state" hidden>
         <div class="empty-icon">+</div>
         <h3>لا يوجد محتوى في هذا القسم حالياً</h3>
         <p>سيتم عرض الإنفوغرافيكات هنا عندما تتم إضافتها.</p>
       </div>
+
     {% else %}
+
       <div class="empty-state">
         <div class="empty-icon">+</div>
         <h3>لا يوجد إنفوغرافيكات بعد</h3>
         <p>ستظهر الإنفوغرافيكات هنا بعد نشرها.</p>
       </div>
+
     {% endif %}
   </section>
 </main>
 
 <script>
 document.addEventListener('DOMContentLoaded', async function () {
+
   const list = document.getElementById('categories-list');
-  const posts = Array.from(document.querySelectorAll('#category-posts .infographic-card'));
+
+  const posts = Array.from(
+    document.querySelectorAll('#category-posts .infographic-card')
+  );
+
   const title = document.getElementById('selected-category-title');
+
   const count = document.getElementById('selected-category-count');
+
   const empty = document.getElementById('category-empty');
+
   const results = document.getElementById('category-results');
+
   if (!list) return;
 
-  const icons = {'العالم':'🌍','سياسة':'🏛️','اقتصاد ومال':'💰','تقنية':'💻','علوم':'🔬','صحة':'🩺','رياضة':'⚽','ترفيه':'🎬','سيارات':'🚗','سفر':'✈️','تعليم':'📚','تاريخ':'🏺','مجتمع':'👥','فن وثقافة':'🎨','طبيعة وبيئة':'🌱','منوع':'✨'};
+
+  const icons = {
+    'العالم': '🌍',
+    'سياسة': '🏛️',
+    'اقتصاد ومال': '💰',
+    'تقنية': '💻',
+    'علوم': '🔬',
+    'صحة': '🩺',
+    'رياضة': '⚽',
+    'ترفيه': '🎬',
+    'سيارات': '🚗',
+    'سفر': '✈️',
+    'تعليم': '📚',
+    'تاريخ': '🏺',
+    'مجتمع': '👥',
+    'فن وثقافة': '🎨',
+    'طبيعة وبيئة': '🌱',
+    'منوع': '✨'
+  };
+
 
   function normalizeArabic(text) {
-    return String(text || '').trim().toLowerCase().replace(/[\u064B-\u065F\u0670]/g, '').replace(/[إأآا]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/ـ/g, '');
+    return String(text || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[\u064B-\u065F\u0670]/g, '')
+      .replace(/[إأآا]/g, 'ا')
+      .replace(/ى/g, 'ي')
+      .replace(/ة/g, 'ه')
+      .replace(/ـ/g, '');
   }
 
+
   function escapeHtml(value) {
-    return String(value || '').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
+    return String(value || '').replace(
+      /[&<>\"']/g,
+      ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '\"': '&quot;',
+        "'": '&#39;'
+      }[ch])
+    );
   }
+
 
   function scrollToResults() {
     if (!results) return;
-    window.scrollTo({top: results.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth'});
+
+    window.scrollTo({
+      top: results.getBoundingClientRect().top + window.scrollY - 90,
+      behavior: 'smooth'
+    });
   }
+
 
   function filterCategory(selected, shouldScroll) {
+
     const normalized = normalizeArabic(selected);
-    const buttons = Array.from(list.querySelectorAll('.category-card'));
-    buttons.forEach(button => button.classList.toggle('active', normalizeArabic(button.dataset.category || 'all') === normalized));
-    let visible = 0;
-    posts.forEach(post => {
-      const match = normalized === 'all' || normalizeArabic(post.dataset.category || '') === normalized;
-      post.style.display = match ? '' : 'none';
-      if (match) visible++;
+
+    const buttons = Array.from(
+      list.querySelectorAll('.category-card')
+    );
+
+
+    buttons.forEach(button => {
+      button.classList.toggle(
+        'active',
+        normalizeArabic(button.dataset.category || 'all') === normalized
+      );
     });
+
+
+    let visible = 0;
+
+
+    posts.forEach(post => {
+
+      const match =
+        normalized === 'all' ||
+        normalizeArabic(post.dataset.category || '') === normalized;
+
+      post.style.display = match ? '' : 'none';
+
+      if (match) {
+        visible++;
+      }
+
+    });
+
+
     if (title) {
-      const active = buttons.find(button => normalizeArabic(button.dataset.category || '') === normalized);
-      title.textContent = normalized === 'all' ? 'جميع الإنفوغرافيكات' : (active?.querySelector('.category-card-name')?.textContent.trim() || selected);
+
+      const active = buttons.find(
+        button =>
+          normalizeArabic(button.dataset.category || '') === normalized
+      );
+
+      title.textContent =
+        normalized === 'all'
+          ? 'جميع الإنفوغرافيكات'
+          : (
+              active?.querySelector('.category-card-name')?.textContent.trim()
+              || selected
+            );
     }
-    if (count) count.textContent = visible + (visible === 1 ? ' إنفوغرافيك' : ' إنفوغرافيكات');
-    if (empty) empty.hidden = visible !== 0;
-    if (normalized === 'all') history.replaceState(null, '', window.location.pathname);
-    else history.replaceState(null, '', window.location.pathname + '#' + encodeURIComponent(selected));
-    if (shouldScroll) setTimeout(scrollToResults, 50);
+
+
+    if (count) {
+      count.textContent =
+        visible +
+        (visible === 1 ? ' إنفوغرافيك' : ' إنفوغرافيكات');
+    }
+
+
+    if (empty) {
+      empty.hidden = visible !== 0;
+    }
+
+
+    if (normalized === 'all') {
+
+      history.replaceState(
+        null,
+        '',
+        window.location.pathname
+      );
+
+    } else {
+
+      history.replaceState(
+        null,
+        '',
+        window.location.pathname +
+        '#' +
+        encodeURIComponent(selected)
+      );
+
+    }
+
+
+    if (shouldScroll) {
+
+      setTimeout(function () {
+        scrollToResults();
+      }, 50);
+
+    }
+
   }
+
 
   function renderCategories(values) {
-    const clean = [...new Set((Array.isArray(values) ? values : []).map(value => String(value || '').trim()).filter(Boolean))];
-    const all = `<button type="button" class="category-card active" data-category="all"><span class="category-card-icon">✦</span><span class="category-card-name">الكل</span><span class="category-card-count">${posts.length} إنفوغرافيك</span></button>`;
+
+    const clean = [
+      ...new Set(
+        (Array.isArray(values) ? values : [])
+          .map(value => String(value || '').trim())
+          .filter(Boolean)
+      )
+    ];
+
+
+    const all = `
+      <button
+        type="button"
+        class="category-card active"
+        data-category="all"
+      >
+        <span class="category-card-icon">✦</span>
+        <span class="category-card-name">الكل</span>
+        <span class="category-card-count">
+          ${posts.length} إنفوغرافيك
+        </span>
+      </button>
+    `;
+
+
     const buttons = clean.map(category => {
-      const categoryPosts = posts.filter(post => normalizeArabic(post.dataset.category || '') === normalizeArabic(category)).length;
-      return `<button type="button" class="category-card" data-category="${escapeHtml(category)}"><span class="category-card-icon">${icons[category] || '✦'}</span><span class="category-card-name">${escapeHtml(category)}</span><span class="category-card-count">${categoryPosts} إنفوغرافيك</span></button>`;
+
+      const categoryPosts = posts.filter(
+        post =>
+          normalizeArabic(post.dataset.category || '') ===
+          normalizeArabic(category)
+      ).length;
+
+
+      return `
+        <button
+          type="button"
+          class="category-card"
+          data-category="${escapeHtml(category)}"
+        >
+          <span class="category-card-icon">
+            ${icons[category] || '✦'}
+          </span>
+
+          <span class="category-card-name">
+            ${escapeHtml(category)}
+          </span>
+
+          <span class="category-card-count">
+            ${categoryPosts} إنفوغرافيك
+          </span>
+        </button>
+      `;
+
     }).join('');
+
+
     list.innerHTML = all + buttons;
-    list.querySelectorAll('.category-card').forEach(button => button.addEventListener('click', () => filterCategory(button.dataset.category || 'all', true)));
+
+
+    list
+      .querySelectorAll('.category-card')
+      .forEach(button => {
+
+        button.addEventListener(
+          'click',
+          () =>
+            filterCategory(
+              button.dataset.category || 'all',
+              true
+            )
+        );
+
+      });
+
   }
+
+
+  /*
+   * تحميل الأقسام من categories.json
+   */
 
   try {
-    const response = await fetch('{{ site.baseurl }}/categories.json?v=1', {cache: 'no-store'});
-    if (!response.ok) throw new Error('categories.json unavailable');
+
+    const response = await fetch(
+      '{{ site.baseurl }}/categories.json?v=1',
+      {
+        cache: 'no-store'
+      }
+    );
+
+
+    if (!response.ok) {
+      throw new Error('categories.json unavailable');
+    }
+
+
     const data = await response.json();
+
     renderCategories(data.categories);
+
+
   } catch (_) {
+
     renderCategories([]);
+
   }
 
-  if (hash) {
-  const matching = Array.from(list.querySelectorAll('.category-card')).find(
-    button => normalizeArabic(button.dataset.category || '') === normalizeArabic(hash)
+
+  /*
+   * قراءة القسم القادم من الصفحة الرئيسية
+   *
+   * مثال:
+   * /categories/#صحة
+   */
+
+  const hash = decodeURIComponent(
+    window.location.hash.substring(1)
   );
 
-  if (matching) filterCategory(matching.dataset.category, true);
-} else {
-  filterCategory('all', false);
-}
+
+  /*
+   * إذا دخل المستخدم من الصفحة الرئيسية
+   * إلى قسم محدد، نختار القسم وننزل مباشرة
+   * إلى منطقة المحتوى.
+   */
+
+  if (hash) {
+
+    const matching = Array.from(
+      list.querySelectorAll('.category-card')
+    ).find(
+      button =>
+        normalizeArabic(
+          button.dataset.category || ''
+        ) === normalizeArabic(hash)
+    );
+
+
+    if (matching) {
+
+      filterCategory(
+        matching.dataset.category,
+        true
+      );
+
+    } else {
+
+      filterCategory(
+        'all',
+        false
+      );
+
+    }
+
+  } else {
+
+    filterCategory(
+      'all',
+      false
+    );
+
+  }
+
 });
 </script>
