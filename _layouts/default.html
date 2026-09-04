@@ -139,39 +139,38 @@
   {% endcomment %}
 
   {% assign current_category = page.category | strip %}
-  {% assign brand_plus_color = '#635BFF' %}
+{% assign brand_plus_color = '#635BFF' %}
 
-  {% if current_category == 'العالم' %}
-    {% assign brand_plus_color = '#2563EB' %}
+{% if current_category == 'العالم' %}
+  {% assign brand_plus_color = '#2451BA' %}
 
-  {% elsif current_category == 'سياسة' %}
-    {% assign brand_plus_color = '#1E3A5F' %}
+{% elsif current_category == 'سياسة' %}
+  {% assign brand_plus_color = '#D79D5D' %}
 
-  {% elsif current_category == 'اقتصاد ومال' %}
-    {% assign brand_plus_color = '#D99A00' %}
+{% elsif current_category == 'اقتصاد ومال' %}
+  {% assign brand_plus_color = '#A37E2C' %}
 
-  {% elsif current_category == 'تقنية' %}
-    {% assign brand_plus_color = '#7C3AED' %}
+{% elsif current_category == 'تقنية' %}
+  {% assign brand_plus_color = '#13CBFF' %}
 
-  {% elsif current_category == 'علوم' %}
-    {% assign brand_plus_color = '#0D9488' %}
+{% elsif current_category == 'علوم' %}
+  {% assign brand_plus_color = '#555555' %}
 
-  {% elsif current_category == 'صحة' %}
-    {% assign brand_plus_color = '#22A06B' %}
+{% elsif current_category == 'صحة' %}
+  {% assign brand_plus_color = '#006039' %}
 
-  {% elsif current_category == 'رياضة' %}
-    {% assign brand_plus_color = '#E53935' %}
+{% elsif current_category == 'رياضة' %}
+  {% assign brand_plus_color = '#A71C1C' %}
 
-  {% elsif current_category == 'سيارات' %}
-    {% assign brand_plus_color = '#343A40' %}
+{% elsif current_category == 'سيارات' %}
+  {% assign brand_plus_color = '#2A2A2D' %}
 
-  {% elsif current_category == 'سفر' %}
-    {% assign brand_plus_color = '#38BDF8' %}
+{% elsif current_category == 'سفر' %}
+  {% assign brand_plus_color = '#FC8FC5' %}
 
-  {% elsif current_category == 'منوع' %}
-    {% assign brand_plus_color = '#8B5CF6' %}
-
-  {% endif %}
+{% elsif current_category == 'منوع' %}
+  {% assign brand_plus_color = '#FC9C07' %}
+{% endif %}
 
 
   <header class="site-header">
