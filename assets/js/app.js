@@ -205,18 +205,28 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /* =====================================================
-     FOOTER ABOUT LINK
+     SITE NAVIGATION
   ===================================================== */
-  const footerInfo = document.querySelector(".footer-info");
+  const homeLink = document.querySelector(".brand")?.getAttribute("href") || "/";
+  const aboutHref = homeLink.replace(/\/?$/, "/") + "about/";
 
-  if (footerInfo && !footerInfo.querySelector(".footer-about-link")) {
+  const desktopNavigation = document.querySelector(".desktop-navigation");
+
+  if (desktopNavigation && !desktopNavigation.querySelector('[data-nav-about="true"]')) {
     const aboutLink = document.createElement("a");
-    aboutLink.href = "/about/";
-    aboutLink.className = "footer-about-link";
+    aboutLink.href = aboutHref;
+    aboutLink.className = "nav-link";
     aboutLink.textContent = "من نحن";
+    aboutLink.setAttribute("data-nav-about", "true");
     aboutLink.setAttribute("aria-label", "من نحن - Infograf+");
-    footerInfo.appendChild(aboutLink);
+    desktopNavigation.appendChild(aboutLink);
   }
+
+  const footerNavigation = document.querySelector(".footer-navigation");
+  if (footerNavigation) footerNavigation.remove();
+
+  const footerAboutLink = document.querySelector(".footer-about-link");
+  if (footerAboutLink) footerAboutLink.remove();
 
   if (searchPanel) searchPanel.hidden = true;
 
