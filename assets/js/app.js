@@ -222,9 +222,9 @@ document.addEventListener("DOMContentLoaded", function () {
     desktopNavigation.appendChild(aboutLink);
   }
 
-  /* Mobile header: show About next to the Instagram/search controls. */
+  /* Mobile header: group About, Instagram and Search together on the left. */
   const headerInner = document.querySelector(".header-inner");
-  if (headerInner && !headerInner.querySelector(".about-header-mobile")) {
+  if (headerInner && !headerInner.querySelector(".mobile-header-actions")) {
     const mobileAbout = document.createElement("a");
     mobileAbout.href = aboutHref;
     mobileAbout.className = "about-header-mobile";
@@ -232,24 +232,51 @@ document.addEventListener("DOMContentLoaded", function () {
     mobileAbout.setAttribute("aria-label", "من نحن - Infograf+");
 
     const instagramLink = headerInner.querySelector(".instagram-header-link");
-    if (instagramLink) {
-      headerInner.insertBefore(mobileAbout, instagramLink);
-    } else {
-      headerInner.appendChild(mobileAbout);
-    }
+    const searchButton = headerInner.querySelector(".search-button");
+
+    const actions = document.createElement("div");
+    actions.className = "mobile-header-actions";
+
+    actions.appendChild(mobileAbout);
+    if (instagramLink) actions.appendChild(instagramLink);
+    if (searchButton) actions.appendChild(searchButton);
+
+    headerInner.appendChild(actions);
 
     const style = document.createElement("style");
     style.textContent = `
-      .about-header-mobile { display: none; }
+      .mobile-header-actions {
+        display: contents;
+      }
+
+      .about-header-mobile {
+        display: none;
+      }
+
       @media (max-width: 700px) {
+        .header-inner {
+          gap: 0;
+        }
+
+        .mobile-header-actions {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-inline-start: auto;
+          padding: 4px;
+          border-radius: 15px;
+          background: var(--surface-soft);
+          flex-shrink: 0;
+        }
+
         .about-header-mobile {
           display: inline-flex;
           align-items: center;
           justify-content: center;
           min-height: 40px;
-          padding: 0 9px;
+          padding: 0 10px;
           border-radius: 11px;
-          background: var(--surface-soft);
+          background: var(--surface);
           color: var(--text);
           font-size: 11px;
           font-weight: 700;
@@ -257,10 +284,20 @@ document.addEventListener("DOMContentLoaded", function () {
           text-decoration: none;
           flex-shrink: 0;
         }
+
         .about-header-mobile:hover,
         .about-header-mobile:focus-visible {
           background: var(--accent-light);
           color: var(--accent);
+        }
+
+        .mobile-header-actions .instagram-header-link,
+        .mobile-header-actions .search-button {
+          width: 40px;
+          height: 40px;
+          margin: 0;
+          border-radius: 11px;
+          flex-shrink: 0;
         }
       }
     `;
