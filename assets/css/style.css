@@ -173,7 +173,6 @@ button {
 
 .brand-plus {
   margin-left: 2px;
-  
 }
 
 
@@ -212,6 +211,60 @@ button {
   background: var(--accent-light);
 
   color: var(--accent);
+}
+
+
+/* =========================================================
+   Instagram Header Link
+   ========================================================= */
+
+.instagram-header-link {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: var(--surface-soft);
+
+  color: var(--text);
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.instagram-header-link:hover {
+  background: var(--accent-light);
+
+  color: var(--accent);
+
+  transform: translateY(-2px);
+}
+
+.instagram-header-link svg {
+  width: 21px;
+  height: 21px;
+
+  display: block;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.8;
+}
+
+.instagram-header-link svg circle:last-child {
+  fill: currentColor;
+
+  stroke: none;
 }
 
 
@@ -1821,6 +1874,8 @@ button {
     width: calc(100% - 28px);
 
     min-height: 64px;
+
+    gap: 10px;
   }
 
   .brand {
@@ -1829,6 +1884,20 @@ button {
 
   .desktop-navigation {
     display: none;
+  }
+
+  .instagram-header-link {
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 12px;
+  }
+
+  .instagram-header-link svg {
+    width: 19px;
+
+    height: 19px;
   }
 
   .search-button {
@@ -2325,63 +2394,4 @@ button {
 
     animation-iteration-count: 1 !important;
   }
-}
-.social-link {
-  width: 40px;
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-light);
-  text-decoration: none;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  transition:
-    color .2s ease,
-    border-color .2s ease,
-    transform .2s ease;
-}
-
-.social-link:hover {
-  color: var(--text);
-  border-color: var(--text-light);
-  transform: translateY(-2px);
-}
-
-.social-link svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-}
-
-.social-link svg circle:last-child {
-  fill: currentColor;
-  stroke: none;
-}
-/* Instagram footer icon */
-.footer-instagram {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 14px;
-  color: var(--text-light);
-  text-decoration: none;
-  font-size: 11px;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.footer-instagram svg {
-  width: 32px;
-  height: 32px;
-  display: block;
-}
-
-.footer-instagram:hover {
-  opacity: 0.75;
-  transform: translateY(-2px);
 }
