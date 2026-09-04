@@ -1,0 +1,56 @@
+---
+layout: default
+title: الأحدث
+description: "أحدث الإنفوغرافيكات المنشورة على Infograf+"
+permalink: /latest/
+---
+
+<main class="latest-page">
+  <section class="latest-section">
+    <div class="section-heading">
+      <div>
+        <span class="section-kicker">آخر ما نُشر</span>
+        <h1>أحدث الإنفوغرافيكات</h1>
+      </div>
+      <span class="section-count">{{ site.posts.size }} إنفوغرافيك</span>
+    </div>
+
+    {% if site.posts.size > 0 %}
+      <div class="infographic-grid">
+        {% for post in site.posts %}
+          <article class="infographic-card" data-category="{{ post.category | escape }}">
+            <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
+              {% if post.image %}
+                <img src="{{ post.image | relative_url }}" alt="{{ post.image_alt | default: post.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async" draggable="false">
+              {% else %}
+                <div class="image-placeholder"><span>Infograf+</span></div>
+              {% endif %}
+            </a>
+
+            <div class="infographic-card-content">
+              {% if post.category %}
+                <span class="card-category">{{ post.category }}</span>
+              {% endif %}
+              <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+              {% if post.description %}
+                <p>{{ post.description }}</p>
+              {% endif %}
+              <div class="card-meta">
+                {% if post.date %}
+                  <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>
+                {% endif %}
+                <span class="read-more">عرض الإنفوغرافيك <span aria-hidden="true">←</span></span>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">+</div>
+        <h2>لا توجد إنفوغرافيكات بعد</h2>
+        <p>عندما تنشر أول إنفوغرافيك سيظهر هنا.</p>
+      </div>
+    {% endif %}
+  </section>
+</main>

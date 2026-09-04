@@ -3,154 +3,56 @@ layout: default
 ---
 
 <style>
-  .share-menu {
-    position: relative;
-  }
-
-  .share-menu-panel {
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 10px);
-    z-index: 30;
-    width: min(340px, calc(100vw - 32px));
-    padding: 14px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: var(--shadow-md);
-  }
-
-  .share-menu-panel[hidden] {
-    display: none;
-  }
-
-  .share-menu-title {
-    margin: 0 0 10px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-weight: 700;
-  }
-
-  .share-menu-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .share-menu-link,
-  .share-menu-copy {
-    min-height: 42px;
-    padding: 8px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    border-radius: 11px;
-    border: 1px solid var(--border);
-    background: var(--surface-soft);
-    color: var(--text);
-    font: inherit;
-    font-size: 12px;
-    font-weight: 700;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .share-menu-link:hover,
-  .share-menu-copy:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .share-menu-status {
-    min-height: 18px;
-    margin: 10px 0 0;
-    color: var(--text-light);
-    font-size: 11px;
-    text-align: center;
-  }
-
-  .infographic-actions {
-    align-items: center;
-  }
-
-  @media (max-width: 700px) {
-    .share-menu-panel {
-      right: 50%;
-      transform: translateX(50%);
-    }
-
-    .infographic-actions {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 9px;
-    }
-
-    .infographic-actions > .share-menu {
-      grid-column: 1 / -1;
-    }
-
-    .infographic-actions > .share-menu .infographic-action,
-    .infographic-actions > .infographic-action {
-      width: 100%;
-      min-width: 0;
-      padding-inline: 11px;
-    }
+  .share-menu { position: relative; }
+  .share-menu-panel { position:absolute; right:0; bottom:calc(100% + 10px); z-index:30; width:min(340px,calc(100vw - 32px)); padding:14px; background:#fff; border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow-md); }
+  .share-menu-panel[hidden] { display:none; }
+  .share-menu-title { margin:0 0 10px; color:var(--text-secondary); font-size:12px; font-weight:700; }
+  .share-menu-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .share-menu-link,.share-menu-copy { min-height:42px; padding:8px 10px; display:flex; align-items:center; justify-content:center; gap:7px; border-radius:11px; border:1px solid var(--border); background:var(--surface-soft); color:var(--text); font:inherit; font-size:12px; font-weight:700; text-decoration:none; cursor:pointer; }
+  .share-menu-link:hover,.share-menu-copy:hover { border-color:var(--accent); color:var(--accent); }
+  .share-menu-status { min-height:18px; margin:10px 0 0; color:var(--text-light); font-size:11px; text-align:center; }
+  .infographic-actions { align-items:center; }
+  .post-navigation { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:26px 0 8px; }
+  .post-navigation-link { min-width:0; padding:14px 16px; display:flex; flex-direction:column; gap:4px; border:1px solid var(--border); border-radius:16px; background:var(--surface); color:var(--text); text-decoration:none; box-shadow:var(--shadow-sm); transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease; }
+  .post-navigation-link:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow-md); }
+  .post-navigation-label { color:var(--text-light); font-size:11px; font-weight:700; }
+  .post-navigation-title { overflow:hidden; color:var(--text); font-size:13px; font-weight:800; text-overflow:ellipsis; white-space:nowrap; }
+  .post-navigation-spacer { visibility:hidden; }
+  @media (max-width:700px) {
+    .share-menu-panel { right:50%; transform:translateX(50%); }
+    .infographic-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+    .infographic-actions > .share-menu { grid-column:1 / -1; }
+    .infographic-actions > .share-menu .infographic-action,.infographic-actions > .infographic-action { width:100%; min-width:0; padding-inline:11px; }
+    .post-navigation { gap:8px; margin-top:20px; }
+    .post-navigation-link { padding:12px; }
+    .post-navigation-title { font-size:12px; }
   }
 </style>
 
 <main class="infographic-page" aria-labelledby="infographic-title">
-
   <header class="infographic-page-header">
     {% if page.category %}
-      <a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}" class="infographic-page-category">
-        {{ page.category }}
-      </a>
+      <a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}" class="infographic-page-category">{{ page.category }}</a>
     {% endif %}
-
     <h1 id="infographic-title">{{ page.title }}</h1>
-
-    {% if page.description %}
-      <p class="infographic-page-description">{{ page.description }}</p>
-    {% endif %}
-
+    {% if page.description %}<p class="infographic-page-description">{{ page.description }}</p>{% endif %}
     <div class="infographic-meta">
-      {% if page.date %}
-        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d/%m/%Y" }}</time>
-      {% endif %}
-      {% if page.source %}
-        <span class="meta-separator">•</span>
-        <span>{{ page.source }}</span>
-      {% endif %}
+      {% if page.date %}<time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%d/%m/%Y" }}</time>{% endif %}
+      {% if page.source %}<span class="meta-separator">•</span><span>{{ page.source }}</span>{% endif %}
     </div>
   </header>
 
   {% if page.image %}
     <figure class="infographic-main-image" id="infographic-image">
-      <img
-        src="{{ page.image | relative_url }}"
-        alt="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}"
-        loading="eager"
-        fetchpriority="high"
-        decoding="async"
-        draggable="false"
-        style="-webkit-touch-callout:none; -webkit-user-select:none; user-select:none; -webkit-user-drag:none;">
+      <img src="{{ page.image | relative_url }}" alt="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}" loading="eager" fetchpriority="high" decoding="async" draggable="false" style="-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;">
     </figure>
   {% else %}
-    <div class="empty-state">
-      <div class="empty-icon">+</div>
-      <h3>لا توجد صورة لهذا الإنفوغرافيك</h3>
-      <p>سيتم عرض الصورة هنا عند إضافتها.</p>
-    </div>
+    <div class="empty-state"><div class="empty-icon">+</div><h3>لا توجد صورة لهذا الإنفوغرافيك</h3><p>سيتم عرض الصورة هنا عند إضافتها.</p></div>
   {% endif %}
 
   <div class="infographic-actions" aria-label="إجراءات الإنفوغرافيك">
     <div class="share-menu">
-      <button type="button" class="infographic-action" id="share-infographic" aria-haspopup="true" aria-expanded="false" aria-controls="share-menu-panel">
-        <span aria-hidden="true">↗</span>
-        مشاركة
-      </button>
-
+      <button type="button" class="infographic-action" id="share-infographic" aria-haspopup="true" aria-expanded="false" aria-controls="share-menu-panel"><span aria-hidden="true">↗</span>مشاركة</button>
       <div id="share-menu-panel" class="share-menu-panel" hidden>
         <p class="share-menu-title">شارك الإنفوغرافيك</p>
         <div class="share-menu-grid">
@@ -163,83 +65,59 @@ layout: default
         <p id="share-menu-status" class="share-menu-status" aria-live="polite"></p>
       </div>
     </div>
-
-    <button type="button" class="infographic-action" id="copy-infographic-link">
-      <span aria-hidden="true">🔗</span>
-      نسخ الرابط
-    </button>
-
-    {% if page.category %}
-      <a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}" class="infographic-action">
-        <span aria-hidden="true">←</span>
-        المزيد من القسم
-      </a>
-    {% endif %}
-
-    <a href="{{ '/' | relative_url }}" class="infographic-action">
-      <span aria-hidden="true">⌂</span>
-      الرئيسية
-    </a>
+    <button type="button" class="infographic-action" id="copy-infographic-link"><span aria-hidden="true">🔗</span>نسخ الرابط</button>
+    {% if page.category %}<a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}" class="infographic-action"><span aria-hidden="true">←</span>المزيد من القسم</a>{% endif %}
+    <a href="{{ '/' | relative_url }}" class="infographic-action"><span aria-hidden="true">⌂</span>الرئيسية</a>
   </div>
 
-  {% if page.source %}
-    <div class="infographic-source">
-      <span class="source-label">المصدر</span>
-      <strong>{{ page.source }}</strong>
-    </div>
+  {% assign current_index = nil %}
+  {% for post in site.posts %}
+    {% if post.url == page.url %}{% assign current_index = forloop.index0 %}{% endif %}
+  {% endfor %}
+  {% if current_index != nil %}
+    {% assign newer_index = current_index | minus: 1 %}
+    {% assign older_index = current_index | plus: 1 %}
+    <nav class="post-navigation" aria-label="التنقل بين الإنفوغرافيكات">
+      {% if newer_index >= 0 %}
+        {% assign newer_post = site.posts[newer_index] %}
+        <a class="post-navigation-link" href="{{ newer_post.url | relative_url }}">
+          <span class="post-navigation-label">← الأحدث</span>
+          <span class="post-navigation-title">{{ newer_post.title }}</span>
+        </a>
+      {% else %}<span class="post-navigation-link post-navigation-spacer" aria-hidden="true"></span>{% endif %}
+      {% if older_index < site.posts.size %}
+        {% assign older_post = site.posts[older_index] %}
+        <a class="post-navigation-link" href="{{ older_post.url | relative_url }}">
+          <span class="post-navigation-label">الأقدم →</span>
+          <span class="post-navigation-title">{{ older_post.title }}</span>
+        </a>
+      {% else %}<span class="post-navigation-link post-navigation-spacer" aria-hidden="true"></span>{% endif %}
+    </nav>
   {% endif %}
 
-  {% if content != "" %}
-    <section class="infographic-extra-content" aria-label="معلومات إضافية">
-      {{ content }}
-    </section>
+  {% if page.source %}
+    <div class="infographic-source"><span class="source-label">المصدر</span><strong>{{ page.source }}</strong></div>
   {% endif %}
+  {% if content != "" %}<section class="infographic-extra-content" aria-label="معلومات إضافية">{{ content }}</section>{% endif %}
 
   {% if page.category %}
     {% assign related_posts = site.posts | where: "category", page.category %}
     {% if related_posts.size > 1 %}
       <section class="related-section" aria-labelledby="related-infographics-title">
-        <div class="section-heading">
-          <div>
-            <span class="section-kicker">المزيد</span>
-            <h2 id="related-infographics-title">إنفوغرافيكات مشابهة</h2>
-          </div>
-          <a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}" class="section-count">عرض القسم ←</a>
-        </div>
-
+        <div class="section-heading"><div><span class="section-kicker">المزيد</span><h2 id="related-infographics-title">إنفوغرافيكات مشابهة</h2></div><a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}" class="section-count">عرض القسم ←</a></div>
         <div class="infographic-grid">
           {% assign related_count = 0 %}
           {% for post in related_posts %}
             {% if post.url != page.url and related_count < 3 %}
               <article class="infographic-card" data-category="{{ post.category | escape }}">
                 <a href="{{ post.url | relative_url }}" class="infographic-image-link" aria-label="عرض {{ post.title | escape }}">
-                  {% if post.image %}
-                    <img
-                      src="{{ post.image | relative_url }}"
-                      alt="إنفوغرافيك: {{ post.title | escape }}"
-                      loading="lazy"
-                      decoding="async"
-                      draggable="false"
-                      style="-webkit-touch-callout:none; -webkit-user-select:none; user-select:none; -webkit-user-drag:none;">
-                  {% else %}
-                    <div class="image-placeholder"><span>Infograf+</span></div>
-                  {% endif %}
+                  {% if post.image %}<img src="{{ post.image | relative_url }}" alt="إنفوغرافيك: {{ post.title | escape }}" loading="lazy" decoding="async" draggable="false" style="-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;">{% else %}<div class="image-placeholder"><span>Infograf+</span></div>{% endif %}
                 </a>
-
                 <div class="infographic-card-content">
-                  {% if post.category %}
-                    <span class="card-category">{{ post.category }}</span>
-                  {% endif %}
+                  {% if post.category %}<span class="card-category">{{ post.category }}</span>{% endif %}
                   <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-                  {% if post.description %}
-                    <p>{{ post.description }}</p>
-                  {% endif %}
-                  <div class="card-meta">
-                    {% if post.date %}
-                      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>
-                    {% endif %}
-                    <span class="read-more">عرض <span aria-hidden="true">←</span></span>
-                  </div>
+                  {% if post.description %}<p>{{ post.description }}</p>{% endif %}
+                  <div class="card-meta">{% if post.date %}<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d/%m/%Y" }}</time>{% endif %}<span class="read-more">عرض <span aria-hidden="true">←</span></span></div>
                 </div>
               </article>
               {% assign related_count = related_count | plus: 1 %}
@@ -252,97 +130,16 @@ layout: default
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const shareButton = document.getElementById("share-infographic");
-      const sharePanel = document.getElementById("share-menu-panel");
-      const copyButton = document.getElementById("copy-infographic-link");
-      const fallbackCopyButton = document.getElementById("share-copy-fallback");
-      const shareStatus = document.getElementById("share-menu-status");
-      const pageUrl = window.location.href;
-      const shareTitle = document.title;
-      const shareText = "{{ page.title | escape }}";
-
-      const encodedUrl = encodeURIComponent(pageUrl);
-      const encodedText = encodeURIComponent(shareText);
-
-      const whatsapp = document.getElementById("share-whatsapp");
-      const telegram = document.getElementById("share-telegram");
-      const facebook = document.getElementById("share-facebook");
-      const shareX = document.getElementById("share-x");
-
-      if (whatsapp) whatsapp.href = "https://wa.me/?text=" + encodeURIComponent(shareText + "\n" + pageUrl);
-      if (telegram) telegram.href = "https://t.me/share/url?url=" + encodedUrl + "&text=" + encodedText;
-      if (facebook) facebook.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodedUrl;
-      if (shareX) shareX.href = "https://x.com/intent/post?text=" + encodedText + "&url=" + encodedUrl;
-
-      function showTemporaryMessage(button, icon, text) {
-        if (!button) return;
-        const originalHTML = button.innerHTML;
-        button.innerHTML = '<span aria-hidden="true">' + icon + '</span> ' + text;
-        button.disabled = true;
-        setTimeout(function () {
-          button.innerHTML = originalHTML;
-          button.disabled = false;
-        }, 1800);
-      }
-
-      async function copyPageUrl(button) {
-        try {
-          await navigator.clipboard.writeText(pageUrl);
-          showTemporaryMessage(button, "✓", "تم نسخ الرابط");
-          if (shareStatus) shareStatus.textContent = "تم نسخ الرابط بنجاح.";
-        } catch (error) {
-          window.prompt("انسخ الرابط:", pageUrl);
-        }
-      }
-
-      function toggleShareMenu(force) {
-        if (!sharePanel || !shareButton) return;
-        const shouldOpen = typeof force === "boolean" ? force : sharePanel.hidden;
-        sharePanel.hidden = !shouldOpen;
-        shareButton.setAttribute("aria-expanded", String(shouldOpen));
-      }
-
-      if (shareButton) {
-        shareButton.addEventListener("click", async function () {
-          if (navigator.share) {
-            try {
-              await navigator.share({
-                title: shareTitle,
-                text: shareText,
-                url: pageUrl
-              });
-            } catch (error) {
-              if (error.name === "AbortError") return;
-              toggleShareMenu(true);
-            }
-            return;
-          }
-
-          toggleShareMenu();
-        });
-      }
-
-      if (fallbackCopyButton) {
-        fallbackCopyButton.addEventListener("click", function () {
-          copyPageUrl(fallbackCopyButton);
-        });
-      }
-
-      if (copyButton) {
-        copyButton.addEventListener("click", function () {
-          copyPageUrl(copyButton);
-        });
-      }
-
-      document.addEventListener("click", function (event) {
-        if (!sharePanel || sharePanel.hidden) return;
-        if (!event.target.closest(".share-menu")) toggleShareMenu(false);
-      });
-
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") toggleShareMenu(false);
-      });
+      const shareButton=document.getElementById("share-infographic"),sharePanel=document.getElementById("share-menu-panel"),copyButton=document.getElementById("copy-infographic-link"),fallbackCopyButton=document.getElementById("share-copy-fallback"),shareStatus=document.getElementById("share-menu-status"),pageUrl=window.location.href,shareTitle=document.title,shareText="{{ page.title | escape }}";
+      const encodedUrl=encodeURIComponent(pageUrl),encodedText=encodeURIComponent(shareText);
+      const whatsapp=document.getElementById("share-whatsapp"),telegram=document.getElementById("share-telegram"),facebook=document.getElementById("share-facebook"),shareX=document.getElementById("share-x");
+      if(whatsapp)whatsapp.href="https://wa.me/?text="+encodeURIComponent(shareText+"\n"+pageUrl);if(telegram)telegram.href="https://t.me/share/url?url="+encodedUrl+"&text="+encodedText;if(facebook)facebook.href="https://www.facebook.com/sharer/sharer.php?u="+encodedUrl;if(shareX)shareX.href="https://x.com/intent/post?text="+encodedText+"&url="+encodedUrl;
+      function showTemporaryMessage(button,icon,text){if(!button)return;const originalHTML=button.innerHTML;button.innerHTML='<span aria-hidden="true">'+icon+'</span> '+text;button.disabled=true;setTimeout(function(){button.innerHTML=originalHTML;button.disabled=false;},1800);}
+      async function copyPageUrl(button){try{await navigator.clipboard.writeText(pageUrl);showTemporaryMessage(button,"✓","تم نسخ الرابط");if(shareStatus)shareStatus.textContent="تم نسخ الرابط بنجاح.";}catch(error){window.prompt("انسخ الرابط:",pageUrl);}}
+      function toggleShareMenu(force){if(!sharePanel||!shareButton)return;const shouldOpen=typeof force==="boolean"?force:sharePanel.hidden;sharePanel.hidden=!shouldOpen;shareButton.setAttribute("aria-expanded",String(shouldOpen));}
+      if(shareButton)shareButton.addEventListener("click",async function(){if(navigator.share){try{await navigator.share({title:shareTitle,text:shareText,url:pageUrl});}catch(error){if(error.name==="AbortError")return;toggleShareMenu(true);}return;}toggleShareMenu();});
+      if(fallbackCopyButton)fallbackCopyButton.addEventListener("click",function(){copyPageUrl(fallbackCopyButton);});if(copyButton)copyButton.addEventListener("click",function(){copyPageUrl(copyButton);});
+      document.addEventListener("click",function(event){if(!sharePanel||sharePanel.hidden)return;if(!event.target.closest(".share-menu"))toggleShareMenu(false);});document.addEventListener("keydown",function(event){if(event.key==="Escape")toggleShareMenu(false);});
     });
   </script>
-
 </main>
