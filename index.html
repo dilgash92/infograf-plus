@@ -85,22 +85,22 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
 
     <div class="category-list">
       <a href="{{ site.baseurl }}/categories/" class="category-chip active">الكل</a>
-      <a href="{{ site.baseurl }}/categories/#العالم" class="category-chip">العالم</a>
-      <a href="{{ site.baseurl }}/categories/#سياسة" class="category-chip">سياسة</a>
-      <a href="{{ site.baseurl }}/categories/#اقتصاد ومال" class="category-chip">اقتصاد ومال</a>
-      <a href="{{ site.baseurl }}/categories/#تقنية" class="category-chip">تقنية</a>
-      <a href="{{ site.baseurl }}/categories/#علوم" class="category-chip">علوم</a>
-      <a href="{{ site.baseurl }}/categories/#صحة" class="category-chip">صحة</a>
-      <a href="{{ site.baseurl }}/categories/#رياضة" class="category-chip">رياضة</a>
-      <a href="{{ site.baseurl }}/categories/#ترفيه" class="category-chip">ترفيه</a>
-      <a href="{{ site.baseurl }}/categories/#سيارات" class="category-chip">سيارات</a>
-      <a href="{{ site.baseurl }}/categories/#سفر" class="category-chip">سفر</a>
-      <a href="{{ site.baseurl }}/categories/#تعليم" class="category-chip">تعليم</a>
-      <a href="{{ site.baseurl }}/categories/#تاريخ" class="category-chip">تاريخ</a>
-      <a href="{{ site.baseurl }}/categories/#مجتمع" class="category-chip">مجتمع</a>
-      <a href="{{ site.baseurl }}/categories/#فن وثقافة" class="category-chip">فن وثقافة</a>
-      <a href="{{ site.baseurl }}/categories/#طبيعة وبيئة" class="category-chip">طبيعة وبيئة</a>
-      <a href="{{ site.baseurl }}/categories/#منوع" class="category-chip">منوع</a>
+      {% assign category_icons = "العالم:🌍|سياسة:🏛️|اقتصاد ومال:💰|تقنية:💻|علوم:🔬|صحة:🩺|رياضة:⚽|ترفيه:🎬|سيارات:🚗|سفر:✈️|تعليم:📚|تاريخ:🏺|مجتمع:👥|فن وثقافة:🎨|طبيعة وبيئة:🌱|منوع:✨" | split: "|" %}
+      {% assign active_categories = site.categories | sort %}
+      {% for pair in category_icons %}
+        {% assign parts = pair | split: ":" %}
+        {% assign category_name = parts[0] %}
+        {% assign category_icon = parts[1] %}
+        {% assign category_exists = false %}
+        {% for category in active_categories %}
+          {% if category[0] == category_name %}
+            {% assign category_exists = true %}
+          {% endif %}
+        {% endfor %}
+        {% if category_exists %}
+          <a href="{{ site.baseurl }}/categories/#{{ category_name | uri_escape }}" class="category-chip">{{ category_name }}</a>
+        {% endif %}
+      {% endfor %}
     </div>
   </section>
 
