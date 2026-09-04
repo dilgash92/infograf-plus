@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>{% if page.title %}{{ page.title }} | Infograf+{% else %}Infograf+ | معلومات وإنفوغرافيك بطريقة أبسط{% endif %}</title>
+
   <meta name="description" content="{{ page.description | default: site.description | escape }}">
   <meta name="robots" content="index, follow">
+
   <link rel="canonical" href="{{ page.url | absolute_url }}">
+
   <link rel="icon" href="{{ '/assets/icons/icon.png?v=3' | relative_url }}" type="image/png">
   <link rel="apple-touch-icon" href="{{ '/assets/icons/icon.png?v=3' | relative_url }}">
+
   <meta name="apple-mobile-web-app-title" content="Infograf+">
   <meta name="application-name" content="Infograf+">
 
@@ -23,7 +28,9 @@
   <meta property="og:image" content="{{ page.image | absolute_url }}">
   <meta property="og:image:secure_url" content="{{ page.image | absolute_url }}">
   <meta property="og:image:alt" content="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}">
+
   {% assign image_ext = page.image | split: '.' | last | downcase %}
+
   {% if image_ext == 'jpg' or image_ext == 'jpeg' %}
   <meta property="og:image:type" content="image/jpeg">
   {% elsif image_ext == 'webp' %}
@@ -31,13 +38,16 @@
   {% else %}
   <meta property="og:image:type" content="image/png">
   {% endif %}
+
   {% elsif page.url == '/' %}
+
   <meta property="og:image" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta property="og:image:secure_url" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="شعار Infograf+">
+
   {% endif %}
 
   {% if page.date %}
@@ -53,21 +63,61 @@
   <meta name="twitter:description" content="{{ page.description | default: site.description | escape }}">
 
   {% if page.image %}
+
   <meta name="twitter:image" content="{{ page.image | absolute_url }}">
   <meta name="twitter:image:alt" content="{% if page.image_alt %}{{ page.image_alt | escape }}{% else %}إنفوغرافيك: {{ page.title | escape }}{% endif %}">
+
   {% elsif page.url == '/' %}
+
   <meta name="twitter:image" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta name="twitter:image:alt" content="شعار Infograf+">
+
   {% endif %}
 
   {% if page.url == "/" %}
+
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"Infograf+","url":{{ site.url | jsonify }},"description":{{ site.description | jsonify }},"inLanguage":"ar"}
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Infograf+",
+    "url": {{ site.url | jsonify }},
+    "description": {{ site.description | jsonify }},
+    "inLanguage": "ar"
+  }
   </script>
+
   {% else %}
+
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Article","headline":{{ page.title | jsonify }},"description":{{ page.description | default: site.description | jsonify }},"url":{{ page.url | absolute_url | jsonify }},"inLanguage":"ar"{% if page.date %},"datePublished":{{ page.date | date_to_xmlschema | jsonify }}{% endif %}{% if page.category %},"articleSection":{{ page.category | jsonify }}{% endif %},"publisher":{"@type":"Organization","name":"Infograf+","url":{{ site.url | jsonify }}}{% if page.image %},"image":{"@type":"ImageObject","url":{{ page.image | absolute_url | jsonify }},"caption":{{ page.image_alt | default: page.title | jsonify }}}{% endif %}}
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ page.description | default: site.description | jsonify }},
+    "url": {{ page.url | absolute_url | jsonify }},
+    "inLanguage": "ar"
+    {% if page.date %},
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }}
+    {% endif %}
+    {% if page.category %},
+    "articleSection": {{ page.category | jsonify }}
+    {% endif %},
+    "publisher": {
+      "@type": "Organization",
+      "name": "Infograf+",
+      "url": {{ site.url | jsonify }}
+    }
+    {% if page.image %},
+    "image": {
+      "@type": "ImageObject",
+      "url": {{ page.image | absolute_url | jsonify }},
+      "caption": {{ page.image_alt | default: page.title | jsonify }}
+    }
+    {% endif %}
+  }
   </script>
+
   {% endif %}
 
   <meta name="theme-color" content="#ffffff">
@@ -82,98 +132,155 @@
 
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">
+
 </head>
 
 <body>
 
   {% comment %}
     Infograf+ Brand Plus Colors
+
     الصفحة الرئيسية = البنفسجي الأصلي
+
     صفحات الإنفوغرافيك = لون حسب القسم
+
+    ملاحظة:
+    يتم تغيير لون + الموجود في الهيدر فقط.
+    كلمة Infograf لا تتغير.
+    شعار الـ Footer لا يتغير.
   {% endcomment %}
 
   {% assign brand_plus_color = '#635BFF' %}
 
   {% if page.category == 'العالم' %}
+
     {% assign brand_plus_color = '#2563EB' %}
 
   {% elsif page.category == 'سياسة' %}
+
     {% assign brand_plus_color = '#1E3A5F' %}
 
   {% elsif page.category == 'اقتصاد ومال' %}
+
     {% assign brand_plus_color = '#D99A00' %}
 
   {% elsif page.category == 'تقنية' %}
+
     {% assign brand_plus_color = '#7C3AED' %}
 
   {% elsif page.category == 'علوم' %}
+
     {% assign brand_plus_color = '#0D9488' %}
 
   {% elsif page.category == 'صحة' %}
+
     {% assign brand_plus_color = '#22A06B' %}
 
   {% elsif page.category == 'رياضة' %}
+
     {% assign brand_plus_color = '#E53935' %}
 
   {% elsif page.category == 'ترفيه' %}
+
     {% assign brand_plus_color = '#DB2777' %}
 
   {% elsif page.category == 'سيارات' %}
+
     {% assign brand_plus_color = '#343A40' %}
 
   {% elsif page.category == 'سفر' %}
+
     {% assign brand_plus_color = '#38BDF8' %}
 
   {% elsif page.category == 'تعليم' %}
+
     {% assign brand_plus_color = '#4F46E5' %}
 
   {% elsif page.category == 'تاريخ' %}
+
     {% assign brand_plus_color = '#A16207' %}
 
   {% elsif page.category == 'مجتمع' %}
+
     {% assign brand_plus_color = '#F97316' %}
 
   {% elsif page.category == 'فن وثقافة' %}
+
     {% assign brand_plus_color = '#C026D3' %}
 
   {% elsif page.category == 'طبيعة وبيئة' %}
+
     {% assign brand_plus_color = '#65A30D' %}
 
   {% elsif page.category == 'منوع' %}
+
     {% assign brand_plus_color = '#8B5CF6' %}
 
   {% endif %}
 
+
   <header class="site-header">
+
     <div class="header-inner">
 
       <a href="{{ site.baseurl }}/" class="brand" aria-label="Infograf+">
+
         <span class="brand-name">Infograf</span>
+
         <span class="brand-plus" style="color: {{ brand_plus_color }};">+</span>
+
       </a>
 
+
       <nav class="desktop-navigation" aria-label="التنقل الرئيسي">
+
         <a href="{{ site.baseurl }}/" class="nav-link">الرئيسية</a>
+
         <a href="{{ site.baseurl }}/categories/" class="nav-link">الأقسام</a>
+
         <a href="{{ site.baseurl }}/latest/" class="nav-link">الأحدث</a>
+
       </nav>
 
-      <button type="button" class="search-button" id="open-search" aria-label="فتح البحث">
+
+      <button
+        type="button"
+        class="search-button"
+        id="open-search"
+        aria-label="فتح البحث"
+      >
         <span class="search-icon" aria-hidden="true">⌕</span>
       </button>
 
     </div>
+
   </header>
 
+
   <div class="search-panel" id="search-panel" hidden>
+
     <div class="search-panel-inner">
 
       <div class="search-header">
+
         <h2>ابحث في Infograf+</h2>
-        <button type="button" id="close-search" class="close-search" aria-label="إغلاق البحث">×</button>
+
+        <button
+          type="button"
+          id="close-search"
+          class="close-search"
+          aria-label="إغلاق البحث"
+        >
+          ×
+        </button>
+
       </div>
 
-      <label for="site-search" class="visually-hidden">ابحث في الموقع</label>
+
+      <label for="site-search" class="visually-hidden">
+        ابحث في الموقع
+      </label>
+
 
       <input
         id="site-search"
@@ -182,26 +289,42 @@
         autocomplete="off"
       >
 
+
       <div id="search-results" class="search-results"></div>
 
     </div>
+
   </div>
 
-  <div class="page-wrapper">{{ content }}</div>
+
+  <div class="page-wrapper">
+    {{ content }}
+  </div>
+
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+
       const page = document.querySelector('.categories-page');
+
       const categoryGrid = page?.querySelector('.all-categories');
+
       const results = page?.querySelector('#category-results');
+
 
       if (!page || !categoryGrid || !results) return;
 
-      const hash = decodeURIComponent(window.location.hash.substring(1)).trim();
+
+      const hash = decodeURIComponent(
+        window.location.hash.substring(1)
+      ).trim();
+
 
       if (!hash) return;
 
+
       const normalize = function (text) {
+
         return String(text || '')
           .trim()
           .toLowerCase()
@@ -210,59 +333,123 @@
           .replace(/ى/g, 'ي')
           .replace(/ة/g, 'ه')
           .replace(/ـ/g, '');
+
       };
+
 
       const match = Array.from(
         page.querySelectorAll('.category-card')
       ).find(function (button) {
-        return normalize(button.dataset.category || '') === normalize(hash);
+
+        return normalize(
+          button.dataset.category || ''
+        ) === normalize(hash);
+
       });
+
 
       if (!match || normalize(hash) === 'all') return;
 
+
       categoryGrid.hidden = false;
+
       categoryGrid.style.display = 'none';
+
 
       const backLink = document.createElement('a');
 
+
       backLink.href = '{{ site.baseurl }}/categories/';
+
       backLink.className = 'btn btn-secondary';
+
       backLink.textContent = '← تغيير القسم';
+
       backLink.style.marginBottom = '18px';
 
-      results.insertBefore(backLink, results.firstChild);
+
+      results.insertBefore(
+        backLink,
+        results.firstChild
+      );
+
     });
   </script>
 
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/homepage.css">
 
-  <nav class="mobile-navigation" aria-label="التنقل في الموقع">
+  <link
+    rel="stylesheet"
+    href="{{ site.baseurl }}/assets/css/homepage.css"
+  >
 
-    <a href="{{ site.baseurl }}/" class="mobile-nav-item">
-      <span class="mobile-nav-icon" aria-hidden="true">⌂</span>
+
+  <nav
+    class="mobile-navigation"
+    aria-label="التنقل في الموقع"
+  >
+
+    <a
+      href="{{ site.baseurl }}/"
+      class="mobile-nav-item"
+    >
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true"
+      >
+        ⌂
+      </span>
+
       <span>الرئيسية</span>
     </a>
 
-    <a href="{{ site.baseurl }}/categories/" class="mobile-nav-item">
-      <span class="mobile-nav-icon" aria-hidden="true">▦</span>
+
+    <a
+      href="{{ site.baseurl }}/categories/"
+      class="mobile-nav-item"
+    >
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true"
+      >
+        ▦
+      </span>
+
       <span>الأقسام</span>
     </a>
+
 
     <button
       type="button"
       class="mobile-nav-item mobile-search-trigger"
       id="mobile-search"
     >
-      <span class="mobile-nav-icon" aria-hidden="true">⌕</span>
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true"
+      >
+        ⌕
+      </span>
+
       <span>بحث</span>
     </button>
 
-    <a href="{{ site.baseurl }}/latest/" class="mobile-nav-item">
-      <span class="mobile-nav-icon" aria-hidden="true">✦</span>
+
+    <a
+      href="{{ site.baseurl }}/latest/"
+      class="mobile-nav-item"
+    >
+      <span
+        class="mobile-nav-icon"
+        aria-hidden="true"
+      >
+        ✦
+      </span>
+
       <span>الأحدث</span>
     </a>
 
   </nav>
+
 
   <footer class="site-footer">
 
@@ -270,7 +457,10 @@
 
       <div class="footer-brand">
 
-        <a href="{{ site.baseurl }}/" class="brand">
+        <a
+          href="{{ site.baseurl }}/"
+          class="brand"
+        >
 
           <span class="brand-name">Infograf</span>
 
@@ -278,19 +468,30 @@
 
         </a>
 
-        <p>معلومات وإنفوغرافيك بطريقة أبسط.</p>
+
+        <p>
+          معلومات وإنفوغرافيك بطريقة أبسط.
+        </p>
 
       </div>
 
+
       <div class="footer-info">
+
         © {{ 'now' | date: "%Y" }} Infograf+
+
       </div>
 
     </div>
 
   </footer>
 
-  <script src="{{ site.baseurl }}/assets/js/app.js" defer></script>
+
+  <script
+    src="{{ site.baseurl }}/assets/js/app.js"
+    defer
+  ></script>
+
 
 </body>
 </html>
