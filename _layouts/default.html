@@ -139,38 +139,38 @@
   {% endcomment %}
 
   {% assign current_category = page.category | strip %}
-{% assign brand_plus_color = '#635BFF' %}
+  {% assign brand_plus_color = '#635BFF' %}
 
-{% if current_category == 'العالم' %}
-  {% assign brand_plus_color = '#0043F7' %}
+  {% if current_category == 'العالم' %}
+    {% assign brand_plus_color = '#0043F7' %}
 
-{% elsif current_category == 'سياسة' %}
-  {% assign brand_plus_color = '#921E7A' %}
+  {% elsif current_category == 'سياسة' %}
+    {% assign brand_plus_color = '#921E7A' %}
 
-{% elsif current_category == 'اقتصاد ومال' %}
-  {% assign brand_plus_color = '#D99A00' %}
+  {% elsif current_category == 'اقتصاد ومال' %}
+    {% assign brand_plus_color = '#D99A00' %}
 
-{% elsif current_category == 'تقنية' %}
-  {% assign brand_plus_color = '#13CBFF' %}
+  {% elsif current_category == 'تقنية' %}
+    {% assign brand_plus_color = '#13CBFF' %}
 
-{% elsif current_category == 'علوم' %}
-  {% assign brand_plus_color = '#555555' %}
+  {% elsif current_category == 'علوم' %}
+    {% assign brand_plus_color = '#555555' %}
 
-{% elsif current_category == 'صحة' %}
-  {% assign brand_plus_color = '#22A06B' %}
+  {% elsif current_category == 'صحة' %}
+    {% assign brand_plus_color = '#22A06B' %}
 
-{% elsif current_category == 'رياضة' %}
-  {% assign brand_plus_color = '#A71C1C' %}
+  {% elsif current_category == 'رياضة' %}
+    {% assign brand_plus_color = '#A71C1C' %}
 
-{% elsif current_category == 'سيارات' %}
-  {% assign brand_plus_color = '#2A2A2D' %}
+  {% elsif current_category == 'سيارات' %}
+    {% assign brand_plus_color = '#2A2A2D' %}
 
-{% elsif current_category == 'سفر' %}
-  {% assign brand_plus_color = '#FC8FC5' %}
+  {% elsif current_category == 'سفر' %}
+    {% assign brand_plus_color = '#FC8FC5' %}
 
-{% elsif current_category == 'منوع' %}
-  {% assign brand_plus_color = '#E74F1B' %}
-{% endif %}
+  {% elsif current_category == 'منوع' %}
+    {% assign brand_plus_color = '#E74F1B' %}
+  {% endif %}
 
   <header class="site-header">
     <div class="header-inner">
@@ -378,6 +378,50 @@
         <p>
           معلومات وإنفوغرافيك بطريقة أبسط.
         </p>
+
+        <!-- Instagram -->
+        <a
+          href="https://www.instagram.com/infografplus"
+          class="footer-instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram - Infograf+"
+          title="Instagram - Infograf+"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <rect
+              x="3"
+              y="3"
+              width="18"
+              height="18"
+              rx="5"
+              ry="5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <circle
+              cx="12"
+              cy="12"
+              r="4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <circle
+              cx="17.5"
+              cy="6.5"
+              r="1"
+              fill="currentColor"
+            />
+          </svg>
+
+          <span>Instagram</span>
+        </a>
 
       </div>
 
