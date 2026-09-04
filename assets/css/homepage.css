@@ -178,45 +178,16 @@
   line-height: 1;
 }
 
-.identity-world {
-  color: #0043F7;
-}
-
-.identity-politics {
-  color: #921E7A;
-}
-
-.identity-economy {
-  color: #D99A00;
-}
-
-.identity-tech {
-  color: #13CBFF;
-}
-
-.identity-science {
-  color: #555555;
-}
-
-.identity-health {
-  color: #22A06B;
-}
-
-.identity-sport {
-  color: #A71C1C;
-}
-
-.identity-cars {
-  color: #2A2A2D;
-}
-
-.identity-travel {
-  color: #FC8FC5;
-}
-
-.identity-misc {
-  color: #E74F1B;
-}
+.identity-world { color: #0043F7; }
+.identity-politics { color: #921E7A; }
+.identity-economy { color: #D99A00; }
+.identity-tech { color: #13CBFF; }
+.identity-science { color: #555555; }
+.identity-health { color: #22A06B; }
+.identity-sport { color: #A71C1C; }
+.identity-cars { color: #2A2A2D; }
+.identity-travel { color: #FC8FC5; }
+.identity-misc { color: #E74F1B; }
 
 .identity-footer {
   position: relative;
@@ -237,64 +208,56 @@
   background: var(--border);
 }
 
+@media (max-width: 700px) {
+  .infograf-identity { min-height: 245px; }
+  .identity-card { width: 94%; padding: 24px 14px 20px; border-radius: 23px; }
+  .identity-header { margin-bottom: 20px; }
+  .identity-brand-name { font-size: 34px; letter-spacing: -1.5px; }
+  .identity-brand-plus { font-size: 38px; }
+  .identity-tagline { margin-top: 7px; font-size: 10px; }
+  .identity-categories { gap: 13px 4px; }
+  .identity-plus { width: 34px; height: 34px; border-radius: 11px; font-size: 21px; }
+  .identity-category { gap: 5px; font-size: 8px; }
+  .identity-footer { margin-top: 20px; font-size: 9px; }
+  .identity-footer-line { width: 22px; }
+}
 
 /* =========================================================
-   Mobile
+   Footer navigation visibility
    ========================================================= */
+.footer-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.footer-navigation a {
+  display: inline-block;
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.footer-navigation a:hover,
+.footer-navigation a:focus-visible {
+  color: var(--accent);
+}
 
 @media (max-width: 700px) {
-
-  .infograf-identity {
-    min-height: 245px;
+  .footer-navigation {
+    width: 100%;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    gap: 10px 18px;
   }
 
-  .identity-card {
-    width: 94%;
-    padding: 24px 14px 20px;
-    border-radius: 23px;
+  .footer-navigation a {
+    font-size: 12px;
   }
-
-  .identity-header {
-    margin-bottom: 20px;
-  }
-
-  .identity-brand-name {
-    font-size: 34px;
-    letter-spacing: -1.5px;
-  }
-
-  .identity-brand-plus {
-    font-size: 38px;
-  }
-
-  .identity-tagline {
-    margin-top: 7px;
-    font-size: 10px;
-  }
-
-  .identity-categories {
-    gap: 13px 4px;
-  }
-
-  .identity-plus {
-    width: 34px;
-    height: 34px;
-    border-radius: 11px;
-    font-size: 21px;
-  }
-
-  .identity-category {
-    gap: 5px;
-    font-size: 8px;
-  }
-
-  .identity-footer {
-    margin-top: 20px;
-    font-size: 9px;
-  }
-
-  .identity-footer-line {
-    width: 22px;
-  }
-
 }
