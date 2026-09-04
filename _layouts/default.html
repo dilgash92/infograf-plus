@@ -39,12 +39,14 @@
   {% endif %}
 
   {% elsif page.url == '/' %}
+
   <meta property="og:image" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta property="og:image:secure_url" content="{{ '/assets/icons/icon.png?v=3' | absolute_url }}">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="شعار Infograf+">
+
   {% endif %}
 
   {% if page.date %}
@@ -127,6 +129,7 @@
 
   {% comment %}
     Infograf+ Brand Plus Colors
+
     الصفحة الرئيسية = البنفسجي الأصلي
     صفحات الإنفوغرافيك = لون حسب القسم
 
@@ -135,71 +138,37 @@
     شعار الـ Footer لا يتغير.
   {% endcomment %}
 
-  {% assign brand_plus_color = '#635BFF' %}
   {% assign current_category = page.category | strip %}
+  {% assign brand_plus_color = '#635BFF' %}
 
   {% if current_category == 'العالم' %}
-
     {% assign brand_plus_color = '#2563EB' %}
 
   {% elsif current_category == 'سياسة' %}
-
     {% assign brand_plus_color = '#1E3A5F' %}
 
   {% elsif current_category == 'اقتصاد ومال' %}
-
     {% assign brand_plus_color = '#D99A00' %}
 
   {% elsif current_category == 'تقنية' %}
-
     {% assign brand_plus_color = '#7C3AED' %}
 
   {% elsif current_category == 'علوم' %}
-
     {% assign brand_plus_color = '#0D9488' %}
 
   {% elsif current_category == 'صحة' %}
-
     {% assign brand_plus_color = '#22A06B' %}
 
   {% elsif current_category == 'رياضة' %}
-
     {% assign brand_plus_color = '#E53935' %}
 
-  {% elsif current_category == 'ترفيه' %}
-
-    {% assign brand_plus_color = '#DB2777' %}
-
   {% elsif current_category == 'سيارات' %}
-
     {% assign brand_plus_color = '#343A40' %}
 
   {% elsif current_category == 'سفر' %}
-
     {% assign brand_plus_color = '#38BDF8' %}
 
-  {% elsif current_category == 'تعليم' %}
-
-    {% assign brand_plus_color = '#4F46E5' %}
-
-  {% elsif current_category == 'تاريخ' %}
-
-    {% assign brand_plus_color = '#A16207' %}
-
-  {% elsif current_category == 'مجتمع' %}
-
-    {% assign brand_plus_color = '#F97316' %}
-
-  {% elsif current_category == 'فن وثقافة' %}
-
-    {% assign brand_plus_color = '#C026D3' %}
-
-  {% elsif current_category == 'طبيعة وبيئة' %}
-
-    {% assign brand_plus_color = '#65A30D' %}
-
   {% elsif current_category == 'منوع' %}
-
     {% assign brand_plus_color = '#8B5CF6' %}
 
   {% endif %}
