@@ -8,9 +8,8 @@ layout: default
   .share-menu-panel[hidden] { display:none; }
   .share-menu-title { margin:0 0 10px; color:var(--text-secondary); font-size:12px; font-weight:700; }
   .share-menu-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
-  .share-menu-link,.share-menu-copy { min-height:42px; padding:8px 10px; display:flex; align-items:center; justify-content:center; gap:7px; border-radius:11px; border:1px solid var(--border); background:var(--surface-soft); color:var(--text); font:inherit; font-size:12px; font-weight:700; text-decoration:none; cursor:pointer; }
-  .share-menu-link:hover,.share-menu-copy:hover { border-color:var(--accent); color:var(--accent); }
-  .share-menu-status { min-height:18px; margin:10px 0 0; color:var(--text-light); font-size:11px; text-align:center; }
+  .share-menu-link { min-height:42px; padding:8px 10px; display:flex; align-items:center; justify-content:center; gap:7px; border-radius:11px; border:1px solid var(--border); background:var(--surface-soft); color:var(--text); font:inherit; font-size:12px; font-weight:700; text-decoration:none; cursor:pointer; }
+  .share-menu-link:hover { border-color:var(--accent); color:var(--accent); }
   .infographic-actions { align-items:center; }
   .post-navigation { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:26px 0 8px; }
   .post-navigation-link { min-width:0; padding:14px 16px; display:flex; flex-direction:column; gap:4px; border:1px solid var(--border); border-radius:16px; background:var(--surface); color:var(--text); text-decoration:none; box-shadow:var(--shadow-sm); transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease; }
@@ -22,7 +21,8 @@ layout: default
     .share-menu-panel { right:50%; transform:translateX(50%); }
     .infographic-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
     .infographic-actions > .share-menu { grid-column:1 / -1; }
-    .infographic-actions > .share-menu .infographic-action,.infographic-actions > .infographic-action { width:100%; min-width:0; padding-inline:11px; }
+    .infographic-actions > .share-menu .infographic-action,
+    .infographic-actions > .infographic-action { width:100%; min-width:0; min-height:52px; padding-inline:11px; }
     .post-navigation { gap:8px; margin-top:20px; }
     .post-navigation-link { padding:12px; }
     .post-navigation-title { font-size:12px; }
@@ -60,12 +60,9 @@ layout: default
           <a id="share-telegram" class="share-menu-link" href="#" target="_blank" rel="noopener noreferrer">✈️ تيليغرام</a>
           <a id="share-facebook" class="share-menu-link" href="#" target="_blank" rel="noopener noreferrer">f فيسبوك</a>
           <a id="share-x" class="share-menu-link" href="#" target="_blank" rel="noopener noreferrer">𝕏 X</a>
-          <button type="button" id="share-copy-fallback" class="share-menu-copy">🔗 نسخ الرابط</button>
         </div>
-        <p id="share-menu-status" class="share-menu-status" aria-live="polite"></p>
       </div>
     </div>
-    <button type="button" class="infographic-action" id="copy-infographic-link"><span aria-hidden="true">🔗</span>نسخ الرابط</button>
     {% if page.category %}<a href="{{ '/categories/' | relative_url }}#{{ page.category | uri_escape }}" class="infographic-action"><span aria-hidden="true">←</span>المزيد من القسم</a>{% endif %}
     <a href="{{ '/' | relative_url }}" class="infographic-action"><span aria-hidden="true">⌂</span>الرئيسية</a>
   </div>
@@ -130,15 +127,12 @@ layout: default
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const shareButton=document.getElementById("share-infographic"),sharePanel=document.getElementById("share-menu-panel"),copyButton=document.getElementById("copy-infographic-link"),fallbackCopyButton=document.getElementById("share-copy-fallback"),shareStatus=document.getElementById("share-menu-status"),pageUrl=window.location.href,shareTitle=document.title,shareText="{{ page.title | escape }}";
+      const shareButton=document.getElementById("share-infographic"),sharePanel=document.getElementById("share-menu-panel"),pageUrl=window.location.href,shareTitle=document.title,shareText="{{ page.title | escape }}";
       const encodedUrl=encodeURIComponent(pageUrl),encodedText=encodeURIComponent(shareText);
       const whatsapp=document.getElementById("share-whatsapp"),telegram=document.getElementById("share-telegram"),facebook=document.getElementById("share-facebook"),shareX=document.getElementById("share-x");
       if(whatsapp)whatsapp.href="https://wa.me/?text="+encodeURIComponent(shareText+"\n"+pageUrl);if(telegram)telegram.href="https://t.me/share/url?url="+encodedUrl+"&text="+encodedText;if(facebook)facebook.href="https://www.facebook.com/sharer/sharer.php?u="+encodedUrl;if(shareX)shareX.href="https://x.com/intent/post?text="+encodedText+"&url="+encodedUrl;
-      function showTemporaryMessage(button,icon,text){if(!button)return;const originalHTML=button.innerHTML;button.innerHTML='<span aria-hidden="true">'+icon+'</span> '+text;button.disabled=true;setTimeout(function(){button.innerHTML=originalHTML;button.disabled=false;},1800);}
-      async function copyPageUrl(button){try{await navigator.clipboard.writeText(pageUrl);showTemporaryMessage(button,"✓","تم نسخ الرابط");if(shareStatus)shareStatus.textContent="تم نسخ الرابط بنجاح.";}catch(error){window.prompt("انسخ الرابط:",pageUrl);}}
       function toggleShareMenu(force){if(!sharePanel||!shareButton)return;const shouldOpen=typeof force==="boolean"?force:sharePanel.hidden;sharePanel.hidden=!shouldOpen;shareButton.setAttribute("aria-expanded",String(shouldOpen));}
       if(shareButton)shareButton.addEventListener("click",async function(){if(navigator.share){try{await navigator.share({title:shareTitle,text:shareText,url:pageUrl});}catch(error){if(error.name==="AbortError")return;toggleShareMenu(true);}return;}toggleShareMenu();});
-      if(fallbackCopyButton)fallbackCopyButton.addEventListener("click",function(){copyPageUrl(fallbackCopyButton);});if(copyButton)copyButton.addEventListener("click",function(){copyPageUrl(copyButton);});
       document.addEventListener("click",function(event){if(!sharePanel||sharePanel.hidden)return;if(!event.target.closest(".share-menu"))toggleShareMenu(false);});document.addEventListener("keydown",function(event){if(event.key==="Escape")toggleShareMenu(false);});
     });
   </script>
