@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
     desktopNavigation.appendChild(aboutLink);
   }
 
-  /* Mobile header: group About, Instagram and Search together on the left. */
+  /* Mobile header: group About, Instagram, Facebook and Search together on the left. */
   const headerInner = document.querySelector(".header-inner");
   if (headerInner && !headerInner.querySelector(".mobile-header-actions")) {
     const mobileAbout = document.createElement("a");
@@ -234,11 +234,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const instagramLink = headerInner.querySelector(".instagram-header-link");
     const searchButton = headerInner.querySelector(".search-button");
 
+    const facebookLink = document.createElement("a");
+    facebookLink.href = "https://www.facebook.com/infografplus";
+    facebookLink.className = "facebook-header-link";
+    facebookLink.target = "_blank";
+    facebookLink.rel = "noopener noreferrer";
+    facebookLink.setAttribute("aria-label", "Facebook - Infograf+");
+    facebookLink.setAttribute("title", "Facebook - Infograf+");
+    facebookLink.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v6h4v-6h3.2l.8-4H13V9c0-.67.33-1 1-1z"></path></svg>';
+
     const actions = document.createElement("div");
     actions.className = "mobile-header-actions";
 
     actions.appendChild(mobileAbout);
     if (instagramLink) actions.appendChild(instagramLink);
+    actions.appendChild(facebookLink);
     if (searchButton) actions.appendChild(searchButton);
 
     headerInner.appendChild(actions);
@@ -249,7 +259,8 @@ document.addEventListener("DOMContentLoaded", function () {
         display: contents;
       }
 
-      .about-header-mobile {
+      .about-header-mobile,
+      .facebook-header-link {
         display: none;
       }
 
@@ -292,12 +303,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         .mobile-header-actions .instagram-header-link,
+        .mobile-header-actions .facebook-header-link,
         .mobile-header-actions .search-button {
           width: 40px;
           height: 40px;
           margin: 0;
           border-radius: 11px;
           flex-shrink: 0;
+        }
+
+        .facebook-header-link {
+          display: grid;
+          place-items: center;
+          background: var(--surface);
+          color: var(--text);
+          text-decoration: none;
+          transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .facebook-header-link:hover,
+        .facebook-header-link:focus-visible {
+          background: var(--accent-light);
+          color: var(--accent);
+          transform: translateY(-2px);
+        }
+
+        .facebook-header-link svg {
+          width: 19px;
+          height: 19px;
+          display: block;
+          fill: currentColor;
         }
       }
     `;
