@@ -19,13 +19,17 @@ layout: default
   .post-navigation-spacer { visibility:hidden; }
   @media (max-width:700px) {
     .share-menu-panel { right:50%; transform:translateX(50%); }
-    .infographic-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+    .infographic-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
     .infographic-actions > .share-menu { grid-column:1 / -1; }
-    .infographic-actions > .share-menu .infographic-action,
-    .infographic-actions > .infographic-action { width:100%; min-width:0; min-height:52px; padding-inline:11px; }
-    .post-navigation { gap:8px; margin-top:20px; }
-    .post-navigation-link { padding:12px; }
+    .infographic-actions > .share-menu,
+    .infographic-actions > .infographic-action { min-width:0; width:100%; }
+    .infographic-actions > .share-menu > .infographic-action,
+    .infographic-actions > .infographic-action { min-height:54px; padding:10px 11px; width:100%; border-radius:15px; }
+    .post-navigation { gap:10px; margin-top:18px; }
+    .post-navigation-link { padding:14px 12px; min-height:62px; justify-content:center; }
     .post-navigation-title { font-size:12px; }
+    .post-navigation:has(.post-navigation-spacer) { grid-template-columns:1fr; }
+    .post-navigation:has(.post-navigation-spacer) .post-navigation-spacer { display:none; }
   }
 </style>
 
