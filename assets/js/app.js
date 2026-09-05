@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  /* Make every latest infographic card clickable, not only its image/title. */
+  /* Make every latest homepage infographic card clickable. */
   homeCards.forEach(function (card) {
     const destination = card.querySelector("h3 a") || card.querySelector(".infographic-image-link");
     if (!destination) return;
@@ -214,6 +214,36 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         window.location.href = destination.href;
       }
+    });
+  });
+
+  /*
+   * Make every other infographic card clickable too:
+   * featured cards on the homepage, all cards on /categories/
+   * and all cards on /latest/.
+   */
+  document.querySelectorAll(".infographic-card").forEach(function (card) {
+    if (card.classList.contains("is-clickable-card")) return;
+
+    const destination =
+      card.querySelector(".infographic-image-link[href]") ||
+      card.querySelector("h2 a[href], h3 a[href]");
+
+    if (!destination) return;
+
+    card.classList.add("is-clickable-card");
+    card.setAttribute("role", "link");
+    card.setAttribute("tabindex", "0");
+
+    card.addEventListener("click", function (event) {
+      if (event.target.closest("a, button, input, textarea, select")) return;
+      window.location.href = destination.href;
+    });
+
+    card.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      window.location.href = destination.href;
     });
   });
 
