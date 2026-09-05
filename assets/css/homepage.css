@@ -41,347 +41,43 @@
 .featured-item{position:relative;flex:0 0 calc((100% - 36px)/3);min-width:0}
 .featured-item .infographic-image-link{aspect-ratio:16/9}
 .featured-label{display:inline-flex;align-items:center;gap:4px;margin-bottom:8px;padding:4px 9px;border-radius:999px;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:800}
-.featured-item .infographic-card-content{padding:17px 19px 19px}
-.featured-item h3{margin-top:4px}
+.featured-item .infographic-card-content{padding:17px 19px 19px}.featured-item h3{margin-top:4px}
 .featured-carousel-arrow{width:40px;height:40px;display:grid;place-items:center;padding:0;border:1px solid var(--border);border-radius:50%;background:var(--surface);color:var(--text);font:inherit;font-size:18px;font-weight:800;cursor:pointer;box-shadow:var(--shadow-sm)}
-.featured-carousel-arrow:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.featured-carousel-arrow:disabled{opacity:.35;cursor:default}
-.featured-carousel-dots{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:12px}
-.featured-carousel-dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:var(--border);cursor:pointer}
-.featured-carousel-dot.active{width:22px;border-radius:999px;background:var(--accent)}
+.featured-carousel-arrow:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}.featured-carousel-arrow:disabled{opacity:.35;cursor:default}
+.featured-carousel-dots{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:12px}.featured-carousel-dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:var(--border);cursor:pointer}.featured-carousel-dot.active{width:22px;border-radius:999px;background:var(--accent)}
 .featured-carousel-arrow:focus-visible,.featured-carousel-dot:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 @media (max-width:950px){.featured-item{flex-basis:calc((100% - 18px)/2)}}
 @media (max-width:700px){.featured-section{width:calc(100% - 28px);padding-bottom:42px}.featured-carousel{grid-template-columns:34px minmax(0,1fr) 34px;gap:5px}.featured-carousel-arrow{width:34px;height:34px;font-size:15px}.featured-carousel-track{gap:14px}.featured-item{flex-basis:100%}.featured-item .infographic-image-link{aspect-ratio:4/3}.featured-item .infographic-card-content{padding:16px}.featured-label{font-size:10px}}
+
 /* =========================================================
    Infograf+ Identity Card
    Homepage hero visual
    ========================================================= */
-
-.infograf-identity {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px;
-}
-
-.identity-card {
-  position: relative;
-  width: min(470px, 94%);
-  padding: 30px 28px 24px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  box-shadow: 0 18px 50px rgba(20, 20, 40, 0.08);
-  overflow: hidden;
-}
-
-.identity-card::before {
-  content: "";
-  position: absolute;
-  width: 190px;
-  height: 190px;
-  top: -100px;
-  right: -80px;
-  border-radius: 50%;
-  background: var(--accent-light);
-  opacity: 0.65;
-  pointer-events: none;
-}
-
-.identity-card::after {
-  content: "";
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  bottom: -90px;
-  left: -70px;
-  border-radius: 50%;
-  background: var(--accent-light);
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.identity-header {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.identity-logo {
-  direction: ltr;
-  display: inline-flex;
-  align-items: baseline;
-  justify-content: center;
-  line-height: 1;
-}
-
-.identity-brand-name {
-  color: var(--text);
-  font-size: clamp(34px, 5vw, 48px);
-  font-weight: 800;
-  letter-spacing: -2px;
-}
-
-.identity-brand-plus {
-  margin-left: 3px;
-  color: var(--accent);
-  font-size: clamp(38px, 5.5vw, 52px);
-  font-weight: 800;
-  line-height: 1;
-}
-
-.identity-tagline {
-  display: block;
-  margin-top: 9px;
-  color: var(--text-light);
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.identity-categories {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 15px 10px;
-  direction: rtl;
-}
-
-.identity-category {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-width: 0;
-  color: var(--text);
-  text-decoration: none;
-  font-size: 10px;
-  font-weight: 600;
-  transition: transform 0.2s ease;
-}
-
-.identity-category:hover {
-  transform: translateY(-3px);
-}
-
-.identity-plus {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  border-radius: 13px;
-  background: color-mix(in srgb, currentColor 10%, white);
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.identity-world { color: #0043F7; }
-.identity-politics { color: #921E7A; }
-.identity-economy { color: #D99A00; }
-.identity-tech { color: #13CBFF; }
-.identity-science { color: #555555; }
-.identity-health { color: #22A06B; }
-.identity-sport { color: #A71C1C; }
-.identity-cars { color: #2A2A2D; }
-.identity-travel { color: #FC8FC5; }
-.identity-misc { color: #E74F1B; }
-
-.identity-footer {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  margin-top: 25px;
-  color: var(--text-light);
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.identity-footer-line {
-  width: 30px;
-  height: 1px;
-  background: var(--border);
-}
-
-@media (max-width: 700px) {
-  .infograf-identity { min-height: 245px; }
-  .identity-card { width: 94%; padding: 24px 14px 20px; border-radius: 23px; }
-  .identity-header { margin-bottom: 20px; }
-  .identity-brand-name { font-size: 34px; letter-spacing: -1.5px; }
-  .identity-brand-plus { font-size: 38px; }
-  .identity-tagline { margin-top: 7px; font-size: 10px; }
-  .identity-categories { gap: 13px 4px; }
-  .identity-plus { width: 34px; height: 34px; border-radius: 11px; font-size: 21px; }
-  .identity-category { gap: 5px; font-size: 8px; }
-  .identity-footer { margin-top: 20px; font-size: 9px; }
-  .identity-footer-line { width: 22px; }
-}
+.infograf-identity{display:flex;align-items:center;justify-content:center;min-height:300px}
+.identity-card{position:relative;width:min(470px,94%);padding:30px 28px 24px;background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:28px;box-shadow:0 18px 50px rgba(20,20,40,.08);overflow:hidden}
+.identity-card::before{content:"";position:absolute;width:190px;height:190px;top:-100px;right:-80px;border-radius:50%;background:var(--accent-light);opacity:.65;pointer-events:none}.identity-card::after{content:"";position:absolute;width:150px;height:150px;bottom:-90px;left:-70px;border-radius:50%;background:var(--accent-light);opacity:.45;pointer-events:none}
+.identity-header{position:relative;z-index:2;text-align:center;margin-bottom:25px}.identity-logo{direction:ltr;display:inline-flex;align-items:baseline;justify-content:center;line-height:1}.identity-brand-name{color:var(--text);font-size:clamp(34px,5vw,48px);font-weight:800;letter-spacing:-2px}.identity-brand-plus{margin-left:3px;color:var(--accent);font-size:clamp(38px,5.5vw,52px);font-weight:800;line-height:1}.identity-tagline{display:block;margin-top:9px;color:var(--text-light);font-size:12px;font-weight:500}
+.identity-categories{position:relative;z-index:2;display:grid;grid-template-columns:repeat(5,1fr);gap:15px 10px;direction:rtl}.identity-category{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-width:0;color:var(--text);text-decoration:none;font-size:10px;font-weight:600;transition:transform .2s ease}.identity-category:hover{transform:translateY(-3px)}
+.identity-plus{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:color-mix(in srgb,currentColor 10%,white);font-size:24px;font-weight:800;line-height:1}.identity-world{color:#0043F7}.identity-politics{color:#921E7A}.identity-economy{color:#D99A00}.identity-tech{color:#13CBFF}.identity-science{color:#555}.identity-health{color:#22A06B}.identity-sport{color:#A71C1C}.identity-cars{color:#2A2A2D}.identity-travel{color:#FC8FC5}.identity-misc{color:#E74F1B}
+.identity-footer{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:25px;color:var(--text-light);font-size:11px;font-weight:600}.identity-footer-line{width:30px;height:1px;background:var(--border)}
+@media (max-width:700px){.infograf-identity{min-height:245px}.identity-card{width:94%;padding:24px 14px 20px;border-radius:23px}.identity-header{margin-bottom:20px}.identity-brand-name{font-size:34px;letter-spacing:-1.5px}.identity-brand-plus{font-size:38px}.identity-tagline{margin-top:7px;font-size:10px}.identity-categories{gap:13px 4px}.identity-plus{width:34px;height:34px;border-radius:11px;font-size:21px}.identity-category{gap:5px;font-size:8px}.identity-footer{margin-top:20px;font-size:9px}.identity-footer-line{width:22px}}
 
 /* =========================================================
-   About link in header (uses the existing footer link as source)
+   Legacy footer link positioning — JavaScript removes this element.
    ========================================================= */
-.footer-navigation {
-  position: fixed;
-  top: 15px;
-  left: 110px;
-  z-index: 110;
-  display: block;
-  margin: 0;
-  padding: 0;
-}
-
-.footer-navigation a {
-  display: none;
-}
-
-.footer-navigation a:last-child {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  padding: 7px 13px;
-  border-radius: 11px;
-  background: var(--surface-soft);
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .2s ease, color .2s ease, transform .2s ease;
-}
-
-.footer-navigation a:last-child:hover,
-.footer-navigation a:last-child:focus-visible {
-  background: var(--accent-light);
-  color: var(--accent);
-  transform: translateY(-1px);
-}
-
-@media (max-width: 700px) {
-  .footer-navigation {
-    top: 12px;
-    left: 96px;
-    right: auto;
-  }
-
-  .footer-navigation a:last-child {
-    min-height: 40px;
-    padding: 6px 10px;
-    border-radius: 11px;
-    font-size: 11px;
-  }
-}
+.footer-navigation{position:fixed;top:15px;left:110px;z-index:110;display:block;margin:0;padding:0}.footer-navigation a{display:none}.footer-navigation a:last-child{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:7px 13px;border-radius:11px;background:var(--surface-soft);color:var(--text);font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;transition:background .2s ease,color .2s ease,transform .2s ease}.footer-navigation a:last-child:hover,.footer-navigation a:last-child:focus-visible{background:var(--accent-light);color:var(--accent);transform:translateY(-1px)}
+@media(max-width:700px){.footer-navigation{top:12px;left:96px;right:auto}.footer-navigation a:last-child{min-height:40px;padding:6px 10px;border-radius:11px;font-size:11px}}
 
 /* =========================================================
-   Latest infographic cards — calmer presentation
-   Keep the infographic itself unchanged; soften the surrounding card.
+   Latest infographic cards — calm separation, especially on mobile
    ========================================================= */
-.latest-section .infographic-card {
-  border-color: rgba(20, 20, 40, 0.08);
-  background: var(--surface);
-}
-
-.latest-section .infographic-card .infographic-image-link {
-  aspect-ratio: 16 / 9;
-  background: var(--surface-soft);
-}
-
-.latest-section .infographic-card .infographic-card-content {
-  position: relative;
-  padding: 17px 19px 18px;
-  background: rgba(99, 91, 255, 0.035);
-  border-top: 1px solid rgba(20, 20, 40, 0.07);
-}
-
-/* Very light category tint — it separates cards without competing with the infographic. */
-.latest-section .infographic-card[data-category="العالم"] .infographic-card-content { background: rgba(0, 67, 247, 0.055); }
-.latest-section .infographic-card[data-category="سياسة"] .infographic-card-content { background: rgba(146, 30, 122, 0.055); }
-.latest-section .infographic-card[data-category="اقتصاد ومال"] .infographic-card-content { background: rgba(217, 154, 0, 0.07); }
-.latest-section .infographic-card[data-category="تقنية"] .infographic-card-content { background: rgba(19, 203, 255, 0.07); }
-.latest-section .infographic-card[data-category="علوم"] .infographic-card-content { background: rgba(85, 85, 85, 0.055); }
-.latest-section .infographic-card[data-category="صحة"] .infographic-card-content { background: rgba(34, 160, 107, 0.06); }
-.latest-section .infographic-card[data-category="رياضة"] .infographic-card-content { background: rgba(167, 28, 28, 0.055); }
-.latest-section .infographic-card[data-category="سيارات"] .infographic-card-content { background: rgba(42, 42, 45, 0.06); }
-.latest-section .infographic-card[data-category="سفر"] .infographic-card-content { background: rgba(252, 143, 197, 0.08); }
-.latest-section .infographic-card[data-category="منوع"] .infographic-card-content { background: rgba(231, 79, 27, 0.06); }
-
-.latest-section .infographic-card .card-category {
-  border: 1px solid currentColor;
-  background: transparent;
-}
-
-.latest-section .infographic-card[data-category="العالم"] .card-category { color: #0043F7; }
-.latest-section .infographic-card[data-category="سياسة"] .card-category { color: #921E7A; }
-.latest-section .infographic-card[data-category="اقتصاد ومال"] .card-category { color: #D99A00; }
-.latest-section .infographic-card[data-category="تقنية"] .card-category { color: #13CBFF; }
-.latest-section .infographic-card[data-category="علوم"] .card-category { color: #555555; }
-.latest-section .infographic-card[data-category="صحة"] .card-category { color: #22A06B; }
-.latest-section .infographic-card[data-category="رياضة"] .card-category { color: #A71C1C; }
-.latest-section .infographic-card[data-category="سيارات"] .card-category { color: #2A2A2D; }
-.latest-section .infographic-card[data-category="سفر"] .card-category { color: #FC8FC5; }
-.latest-section .infographic-card[data-category="منوع"] .card-category { color: #E74F1B; }
-
-.latest-section .infographic-card h3 {
-  margin-top: 11px;
-  font-size: 19px;
-  line-height: 1.5;
-}
-
-.latest-section .infographic-card p {
-  font-size: 12px;
-  line-height: 1.75;
-}
-
-.latest-section .infographic-card .card-meta {
-  margin-top: 15px;
-  padding-top: 11px;
-  border-top-color: rgba(20, 20, 40, 0.08);
-}
-
-@media (max-width: 700px) {
-  .latest-section .infographic-grid {
-    gap: 12px;
-  }
-
-  .latest-section .infographic-card {
-    border-radius: 18px;
-    box-shadow: 0 5px 18px rgba(20, 20, 40, 0.055);
-  }
-
-  .latest-section .infographic-card .infographic-image-link {
-    aspect-ratio: 16 / 9;
-  }
-
-  .latest-section .infographic-card .infographic-card-content {
-    padding: 14px 15px 15px;
-  }
-
-  .latest-section .infographic-card .card-category {
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 10px;
-  }
-
-  .latest-section .infographic-card h3 {
-    margin: 9px 0 6px;
-    font-size: 17px;
-    line-height: 1.55;
-    letter-spacing: -0.15px;
-  }
-
-  .latest-section .infographic-card p {
-    font-size: 11px;
-    line-height: 1.7;
-  }
-
-  .latest-section .infographic-card .card-meta {
-    margin-top: 12px;
-    padding-top: 10px;
-    font-size: 10px;
-  }
-}
+.latest-section .infographic-grid{gap:24px}
+.latest-section .infographic-card:not(.featured-card){position:relative;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:0 5px 18px rgba(20,20,40,.055);overflow:hidden}
+.latest-section .infographic-card:not(.featured-card)::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--accent);border-radius:20px 0 0 20px;pointer-events:none;z-index:3}
+.latest-section .infographic-card:not(.featured-card) .infographic-image-link{aspect-ratio:16/9;border-bottom:1px solid var(--border)}
+.latest-section .infographic-card:not(.featured-card) .infographic-card-content{min-height:0;padding:17px 18px 16px}
+.latest-section .infographic-card:not(.featured-card) .card-category{background:var(--accent-light);color:var(--accent);border-radius:8px;padding:4px 9px}
+.latest-section .infographic-card:not(.featured-card) h3{margin:10px 0 7px;font-size:18px;line-height:1.55}
+.latest-section .infographic-card:not(.featured-card) p{font-size:12.5px;line-height:1.8}
+.latest-section .infographic-card:not(.featured-card) .card-meta{margin-top:15px;padding-top:12px}
+@media(max-width:700px){.latest-section .infographic-grid{gap:22px}.latest-section .infographic-card:not(.featured-card){border-radius:18px;box-shadow:0 4px 16px rgba(20,20,40,.05)}.latest-section .infographic-card:not(.featured-card)::before{width:4px;border-radius:18px 0 0 18px}.latest-section .infographic-card:not(.featured-card) .infographic-image-link{aspect-ratio:16/9}.latest-section .infographic-card:not(.featured-card) .infographic-card-content{padding:16px 16px 15px}.latest-section .infographic-card:not(.featured-card) h3{margin-top:9px;font-size:17px;line-height:1.6}.latest-section .infographic-card:not(.featured-card) p{font-size:12px;line-height:1.85}.latest-section .infographic-card:not(.featured-card) .card-meta{margin-top:13px;padding-top:11px}}
