@@ -195,6 +195,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  /* Make every latest infographic card clickable, not only its image/title. */
+  homeCards.forEach(function (card) {
+    const destination = card.querySelector("h3 a") || card.querySelector(".infographic-image-link");
+    if (!destination) return;
+
+    card.classList.add("is-clickable-card");
+    card.setAttribute("role", "link");
+    card.setAttribute("tabindex", "0");
+
+    card.addEventListener("click", function (event) {
+      if (event.target.closest("a, button, input, textarea, select")) return;
+      window.location.href = destination.href;
+    });
+
+    card.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        window.location.href = destination.href;
+      }
+    });
+  });
+
   const protectedImages = document.querySelectorAll(".infographic-main-image img, .infographic-image-link img");
 
   protectedImages.forEach(function (image) {
@@ -204,9 +226,6 @@ document.addEventListener("DOMContentLoaded", function () {
     image.addEventListener("selectstart", function (event) { event.preventDefault(); });
   });
 
-  /* =====================================================
-     SITE NAVIGATION
-  ===================================================== */
   const homeLink = document.querySelector(".brand")?.getAttribute("href") || "/";
   const aboutHref = homeLink.replace(/\/?$/, "/") + "about/";
 
@@ -222,7 +241,6 @@ document.addEventListener("DOMContentLoaded", function () {
     desktopNavigation.appendChild(aboutLink);
   }
 
-  /* Mobile header: group About, Instagram, Facebook and Search together on the left. */
   const headerInner = document.querySelector(".header-inner");
   if (headerInner && !headerInner.querySelector(".mobile-header-actions")) {
     const mobileAbout = document.createElement("a");
@@ -255,85 +273,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const style = document.createElement("style");
     style.textContent = `
-      .mobile-header-actions {
-        display: contents;
-      }
-
-      .about-header-mobile,
-      .facebook-header-link {
-        display: none;
-      }
-
+      .mobile-header-actions { display: contents; }
+      .about-header-mobile, .facebook-header-link { display: none; }
       @media (max-width: 700px) {
-        .header-inner {
-          gap: 0;
-        }
-
-        .mobile-header-actions {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          margin-inline-start: auto;
-          padding: 4px;
-          border-radius: 15px;
-          background: var(--surface-soft);
-          flex-shrink: 0;
-        }
-
-        .about-header-mobile {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 40px;
-          padding: 0 10px;
-          border-radius: 11px;
-          background: var(--surface);
-          color: var(--text);
-          font-size: 11px;
-          font-weight: 700;
-          white-space: nowrap;
-          text-decoration: none;
-          flex-shrink: 0;
-        }
-
-        .about-header-mobile:hover,
-        .about-header-mobile:focus-visible {
-          background: var(--accent-light);
-          color: var(--accent);
-        }
-
-        .mobile-header-actions .instagram-header-link,
-        .mobile-header-actions .facebook-header-link,
-        .mobile-header-actions .search-button {
-          width: 40px;
-          height: 40px;
-          margin: 0;
-          border-radius: 11px;
-          flex-shrink: 0;
-        }
-
-        .facebook-header-link {
-          display: grid;
-          place-items: center;
-          background: var(--surface);
-          color: var(--text);
-          text-decoration: none;
-          transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-        }
-
-        .facebook-header-link:hover,
-        .facebook-header-link:focus-visible {
-          background: var(--accent-light);
-          color: var(--accent);
-          transform: translateY(-2px);
-        }
-
-        .facebook-header-link svg {
-          width: 19px;
-          height: 19px;
-          display: block;
-          fill: currentColor;
-        }
+        .header-inner { gap: 0; }
+        .mobile-header-actions { display: flex; align-items: center; gap: 5px; margin-inline-start: auto; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; }
+        .about-header-mobile { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 10px; border-radius: 11px; background: var(--surface); color: var(--text); font-size: 11px; font-weight: 700; white-space: nowrap; text-decoration: none; flex-shrink: 0; }
+        .about-header-mobile:hover, .about-header-mobile:focus-visible { background: var(--accent-light); color: var(--accent); }
+        .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .search-button { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
+        .facebook-header-link { display: grid; place-items: center; background: var(--surface); color: var(--text); text-decoration: none; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+        .facebook-header-link:hover, .facebook-header-link:focus-visible { background: var(--accent-light); color: var(--accent); transform: translateY(-2px); }
+        .facebook-header-link svg { width: 19px; height: 19px; display: block; fill: currentColor; }
       }
     `;
     document.head.appendChild(style);
