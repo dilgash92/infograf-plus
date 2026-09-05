@@ -276,3 +276,112 @@
     font-size: 11px;
   }
 }
+
+/* =========================================================
+   Latest infographic cards — calmer presentation
+   Keep the infographic itself unchanged; soften the surrounding card.
+   ========================================================= */
+.latest-section .infographic-card {
+  border-color: rgba(20, 20, 40, 0.08);
+  background: var(--surface);
+}
+
+.latest-section .infographic-card .infographic-image-link {
+  aspect-ratio: 16 / 9;
+  background: var(--surface-soft);
+}
+
+.latest-section .infographic-card .infographic-card-content {
+  position: relative;
+  padding: 17px 19px 18px;
+  background: rgba(99, 91, 255, 0.035);
+  border-top: 1px solid rgba(20, 20, 40, 0.07);
+}
+
+/* Very light category tint — it separates cards without competing with the infographic. */
+.latest-section .infographic-card[data-category="العالم"] .infographic-card-content { background: rgba(0, 67, 247, 0.055); }
+.latest-section .infographic-card[data-category="سياسة"] .infographic-card-content { background: rgba(146, 30, 122, 0.055); }
+.latest-section .infographic-card[data-category="اقتصاد ومال"] .infographic-card-content { background: rgba(217, 154, 0, 0.07); }
+.latest-section .infographic-card[data-category="تقنية"] .infographic-card-content { background: rgba(19, 203, 255, 0.07); }
+.latest-section .infographic-card[data-category="علوم"] .infographic-card-content { background: rgba(85, 85, 85, 0.055); }
+.latest-section .infographic-card[data-category="صحة"] .infographic-card-content { background: rgba(34, 160, 107, 0.06); }
+.latest-section .infographic-card[data-category="رياضة"] .infographic-card-content { background: rgba(167, 28, 28, 0.055); }
+.latest-section .infographic-card[data-category="سيارات"] .infographic-card-content { background: rgba(42, 42, 45, 0.06); }
+.latest-section .infographic-card[data-category="سفر"] .infographic-card-content { background: rgba(252, 143, 197, 0.08); }
+.latest-section .infographic-card[data-category="منوع"] .infographic-card-content { background: rgba(231, 79, 27, 0.06); }
+
+.latest-section .infographic-card .card-category {
+  border: 1px solid currentColor;
+  background: transparent;
+}
+
+.latest-section .infographic-card[data-category="العالم"] .card-category { color: #0043F7; }
+.latest-section .infographic-card[data-category="سياسة"] .card-category { color: #921E7A; }
+.latest-section .infographic-card[data-category="اقتصاد ومال"] .card-category { color: #D99A00; }
+.latest-section .infographic-card[data-category="تقنية"] .card-category { color: #13CBFF; }
+.latest-section .infographic-card[data-category="علوم"] .card-category { color: #555555; }
+.latest-section .infographic-card[data-category="صحة"] .card-category { color: #22A06B; }
+.latest-section .infographic-card[data-category="رياضة"] .card-category { color: #A71C1C; }
+.latest-section .infographic-card[data-category="سيارات"] .card-category { color: #2A2A2D; }
+.latest-section .infographic-card[data-category="سفر"] .card-category { color: #FC8FC5; }
+.latest-section .infographic-card[data-category="منوع"] .card-category { color: #E74F1B; }
+
+.latest-section .infographic-card h3 {
+  margin-top: 11px;
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.latest-section .infographic-card p {
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.latest-section .infographic-card .card-meta {
+  margin-top: 15px;
+  padding-top: 11px;
+  border-top-color: rgba(20, 20, 40, 0.08);
+}
+
+@media (max-width: 700px) {
+  .latest-section .infographic-grid {
+    gap: 12px;
+  }
+
+  .latest-section .infographic-card {
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(20, 20, 40, 0.055);
+  }
+
+  .latest-section .infographic-card .infographic-image-link {
+    aspect-ratio: 16 / 9;
+  }
+
+  .latest-section .infographic-card .infographic-card-content {
+    padding: 14px 15px 15px;
+  }
+
+  .latest-section .infographic-card .card-category {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+  }
+
+  .latest-section .infographic-card h3 {
+    margin: 9px 0 6px;
+    font-size: 17px;
+    line-height: 1.55;
+    letter-spacing: -0.15px;
+  }
+
+  .latest-section .infographic-card p {
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  .latest-section .infographic-card .card-meta {
+    margin-top: 12px;
+    padding-top: 10px;
+    font-size: 10px;
+  }
+}
