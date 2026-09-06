@@ -1,0 +1,59 @@
+/* Infograf+ — Category result cards: same visual language as the homepage latest cards. */
+.category-results .infographic-grid{gap:26px}
+.category-results .infographic-card{
+  --card-color:#635BFF;
+  position:relative;
+  overflow:hidden;
+  background:color-mix(in srgb,var(--card-color) 12%,var(--surface));
+  border:1px solid color-mix(in srgb,var(--card-color) 28%,var(--border));
+  border-radius:20px;
+  box-shadow:0 5px 18px rgba(20,20,40,.055);
+}
+.category-results .infographic-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--card-color);
+  opacity:.035;
+  pointer-events:none;
+}
+.category-results .infographic-card .infographic-image-link{
+  aspect-ratio:16/9;
+  margin:10px 10px 0;
+  border:1px solid color-mix(in srgb,var(--card-color) 18%,var(--border));
+  border-radius:14px;
+  background:var(--surface);
+}
+.category-results .infographic-card .infographic-card-content{
+  min-height:0;
+  padding:16px 18px 16px;
+}
+.category-results .infographic-card .card-category{
+  background:color-mix(in srgb,var(--card-color) 16%,var(--surface));
+  color:var(--card-color);
+  border:1px solid color-mix(in srgb,var(--card-color) 20%,transparent);
+  border-radius:8px;
+  padding:4px 9px;
+}
+.category-results .infographic-card h3{margin:10px 0 7px;font-size:18px;line-height:1.55}
+.category-results .infographic-card p{font-size:12.5px;line-height:1.8}
+.category-results .infographic-card .card-meta{margin-top:15px;padding-top:12px;border-top-color:color-mix(in srgb,var(--card-color) 18%,var(--border))}
+.category-results .infographic-card[data-category="العالم"]{--card-color:#0043F7}
+.category-results .infographic-card[data-category="سياسة"]{--card-color:#921E7A}
+.category-results .infographic-card[data-category="اقتصاد ومال"]{--card-color:#D99A00}
+.category-results .infographic-card[data-category="تقنية"]{--card-color:#13CBFF}
+.category-results .infographic-card[data-category="علوم"]{--card-color:#555555}
+.category-results .infographic-card[data-category="صحة"]{--card-color:#22A06B}
+.category-results .infographic-card[data-category="رياضة"]{--card-color:#A71C1C}
+.category-results .infographic-card[data-category="سيارات"]{--card-color:#2A2A2D}
+.category-results .infographic-card[data-category="سفر"]{--card-color:#FC8FC5}
+.category-results .infographic-card[data-category="منوع"]{--card-color:#E74F1B}
+@media(max-width:700px){
+  .category-results .infographic-grid{gap:24px}
+  .category-results .infographic-card{border-radius:18px;box-shadow:0 4px 16px rgba(20,20,40,.05)}
+  .category-results .infographic-card .infographic-image-link{aspect-ratio:16/9;margin:8px 8px 0;border-radius:13px}
+  .category-results .infographic-card .infographic-card-content{padding:15px 16px 15px}
+  .category-results .infographic-card h3{margin-top:9px;font-size:17px;line-height:1.6}
+  .category-results .infographic-card p{font-size:12px;line-height:1.85}
+  .category-results .infographic-card .card-meta{margin-top:13px;padding-top:11px}
+}
