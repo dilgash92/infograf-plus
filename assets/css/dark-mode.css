@@ -1,0 +1,208 @@
+/* Infograf+ — Dark Mode
+   Keeps infographic artwork untouched while switching the site UI to a dark premium theme.
+*/
+
+html.dark-mode {
+  color-scheme: dark;
+  --text: #f1f2f4;
+  --text-secondary: #aeb2ba;
+  --text-light: #7f858f;
+  --background: #111214;
+  --surface: #191b1f;
+  --surface-soft: #202329;
+  --border: #2d3138;
+  --accent-light: #292743;
+  --shadow-sm: 0 4px 16px rgba(0,0,0,.22);
+  --shadow-md: 0 12px 35px rgba(0,0,0,.34);
+}
+
+html.dark-mode body {
+  background: var(--background);
+  color: var(--text);
+}
+
+html.dark-mode .site-header {
+  background: rgba(17,18,20,.92);
+  border-bottom-color: rgba(45,49,56,.9);
+}
+
+html.dark-mode .nav-link:hover,
+html.dark-mode .instagram-header-link:hover,
+html.dark-mode .search-button:hover,
+html.dark-mode .about-header-mobile:hover,
+html.dark-mode .about-header-mobile:focus-visible,
+html.dark-mode .facebook-header-link:hover,
+html.dark-mode .facebook-header-link:focus-visible {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+html.dark-mode .visual-card,
+html.dark-mode .home-benefit,
+html.dark-mode .category-chip,
+html.dark-mode .btn-secondary,
+html.dark-mode .infographic-card,
+html.dark-mode .featured-carousel-arrow,
+html.dark-mode .post-navigation-link,
+html.dark-mode .search-panel-inner,
+html.dark-mode .share-menu-panel,
+html.dark-mode .identity-card,
+html.dark-mode .visitor-counter-card,
+html.dark-mode .site-footer {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+html.dark-mode .search-panel,
+html.dark-mode .search-results,
+html.dark-mode .search-result,
+html.dark-mode input,
+html.dark-mode textarea,
+html.dark-mode select {
+  color: var(--text);
+}
+
+html.dark-mode .search-panel-inner {
+  box-shadow: var(--shadow-md);
+}
+
+html.dark-mode input,
+html.dark-mode textarea,
+html.dark-mode select {
+  background: var(--surface-soft);
+  border-color: var(--border);
+}
+
+html.dark-mode input::placeholder,
+html.dark-mode textarea::placeholder {
+  color: var(--text-light);
+}
+
+html.dark-mode .category-chip:hover,
+html.dark-mode .btn-secondary:hover {
+  background: var(--surface-soft);
+}
+
+/* Homepage identity card: keep category colors, adapt only neutral surfaces. */
+html.dark-mode .identity-card {
+  background: rgba(25,27,31,.96);
+}
+
+html.dark-mode .identity-plus {
+  background: color-mix(in srgb, currentColor 10%, #191b1f);
+}
+
+/* Latest/category cards retain their existing category color system. */
+html.dark-mode .latest-section .infographic-card:not(.featured-card),
+html.dark-mode .category-results .infographic-card {
+  box-shadow: 0 5px 18px rgba(0,0,0,.22);
+}
+
+html.dark-mode .latest-section .infographic-card:not(.featured-card) .infographic-image-link,
+html.dark-mode .category-results .infographic-card .infographic-image-link {
+  background: #fff;
+}
+
+/* The infographic artwork itself is intentionally never filtered or recolored. */
+html.dark-mode .infographic-main-image img,
+html.dark-mode .infographic-image-link img {
+  filter: none;
+}
+
+html.dark-mode .share-menu-link {
+  background: var(--surface-soft);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+html.dark-mode .share-menu-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+html.dark-mode .post-navigation-link:hover {
+  border-color: var(--accent);
+}
+
+html.dark-mode .site-footer {
+  color: var(--text);
+}
+
+html.dark-mode .footer-brand p,
+html.dark-mode .footer-copy {
+  color: var(--text-secondary);
+}
+
+/* Dark-mode toggle */
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 13px;
+  background: var(--surface-soft);
+  color: var(--text);
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  background: var(--accent-light);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-toggle .theme-icon-sun { display: block; }
+.theme-toggle .theme-icon-moon { display: none; }
+html.dark-mode .theme-toggle .theme-icon-sun { display: none; }
+html.dark-mode .theme-toggle .theme-icon-moon { display: block; }
+
+@media (max-width:700px) {
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+  .theme-toggle svg { width: 19px; height: 19px; }
+}
+
+/* Mobile header action group remains coherent in dark mode. */
+html.dark-mode .mobile-header-actions {
+  background: var(--surface-soft);
+}
+
+html.dark-mode .about-header-mobile,
+html.dark-mode .facebook-header-link {
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Do not alter the colors of the category + marks. */
+html.dark-mode .identity-world { color:#0043F7; }
+html.dark-mode .identity-politics { color:#921E7A; }
+html.dark-mode .identity-economy { color:#D99A00; }
+html.dark-mode .identity-tech { color:#13CBFF; }
+html.dark-mode .identity-science { color:#777; }
+html.dark-mode .identity-health { color:#22A06B; }
+html.dark-mode .identity-sport { color:#A71C1C; }
+html.dark-mode .identity-cars { color:#B8B8BE; }
+html.dark-mode .identity-travel { color:#FC8FC5; }
+html.dark-mode .identity-misc { color:#E74F1B; }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle { transition: none; }
+}
