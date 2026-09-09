@@ -1,0 +1,54 @@
+name: Install dark mode integration
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    if: github.event.head_commit.message != 'Install dark mode integration' && github.event.head_commit.message != 'Remove dark mode installer'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add dark mode assets to layout
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('_layouts/default.html')
+          text = path.read_text(encoding='utf-8')
+
+          css = '  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/dark-mode.css">'
+          js = '  <script src="{{ site.baseurl }}/assets/js/dark-mode.js" defer></script>'
+
+          if 'assets/css/dark-mode.css' not in text:
+              marker = '  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">'
+              if marker not in text:
+                  raise SystemExit('style.css link not found')
+              text = text.replace(marker, marker + '\n' + css, 1)
+
+          if 'assets/js/dark-mode.js' not in text:
+              marker = '</head>'
+              if marker not in text:
+                  raise SystemExit('</head> not found')
+              text = text.replace(marker, js + '\n' + marker, 1)
+
+          path.write_text(text, encoding='utf-8')
+
+      - name: Commit integration
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _layouts/default.html
+          if git diff --cached --quiet; then
+            echo "No layout changes needed."
+            exit 0
+          fi
+          git commit -m "Install dark mode integration"
+          git push
