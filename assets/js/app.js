@@ -195,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  /* Make every latest homepage infographic card clickable. */
   homeCards.forEach(function (card) {
     const destination = card.querySelector("h3 a") || card.querySelector(".infographic-image-link");
     if (!destination) return;
@@ -275,6 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const instagramLink = headerInner.querySelector(".instagram-header-link");
     const searchButton = headerInner.querySelector(".search-button");
+    const themeToggle = headerInner.querySelector("#theme-toggle");
 
     const facebookLink = document.createElement("a");
     facebookLink.href = "https://www.facebook.com/infografplus";
@@ -292,6 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (instagramLink) actions.appendChild(instagramLink);
     actions.appendChild(facebookLink);
     if (searchButton) actions.appendChild(searchButton);
+    if (themeToggle) actions.appendChild(themeToggle);
 
     headerInner.appendChild(actions);
 
@@ -304,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .mobile-header-actions { display: flex; align-items: center; gap: 5px; margin-inline-start: auto; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; }
         .about-header-mobile { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 10px; border-radius: 11px; background: var(--surface); color: var(--text); font-size: 11px; font-weight: 700; white-space: nowrap; text-decoration: none; flex-shrink: 0; }
         .about-header-mobile:hover, .about-header-mobile:focus-visible { background: var(--accent-light); color: var(--accent); }
-        .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .search-button { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
+        .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .search-button, .mobile-header-actions .theme-toggle { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
         .facebook-header-link { display: grid; place-items: center; background: var(--surface); color: var(--text); text-decoration: none; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
         .facebook-header-link:hover, .facebook-header-link:focus-visible { background: var(--accent-light); color: var(--accent); transform: translateY(-2px); }
         .facebook-header-link svg { width: 19px; height: 19px; display: block; fill: currentColor; }
