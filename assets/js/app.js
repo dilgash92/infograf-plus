@@ -217,11 +217,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  /*
-   * Make every other infographic card clickable too:
-   * featured cards on the homepage, all cards on /categories/
-   * and all cards on /latest/.
-   */
   document.querySelectorAll(".infographic-card").forEach(function (card) {
     if (card.classList.contains("is-clickable-card")) return;
 
@@ -258,7 +253,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const homeLink = document.querySelector(".brand")?.getAttribute("href") || "/";
   const aboutHref = homeLink.replace(/\/?$/, "/") + "about/";
-
   const desktopNavigation = document.querySelector(".desktop-navigation");
 
   if (desktopNavigation && !desktopNavigation.querySelector('[data-nav-about="true"]')) {
