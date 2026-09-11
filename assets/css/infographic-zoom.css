@@ -1,0 +1,23 @@
+.infographic-main-image{position:relative;cursor:zoom-in;}
+.infographic-main-image img{display:block;max-width:100%;height:auto;}
+.infographic-zoom-hint{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(255,255,255,.7);border-radius:11px;background:rgba(20,20,25,.72);color:#fff;font-size:11px;font-weight:700;line-height:1;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);pointer-events:none;opacity:.9;}
+.infographic-zoom-hint svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;}
+.infographic-lightbox{position:fixed;inset:0;z-index:9999;display:none;background:rgba(8,9,12,.96);touch-action:none;overflow:hidden;}
+.infographic-lightbox.is-open{display:block;}
+.infographic-lightbox-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;}
+.infographic-lightbox-image{max-width:none;max-height:none;width:auto;height:auto;object-fit:contain;transform-origin:center center;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none;will-change:transform;cursor:grab;}
+.infographic-lightbox-image.is-dragging{cursor:grabbing;}
+.infographic-lightbox-top{position:absolute;top:max(16px,env(safe-area-inset-top));left:16px;right:16px;display:flex;align-items:center;justify-content:space-between;z-index:2;pointer-events:none;}
+.infographic-lightbox-close,.infographic-lightbox-reset{width:44px;height:44px;border:1px solid rgba(255,255,255,.16);border-radius:13px;background:rgba(30,31,36,.8);color:#fff;display:grid;place-items:center;font:inherit;font-size:22px;cursor:pointer;pointer-events:auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.infographic-lightbox-reset{font-size:12px;font-weight:800;width:auto;min-width:58px;padding:0 12px;}
+.infographic-lightbox-close:hover,.infographic-lightbox-reset:hover{background:rgba(55,56,62,.92);}
+.infographic-lightbox-controls{position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px;border:1px solid rgba(255,255,255,.14);border-radius:15px;background:rgba(30,31,36,.84);z-index:2;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);}
+.infographic-lightbox-zoom{width:42px;height:42px;border:0;border-radius:11px;background:transparent;color:#fff;font:inherit;font-size:23px;font-weight:700;cursor:pointer;}
+.infographic-lightbox-zoom:hover{background:rgba(255,255,255,.1);}
+.infographic-lightbox-scale{min-width:58px;text-align:center;color:#fff;font-size:11px;font-weight:800;direction:ltr;}
+@media(max-width:700px){
+  .infographic-zoom-hint{left:10px;bottom:10px;padding:7px 9px;font-size:10px;}
+  .infographic-lightbox-top{left:10px;right:10px;}
+  .infographic-lightbox-close,.infographic-lightbox-reset{width:42px;height:42px;border-radius:12px;}
+  .infographic-lightbox-controls{bottom:max(12px,env(safe-area-inset-bottom));}
+}
