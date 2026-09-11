@@ -1,7 +1,13 @@
 /* =========================================================
    Infograf+ — Main Styles
    ========================================================= */
-
+@font-face {
+  font-family: "Cairo";
+  src: url("../fonts/Cairo-VariableFont_slnt,wght.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
 :root {
   --accent: #635bff;
   --accent-dark: #5149e8;
