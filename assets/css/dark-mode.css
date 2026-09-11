@@ -2,6 +2,12 @@
    Keeps infographic artwork untouched while switching the site UI to a dark premium theme.
 */
 
+/* Cairo variable font has a slnt axis; explicitly keep the site typography upright. */
+html,
+body {
+  font-variation-settings: "slnt" 0;
+}
+
 html.dark-mode {
   color-scheme: dark;
   --text: #f1f2f4;
