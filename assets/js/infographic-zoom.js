@@ -18,7 +18,7 @@
     lightbox.setAttribute("aria-hidden", "true");
     lightbox.innerHTML =
       '<div class="infographic-lightbox-top">' +
-        '<button type="button" class="infographic-lightbox-reset" aria-label="إعادة ضبط التكبير">100%</button>' +
+        '<button type="button" class="infographic-lightbox-reset" aria-label="ملاءمة الصورة للشاشة">ملاءمة</button>' +
         '<button type="button" class="infographic-lightbox-close" aria-label="إغلاق التكبير">×</button>' +
       '</div>' +
       '<div class="infographic-lightbox-stage">' +
@@ -39,7 +39,8 @@
     var zoomButtons = lightbox.querySelectorAll("[data-zoom]");
 
     var scale = 1;
-    var minScale = 1;
+    var fitScale = 1;
+    var minScale = 0.5;
     var maxScale = 4;
     var x = 0;
     var y = 0;
@@ -48,29 +49,41 @@
     var startY = 0;
     var startPanX = 0;
     var startPanY = 0;
-    var lastTap = 0;
+    var pointers = new Map();
     var pinchStartDistance = 0;
     var pinchStartScale = 1;
-    var pointers = new Map();
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 
+    function getFitScale() {
+      if (!zoomImage.naturalWidth || !zoomImage.naturalHeight) return 1;
+      var availableWidth = Math.max(1, stage.clientWidth - 24);
+      var availableHeight = Math.max(1, stage.clientHeight - 120);
+      return Math.min(1, availableWidth / zoomImage.naturalWidth, availableHeight / zoomImage.naturalHeight);
+    }
+
+    function updateScaleLabel() {
+      var percent = Math.round((scale / fitScale) * 100);
+      scaleLabel.textContent = percent + "%";
+    }
+
     function applyTransform() {
       zoomImage.style.transform = "translate3d(" + x + "px," + y + "px,0) scale(" + scale + ")";
-      var percent = Math.round(scale * 100);
-      scaleLabel.textContent = percent + "%";
-      resetButton.textContent = percent + "%";
+      updateScaleLabel();
     }
 
     function resetZoom() {
-      scale = minScale;
+      fitScale = getFitScale();
+      minScale = Math.max(0.08, fitScale * 0.5);
+      maxScale = Math.max(fitScale * 4, fitScale);
+      scale = fitScale;
       x = 0;
       y = 0;
       applyTransform();
     }
 
-    function zoomBy(amount) {
-      var next = clamp(scale + amount, minScale, maxScale);
+    function zoomBy(factor) {
+      var next = clamp(scale * factor, minScale, maxScale);
       if (next === scale) return;
       var ratio = next / scale;
       x *= ratio;
@@ -85,8 +98,17 @@
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.classList.add("infographic-lightbox-open");
-      resetZoom();
-      closeButton.focus({ preventScroll: true });
+
+      function prepare() {
+        resetZoom();
+        closeButton.focus({ preventScroll: true });
+      }
+
+      if (zoomImage.complete && zoomImage.naturalWidth) {
+        requestAnimationFrame(prepare);
+      } else {
+        zoomImage.onload = prepare;
+      }
     }
 
     function closeViewer() {
@@ -95,6 +117,7 @@
       document.body.classList.remove("infographic-lightbox-open");
       pointers.clear();
       dragging = false;
+      zoomImage.classList.remove("is-dragging");
       figure.focus({ preventScroll: true });
     }
 
@@ -115,16 +138,20 @@
     closeButton.addEventListener("click", closeViewer);
     resetButton.addEventListener("click", resetZoom);
     zoomButtons.forEach(function (button) {
-      button.addEventListener("click", function () { zoomBy(button.dataset.zoom === "in" ? 0.5 : -0.5); });
+      button.addEventListener("click", function () {
+        zoomBy(button.dataset.zoom === "in" ? 1.25 : 0.8);
+      });
     });
+
     lightbox.addEventListener("click", function (event) {
       if (event.target === lightbox || event.target === stage) closeViewer();
     });
+
     document.addEventListener("keydown", function (event) {
       if (!lightbox.classList.contains("is-open")) return;
       if (event.key === "Escape") closeViewer();
-      if (event.key === "+" || event.key === "=") zoomBy(0.5);
-      if (event.key === "-") zoomBy(-0.5);
+      if (event.key === "+" || event.key === "=") zoomBy(1.25);
+      if (event.key === "-") zoomBy(0.8);
       if (event.key === "0") resetZoom();
     });
 
@@ -158,7 +185,7 @@
         }
         return;
       }
-      if (!dragging || scale <= 1) return;
+      if (!dragging || scale <= fitScale) return;
       x = startPanX + event.clientX - startX;
       y = startPanY + event.clientY - startY;
       applyTransform();
@@ -177,14 +204,19 @@
 
     stage.addEventListener("dblclick", function (event) {
       event.preventDefault();
-      if (scale > 1) resetZoom(); else zoomBy(1);
+      if (scale > fitScale * 1.01) resetZoom(); else zoomBy(2);
     });
 
     stage.addEventListener("wheel", function (event) {
       if (!lightbox.classList.contains("is-open")) return;
       event.preventDefault();
-      zoomBy(event.deltaY < 0 ? 0.25 : -0.25);
+      zoomBy(event.deltaY < 0 ? 1.15 : 0.87);
     }, { passive: false });
+
+    window.addEventListener("resize", function () {
+      if (!lightbox.classList.contains("is-open")) return;
+      resetZoom();
+    });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initInfographicZoom);
