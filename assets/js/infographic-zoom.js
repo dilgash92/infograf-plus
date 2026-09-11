@@ -7,9 +7,11 @@
     var source = figure.querySelector("img");
     if (!source || document.getElementById("infographic-lightbox")) return;
 
-    var hint = document.createElement("span");
+    var hint = document.createElement("button");
+    hint.type = "button";
     hint.className = "infographic-zoom-hint";
-    hint.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 4.5 4.5M10.8 7.8v6M7.8 10.8h6"></path></svg><span>اضغط للتكبير</span>';
+    hint.setAttribute("aria-label", "فتح المكبرة وقراءة تفاصيل الإنفوغرافيك");
+    hint.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 4.5 4.5M10.8 7.8v6M7.8 10.8h6"></path></svg><span>مكبّرة</span>';
     figure.appendChild(hint);
 
     var lightbox = document.createElement("div");
@@ -18,15 +20,16 @@
     lightbox.setAttribute("aria-hidden", "true");
     lightbox.innerHTML =
       '<div class="infographic-lightbox-top">' +
-        '<button type="button" class="infographic-lightbox-reset" aria-label="ملاءمة الصورة للشاشة">ملاءمة</button>' +
-        '<button type="button" class="infographic-lightbox-close" aria-label="إغلاق التكبير">×</button>' +
+        '<span class="infographic-lightbox-help">حرّك الصورة واسحبها لقراءة التفاصيل</span>' +
+        '<button type="button" class="infographic-lightbox-close" aria-label="إغلاق المكبرة">×</button>' +
       '</div>' +
       '<div class="infographic-lightbox-stage">' +
         '<img class="infographic-lightbox-image" alt="" draggable="false">' +
       '</div>' +
-      '<div class="infographic-lightbox-controls" aria-label="أدوات التكبير">' +
+      '<div class="infographic-lightbox-controls" aria-label="أدوات المكبرة">' +
         '<button type="button" class="infographic-lightbox-zoom" data-zoom="out" aria-label="تصغير">−</button>' +
         '<span class="infographic-lightbox-scale">100%</span>' +
+        '<button type="button" class="infographic-lightbox-reset" aria-label="إعادة ملاءمة الصورة">ملاءمة</button>' +
         '<button type="button" class="infographic-lightbox-zoom" data-zoom="in" aria-label="تكبير">+</button>' +
       '</div>';
     document.body.appendChild(lightbox);
@@ -38,44 +41,33 @@
     var scaleLabel = lightbox.querySelector(".infographic-lightbox-scale");
     var zoomButtons = lightbox.querySelectorAll("[data-zoom]");
 
-    var scale = 1;
-    var fitScale = 1;
-    var minScale = 0.5;
-    var maxScale = 4;
-    var x = 0;
-    var y = 0;
-    var dragging = false;
-    var startX = 0;
-    var startY = 0;
-    var startPanX = 0;
-    var startPanY = 0;
-    var pointers = new Map();
-    var pinchStartDistance = 0;
-    var pinchStartScale = 1;
+    var scale = 1, fitScale = 1, minScale = 0.5, maxScale = 4;
+    var x = 0, y = 0, dragging = false;
+    var startX = 0, startY = 0, startPanX = 0, startPanY = 0;
+    var pointers = new Map(), pinchStartDistance = 0, pinchStartScale = 1;
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
 
     function getFitScale() {
       if (!zoomImage.naturalWidth || !zoomImage.naturalHeight) return 1;
       var availableWidth = Math.max(1, stage.clientWidth - 24);
-      var availableHeight = Math.max(1, stage.clientHeight - 120);
+      var availableHeight = Math.max(1, stage.clientHeight - 110);
       return Math.min(1, availableWidth / zoomImage.naturalWidth, availableHeight / zoomImage.naturalHeight);
     }
 
-    function updateScaleLabel() {
-      var percent = Math.round((scale / fitScale) * 100);
-      scaleLabel.textContent = percent + "%";
+    function updateLabel() {
+      scaleLabel.textContent = Math.max(50, Math.round((scale / fitScale) * 100)) + "%";
     }
 
     function applyTransform() {
       zoomImage.style.transform = "translate3d(" + x + "px," + y + "px,0) scale(" + scale + ")";
-      updateScaleLabel();
+      updateLabel();
     }
 
     function resetZoom() {
       fitScale = getFitScale();
-      minScale = Math.max(0.08, fitScale * 0.5);
-      maxScale = Math.max(fitScale * 4, fitScale);
+      minScale = fitScale * 0.5;
+      maxScale = Math.max(fitScale * 5, fitScale);
       scale = fitScale;
       x = 0;
       y = 0;
@@ -100,15 +92,13 @@
       document.body.classList.add("infographic-lightbox-open");
 
       function prepare() {
-        resetZoom();
-        closeButton.focus({ preventScroll: true });
+        requestAnimationFrame(function () {
+          resetZoom();
+          closeButton.focus({ preventScroll: true });
+        });
       }
-
-      if (zoomImage.complete && zoomImage.naturalWidth) {
-        requestAnimationFrame(prepare);
-      } else {
-        zoomImage.onload = prepare;
-      }
+      if (zoomImage.complete && zoomImage.naturalWidth) prepare();
+      else zoomImage.onload = prepare;
     }
 
     function closeViewer() {
@@ -121,19 +111,10 @@
       figure.focus({ preventScroll: true });
     }
 
+    hint.addEventListener("click", openViewer);
     figure.setAttribute("tabindex", "0");
-    figure.setAttribute("role", "button");
-    figure.setAttribute("aria-label", "فتح الإنفوغرافيك بحجم كبير");
-    figure.addEventListener("click", function (event) {
-      if (event.target.closest("a,button")) return;
-      openViewer();
-    });
-    figure.addEventListener("keydown", function (event) {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        openViewer();
-      }
-    });
+    figure.setAttribute("role", "group");
+    figure.setAttribute("aria-label", "إنفوغرافيك مع مكبرة لقراءة التفاصيل");
 
     closeButton.addEventListener("click", closeViewer);
     resetButton.addEventListener("click", resetZoom);
@@ -144,7 +125,7 @@
     });
 
     lightbox.addEventListener("click", function (event) {
-      if (event.target === lightbox || event.target === stage) closeViewer();
+      if (event.target === lightbox) closeViewer();
     });
 
     document.addEventListener("keydown", function (event) {
@@ -180,7 +161,7 @@
         var values = Array.from(pointers.values());
         var distance = Math.hypot(values[0].x - values[1].x, values[0].y - values[1].y);
         if (pinchStartDistance > 0) {
-          scale = clamp(pinchStartScale * (distance / pinchStartDistance), minScale, maxScale);
+          scale = clamp(pinchStartScale * distance / pinchStartDistance, minScale, maxScale);
           applyTransform();
         }
         return;
@@ -214,8 +195,7 @@
     }, { passive: false });
 
     window.addEventListener("resize", function () {
-      if (!lightbox.classList.contains("is-open")) return;
-      resetZoom();
+      if (lightbox.classList.contains("is-open")) resetZoom();
     });
   }
 
