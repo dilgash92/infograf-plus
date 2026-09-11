@@ -1,7 +1,8 @@
 name: Add AdSense code
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: write
