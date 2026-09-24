@@ -51,6 +51,11 @@
         return new Response(JSON.stringify({error:'index_error',message:error.message}), {status:503, headers:{'Content-Type':'application/json'}});
       }
     }
-    return originalFetch(input, init);
+    const response = await originalFetch(input, init);
+    if (/\/api\/file(?:\?|$)/.test(url) && method !== 'GET' && response.ok) {
+      cached = null;
+      loading = null;
+    }
+    return response;
   };
 })();
