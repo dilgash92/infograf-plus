@@ -438,21 +438,39 @@
             message: `Update infographic: ${title}`
           })
         });
+
+        const parsed = parseFrontMatter(markdown);
+        const index = posts.findIndex(post => post.path === editingPost.path);
+        const updatedPost = { path: editingPost.path, sha: null, data: parsed.data, body: parsed.body };
+        if (index >= 0) posts[index] = updatedPost;
+        window.__infografPosts = posts;
+        updateStats();
+        renderRecent();
+        renderPosts($('post-search').value);
+        window.InfografFast?.invalidate();
         showStatus($('global-status'), 'تم حفظ التعديلات بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       } else {
         const filename = `${isoDate.slice(0, 10)}-${slug}.md`;
+        const path = `_posts/${filename}`;
         await api('/api/file', {
           method: 'PUT',
           body: JSON.stringify({
-            path: `_posts/${filename}`,
+            path,
             content: base64FromText(markdown),
             message: `Add infographic: ${title}`
           })
         });
+
+        const parsed = parseFrontMatter(markdown);
+        posts.unshift({ path, sha: null, data: parsed.data, body: parsed.body });
+        window.__infografPosts = posts;
+        updateStats();
+        renderRecent();
+        renderPosts($('post-search').value);
+        window.InfografFast?.invalidate();
         showStatus($('global-status'), 'تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       }
 
-      await loadPosts();
       resetEditor();
       switchView('posts');
     } catch (error) {
@@ -490,8 +508,14 @@
           } catch (_) {}
         }
       }
+      const index = posts.findIndex(item => item.path === post.path);
+      if (index >= 0) posts.splice(index, 1);
+      window.__infografPosts = posts;
+      updateStats();
+      renderRecent();
+      renderPosts($('post-search').value);
+      window.InfografFast?.invalidate();
       showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
-      await loadPosts();
     } catch (error) {
       showStatus($('global-status'), error.message || 'تعذر حذف الإنفوغرافيك.', 'error');
     }
