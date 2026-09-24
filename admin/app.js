@@ -145,6 +145,7 @@
     ];
 
     if (fields.image_alt) lines.push(`image_alt: ${yamlQuote(fields.image_alt)}`);
+    if (editingPost?.data?.featured) lines.push('featured: true');
     lines.push('---', '');
     if (fields.body) lines.push(fields.body.trim(), '');
     return lines.join('\n');
@@ -258,8 +259,13 @@
     $('field-date').value = normalizeDateForInput(new Date().toISOString());
   }
 
-  function editPost(post) {
-    editingPost = post;
+  async function editPost(post) {
+    try {
+      showStatus($('global-status'), 'جارٍ فتح الإنفوغرافيك...');
+      const file = post.sha && post.body ? post : await window.InfografFast.getPost(post.path);
+      const parsed = parseFrontMatter(file.text || safeDecodeBase64(file.content || ''));
+      editingPost = { path: post.path, sha: file.sha, data: parsed.data, body: parsed.body };
+      post = editingPost;
     $('editor-eyebrow').textContent = 'تعديل';
     $('editor-title').textContent = 'تعديل الإنفوغرافيك';
     $('save-post').textContent = 'حفظ التعديلات';
@@ -278,6 +284,9 @@
     $('image-preview').hidden = true;
     $('image-preview').innerHTML = '';
     switchView('editor');
+    } catch (error) {
+      showStatus($('global-status'), error.message || 'تعذر فتح الإنفوغرافيك.', 'error');
+    }
   }
 
   function renderRecent() {
@@ -355,11 +364,10 @@
 
   async function loadPosts() {
     const data = await api('/api/posts');
-    const loaded = [];
-    for (const file of Array.isArray(data) ? data : []) {
-      const parsed = parseFrontMatter(safeDecodeBase64(file.content || ''));
-      loaded.push({ path: file.path, sha: file.sha, data: parsed.data, body: parsed.body });
-    }
+    const loaded = (Array.isArray(data) ? data : []).map(file => {
+      const parsed = file.data ? { data: file.data, body: file.body || '' } : parseFrontMatter(safeDecodeBase64(file.content || ''));
+      return { path: file.path, sha: file.sha || null, data: parsed.data, body: parsed.body };
+    });
     posts = loaded;
     updateStats();
     renderRecent();
@@ -459,7 +467,8 @@
     if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nسيتم حذف ملف الإنفوغرافيك فقط.`)) return;
     try {
       showStatus($('global-status'), 'جارٍ الحذف...');
-      await api('/api/file', { method: 'DELETE', body: JSON.stringify({ path: post.path, sha: post.sha, message: `Delete infographic: ${title}` }) });
+      const full = post.sha ? post : await window.InfografFast.getPost(post.path);
+      await api('/api/file', { method: 'DELETE', body: JSON.stringify({ path: post.path, sha: full.sha, message: `Delete infographic: ${title}` }) });
       showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
       await loadPosts();
     } catch (error) {
