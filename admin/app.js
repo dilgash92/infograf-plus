@@ -487,27 +487,17 @@
     try {
       showStatus($('global-status'), 'جارٍ الحذف...');
       const full = await window.InfografFast.getPost(post.path);
-      const match = String(full.text || '').match(/^image:\s*(.*)$/m);
-      let image = '';
-      if (match) {
-        try { image = contentImagePath(JSON.parse(match[1])); }
-        catch (_) { image = contentImagePath(match[1].replace(/^['"]|['"]$/g, '')); }
-      }
-      await api('/api/file', { method:'DELETE', body:JSON.stringify({path:post.path,sha:full.sha,message:`Delete infographic: ${title}`}) });
+      const image = contentImagePath(post.data.image || '');
 
-      if (image && image.startsWith('/assets/uploads/')) {
-        const stillUsed = posts.some(item => item.path !== post.path && contentImagePath(item.data.image) === image);
-        if (!stillUsed) {
-          try {
-            const url='https://api.github.com/repos/dilgash92/infograf-plus/contents/'+image.slice(1).split('/').map(encodeURIComponent).join('/')+'?ref=main';
-            const metaResponse=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
-            if(metaResponse.ok){
-              const meta=await metaResponse.json();
-              await api('/api/file',{method:'DELETE',body:JSON.stringify({path:image,sha:meta.sha,message:'Delete infographic image: '+image.split('/').pop()})});
-            }
-          } catch (_) {}
-        }
-      }
+      await api('/api/file', {
+        method:'DELETE',
+        body:JSON.stringify({
+          path:post.path,
+          sha:full.sha,
+          message:`Delete infographic: ${title}`
+        })
+      });
+
       const index = posts.findIndex(item => item.path === post.path);
       if (index >= 0) posts.splice(index, 1);
       window.__infografPosts = posts;
@@ -516,6 +506,28 @@
       renderPosts($('post-search').value);
       window.InfografFast?.invalidate();
       showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
+
+      // تنظيف الصورة بعد نجاح حذف المنشور، بدون تأخير واجهة لوحة التحكم.
+      if (image && image.startsWith('/assets/uploads/')) {
+        const stillUsed = posts.some(item => contentImagePath(item.data.image) === image);
+        if (!stillUsed) {
+          try {
+            const url='https://api.github.com/repos/dilgash92/infograf-plus/contents/'+image.slice(1).split('/').map(encodeURIComponent).join('/')+'?ref=main';
+            const metaResponse=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
+            if(metaResponse.ok){
+              const meta=await metaResponse.json();
+              await api('/api/file',{
+                method:'DELETE',
+                body:JSON.stringify({
+                  path:image,
+                  sha:meta.sha,
+                  message:'Delete infographic image: '+image.split('/').pop()
+                })
+              });
+            }
+          } catch (_) {}
+        }
+      }
     } catch (error) {
       showStatus($('global-status'), error.message || 'تعذر حذف الإنفوغرافيك.', 'error');
     }
