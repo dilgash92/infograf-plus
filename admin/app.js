@@ -369,6 +369,7 @@
       return { path: file.path, sha: file.sha || null, data: parsed.data, body: parsed.body };
     });
     posts = loaded;
+    window.__infografPosts = posts;
     updateStats();
     renderRecent();
     renderPosts($('post-search').value);
