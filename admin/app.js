@@ -465,11 +465,31 @@
 
   async function deletePost(post) {
     const title = post.data.title || 'هذا الإنفوغرافيك';
-    if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nسيتم حذف ملف الإنفوغرافيك فقط.`)) return;
+    if (!window.confirm(`هل أنت متأكد من حذف «${title}»؟\n\nسيتم حذف المنشور وصورته إذا لم تكن مستخدمة في إنفوغرافيك آخر.`)) return;
     try {
       showStatus($('global-status'), 'جارٍ الحذف...');
-      const full = post.sha ? post : await window.InfografFast.getPost(post.path);
-      await api('/api/file', { method: 'DELETE', body: JSON.stringify({ path: post.path, sha: full.sha, message: `Delete infographic: ${title}` }) });
+      const full = await window.InfografFast.getPost(post.path);
+      const match = String(full.text || '').match(/^image:\s*(.*)$/m);
+      let image = '';
+      if (match) {
+        try { image = contentImagePath(JSON.parse(match[1])); }
+        catch (_) { image = contentImagePath(match[1].replace(/^['"]|['"]$/g, '')); }
+      }
+      await api('/api/file', { method:'DELETE', body:JSON.stringify({path:post.path,sha:full.sha,message:`Delete infographic: ${title}`}) });
+
+      if (image && image.startsWith('/assets/uploads/')) {
+        const stillUsed = posts.some(item => item.path !== post.path && contentImagePath(item.data.image) === image);
+        if (!stillUsed) {
+          try {
+            const url='https://api.github.com/repos/dilgash92/infograf-plus/contents/'+image.slice(1).split('/').map(encodeURIComponent).join('/')+'?ref=main';
+            const metaResponse=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
+            if(metaResponse.ok){
+              const meta=await metaResponse.json();
+              await api('/api/file',{method:'DELETE',body:JSON.stringify({path:image,sha:meta.sha,message:'Delete infographic image: '+image.split('/').pop()})});
+            }
+          } catch (_) {}
+        }
+      }
       showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
       await loadPosts();
     } catch (error) {
