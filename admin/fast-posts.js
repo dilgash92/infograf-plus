@@ -5,6 +5,7 @@
   const originalFetch = window.fetch.bind(window);
   let cached = null;
   let loading = null;
+  let bypassCount = 0;
 
   function rawUrl(path) {
     return RAW + String(path).replace(/^\/+/, '').split('/').map(encodeURIComponent).join('/');
@@ -43,6 +44,10 @@
   window.fetch = async function(input, init) {
     const url = typeof input === 'string' ? input : input?.url || '';
     const method = String(init?.method || (typeof input !== 'string' ? input?.method : 'GET') || 'GET').toUpperCase();
+    if (method === 'GET' && /\/api\/posts(?:\?|$)/.test(url) && bypassCount > 0) {
+      bypassCount--;
+      return originalFetch(input, init);
+    }
     if (method === 'GET' && /\/api\/posts(?:\?|$)/.test(url)) {
       try {
         const data = await load();
@@ -55,6 +60,7 @@
     if (/\/api\/file(?:\?|$)/.test(url) && method !== 'GET' && response.ok) {
       cached = null;
       loading = null;
+      bypassCount = 3;
     }
     return response;
   };
