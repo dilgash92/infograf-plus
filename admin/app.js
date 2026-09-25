@@ -470,7 +470,11 @@
       let image = contentImagePath(editingPost?.data?.image || '');
       if (file) image = await uploadImage(file);
 
-      const isoDate = new Date(date).toISOString();
+      // datetime-local is interpreted in the administrator's local timezone.
+      // Store the exact moment as UTC so every visitor can see it in their own local timezone.
+      const localDate = new Date(date);
+      if (Number.isNaN(localDate.getTime())) throw new Error('التاريخ غير صالح.');
+      const isoDate = localDate.toISOString();
       const markdown = makePostMarkdown({ title, slug, category, date: isoDate, description, source, image_alt: imageAlt, image, body });
 
       if (wasEditing) {
@@ -495,7 +499,9 @@
         window.InfografFast?.invalidate();
         showStatus($('global-status'), 'تم حفظ التعديلات بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       } else {
-        const filename = `${isoDate.slice(0, 10)}-${slug}.md`;
+        // Keep the post filename aligned with the calendar date entered by the administrator,
+        // not the UTC date, which can be one day earlier/later around midnight.
+        const filename = `${date.slice(0, 10)}-${slug}.md`;
         const path = `_posts/${filename}`;
         await api('/api/file', {
           method: 'PUT',
