@@ -181,30 +181,17 @@
     } catch (_) { return ''; }
   }
 
-  async function getPosts() {
-    const session = sessionStorage.getItem(SESSION_KEY) || '';
-    const response = await fetch(`${API}/api/posts`, {
-      headers: {Accept:'application/json', ...(session ? {Authorization:`Bearer ${session}`} : {})}
-    });
-    if (!response.ok) throw new Error('تعذر التحقق من استخدام الصورة.');
-    return Array.isArray(await response.json()) ? await (async () => {
-      const data = await fetch(`${API}/api/posts`, {headers:{Accept:'application/json', ...(session ? {Authorization:`Bearer ${session}`} : {})}});
-      return data.ok ? data.json() : [];
-    })() : [];
-  }
-
   async function imageStillUsed(path) {
     const target = cleanImagePath(path);
     if (!target) return true;
-    const session = sessionStorage.getItem(SESSION_KEY) || '';
-    const response = await fetch(`${API}/api/posts`, {
-      headers: {Accept:'application/json', ...(session ? {Authorization:`Bearer ${session}`} : {})}
-    });
-    if (!response.ok) return true;
-    const files = await response.json();
-    for (const file of Array.isArray(files) ? files : []) {
-      const text = decodeUtf8Base64(file.content || '');
-      if (parsePostImage(text) === target) return true;
+
+    const posts = Array.isArray(window.__infografPosts)
+      ? window.__infografPosts
+      : (window.InfografFast?.loadIndex ? await window.InfografFast.loadIndex() : []);
+
+    for (const post of posts) {
+      const image = cleanImagePath(post?.data?.image || '');
+      if (image === target) return true;
     }
     return false;
   }
