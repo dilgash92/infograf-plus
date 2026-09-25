@@ -320,37 +320,66 @@
       .replace(/ة/g, 'ه').replace(/ـ/g, '').replace(/\s+/g, ' ');
   }
 
-  function renderPosts(filter = '') {
-    const container = $('posts-list');
-    const q = normalizeSearch(filter);
-    const filtered = posts
-      .filter(post => !q || [post.data.title, post.data.category, post.data.description, post.data.slug]
-        .filter(Boolean).some(value => normalizeSearch(value).includes(q)))
-      .sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0));
+  function getPostFilters() {
+    return {
+      q: normalizeSearch($('post-search')?.value || ''),
+      category: $('post-category-filter')?.value || '',
+      month: $('post-month-filter')?.value || ''
+    };
+  }
 
-    if (!filtered.length) {
-      container.innerHTML = '<div class="empty-admin">لا توجد نتائج.</div>';
-      return;
-    }
+  function populatePostFilters() {
+    const categorySelect = $('post-category-filter');
+    const monthSelect = $('post-month-filter');
+    if (!categorySelect || !monthSelect) return;
+    const currentCategory = categorySelect.value;
+    const currentMonth = monthSelect.value;
+    const categories = [...new Set(posts.map(post => String(post.data.category || '').trim()).filter(Boolean))].sort((a,b) => a.localeCompare(b,'ar'));
+    categorySelect.innerHTML = '<option value="">كل الأقسام</option>' + categories.map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`).join('');
+    const months = [...new Set(posts.map(post => { const value=String(post.data.date||''); const match=value.match(/^(\d{4})-(\d{2})/); return match?match[0]:''; }).filter(Boolean))].sort().reverse();
+    monthSelect.innerHTML = '<option value="">كل التواريخ</option>' + months.map(month => {
+      const [year,m]=month.split('-');
+      const label=new Intl.DateTimeFormat('ar-DE',{month:'long',year:'numeric'}).format(new Date(Number(year),Number(m)-1,1));
+      return `<option value="${month}">${escapeHtml(label)}</option>`;
+    }).join('');
+    if ([...categorySelect.options].some(o=>o.value===currentCategory)) categorySelect.value=currentCategory;
+    if ([...monthSelect.options].some(o=>o.value===currentMonth)) monthSelect.value=currentMonth;
+  }
 
-    container.innerHTML = filtered.map(post => {
-      const index = posts.indexOf(post);
+  function clearPostFilters() {
+    if ($('post-search')) $('post-search').value='';
+    if ($('post-category-filter')) $('post-category-filter').value='';
+    if ($('post-month-filter')) $('post-month-filter').value='';
+    renderPosts();
+  }
+
+  function renderPosts() {
+    const container=$('posts-list');
+    const {q,category,month}=getPostFilters();
+    const filtered=posts.filter(post=>{
+      const matchesSearch=!q || [post.data.title,post.data.category,post.data.description,post.data.slug].filter(Boolean).some(value=>normalizeSearch(value).includes(q));
+      const matchesCategory=!category || String(post.data.category||'')===category;
+      const matchesMonth=!month || String(post.data.date||'').slice(0,7)===month;
+      return matchesSearch && matchesCategory && matchesMonth;
+    }).sort((a,b)=>new Date(b.data.date||0)-new Date(a.data.date||0));
+    if(!filtered.length){container.innerHTML='<div class="empty-admin">لا توجد نتائج مطابقة للفلاتر الحالية.</div>';return;}
+    container.innerHTML=filtered.map(post=>{
+      const pathKey=encodeURIComponent(post.path);
       return `
         <article class="post-row">
-          ${post.data.image ? `<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">` : '<div></div>'}
+          ${post.data.image?`<img src="${escapeHtml(assetUrl(post.data.image))}" alt="">`:'<div></div>'}
           <div class="post-info">
-            <strong>${escapeHtml(post.data.title || 'بدون عنوان')}</strong>
-            <small>${escapeHtml(post.data.category || 'بدون قسم')} · /i/${escapeHtml(post.data.slug || '—')}</small>
+            <strong>${escapeHtml(post.data.title||'بدون عنوان')}</strong>
+            <small>${escapeHtml(post.data.category||'بدون قسم')} · /i/${escapeHtml(post.data.slug||'—')}</small>
           </div>
           <div class="post-actions">
-            <button class="button button-secondary" type="button" data-edit-index="${index}">تعديل</button>
+            <button class="button button-secondary" type="button" data-edit-path="${pathKey}">تعديل</button>
             <a class="button button-secondary" href="${livePostUrl(post)}" target="_blank" rel="noopener">عرض</a>
-            <button class="button button-danger" type="button" data-delete-index="${index}">حذف</button>
+            <button class="button button-danger" type="button" data-delete-path="${pathKey}">حذف</button>
           </div>
         </article>`;
     }).join('');
   }
-
   function updateStats() {
     $('stat-total').textContent = posts.length;
     const latest = [...posts].sort((a, b) => new Date(b.data.date || 0) - new Date(a.data.date || 0))[0];
@@ -371,8 +400,9 @@
     posts = loaded;
     window.__infografPosts = posts;
     updateStats();
+    populatePostFilters();
     renderRecent();
-    renderPosts($('post-search').value);
+    renderPosts();
   }
 
   async function uploadImage(file) {
@@ -446,7 +476,7 @@
         window.__infografPosts = posts;
         updateStats();
         renderRecent();
-        renderPosts($('post-search').value);
+        renderPosts();
         window.InfografFast?.invalidate();
         showStatus($('global-status'), 'تم حفظ التعديلات بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       } else {
@@ -466,7 +496,7 @@
         window.__infografPosts = posts;
         updateStats();
         renderRecent();
-        renderPosts($('post-search').value);
+        renderPosts();
         window.InfografFast?.invalidate();
         showStatus($('global-status'), 'تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       }
@@ -503,7 +533,7 @@
       window.__infografPosts = posts;
       updateStats();
       renderRecent();
-      renderPosts($('post-search').value);
+      renderPosts();
       window.InfografFast?.invalidate();
       showStatus($('global-status'), 'تم حذف الإنفوغرافيك بنجاح.', 'success');
 
@@ -592,7 +622,10 @@
       event.target.value = normalizeSlug(event.target.value);
       event.target.dataset.touched = '1';
     });
-    $('post-search')?.addEventListener('input', event => renderPosts(event.target.value));
+    $('post-search')?.addEventListener('input', renderPosts);
+    $('post-category-filter')?.addEventListener('change', renderPosts);
+    $('post-month-filter')?.addEventListener('change', renderPosts);
+    $('clear-post-filters')?.addEventListener('click', clearPostFilters);
 
     $('refresh-posts')?.addEventListener('click', async () => {
       try {
@@ -605,18 +638,20 @@
     });
 
     $('posts-list')?.addEventListener('click', event => {
-      const editButton = event.target.closest('[data-edit-index]');
-      if (editButton) {
-        const post = posts[Number(editButton.dataset.editIndex)];
-        if (post) editPost(post);
+      const editButton=event.target.closest('[data-edit-path]');
+      if(editButton){
+        const path=decodeURIComponent(editButton.dataset.editPath||'');
+        const post=posts.find(item=>item.path===path);
+        if(post) editPost(post);
         return;
       }
-      const deleteButton = event.target.closest('[data-delete-index]');
-      if (deleteButton) {
-        const post = posts[Number(deleteButton.dataset.deleteIndex)];
-        if (post) deletePost(post);
+      const deleteButton=event.target.closest('[data-delete-path]');
+      if(deleteButton){
+        const path=decodeURIComponent(deleteButton.dataset.deletePath||'');
+        const post=posts.find(item=>item.path===path);
+        if(post) deletePost(post);
       }
-    });
+    });;
   }
 
   bindEvents();
