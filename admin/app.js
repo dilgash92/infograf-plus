@@ -435,6 +435,32 @@
     return `/${path}`;
   }
 
+  async function deleteUploadedImage(imagePath) {
+    const image = contentImagePath(imagePath);
+    if (!image || !image.startsWith('/assets/uploads/')) return false;
+
+    try {
+      const url = 'https://api.github.com/repos/dilgash92/infograf-plus/contents/' +
+        image.slice(1).split('/').map(encodeURIComponent).join('/') + '?ref=main';
+      const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+      if (!response.ok) return false;
+
+      const metadata = await response.json();
+      await api('/api/file', {
+        method: 'DELETE',
+        body: JSON.stringify({
+          path: image,
+          sha: metadata.sha,
+          message: 'Rollback unused infographic image: ' + image.split('/').pop()
+        })
+      });
+
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   function slugExists(slug) {
     const currentPath = editingPost?.path || '';
     return posts.some(post => post.path !== currentPath && normalizeSlug(post.data.slug || '') === slug);
@@ -447,6 +473,8 @@
     button.disabled = true;
     button.textContent = wasEditing ? 'جارٍ الحفظ...' : 'جارٍ الإنشاء...';
     hideStatus($('global-status'));
+
+    let uploadedImage = '';
 
     try {
       const title = $('field-title').value.trim();
@@ -468,7 +496,11 @@
       if (!wasEditing && !file) throw new Error('يرجى اختيار صورة الإنفوغرافيك.');
 
       let image = contentImagePath(editingPost?.data?.image || '');
-      if (file) image = await uploadImage(file);
+
+      if (file) {
+        image = await uploadImage(file);
+        uploadedImage = image;
+      }
 
       // datetime-local is interpreted in the administrator's local timezone.
       // Store the exact moment as UTC so every visitor can see it in their own local timezone.
@@ -526,6 +558,10 @@
       resetEditor();
       switchView('posts');
     } catch (error) {
+      // If a new image was uploaded but the post itself failed to save,
+      // remove that image so the repository is not left with an orphaned file.
+      if (uploadedImage) await deleteUploadedImage(uploadedImage);
+
       showStatus($('global-status'), error.message || 'تعذر حفظ الإنفوغرافيك.', 'error');
     } finally {
       button.disabled = false;
