@@ -158,12 +158,9 @@
   document.addEventListener('DOMContentLoaded', () => {
     setupPhonePreview();
     addPreviewButton();
-    captureOldImageBeforeSubmit();
-    watchSuccessfulUpdate();
     setTimeout(() => {
       setupPhonePreview();
       addPreviewButton();
-      captureOldImageBeforeSubmit();
       refreshPreview();
     }, 500);
   });
