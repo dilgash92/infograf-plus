@@ -1,13 +1,7 @@
 (() => {
   'use strict';
-
-  const API = 'https://calm-dream-ae41.dilgash-ibrahim.workers.dev';
-  const GITHUB_CONTENTS = 'https://api.github.com/repos/dilgash92/infograf-plus/contents/';
-  const SESSION_KEY = 'infograf_plus_admin_session';
   const $ = id => document.getElementById(id);
   let objectUrl = '';
-  let pendingOldImage = '';
-  let cleanupRunning = false;
 
   function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>'"]/g, ch => ({
