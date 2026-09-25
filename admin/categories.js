@@ -84,25 +84,29 @@
   }
 
   async function movePostsToMisc(deletedCategory){
-    const data=await workerRequest('/api/posts');
-    const files=Array.isArray(data)?data:[];
-    const affected=files.filter(file=>{
-      const text=decodeBase64(file.content||'');
-      const match=text.match(/^category:\s*(.*)$/m);
-      if(!match)return false;
-      let value=match[1].trim();
-      try{value=JSON.parse(value);}catch(_){value=value.replace(/^['"]|['"]$/g,'');}
-      return String(value).trim()===deletedCategory;
-    });
+    const files = Array.isArray(window.__infografPosts)
+      ? window.__infografPosts
+      : await (window.InfografFast?.loadIndex?.() || []);
+    const affected = files.filter(file => String(file?.data?.category || '').trim() === deletedCategory);
+    if (!affected.length) return 0;
 
-    let moved=0;
-    for(const file of affected){
-      const text=decodeBase64(file.content||'');
-      const updated=replacePostCategory(text,MISC_CATEGORY);
-      if(updated===text)continue;
-      await workerWrite({path:file.path,sha:file.sha,content:base64FromText(updated),message:`Move post to ${MISC_CATEGORY}: ${file.path.split('/').pop()}`});
+    let moved = 0;
+    for (const file of affected) {
+      const post = window.InfografFast?.getPost
+        ? await window.InfografFast.getPost(file.path)
+        : null;
+      if (!post?.text) continue;
+      const updated = replacePostCategory(post.text, MISC_CATEGORY);
+      if (updated === post.text) continue;
+      await workerWrite({
+        path:file.path,
+        sha:post.sha,
+        content:base64FromText(updated),
+        message:`Move post to ${MISC_CATEGORY}: ${file.path.split('/').pop()}`
+      });
       moved++;
     }
+    window.InfografFast?.invalidate?.();
     return moved;
   }
 
