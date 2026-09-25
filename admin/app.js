@@ -7,6 +7,7 @@
 
   let posts = [];
   let editingPost = null;
+  let editorDirty = false;
 
   const $ = id => document.getElementById(id);
 
@@ -247,6 +248,7 @@
   }
 
   function resetEditor() {
+    editorDirty = false;
     editingPost = null;
     $('post-form').reset();
     $('editor-eyebrow').textContent = 'إنشاء';
@@ -283,12 +285,25 @@
       : 'لا توجد صورة حالياً.';
     $('image-preview').hidden = true;
     $('image-preview').innerHTML = '';
+    editorDirty = false;
     switchView('editor');
     } catch (error) {
       showStatus($('global-status'), error.message || 'تعذر فتح الإنفوغرافيك.', 'error');
     }
   }
 
+  function markEditorDirty() {
+    if (document.activeElement?.closest('#post-form')) editorDirty = true;
+  }
+
+  function confirmDiscardChanges() {
+    if (!editorDirty) return true;
+    return window.confirm('لديك تغييرات غير محفوظة. هل تريد مغادرة المحرر وفقدان هذه التغييرات؟');
+  }
+
+  function currentView() {
+    return document.querySelector('.view:not([hidden])')?.id?.replace(/-view$/, '') || '';
+  }
   function renderRecent() {
     const container = $('recent-posts');
     const recent = [...posts]
@@ -501,6 +516,7 @@
         showStatus($('global-status'), 'تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       }
 
+      editorDirty = false;
       resetEditor();
       switchView('posts');
     } catch (error) {
@@ -598,6 +614,7 @@
     document.querySelectorAll('.nav-item[data-view]').forEach(button => {
       button.addEventListener('click', () => {
         const view = button.dataset.view;
+        if (view !== 'editor' && currentView() === 'editor' && !confirmDiscardChanges()) return;
         if (view === 'editor') resetEditor();
         switchView(view);
       });
@@ -606,13 +623,21 @@
     document.querySelectorAll('[data-go]').forEach(button => {
       button.addEventListener('click', () => {
         const view = button.dataset.go;
+        if (view !== 'editor' && currentView() === 'editor' && !confirmDiscardChanges()) return;
         if (view === 'editor') resetEditor();
         switchView(view);
       });
     });
 
-    $('cancel-edit')?.addEventListener('click', () => { resetEditor(); switchView('posts'); });
+    $('cancel-edit')?.addEventListener('click', () => { if (!confirmDiscardChanges()) return; resetEditor(); switchView('posts'); });
+    $('post-form')?.addEventListener('input', markEditorDirty);
+    $('post-form')?.addEventListener('change', markEditorDirty);
     $('post-form')?.addEventListener('submit', savePost);
+    window.addEventListener('beforeunload', event => {
+      if (!editorDirty || currentView() !== 'editor') return;
+      event.preventDefault();
+      event.returnValue = '';
+    });
     $('field-image')?.addEventListener('change', previewSelectedImage);
     $('field-title')?.addEventListener('input', () => {
       const slug = $('field-slug');
