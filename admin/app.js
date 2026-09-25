@@ -520,10 +520,18 @@
           })
         });
 
+        const oldImage = contentImagePath(editingPost?.data?.image || '');
         const parsed = parseFrontMatter(markdown);
         const index = posts.findIndex(post => post.path === editingPost.path);
         const updatedPost = { path: editingPost.path, sha: null, data: parsed.data, body: parsed.body };
         if (index >= 0) posts[index] = updatedPost;
+
+        // After the new Markdown is safely saved, remove the previous uploaded image
+        // only if it was actually replaced and is no longer used by another post.
+        if (file && oldImage && oldImage !== image && oldImage.startsWith('/assets/uploads/')) {
+          const stillUsed = posts.some(item => contentImagePath(item.data.image) === oldImage);
+          if (!stillUsed) await deleteUploadedImage(oldImage);
+        }
         window.__infografPosts = posts;
         updateStats();
         renderRecent();
