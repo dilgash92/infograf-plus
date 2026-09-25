@@ -80,26 +80,31 @@
     "inLanguage": "ar"
   }
   </script>
-  {% else %}
+  {% elsif page.layout == "infographic" %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     "headline": {{ page.title | jsonify }},
     "description": {{ page.description | default: site.description | jsonify }},
     "url": {{ page.url | absolute_url | jsonify }},
-    "inLanguage": "ar"
-    {% if page.date %},
-    "datePublished": {{ page.date | date_to_xmlschema | jsonify }}
-    {% endif %}
-    {% if page.category %},
-    "articleSection": {{ page.category | jsonify }}
-    {% endif %},
+    "inLanguage": "ar",
+    "author": {
+      "@type": "Person",
+      "name": "Dilgash Ibrahim"
+    },
     "publisher": {
       "@type": "Organization",
       "name": "Infograf+",
       "url": {{ site.url | jsonify }}
     }
+    {% if page.date %},
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+    "dateModified": {{ page.date | date_to_xmlschema | jsonify }}
+    {% endif %}
+    {% if page.category %},
+    "articleSection": {{ page.category | jsonify }}
+    {% endif %}
     {% if page.image %},
     "image": {
       "@type": "ImageObject",
@@ -107,6 +112,45 @@
       "caption": {{ page.image_alt | default: page.title | jsonify }}
     }
     {% endif %}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "الرئيسية",
+        "item": {{ site.url | append: "/" | jsonify }}
+      }
+      {% if page.category %},
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": {{ page.category | jsonify }},
+        "item": {{ site.url | append: "/categories/" | append: "#" | append: page.category | uri_escape | jsonify }}
+      }
+      {% endif %},
+      {
+        "@type": "ListItem",
+        "position": {% if page.category %}3{% else %}2{% endif %},
+        "name": {{ page.title | jsonify }}
+      }
+    ]
+  }
+  </script>
+  {% else %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": {{ page.title | jsonify }},
+    "description": {{ page.description | default: site.description | jsonify }},
+    "url": {{ page.url | absolute_url | jsonify }},
+    "inLanguage": "ar"
   }
   </script>
   {% endif %}
