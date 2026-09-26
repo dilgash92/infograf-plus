@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   "use strict";
+  // stable-header-pass
 
   const searchPanel = document.getElementById("search-panel");
   const openSearch = document.getElementById("open-search");
