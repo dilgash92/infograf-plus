@@ -266,12 +266,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const headerInner = document.querySelector(".header-inner");
   if (headerInner && !headerInner.querySelector(".mobile-header-actions")) {
-    const mobileAbout = document.createElement("a");
-    mobileAbout.href = aboutHref;
-    mobileAbout.className = "about-header-mobile";
-    mobileAbout.textContent = "من نحن";
-    mobileAbout.setAttribute("aria-label", "من نحن - Infograf+");
-
     const instagramLink = headerInner.querySelector(".instagram-header-link");
     const searchButton = headerInner.querySelector(".search-button");
     const notificationWrap = headerInner.querySelector(".notification-header-wrap");
@@ -289,7 +283,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const actions = document.createElement("div");
     actions.className = "mobile-header-actions";
 
-    actions.appendChild(mobileAbout);
     if (instagramLink) actions.appendChild(instagramLink);
     actions.appendChild(facebookLink);
     if (notificationWrap) actions.appendChild(notificationWrap);
@@ -304,10 +297,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .about-header-mobile, .facebook-header-link { display: none; }
       @media (max-width: 700px) {
         .header-inner { gap: 0; }
-        .mobile-header-actions { position: absolute; left: -20px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 5px; margin: 0; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; }
+        .mobile-header-actions { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 5px; margin: 0; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; }
         .mobile-header-actions .notification-header-wrap { position: relative; display: block; flex-shrink: 0; }
-        .about-header-mobile { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 10px; border-radius: 11px; background: var(--surface); color: var(--text); font-size: 11px; font-weight: 700; white-space: nowrap; text-decoration: none; flex-shrink: 0; }
-        .about-header-mobile:hover, .about-header-mobile:focus-visible { background: var(--accent-light); color: var(--accent); }
         .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .notification-header-button, .mobile-header-actions .search-button, .mobile-header-actions .theme-toggle { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
         .mobile-header-actions .notification-header-button { margin: 0; }
         .notification-header-button { display: grid; }
@@ -326,7 +317,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const footerNavigation = document.querySelector(".footer-navigation");
-  if (footerNavigation) footerNavigation.remove();
+  if (footerNavigation) {
+    Array.from(footerNavigation.children).forEach(function (link) {
+      if (link.textContent.trim() !== "من نحن") link.remove();
+    });
+  }
 
   const footerAboutLink = document.querySelector(".footer-about-link");
   if (footerAboutLink) footerAboutLink.remove();
