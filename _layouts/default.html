@@ -293,19 +293,46 @@
 
 
       <!-- Notifications -->
-      <button
-        type="button"
-        class="notification-header-button"
-        id="notification-toggle"
-        aria-label="تفعيل إشعارات Infograf+"
-        title="إشعارات Infograf+"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
-          <path d="M10 21h4"></path>
-        </svg>
-        <span class="notification-status-dot" aria-hidden="true"></span>
-      </button>
+      <div class="notification-header-wrap">
+        <button
+          type="button"
+          class="notification-header-button"
+          id="notification-toggle"
+          aria-label="تفعيل إشعارات Infograf+"
+          title="إشعارات Infograf+"
+          aria-expanded="false"
+          aria-controls="notification-panel"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+            <path d="M10 21h4"></path>
+          </svg>
+          <span class="notification-status-dot" aria-hidden="true"></span>
+          <span class="notification-badge" id="notification-badge" hidden>0</span>
+        </button>
+
+        <div
+          class="notification-panel"
+          id="notification-panel"
+          hidden
+          aria-label="إشعارات Infograf+"
+        >
+          <div class="notification-panel-header">
+            <strong>الإشعارات</strong>
+            <button
+              type="button"
+              id="notification-mark-read"
+              class="notification-mark-read"
+            >
+              تحديد الكل كمقروء
+            </button>
+          </div>
+
+          <div id="notification-list" class="notification-list">
+            <div class="notification-empty">لا توجد إشعارات بعد.</div>
+          </div>
+        </div>
+      </div>
 
       <!-- Search -->
       <button
