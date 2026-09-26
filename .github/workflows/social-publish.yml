@@ -2,6 +2,12 @@ name: Social publishing
 
 on:
   workflow_dispatch:
+    inputs:
+      recovery_creation_id:
+        description: "Instagram creation ID to retry only (leave empty for normal run)"
+        required: false
+        default: ""
+        type: string
   push:
     branches: [main]
     paths: ['_posts/**.md']
@@ -13,12 +19,107 @@ jobs:
   publish-social:
     runs-on: ubuntu-latest
     steps:
+      - name: Recover Instagram only
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.recovery_creation_id != '' }}
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          CREATION_ID: ${{ inputs.recovery_creation_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${INSTAGRAM_ACCESS_TOKEN:-}" ]]; then
+            echo "::error::GitHub Secret INSTAGRAM_ACCESS_TOKEN is missing."
+            exit 1
+          fi
+
+          python3 - <<'PY'
+          import json, os, sys, time, urllib.error, urllib.parse, urllib.request
+
+          token = os.environ["INSTAGRAM_ACCESS_TOKEN"].strip()
+          creation_id = os.environ["CREATION_ID"].strip()
+          base = "https://graph.instagram.com/v24.0"
+
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/json",
+              "User-Agent": "Infograf-Plus-GitHub-Actions"
+          }
+
+          for attempt in range(1, 13):
+              status_req = urllib.request.Request(
+                  f"{base}/{urllib.parse.quote(creation_id, safe='')}?fields=status_code,status",
+                  method="GET",
+                  headers=headers
+              )
+              try:
+                  with urllib.request.urlopen(status_req, timeout=30) as response:
+                      status_data = json.loads(response.read().decode("utf-8"))
+              except urllib.error.HTTPError as exc:
+                  print(exc.read().decode("utf-8", errors="replace"))
+                  raise
+
+              status_code = str(status_data.get("status_code") or "").upper()
+              print(f"Instagram recovery attempt {attempt}: {status_code} {status_data.get('status') or ''}")
+
+              if status_code in ("ERROR", "EXPIRED"):
+                  print("::error::Instagram container is no longer publishable.")
+                  sys.exit(1)
+
+              if status_code not in ("FINISHED", "PUBLISHED"):
+                  time.sleep(5)
+                  continue
+
+              time.sleep(3)
+
+              publish_req = urllib.request.Request(
+                  f"{base}/me/media_publish",
+                  data=json.dumps({"creation_id": creation_id}).encode("utf-8"),
+                  method="POST",
+                  headers={**headers, "Content-Type": "application/json"}
+              )
+
+              try:
+                  with urllib.request.urlopen(publish_req, timeout=30) as response:
+                      publish_status = response.status
+                      publish_data = json.loads(response.read().decode("utf-8"))
+              except urllib.error.HTTPError as exc:
+                  publish_status = exc.code
+                  try:
+                      publish_data = json.loads(exc.read().decode("utf-8", errors="replace"))
+                  except Exception:
+                      publish_data = {}
+
+              print(json.dumps(publish_data, ensure_ascii=False))
+
+              if 200 <= publish_status < 300 and publish_data.get("id"):
+                  print("Instagram recovery succeeded.")
+                  sys.exit(0)
+
+              message = str(
+                  publish_data.get("error", {}).get("message")
+                  or publish_data.get("error_message")
+                  or ""
+              ).lower()
+
+              if "media id is not available" in message and attempt < 12:
+                  print("Media is still becoming available. Waiting 5 seconds...")
+                  time.sleep(5)
+                  continue
+
+              print("::error::Instagram recovery failed.")
+              sys.exit(1)
+
+          print("::error::Instagram container did not become publishable in time.")
+          sys.exit(1)
+          PY
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Find new posts
         id: posts
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '' }}
         shell: bash
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
@@ -36,7 +137,7 @@ jobs:
           if [[ -s /tmp/new_posts.txt ]]; then echo 'has_posts=true' >> "$GITHUB_OUTPUT"; else echo 'has_posts=false' >> "$GITHUB_OUTPUT"; fi
 
       - name: Wait for site and post images
-        if: steps.posts.outputs.has_posts == 'true'
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '') && steps.posts.outputs.has_posts == 'true' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -138,7 +239,7 @@ jobs:
           fi
 
       - name: Publish to Facebook and Instagram
-        if: steps.posts.outputs.has_posts == 'true'
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '') && steps.posts.outputs.has_posts == 'true' }}
         env:
           AUTOMATION_SECRET: ${{ secrets.AUTOMATION_SECRET }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
