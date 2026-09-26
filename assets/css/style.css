@@ -281,6 +281,10 @@ button {
     flex: 0 0 40px;
   }
 
+  .footer-links {
+    gap: 8px 14px;
+  }
+
   @media (max-width: 380px) {
     .header-inner {
       gap: 6px;
@@ -1578,6 +1582,31 @@ button {
   color: var(--text-light);
 
   font-size: 11px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.footer-links a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color .2s ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--text);
+}
+
+.site-header .about-header-mobile {
+  display: none !important;
+  visibility: hidden !important;
 }
 
 
