@@ -180,7 +180,7 @@ button {
    Header Action Group
    ========================================================= */
 
-.mobile-header-actions {
+.header-actions {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -235,7 +235,7 @@ button {
     gap: 0;
   }
 
-  .mobile-header-actions {
+  .header-actions {
     position: absolute;
     left: 10px;
     top: 50%;
@@ -254,11 +254,11 @@ button {
     direction: ltr;
   }
 
-  .mobile-header-actions .instagram-header-link,
-  .mobile-header-actions .facebook-header-link,
-  .mobile-header-actions .notification-header-button,
-  .mobile-header-actions .search-button,
-  .mobile-header-actions .theme-toggle {
+  .header-actions .instagram-header-link,
+  .header-actions .facebook-header-link,
+  .header-actions .notification-header-button,
+  .header-actions .search-button,
+  .header-actions .theme-toggle {
     width: 40px;
     height: 40px;
     margin: 0;
@@ -266,7 +266,7 @@ button {
     border-radius: 11px;
   }
 
-  .mobile-header-actions .facebook-header-link {
+  .header-actions .facebook-header-link {
     display: grid;
     place-items: center;
     background: var(--surface);
@@ -274,44 +274,44 @@ button {
     text-decoration: none;
   }
 
-  .mobile-header-actions .facebook-header-link svg {
+  .header-actions .facebook-header-link svg {
     width: 19px;
     height: 19px;
     display: block;
     fill: currentColor;
   }
 
-  .mobile-header-actions .notification-header-wrap {
+  .header-actions .notification-header-wrap {
     position: relative;
     display: block;
     flex: 0 0 auto;
   }
 
   @media (max-width: 380px) {
-    .mobile-header-actions {
+    .header-actions {
       gap: 3px;
       padding: 3px;
     }
 
-    .mobile-header-actions .instagram-header-link,
-    .mobile-header-actions .facebook-header-link,
-    .mobile-header-actions .notification-header-button,
-    .mobile-header-actions .search-button,
-    .mobile-header-actions .theme-toggle {
+    .header-actions .instagram-header-link,
+    .header-actions .facebook-header-link,
+    .header-actions .notification-header-button,
+    .header-actions .search-button,
+    .header-actions .theme-toggle {
       width: 36px;
       height: 36px;
       border-radius: 10px;
     }
 
-    .mobile-header-actions .instagram-header-link svg,
-    .mobile-header-actions .facebook-header-link svg,
-    .mobile-header-actions .notification-header-button svg,
-    .mobile-header-actions .theme-toggle svg {
+    .header-actions .instagram-header-link svg,
+    .header-actions .facebook-header-link svg,
+    .header-actions .notification-header-button svg,
+    .header-actions .theme-toggle svg {
       width: 18px;
       height: 18px;
     }
 
-    .mobile-header-actions .search-icon {
+    .header-actions .search-icon {
       font-size: 22px;
     }
   }
