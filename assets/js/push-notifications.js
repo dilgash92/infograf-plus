@@ -266,16 +266,49 @@
     });
   }
 
+  function isIOSDevice() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  }
+
+  function isIOSHomeScreenWebApp() {
+    return (
+      (window.matchMedia &&
+        window.matchMedia("(display-mode: standalone)").matches) ||
+      navigator.standalone === true
+    );
+  }
+
+  function showIOSInstallHelp() {
+    window.alert(
+      "لتفعيل إشعارات Infograf+ على iPhone أو iPad:\n\n" +
+      "1. افتح Infograf+ في Safari.\n" +
+      "2. اضغط زر المشاركة (□↑).\n" +
+      "3. اختر «إضافة إلى الشاشة الرئيسية».\n" +
+      "4. فعّل «فتح كتطبيق ويب» ثم اضغط «إضافة».\n" +
+      "5. افتح Infograf+ من الأيقونة الجديدة على الشاشة الرئيسية.\n" +
+      "6. اضغط جرس الإشعارات واسمح بالإشعارات.\n\n" +
+      "مهم: على iPhone لا تعمل إشعارات الويب بالطريقة نفسها من تبويب Safari العادي؛ يجب فتح الموقع كتطبيق ويب من الشاشة الرئيسية."
+    );
+  }
+
   async function subscribe() {
     var button = getButton();
     if (!button) return;
+
+    if (isIOSDevice() && !isIOSHomeScreenWebApp()) {
+      showIOSInstallHelp();
+      return;
+    }
 
     if (
       !window.isSecureContext ||
       !("Notification" in window) ||
       !("PushManager" in window)
     ) {
-      window.alert("هذا المتصفح لا يدعم إشعارات Infograf+ بهذه الطريقة.");
+      window.alert(
+        "إشعارات Infograf+ غير متاحة في هذا المتصفح. جرّب فتح الموقع من متصفح يدعم Web Push."
+      );
       return;
     }
 
