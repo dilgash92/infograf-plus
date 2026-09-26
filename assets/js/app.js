@@ -292,6 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     actions.appendChild(mobileAbout);
     if (instagramLink) actions.appendChild(instagramLink);
     actions.appendChild(facebookLink);
+    if (notificationButton) actions.appendChild(notificationButton);
     if (searchButton) actions.appendChild(searchButton);
     if (themeToggle) actions.appendChild(themeToggle);
 
@@ -308,6 +309,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .about-header-mobile:hover, .about-header-mobile:focus-visible { background: var(--accent-light); color: var(--accent); }
         .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .notification-header-button, .mobile-header-actions .search-button, .mobile-header-actions .theme-toggle { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
         .notification-header-button { display: grid; }
+        @media (max-width: 380px) {
+          .mobile-header-actions { gap: 3px; padding: 3px; }
+          .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .notification-header-button, .mobile-header-actions .search-button, .mobile-header-actions .theme-toggle { width: 36px; height: 36px; border-radius: 10px; }
+          .mobile-header-actions .instagram-header-link svg, .mobile-header-actions .facebook-header-link svg, .mobile-header-actions .notification-header-button svg { width: 18px; height: 18px; }
+          .mobile-header-actions .search-icon { font-size: 22px; }
+        }
         .facebook-header-link { display: grid; place-items: center; background: var(--surface); color: var(--text); text-decoration: none; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
         .facebook-header-link:hover, .facebook-header-link:focus-visible { background: var(--accent-light); color: var(--accent); transform: translateY(-2px); }
         .facebook-header-link svg { width: 19px; height: 19px; display: block; fill: currentColor; }
