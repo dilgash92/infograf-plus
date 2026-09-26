@@ -1,65 +1,160 @@
-/* Infograf+ Web Push Service Worker
- * Receives encrypted Web Push payloads and displays a persistent notification.
- */
-self.addEventListener("push", function (event) {
-  event.waitUntil((async function () {
-    var data = {};
-    try {
-      data = event.data ? event.data.json() : {};
-    } catch (error) {
-      data = { title: "Infograf+", body: "إنفوغرافيك جديد على Infograf+" };
-    }
+/* Infograf+ Web Push Service Worker */
+const DB_NAME = "infograf-plus-notifications";
+const DB_VERSION = 1;
+const STORE_NAME = "notifications";
 
-    var title = data.title || "Infograf+";
-    var body = data.body || "إنفوغرافيك جديد على Infograf+";
-    var url = data.url || "/";
-    var icon = data.icon || "/assets/icons/icon.png?v=3";
-    var badge = data.badge || icon;
-    var color = data.color || "#635BFF";
-    var category = data.category || "";
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
 
-    var options = {
-      body: body,
-      icon: icon,
-      badge: badge,
-      dir: "rtl",
-      lang: "ar",
-      tag: category ? "infograf-" + category : "infograf-new",
-      renotify: true,
-      data: {
-        url: url,
-        category: category,
-        color: color
+    request.onupgradeneeded = () => {
+      const db = request.result;
+
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+        store.createIndex("createdAt", "createdAt");
+        store.createIndex("read", "read");
       }
     };
 
-    await self.registration.showNotification(title, options);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function saveNotification(notification) {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).put(notification);
+
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function markNotificationRead(id) {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.get(id);
+
+    request.onsuccess = () => {
+      if (request.result) {
+        request.result.read = true;
+        store.put(request.result);
+      }
+    };
+
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function broadcast(message) {
+  const clientList = await self.clients.matchAll({
+    type: "window",
+    includeUncontrolled: true
+  });
+
+  clientList.forEach(client => client.postMessage(message));
+}
+
+self.addEventListener("push", event => {
+  event.waitUntil((async () => {
+    let data = {};
+
+    try {
+      data = event.data ? event.data.json() : {};
+    } catch (error) {
+      data = {};
+    }
+
+    const title = data.title || "Infograf+";
+    const body = data.body || "إنفوغرافيك جديد على Infograf+";
+    const url = data.url || "/";
+    const icon = data.icon || "/assets/icons/icon.png?v=3";
+    const badge = data.badge || icon;
+    const color = data.color || "#635BFF";
+    const category = data.category || "";
+
+    const id =
+      String(data.id || "") ||
+      (Date.now() + "-" + Math.random().toString(36).slice(2));
+
+    const notification = {
+      id,
+      title,
+      body,
+      url,
+      icon,
+      badge,
+      color,
+      category,
+      createdAt: Number(data.createdAt) || Date.now(),
+      read: false
+    };
+
+    await saveNotification(notification);
+
+    await self.registration.showNotification(title, {
+      body,
+      icon,
+      badge,
+      dir: "rtl",
+      lang: "ar",
+      tag: category ? "infograf-" + category : "infograf-" + id,
+      renotify: true,
+      data: notification
+    });
+
+    await broadcast({
+      type: "infograf-notification",
+      notification
+    });
   })());
 });
 
-self.addEventListener("notificationclick", function (event) {
-  event.notification.close();
+self.addEventListener("notificationclick", event => {
+  const notification = event.notification;
+  const data = notification && notification.data
+    ? notification.data
+    : {};
 
-  var targetUrl = event.notification && event.notification.data
-    ? event.notification.data.url
-    : "/";
+  notification.close();
 
-  event.waitUntil((async function () {
-    var clientsList = await clients.matchAll({
+  event.waitUntil((async () => {
+    if (data.id) {
+      try {
+        await markNotificationRead(data.id);
+      } catch (error) {}
+    }
+
+    await broadcast({
+      type: "infograf-notification-read",
+      id: data.id || null
+    });
+
+    const targetUrl = data.url || "/";
+
+    const clientList = await self.clients.matchAll({
       type: "window",
       includeUncontrolled: true
     });
 
-    for (var i = 0; i < clientsList.length; i++) {
-      var client = clientsList[i];
+    for (const client of clientList) {
       if ("focus" in client) {
         try {
           await client.navigate(targetUrl);
         } catch (error) {}
+
         return client.focus();
       }
     }
 
-    return clients.openWindow(targetUrl);
+    return self.clients.openWindow(targetUrl);
   })());
 });
