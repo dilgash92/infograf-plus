@@ -269,6 +269,76 @@ button {
 
 
 /* =========================================================
+   Notification Header Button
+   ========================================================= */
+
+.notification-header-button {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--surface-soft);
+  color: var(--text);
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.notification-header-button:hover,
+.notification-header-button:focus-visible,
+.notification-header-button.is-subscribed {
+  background: var(--accent-light);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.notification-header-button svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.notification-status-dot {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.notification-header-button.is-subscribed .notification-status-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.notification-header-button.is-loading {
+  cursor: wait;
+  opacity: .7;
+}
+
+@media (max-width:700px) {
+  .notification-header-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+  }
+  .notification-header-button svg { width: 19px; height: 19px; }
+  .notification-status-dot { top: 7px; right: 7px; width: 6px; height: 6px; }
+}
+
+
+/* =========================================================
    Search Button
    ========================================================= */
 
