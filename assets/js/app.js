@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   "use strict";
-  // stable-header-pass
+  // stable-header-pass-v2
 
   const searchPanel = document.getElementById("search-panel");
   const openSearch = document.getElementById("open-search");
@@ -250,11 +250,6 @@ document.addEventListener("DOMContentLoaded", function () {
     image.addEventListener("dragstart", function (event) { event.preventDefault(); });
     image.addEventListener("selectstart", function (event) { event.preventDefault(); });
   });
-
-  const footerNavigation = document.querySelector(".footer-navigation");
-
-  const footerAboutLink = document.querySelector(".footer-about-link");
-  if (footerAboutLink) footerAboutLink.remove();
 
   if (searchPanel) searchPanel.hidden = true;
 
