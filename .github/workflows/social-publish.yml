@@ -29,18 +29,107 @@ jobs:
           sed -i '/^$/d' /tmp/new_posts.txt
           if [[ -s /tmp/new_posts.txt ]]; then echo 'has_posts=true' >> "$GITHUB_OUTPUT"; else echo 'has_posts=false' >> "$GITHUB_OUTPUT"; fi
 
-      - name: Wait for site
+      - name: Wait for site and post images
         if: steps.posts.outputs.has_posts == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          for attempt in {1..30}; do
-            if curl -fsS --max-time 15 "https://infografplus.com/" >/dev/null; then
+
+          site="https://infografplus.com"
+
+          echo "Waiting for the site deployment..."
+          site_ok=false
+          for attempt in {1..36}; do
+            if curl -fsS --max-time 15 "$site/" >/dev/null; then
               echo "Site is reachable."
+              site_ok=true
               break
             fi
+            echo "Site not ready yet (attempt $attempt/36)."
             sleep 10
           done
+
+          if [[ "$site_ok" != "true" ]]; then
+            echo "::error::Site did not become reachable within 6 minutes."
+            exit 1
+          fi
+
+          echo "Building the list of image URLs for the new posts..."
+          python3 - <<'PY'
+          import os, re
+
+          site = "https://infografplus.com"
+          paths = [x.strip() for x in open("/tmp/new_posts.txt", encoding="utf-8") if x.strip()]
+
+          with open("/tmp/image_urls.txt", "w", encoding="utf-8") as out:
+              for path in paths:
+                  text = open(path, encoding="utf-8").read()
+                  match = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
+                  if not match:
+                      raise SystemExit("Invalid front matter: " + path)
+
+                  data = {}
+                  for line in match.group(1).splitlines():
+                      m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
+                      if not m:
+                          continue
+                      key, value = m.groups()
+                      value = value.strip()
+                      if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+                          value = value[1:-1]
+                      data[key] = value
+
+                  image = str(data.get("image", "")).strip()
+                  if not image:
+                      raise SystemExit("Missing image in front matter: " + path)
+
+                  image_url = image if image.startswith(("http://", "https://")) else site + "/" + image.lstrip("/")
+                  out.write(image_url + "\n")
+                  print("Image to wait for: " + image_url)
+          PY
+
+          echo "Waiting for every new post image to be publicly available as an image..."
+          images_ok=false
+          for attempt in {1..60}; do
+            all_ok=true
+
+            while IFS= read -r image_url; do
+              [[ -z "$image_url" ]] && continue
+
+              headers_file=$(mktemp)
+              if ! curl -fsS --max-time 20 -D "$headers_file" -o /dev/null "$image_url"; then
+                all_ok=false
+                rm -f "$headers_file"
+                echo "Image not reachable yet: $image_url"
+                break
+              fi
+
+              content_type=$(awk 'BEGIN{IGNORECASE=1} /^Content-Type:/ {print $2}' "$headers_file" | tr -d '\r' | tail -1)
+              rm -f "$headers_file"
+
+              if [[ "$content_type" != image/* ]]; then
+                all_ok=false
+                echo "Image URL does not return an image yet ($content_type): $image_url"
+                break
+              fi
+
+              echo "Image ready: $image_url ($content_type)"
+            done < /tmp/image_urls.txt
+
+            if [[ "$all_ok" == "true" ]]; then
+              images_ok=true
+              echo "All new post images are live and return image content types."
+              break
+            fi
+
+            echo "Images not ready yet (attempt $attempt/60). Waiting 5 seconds..."
+            sleep 5
+          done
+
+          if [[ "$images_ok" != "true" ]]; then
+            echo "::error::One or more post images did not become publicly available as images within 5 minutes."
+            exit 1
+          fi
 
       - name: Publish to Facebook and Instagram
         if: steps.posts.outputs.has_posts == 'true'
