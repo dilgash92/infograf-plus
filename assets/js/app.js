@@ -299,8 +299,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .mobile-header-actions { display: contents; }
       .about-header-mobile, .facebook-header-link { display: none; }
       @media (max-width: 700px) {
-        .header-inner { gap: 0; }
-        .mobile-header-actions { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 5px; margin: 0; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; z-index: 2; }
+        .header-inner { position: relative; gap: 0; }
+        .mobile-header-actions { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); display: flex !important; align-items: center; justify-content: flex-start; gap: 5px; width: max-content; max-width: calc(100% - 20px); margin: 0; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; z-index: 10; overflow: visible; }
         .mobile-header-actions .notification-header-wrap { position: relative !important; display: block !important; flex: 0 0 auto; flex-shrink: 0; z-index: 3; }
         .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .notification-header-button, .mobile-header-actions .search-button, .mobile-header-actions .theme-toggle { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
         .mobile-header-actions .notification-header-button { margin: 0; }
