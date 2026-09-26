@@ -325,6 +325,34 @@ document.addEventListener("DOMContentLoaded", function () {
   const footerAboutLink = document.querySelector(".footer-about-link");
   if (footerAboutLink) footerAboutLink.remove();
 
+  /* Final mobile header cleanup: keep only the five intended action controls. */
+  (function stabilizeHeaderActions() {
+    const header = document.querySelector(".header-inner");
+    if (!header) return;
+
+    const actions = header.querySelector(".mobile-header-actions");
+    if (!actions) return;
+
+    const instagram = actions.querySelector(".instagram-header-link");
+    const facebook = actions.querySelector(".facebook-header-link");
+    const notification = actions.querySelector(".notification-header-wrap");
+    const search = actions.querySelector("#open-search");
+    const theme = actions.querySelector("#theme-toggle");
+
+    Array.from(actions.children).forEach(function (child) {
+      if (child !== instagram && child !== facebook && child !== notification && child !== search && child !== theme) {
+        child.remove();
+      }
+    });
+
+    const ordered = [instagram, facebook, notification, search, theme].filter(Boolean);
+    ordered.forEach(function (item) { actions.appendChild(item); });
+
+    header.querySelectorAll(".about-header-mobile, [data-nav-about="true"]").forEach(function (item) {
+      item.remove();
+    });
+  })();
+
   if (searchPanel) searchPanel.hidden = true;
 
   console.log("Infograf+ loaded successfully.");
