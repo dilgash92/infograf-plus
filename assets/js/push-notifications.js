@@ -10,7 +10,7 @@
    */
   var CONFIG = {
     subscribeEndpoint: "https://calm-dream-ae41.dilgash-ibrahim.workers.dev/api/push/subscribe",
-    vapidPublicKey: ""
+    vapidPublicKey: "BDoEDt_pE-834xoltoSLEfj9wCXNJszfxHy1I7rfZ8FOcF7i1f0EnIBxez2U3Up9pRCAYhicfcvu2GcVnhxS7e4"
   };
 
   var CATEGORY_COLORS = {
