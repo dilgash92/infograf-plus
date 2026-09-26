@@ -1,6 +1,7 @@
 name: Social publishing
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths: ['_posts/**.md']
@@ -20,11 +21,16 @@ jobs:
         id: posts
         shell: bash
         run: |
-          BEFORE="${{ github.event.before }}"
-          if [[ "$BEFORE" =~ ^0+$ ]]; then
-            git diff-tree --no-commit-id --name-only -r --diff-filter=A "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # Manual run: process the newest post so a previously failed post can be republished.
+            ls -1t _posts/*.md | head -n 1 > /tmp/new_posts.txt
           else
-            git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true
+            BEFORE="${{ github.event.before }}"
+            if [[ "$BEFORE" =~ ^0+$ ]]; then
+              git diff-tree --no-commit-id --name-only -r --diff-filter=A "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true
+            else
+              git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true
+            fi
           fi
           sed -i '/^$/d' /tmp/new_posts.txt
           if [[ -s /tmp/new_posts.txt ]]; then echo 'has_posts=true' >> "$GITHUB_OUTPUT"; else echo 'has_posts=false' >> "$GITHUB_OUTPUT"; fi
