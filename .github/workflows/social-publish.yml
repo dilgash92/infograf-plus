@@ -20,7 +20,7 @@ jobs:
         id: posts
         shell: bash
         run: |
-          BEFORE="\${{ github.event.before }}"
+          BEFORE="${{ github.event.before }}"
           if [[ "$BEFORE" =~ ^0+$ ]]; then
             git diff-tree --no-commit-id --name-only -r --diff-filter=A "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true
           else
@@ -45,11 +45,11 @@ jobs:
       - name: Publish to Facebook and Instagram
         if: steps.posts.outputs.has_posts == 'true'
         env:
-          AUTOMATION_SECRET: \${{ secrets.AUTOMATION_SECRET }}
+          AUTOMATION_SECRET: ${{ secrets.AUTOMATION_SECRET }}
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "\${AUTOMATION_SECRET:-}" ]]; then
+          if [[ -z "${AUTOMATION_SECRET:-}" ]]; then
             echo "::error::GitHub Secret AUTOMATION_SECRET is missing."
             exit 1
           fi
