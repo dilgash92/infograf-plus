@@ -15,32 +15,124 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Find new posts
         id: posts
+        shell: bash
         run: |
-          BEFORE="${{ github.event.before }}"
-          if [[ "$BEFORE" =~ ^0+$ ]]; then git diff-tree --no-commit-id --name-only -r --diff-filter=A "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true; else git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true; fi
+          BEFORE="\${{ github.event.before }}"
+          if [[ "$BEFORE" =~ ^0+$ ]]; then
+            git diff-tree --no-commit-id --name-only -r --diff-filter=A "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true
+          else
+            git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- '_posts/*.md' > /tmp/new_posts.txt || true
+          fi
           sed -i '/^$/d' /tmp/new_posts.txt
           if [[ -s /tmp/new_posts.txt ]]; then echo 'has_posts=true' >> "$GITHUB_OUTPUT"; else echo 'has_posts=false' >> "$GITHUB_OUTPUT"; fi
-      - name: Publish
+
+      - name: Wait for site
+        if: steps.posts.outputs.has_posts == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in {1..30}; do
+            if curl -fsS --max-time 15 "https://infografplus.com/" >/dev/null; then
+              echo "Site is reachable."
+              break
+            fi
+            sleep 10
+          done
+
+      - name: Publish to Facebook and Instagram
         if: steps.posts.outputs.has_posts == 'true'
         env:
-          AUTOMATION_SECRET: ${{ secrets.AUTOMATION_SECRET }}
+          AUTOMATION_SECRET: \${{ secrets.AUTOMATION_SECRET }}
+        shell: bash
         run: |
+          set -euo pipefail
+          if [[ -z "\${AUTOMATION_SECRET:-}" ]]; then
+            echo "::error::GitHub Secret AUTOMATION_SECRET is missing."
+            exit 1
+          fi
+
           python3 - <<'PY'
-          import json, os, re, urllib.request
-          site='https://infografplus.com'; worker='https://calm-dream-ae41.dilgash-ibrahim.workers.dev'
-          for path in [x.strip() for x in open('/tmp/new_posts.txt', encoding='utf-8') if x.strip()]:
-              text=open(path, encoding='utf-8').read(); fm=re.match(r'^---\\s*\\n(.*?)\\n---', text, re.S).group(1)
-              d={}
-              for line in fm.splitlines():
-                  m=re.match(r'^([A-Za-z0-9_-]+):\\s*(.*)$', line)
-                  if m: d[m.group(1)]=m.group(2).strip().strip('"')
-              slug=d.get('slug') or re.sub(r'^\\d{4}-\\d{2}-\\d{2}-','',os.path.basename(path)[:-3])
-              image=d.get('image',''); image=image if image.startswith('http') else site+'/'+image.lstrip('/')
-              url=f'{site}/i/{slug}/'; caption='\\n\\n'.join(x for x in [d.get('title',''),d.get('description',''),url] if x)
-              req=urllib.request.Request(worker+'/api/social/publish', data=json.dumps({'image_url':image,'caption':caption},ensure_ascii=False).encode(), method='POST', headers={'Content-Type':'application/json','X-Automation-Key':os.environ['AUTOMATION_SECRET']})
-              with urllib.request.urlopen(req, timeout=120) as r: result=json.load(r)
-              print(json.dumps(result, ensure_ascii=False))
-              if not result.get('ok'): raise SystemExit(1)
+          import json, os, re, sys, urllib.error, urllib.request
+
+          site = "https://infografplus.com"
+          worker = "https://calm-dream-ae41.dilgash-ibrahim.workers.dev"
+          secret = os.environ["AUTOMATION_SECRET"]
+
+          def read_post(path):
+              text = open(path, encoding="utf-8").read()
+              match = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
+              if not match:
+                  raise ValueError("Invalid front matter: " + path)
+              data = {}
+              for line in match.group(1).splitlines():
+                  m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
+                  if not m:
+                      continue
+                  key, value = m.groups()
+                  value = value.strip()
+                  if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+                      value = value[1:-1]
+                  data[key] = value
+              return data
+
+          paths = [x.strip() for x in open("/tmp/new_posts.txt", encoding="utf-8") if x.strip()]
+
+          for path in paths:
+              data = read_post(path)
+              slug = str(data.get("slug", "")).strip()
+
+              if not slug:
+                  filename = os.path.basename(path)
+                  slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", re.sub(r"\.md$", "", filename))
+
+              post_url = site + "/i/" + slug + "/"
+              image = str(data.get("image", "")).strip()
+              image_url = image if image.startswith(("http://", "https://")) else site + "/" + image.lstrip("/")
+
+              title = str(data.get("title", "")).strip()
+              description = str(data.get("description", "")).strip()
+              caption = "\n\n".join(x for x in (title, description, post_url) if x)
+
+              payload = json.dumps({"image_url": image_url, "caption": caption}, ensure_ascii=False).encode("utf-8")
+
+              print("Publishing: " + path)
+              print("Image: " + image_url)
+              print("URL: " + post_url)
+
+              request = urllib.request.Request(
+                  worker + "/api/social/publish",
+                  data=payload,
+                  method="POST",
+                  headers={
+                      "Content-Type": "application/json",
+                      "Accept": "application/json",
+                      "X-Automation-Key": secret,
+                      "User-Agent": "Infograf-Plus-GitHub-Actions"
+                  }
+              )
+
+              try:
+                  with urllib.request.urlopen(request, timeout=120) as response:
+                      raw = response.read().decode("utf-8")
+                      status = response.status
+              except urllib.error.HTTPError as exc:
+                  raw = exc.read().decode("utf-8", errors="replace")
+                  status = exc.code
+
+              print(raw)
+
+              try:
+                  result = json.loads(raw)
+              except json.JSONDecodeError:
+                  print("::error::Worker returned invalid JSON.")
+                  sys.exit(1)
+
+              if status < 200 or status >= 300 or not result.get("ok"):
+                  print("::error::Social publishing failed.")
+                  sys.exit(1)
+
+          print("All new posts published successfully.")
           PY
