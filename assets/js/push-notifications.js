@@ -1,17 +1,14 @@
 (function () {
   "use strict";
 
-  /*
-   * Web Push client for Infograf+.
-   *
-   * The UI is enabled now. The server endpoint and VAPID public key are
-   * intentionally kept as configuration so they can be connected to the
-   * Cloudflare Worker without exposing any private key in the website.
-   */
   var CONFIG = {
     subscribeEndpoint: "https://calm-dream-ae41.dilgash-ibrahim.workers.dev/api/push/subscribe",
     vapidPublicKey: "BDoEDt_pE-834xoltoSLEfj9wCXNJszfxHy1I7rfZ8FOcF7i1f0EnIBxez2U3Up9pRCAYhicfcvu2GcVnhxS7e4"
   };
+
+  var DB_NAME = "infograf-plus-notifications";
+  var DB_VERSION = 1;
+  var STORE_NAME = "notifications";
 
   var CATEGORY_COLORS = {
     "صحة": "#22A06B",
@@ -26,9 +23,10 @@
     "تقنية": "#13CBFF"
   };
 
-  function getButton() {
-    return document.getElementById("notification-toggle");
-  }
+  function getButton() { return document.getElementById("notification-toggle"); }
+  function getPanel() { return document.getElementById("notification-panel"); }
+  function getList() { return document.getElementById("notification-list"); }
+  function getBadge() { return document.getElementById("notification-badge"); }
 
   function setState(button, subscribed, loading) {
     if (!button) return;
@@ -36,13 +34,17 @@
     button.classList.toggle("is-loading", !!loading);
     button.disabled = !!loading;
 
-    if (subscribed) {
-      button.setAttribute("aria-label", "إشعارات Infograf+ مفعّلة");
-      button.setAttribute("title", "إشعارات Infograf+ مفعّلة");
-    } else {
-      button.setAttribute("aria-label", "تفعيل إشعارات Infograf+");
-      button.setAttribute("title", "تفعيل إشعارات Infograf+");
-    }
+    var panel = getPanel();
+    if (panel) button.setAttribute("aria-expanded", String(!panel.hidden));
+
+    button.setAttribute(
+      "aria-label",
+      subscribed ? "فتح إشعارات Infograf+" : "تفعيل إشعارات Infograf+"
+    );
+    button.setAttribute(
+      "title",
+      subscribed ? "إشعارات Infograf+" : "تفعيل إشعارات Infograf+"
+    );
   }
 
   function urlBase64ToUint8Array(base64String) {
@@ -56,20 +58,187 @@
     return outputArray;
   }
 
+  function openDB() {
+    return new Promise(function (resolve, reject) {
+      if (!("indexedDB" in window)) {
+        reject(new Error("indexeddb_unsupported"));
+        return;
+      }
+
+      var request = indexedDB.open(DB_NAME, DB_VERSION);
+
+      request.onupgradeneeded = function () {
+        var db = request.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) {
+          var store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+          store.createIndex("createdAt", "createdAt");
+          store.createIndex("read", "read");
+        }
+      };
+
+      request.onsuccess = function () { resolve(request.result); };
+      request.onerror = function () { reject(request.error); };
+    });
+  }
+
+  async function getNotifications() {
+    var db = await openDB();
+
+    return new Promise(function (resolve, reject) {
+      var tx = db.transaction(STORE_NAME, "readonly");
+      var request = tx.objectStore(STORE_NAME).getAll();
+
+      request.onsuccess = function () {
+        var items = request.result || [];
+        items.sort(function (a, b) { return b.createdAt - a.createdAt; });
+        resolve(items);
+      };
+
+      request.onerror = function () { reject(request.error); };
+    });
+  }
+
+  async function setRead(id, read) {
+    var db = await openDB();
+
+    return new Promise(function (resolve, reject) {
+      var tx = db.transaction(STORE_NAME, "readwrite");
+      var store = tx.objectStore(STORE_NAME);
+      var request = store.get(id);
+
+      request.onsuccess = function () {
+        if (!request.result) return;
+        request.result.read = !!read;
+        store.put(request.result);
+      };
+
+      tx.oncomplete = resolve;
+      tx.onerror = function () { reject(tx.error); };
+    });
+  }
+
+  function formatTime(timestamp) {
+    try {
+      return new Intl.DateTimeFormat("ar-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(new Date(timestamp));
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value || "").replace(/[&<>"]/g, function (char) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;"
+      }[char];
+    });
+  }
+
+  function updateBadge(items) {
+    var badge = getBadge();
+    if (!badge) return;
+
+    var count = items.filter(function (item) {
+      return !item.read;
+    }).length;
+
+    badge.textContent = count > 99 ? "99+" : String(count);
+    badge.hidden = count === 0;
+
+    var button = getButton();
+    if (button) {
+      button.setAttribute(
+        "aria-label",
+        count ? "الإشعارات، " + count + " غير مقروءة" : "فتح إشعارات Infograf+"
+      );
+    }
+  }
+
+  async function refreshNotifications() {
+    try {
+      var items = await getNotifications();
+      updateBadge(items);
+
+      var list = getList();
+      if (!list) return;
+
+      if (!items.length) {
+        list.innerHTML = '<div class="notification-empty">لا توجد إشعارات بعد.</div>';
+        return;
+      }
+
+      list.innerHTML = items.slice(0, 20).map(function (item) {
+        var unreadClass = item.read ? "" : " is-unread";
+
+        return (
+          '<a class="notification-item' + unreadClass + '" href="' +
+          escapeHtml(item.url || "/") +
+          '" data-notification-id="' + escapeHtml(item.id) + '">' +
+            '<span class="notification-item-dot" aria-hidden="true"></span>' +
+            '<span class="notification-item-content">' +
+              '<strong>' + escapeHtml(item.title || "Infograf+") + "</strong>" +
+              '<span>' + escapeHtml(item.body || "إنفوغرافيك جديد على Infograf+") + "</span>" +
+              '<time>' + escapeHtml(formatTime(item.createdAt)) + "</time>" +
+            "</span>" +
+          "</a>"
+        );
+      }).join("");
+
+      Array.from(list.querySelectorAll(".notification-item")).forEach(function (item) {
+        item.addEventListener("click", function () {
+          var id = item.getAttribute("data-notification-id");
+          if (!id) return;
+          setRead(id, true).then(refreshNotifications).catch(function () {});
+        });
+      });
+    } catch (error) {
+      console.warn("Infograf+ notification history error:", error);
+    }
+  }
+
+  function togglePanel(forceOpen) {
+    var panel = getPanel();
+    var button = getButton();
+    if (!panel) return;
+
+    var open = forceOpen === undefined ? panel.hidden : !!forceOpen;
+    panel.hidden = !open;
+
+    if (button) {
+      button.setAttribute("aria-expanded", String(open));
+    }
+
+    if (open) refreshNotifications();
+  }
+
   async function getRegistration() {
-    if (!("serviceWorker" in navigator)) throw new Error("service_worker_unsupported");
+    if (!("serviceWorker" in navigator)) {
+      throw new Error("service_worker_unsupported");
+    }
+
     return navigator.serviceWorker.register("/sw.js", { scope: "/" });
   }
 
   async function getExistingSubscription() {
     if (!("serviceWorker" in navigator)) return null;
+
     var registration = await navigator.serviceWorker.getRegistration("/");
     if (!registration || !registration.pushManager) return null;
+
     return registration.pushManager.getSubscription();
   }
 
   async function saveSubscription(subscription) {
-    if (!CONFIG.subscribeEndpoint) throw new Error("push_endpoint_missing");
+    if (!CONFIG.subscribeEndpoint) {
+      throw new Error("push_endpoint_missing");
+    }
 
     var response = await fetch(CONFIG.subscribeEndpoint, {
       method: "POST",
@@ -83,27 +252,35 @@
 
     if (!response.ok) {
       var message = "push_subscription_failed";
+
       try {
         var data = await response.json();
         if (data && data.error) message = data.error;
       } catch (error) {}
+
       throw new Error(message);
     }
 
-    return response.json().catch(function () { return { ok: true }; });
+    return response.json().catch(function () {
+      return { ok: true };
+    });
   }
 
   async function subscribe() {
     var button = getButton();
     if (!button) return;
 
-    if (!window.isSecureContext || !("Notification" in window) || !("PushManager" in window)) {
+    if (
+      !window.isSecureContext ||
+      !("Notification" in window) ||
+      !("PushManager" in window)
+    ) {
       window.alert("هذا المتصفح لا يدعم إشعارات Infograf+ بهذه الطريقة.");
       return;
     }
 
     if (!CONFIG.vapidPublicKey) {
-      window.alert("زر الإشعارات جاهز، لكن خدمة الإشعارات لم تُربط بالخادم بعد.");
+      window.alert("زر الإشعارات جاهز، لكن مفتاح VAPID العام غير مضبوط.");
       return;
     }
 
@@ -111,6 +288,7 @@
 
     try {
       var permission = Notification.permission;
+
       if (permission !== "granted") {
         permission = await Notification.requestPermission();
       }
@@ -132,7 +310,9 @@
       }
 
       await saveSubscription(subscription);
+
       setState(button, true, false);
+      togglePanel(true);
     } catch (error) {
       console.error("Infograf+ push subscription error:", error);
       window.alert("تعذر تفعيل الإشعارات حاليًا. حاول مرة أخرى لاحقًا.");
@@ -140,18 +320,79 @@
     }
   }
 
-  async function init() {
+  async function handleButtonClick() {
+    var existing = null;
+
+    try {
+      existing = await getExistingSubscription();
+    } catch (error) {}
+
+    if (existing && Notification.permission === "granted") {
+      togglePanel();
+      return;
+    }
+
+    await subscribe();
+  }
+
+  function init() {
     var button = getButton();
     if (!button) return;
 
-    setState(button, false, false);
+    getExistingSubscription()
+      .then(function (existing) {
+        setState(
+          button,
+          !!existing && Notification.permission === "granted",
+          false
+        );
+      })
+      .catch(function () {});
 
-    try {
-      var existing = await getExistingSubscription();
-      setState(button, !!existing && Notification.permission === "granted", false);
-    } catch (error) {}
+    button.addEventListener("click", handleButtonClick);
 
-    button.addEventListener("click", subscribe);
+    var markReadButton = document.getElementById("notification-mark-read");
+    if (markReadButton) {
+      markReadButton.addEventListener("click", function () {
+        getNotifications()
+          .then(function (items) {
+            return Promise.all(
+              items
+                .filter(function (item) { return !item.read; })
+                .map(function (item) { return setRead(item.id, true); })
+            );
+          })
+          .then(refreshNotifications)
+          .catch(function () {});
+      });
+    }
+
+    document.addEventListener("click", function (event) {
+      var panel = getPanel();
+      if (!panel || panel.hidden) return;
+
+      if (
+        !panel.contains(event.target) &&
+        !button.contains(event.target)
+      ) {
+        togglePanel(false);
+      }
+    });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.addEventListener("message", function (event) {
+        if (!event.data) return;
+
+        if (
+          event.data.type === "infograf-notification" ||
+          event.data.type === "infograf-notification-read"
+        ) {
+          refreshNotifications();
+        }
+      });
+    }
+
+    refreshNotifications();
   }
 
   window.InfografPush = {
