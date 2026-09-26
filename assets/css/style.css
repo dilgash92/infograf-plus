@@ -231,27 +231,21 @@ button {
 
 @media (max-width: 700px) {
   .header-inner {
-    position: relative;
-    gap: 0;
+    gap: 10px;
   }
 
   .header-actions {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 5px;
-    width: max-content;
-    max-width: calc(100% - 20px);
+    position: static;
+    transform: none;
+    width: auto;
+    max-width: none;
     margin: 0;
-    padding: 4px;
-    border-radius: 15px;
-    background: var(--surface-soft);
-    z-index: 20;
-    direction: ltr;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    z-index: auto;
+    gap: 5px;
+    flex-shrink: 1;
   }
 
   .header-actions .instagram-header-link,
@@ -262,14 +256,14 @@ button {
     width: 40px;
     height: 40px;
     margin: 0;
-    flex: 0 0 auto;
+    flex: 0 0 40px;
     border-radius: 11px;
   }
 
   .header-actions .facebook-header-link {
     display: grid;
     place-items: center;
-    background: var(--surface);
+    background: var(--surface-soft);
     color: var(--text);
     text-decoration: none;
   }
@@ -284,13 +278,24 @@ button {
   .header-actions .notification-header-wrap {
     position: relative;
     display: block;
-    flex: 0 0 auto;
+    flex: 0 0 40px;
   }
 
   @media (max-width: 380px) {
+    .header-inner {
+      gap: 6px;
+    }
+
+    .brand {
+      font-size: 18px;
+      letter-spacing: -0.6px;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+
     .header-actions {
-      gap: 3px;
-      padding: 3px;
+      gap: 2px;
+      flex-shrink: 0;
     }
 
     .header-actions .instagram-header-link,
@@ -298,21 +303,26 @@ button {
     .header-actions .notification-header-button,
     .header-actions .search-button,
     .header-actions .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 32px;
+      height: 32px;
+      flex-basis: 32px;
+      border-radius: 9px;
+    }
+
+    .header-actions .notification-header-wrap {
+      flex-basis: 32px;
     }
 
     .header-actions .instagram-header-link svg,
     .header-actions .facebook-header-link svg,
     .header-actions .notification-header-button svg,
     .header-actions .theme-toggle svg {
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
     }
 
     .header-actions .search-icon {
-      font-size: 22px;
+      font-size: 20px;
     }
   }
 }
