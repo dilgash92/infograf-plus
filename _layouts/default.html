@@ -254,98 +254,106 @@
       </nav>
 
 
-      <!-- Instagram -->
-      <a
-        href="https://www.instagram.com/infografplus"
-        class="instagram-header-link"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Instagram - Infograf+"
-        title="Instagram - Infograf+"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <rect
-            x="3"
-            y="3"
-            width="18"
-            height="18"
-            rx="5"
-            ry="5"
-          ></rect>
-
-          <circle
-            cx="12"
-            cy="12"
-            r="4"
-          ></circle>
-
-          <circle
-            cx="17.5"
-            cy="6.5"
-            r="1"
-          ></circle>
-        </svg>
-      </a>
-
-
-      <!-- Notifications -->
-      <div class="notification-header-wrap">
-        <button
-          type="button"
-          class="notification-header-button"
-          id="notification-toggle"
-          aria-label="تفعيل إشعارات Infograf+"
-          title="إشعارات Infograf+"
-          aria-expanded="false"
-          aria-controls="notification-panel"
+      <div class="mobile-header-actions" aria-label="إجراءات الموقع">
+        <!-- Instagram -->
+        <a
+          href="https://www.instagram.com/infografplus"
+          class="instagram-header-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram - Infograf+"
+          title="Instagram - Infograf+"
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
-            <path d="M10 21h4"></path>
+            <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="1"></circle>
           </svg>
-          <span class="notification-status-dot" aria-hidden="true"></span>
-          <span class="notification-badge" id="notification-badge" hidden>0</span>
-        </button>
+        </a>
 
-        <div
-          class="notification-panel"
-          id="notification-panel"
-          hidden
-          aria-label="إشعارات Infograf+"
+        <!-- Facebook -->
+        <a
+          href="https://www.facebook.com/infografplus"
+          class="facebook-header-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook - Infograf+"
+          title="Facebook - Infograf+"
         >
-          <div class="notification-panel-header">
-            <strong>الإشعارات</strong>
-            <button
-              type="button"
-              id="notification-mark-read"
-              class="notification-mark-read"
-            >
-              تحديد الكل كمقروء
-            </button>
-          </div>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M14 8h3V4h-3c-3.31 0-5 1.69-5 5v3H6v4h3v6h4v-6h3.2l.8-4H13V9c0-.67.33-1 1-1z"></path>
+          </svg>
+        </a>
 
-          <div id="notification-list" class="notification-list">
-            <div class="notification-empty">لا توجد إشعارات بعد.</div>
+        <!-- Notifications -->
+        <div class="notification-header-wrap">
+          <button
+            type="button"
+            class="notification-header-button"
+            id="notification-toggle"
+            aria-label="تفعيل إشعارات Infograf+"
+            title="إشعارات Infograf+"
+            aria-expanded="false"
+            aria-controls="notification-panel"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+              <path d="M10 21h4"></path>
+            </svg>
+            <span class="notification-status-dot" aria-hidden="true"></span>
+            <span class="notification-badge" id="notification-badge" hidden>0</span>
+          </button>
+
+          <div
+            class="notification-panel"
+            id="notification-panel"
+            hidden
+            aria-label="إشعارات Infograf+"
+          >
+            <div class="notification-panel-header">
+              <strong>الإشعارات</strong>
+              <button
+                type="button"
+                id="notification-mark-read"
+                class="notification-mark-read"
+              >
+                تحديد الكل كمقروء
+              </button>
+            </div>
+
+            <div id="notification-list" class="notification-list">
+              <div class="notification-empty">لا توجد إشعارات بعد.</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Search -->
-      <button
-        type="button"
-        class="search-button"
-        id="open-search"
-        aria-label="فتح البحث"
-      >
-        <span
-          class="search-icon"
-          aria-hidden="true"
-        >⌕</span>
-      </button>
+        <!-- Search -->
+        <button
+          type="button"
+          class="search-button"
+          id="open-search"
+          aria-label="فتح البحث"
+        >
+          <span class="search-icon" aria-hidden="true">⌕</span>
+        </button>
+
+        <!-- Dark mode -->
+        <button
+          type="button"
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="تفعيل الوضع الداكن"
+          title="الوضع الداكن"
+        >
+          <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z"></path>
+          </svg>
+        </button>
+      </div>
 
     </div>
   </header>
