@@ -189,7 +189,44 @@ button {
 }
 
 .facebook-header-link {
-  display: none;
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: var(--surface-soft);
+
+  color: var(--text);
+
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.facebook-header-link:hover {
+  background: var(--accent-light);
+
+  color: var(--accent);
+
+  transform: translateY(-2px);
+}
+
+.facebook-header-link svg {
+  width: 21px;
+  height: 21px;
+
+  display: block;
+
+  fill: currentColor;
 }
 
 @media (max-width: 700px) {
