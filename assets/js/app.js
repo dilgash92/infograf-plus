@@ -348,9 +348,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const ordered = [instagram, facebook, notification, search, theme].filter(Boolean);
     ordered.forEach(function (item) { actions.appendChild(item); });
 
-    header.querySelectorAll(".about-header-mobile, [data-nav-about="true"]").forEach(function (item) {
-      item.remove();
-    });
+    header.querySelectorAll(".about-header-mobile").forEach(function (item) { item.remove(); });
+    header.querySelectorAll("[data-nav-about]").forEach(function (item) { item.remove(); });
   })();
 
   if (searchPanel) searchPanel.hidden = true;
