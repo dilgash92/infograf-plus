@@ -165,10 +165,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css?v=20260927-13">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/dark-mode.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap">
   <script src="{{ site.baseurl }}/assets/js/dark-mode.js?v=20260927-2" defer></script>
+  <style>
+    /* Legacy-cache guard: older app.js versions injected this link into the header. */
+    .site-header .about-header-mobile {
+      display: none !important;
+      visibility: hidden !important;
+      width: 0 !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -589,7 +601,7 @@
       </div>
 
 
-      <nav class="footer-navigation" aria-label="روابط الموقع">
+      <nav class="footer-links" aria-label="روابط الموقع">
 
         <a href="{{ site.baseurl }}/">
           الرئيسية
@@ -607,6 +619,9 @@
           من نحن
         </a>
 
+        <a href="{{ site.baseurl }}/impressum/">
+          Impressum
+        </a>
 
       </nav>
 
@@ -621,10 +636,10 @@
 
 
 
-  <script src="{{ site.baseurl }}/assets/js/push-notifications.js?v=20260927-2" defer></script>
+  <script src="{{ site.baseurl }}/assets/js/push-notifications.js?v=20260927-3" defer></script>
 
   <script
-    src="{{ site.baseurl }}/assets/js/app.js?v=20260927-12"
+    src="{{ site.baseurl }}/assets/js/app.js?v=20260927-13"
     defer
   ></script>
 
