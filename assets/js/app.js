@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .about-header-mobile, .facebook-header-link { display: none; }
       @media (max-width: 700px) {
         .header-inner { gap: 0; }
-        .mobile-header-actions { display: flex; align-items: center; gap: 5px; margin-inline-start: auto; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; }
+        .mobile-header-actions { display: flex; align-items: center; gap: 5px; margin-inline-start: auto; margin-right: 12px; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; }
         .mobile-header-actions .notification-header-wrap { position: relative; display: block; flex-shrink: 0; }
         .about-header-mobile { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 10px; border-radius: 11px; background: var(--surface); color: var(--text); font-size: 11px; font-weight: 700; white-space: nowrap; text-decoration: none; flex-shrink: 0; }
         .about-header-mobile:hover, .about-header-mobile:focus-visible { background: var(--accent-light); color: var(--accent); }
