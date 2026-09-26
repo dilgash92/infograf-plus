@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const instagramLink = headerInner.querySelector(".instagram-header-link");
     const searchButton = headerInner.querySelector(".search-button");
-    const notificationButton = headerInner.querySelector("#notification-toggle");
+    const notificationWrap = headerInner.querySelector(".notification-header-wrap");
     const themeToggle = headerInner.querySelector("#theme-toggle");
 
     const facebookLink = document.createElement("a");
@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     actions.appendChild(mobileAbout);
     if (instagramLink) actions.appendChild(instagramLink);
     actions.appendChild(facebookLink);
-    if (notificationButton) actions.appendChild(notificationButton);
+    if (notificationWrap) actions.appendChild(notificationWrap);
     if (searchButton) actions.appendChild(searchButton);
     if (themeToggle) actions.appendChild(themeToggle);
 
@@ -304,10 +304,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .about-header-mobile, .facebook-header-link { display: none; }
       @media (max-width: 700px) {
         .header-inner { gap: 0; }
-        .mobile-header-actions { display: flex; align-items: center; gap: 5px; margin-inline-start: auto; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; }
+        .mobile-header-actions { display: flex; align-items: center; gap: 5px; margin-inline-start: auto; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; }
+        .mobile-header-actions .notification-header-wrap { position: relative; display: block; flex-shrink: 0; }
         .about-header-mobile { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 10px; border-radius: 11px; background: var(--surface); color: var(--text); font-size: 11px; font-weight: 700; white-space: nowrap; text-decoration: none; flex-shrink: 0; }
         .about-header-mobile:hover, .about-header-mobile:focus-visible { background: var(--accent-light); color: var(--accent); }
         .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .notification-header-button, .mobile-header-actions .search-button, .mobile-header-actions .theme-toggle { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
+        .mobile-header-actions .notification-header-button { margin: 0; }
         .notification-header-button { display: grid; }
         @media (max-width: 380px) {
           .mobile-header-actions { gap: 3px; padding: 3px; }
