@@ -264,6 +264,9 @@ document.addEventListener("DOMContentLoaded", function () {
     desktopNavigation.appendChild(aboutLink);
   }
 
+  const staleMobileAbout = document.querySelector(".about-header-mobile");
+  if (staleMobileAbout) staleMobileAbout.remove();
+
   const headerInner = document.querySelector(".header-inner");
   if (headerInner && !headerInner.querySelector(".mobile-header-actions")) {
     const instagramLink = headerInner.querySelector(".instagram-header-link");
@@ -297,8 +300,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .about-header-mobile, .facebook-header-link { display: none; }
       @media (max-width: 700px) {
         .header-inner { gap: 0; }
-        .mobile-header-actions { position: absolute; left: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 5px; margin: 0; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; }
-        .mobile-header-actions .notification-header-wrap { position: relative; display: block; flex-shrink: 0; }
+        .mobile-header-actions { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 5px; margin: 0; padding: 4px; border-radius: 15px; background: var(--surface-soft); flex-shrink: 0; direction: ltr; z-index: 2; }
+        .mobile-header-actions .notification-header-wrap { position: relative !important; display: block !important; flex: 0 0 auto; flex-shrink: 0; z-index: 3; }
         .mobile-header-actions .instagram-header-link, .mobile-header-actions .facebook-header-link, .mobile-header-actions .notification-header-button, .mobile-header-actions .search-button, .mobile-header-actions .theme-toggle { width: 40px; height: 40px; margin: 0; border-radius: 11px; flex-shrink: 0; }
         .mobile-header-actions .notification-header-button { margin: 0; }
         .notification-header-button { display: grid; }
@@ -317,11 +320,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const footerNavigation = document.querySelector(".footer-navigation");
-  if (footerNavigation) {
-    Array.from(footerNavigation.children).forEach(function (link) {
-      if (link.textContent.trim() !== "من نحن") link.remove();
-    });
-  }
 
   const footerAboutLink = document.querySelector(".footer-about-link");
   if (footerAboutLink) footerAboutLink.remove();
