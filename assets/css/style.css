@@ -2676,12 +2676,18 @@ button {
   pointer-events: none;
 }
 
+.notification-header-wrap {
+  position: relative;
+}
+
 .notification-panel {
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
   z-index: 1000;
   width: min(380px, calc(100vw - 28px));
+  max-width: calc(100vw - 20px);
+  box-sizing: border-box;
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -2798,6 +2804,8 @@ button {
     position: fixed;
     top: 66px;
     right: 14px;
-    width: min(380px, calc(100vw - 28px));
+    left: 14px;
+    width: auto;
+    max-width: none;
   }
 }
