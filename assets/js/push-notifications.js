@@ -374,11 +374,16 @@
 
     getExistingSubscription()
       .then(function (existing) {
-        setState(
-          button,
-          !!existing && Notification.permission === "granted",
-          false
-        );
+        var subscribed = !!existing && Notification.permission === "granted";
+        setState(button, subscribed, false);
+
+        // Re-sync an existing subscription with the current Worker/KV.
+        // This repairs subscriptions created before the Worker/KV fix.
+        if (subscribed) {
+          saveSubscription(existing).catch(function (error) {
+            console.warn("Infograf+ push subscription sync error:", error);
+          });
+        }
       })
       .catch(function () {});
 
