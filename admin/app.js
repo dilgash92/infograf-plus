@@ -543,7 +543,7 @@
         // not the UTC date, which can be one day earlier/later around midnight.
         const filename = `${date.slice(0, 10)}-${slug}.md`;
         const path = `_posts/${filename}`;
-        await api('/api/file', {
+        const saveResult = await api('/api/file', {
           method: 'PUT',
           body: JSON.stringify({
             path,
@@ -551,6 +551,22 @@
             message: `Add infographic: ${title}`
           })
         });
+
+        const push = saveResult?.push;
+        if (push && push.ok) {
+          showStatus(
+            $('global-status'),
+            `تمت إضافة الإنفوغرافيك بنجاح. الإشعارات: ${push.sent ?? 0} من ${push.total ?? 0} أُرسلت.`,
+            'success'
+          );
+        } else if (push) {
+          const firstError = push.errors?.[0]?.message || push.message || push.error || 'تعذر إرسال الإشعارات.';
+          showStatus(
+            $('global-status'),
+            `تم حفظ الإنفوغرافيك، لكن الإشعارات فشلت: ${firstError}`,
+            'error'
+          );
+        }
 
         const parsed = parseFrontMatter(markdown);
         posts.unshift({ path, sha: null, data: parsed.data, body: parsed.body });
