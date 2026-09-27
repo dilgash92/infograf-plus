@@ -613,25 +613,27 @@
 
       <nav class="footer-links" aria-label="روابط الموقع">
 
-        <a href="{{ site.baseurl }}/">
+        <a href="{{ site.baseurl }}/" class="footer-nav-primary">
           الرئيسية
         </a>
 
-        <a href="{{ site.baseurl }}/categories/">
+        <a href="{{ site.baseurl }}/categories/" class="footer-nav-primary">
           الأقسام
         </a>
 
-        <a href="{{ site.baseurl }}/latest/">
+        <a href="{{ site.baseurl }}/latest/" class="footer-nav-primary">
           الأحدث
         </a>
 
-        <a href="{{ site.baseurl }}/about/">
-          من نحن
-        </a>
+        <div class="footer-secondary-links">
+          <a href="{{ site.baseurl }}/about/">
+            من نحن
+          </a>
 
-        <a href="{{ site.baseurl }}/impressum/">
-          Impressum
-        </a>
+          <a href="{{ site.baseurl }}/impressum/">
+            Impressum
+          </a>
+        </div>
 
       </nav>
 
@@ -646,7 +648,7 @@
 
 
 
-  <script src="{{ site.baseurl }}/assets/js/push-notifications.js?v=20260927-11" defer></script>
+  <script src="{{ site.baseurl }}/assets/js/push-notifications.js?v=20260927-12" defer></script>
 
   <script
     src="{{ site.baseurl }}/assets/js/app.js?v=20260927-13"
