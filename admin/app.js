@@ -575,7 +575,7 @@
         renderRecent();
         renderPosts();
         window.InfografFast?.invalidate();
-        showStatus($('global-status'), 'تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
+        if (!saveResult?.push) showStatus($('global-status'), 'تمت إضافة الإنفوغرافيك بنجاح. الموقع سيُحدّث تلقائياً.', 'success');
       }
 
       editorDirty = false;
