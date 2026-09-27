@@ -421,7 +421,8 @@
       togglePanel(true);
     } catch (error) {
       console.error("Infograf+ push subscription error:", error);
-      window.alert("تعذر تفعيل الإشعارات حاليًا. حاول مرة أخرى لاحقًا.");
+      var detail = error && (error.message || error.name) ? (error.name ? error.name + ": " : "") + (error.message || "") : "خطأ غير معروف";
+      window.alert("تعذر تفعيل الإشعارات حاليًا.\n\n" + detail);
       setState(button, false, false);
     }
   }
