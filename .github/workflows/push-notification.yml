@@ -1,0 +1,139 @@
+name: Send Web Push notifications
+
+on:
+  push:
+    branches: [main]
+    paths: ['_posts/**.md']
+  workflow_dispatch:
+    inputs:
+      post_file:
+        description: "Specific _posts/*.md file (optional)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: push-notification-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  send-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select posts
+        id: posts
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ -n "${{ inputs.post_file }}" ]]; then
+              printf '%s\n' "${{ inputs.post_file }}" > /tmp/new_posts.txt
+            else
+              ls -1t _posts/*.md | head -n 1 > /tmp/new_posts.txt
+            fi
+          else
+            git diff-tree --no-commit-id --name-only --diff-filter=AM -r "${{ github.sha }}" -- '_posts/*.md' > /tmp/new_posts.txt
+          fi
+          if [[ ! -s /tmp/new_posts.txt ]]; then
+            echo "has_posts=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_posts=true" >> "$GITHUB_OUTPUT"
+          cat /tmp/new_posts.txt
+
+      - name: Wait for published post
+        if: steps.posts.outputs.has_posts == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import re
+          from urllib.parse import quote
+          site = "https://infografplus.com"
+          paths = [x.strip() for x in open("/tmp/new_posts.txt", encoding="utf-8") if x.strip()]
+          with open("/tmp/post_urls.txt", "w", encoding="utf-8") as out:
+              for path in paths:
+                  text = open(path, encoding="utf-8").read()
+                  m = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
+                  if not m: raise SystemExit("Invalid front matter: " + path)
+                  data = {}
+                  for line in m.group(1).splitlines():
+                      x = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
+                      if x:
+                          k,v=x.groups(); v=v.strip()
+                          if len(v)>=2 and v[0]==v[-1] and v[0] in ('"', "'"): v=v[1:-1]
+                          data[k]=v
+                  slug = str(data.get("slug","")).strip()
+                  if not slug:
+                      slug = re.sub(r"^\d{4}-\d{2}-\d{2}-","",re.sub(r"\.md$","",path.rsplit("/",1)[-1]))
+                  out.write(site + "/i/" + quote(slug, safe="-._~") + "/\n")
+          PY
+          for attempt in {1..144}; do
+            ok=true
+            while IFS= read -r url; do
+              [[ -z "$url" ]] && continue
+              if curl -fsS --max-time 20 -L "$url" >/dev/null; then
+                echo "Live: $url"
+              else
+                ok=false
+                echo "Waiting: $url"
+                break
+              fi
+            done < /tmp/post_urls.txt
+            [[ "$ok" == "true" ]] && exit 0
+            sleep 5
+          done
+          echo "::error::Post page was not published within 12 minutes."
+          exit 1
+
+      - name: Send notifications
+        if: steps.posts.outputs.has_posts == 'true'
+        env:
+          AUTOMATION_SECRET: ${{ secrets.AUTOMATION_SECRET }}
+          GITHUB_SHA_VALUE: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${AUTOMATION_SECRET:-}" ]] || { echo "::error::AUTOMATION_SECRET is missing."; exit 1; }
+          python3 - <<'PY'
+          import json, os, re, sys, urllib.error, urllib.request
+          from urllib.parse import quote
+          site="https://infografplus.com"
+          worker="https://calm-dream-ae41.dilgash-ibrahim.workers.dev"
+          secret=os.environ["AUTOMATION_SECRET"]
+          commit=os.environ["GITHUB_SHA_VALUE"]
+          def front(path):
+              t=open(path,encoding="utf-8").read()
+              m=re.match(r"^---\s*\n(.*?)\n---",t,re.S)
+              if not m: raise ValueError("Invalid front matter: "+path)
+              d={}
+              for line in m.group(1).splitlines():
+                  x=re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$",line)
+                  if x:
+                      k,v=x.groups(); v=v.strip()
+                      if len(v)>=2 and v[0]==v[-1] and v[0] in ('"', "'"): v=v[1:-1]
+                      d[k]=v
+              return d
+          for path in [x.strip() for x in open("/tmp/new_posts.txt",encoding="utf-8") if x.strip()]:
+              d=front(path)
+              slug=str(d.get("slug","")).strip() or re.sub(r"^\d{4}-\d{2}-\d{2}-","",re.sub(r"\.md$","",os.path.basename(path)))
+              url=site+"/i/"+quote(slug,safe="-._~")+"/"
+              title=str(d.get("title","")).strip() or "إنفوغرافيك جديد على Infograf+"
+              body=str(d.get("notification_body","")).strip() or str(d.get("description","")).strip() or "تم نشر محتوى جديد على Infograf+."
+              payload=json.dumps({"title":title,"body":body,"url":url,"category":str(d.get("category","misc")),"id":"post-"+commit+"-"+path},ensure_ascii=False).encode()
+              req=urllib.request.Request(worker+"/api/push/send",data=payload,method="POST",headers={"Content-Type":"application/json","Accept":"application/json","X-Automation-Key":secret,"User-Agent":"Infograf-Plus-Push-Actions"})
+              try:
+                  with urllib.request.urlopen(req,timeout=120) as r: status=r.status; raw=r.read().decode()
+              except urllib.error.HTTPError as e: status=e.code; raw=e.read().decode(errors="replace")
+              print(raw)
+              try: result=json.loads(raw)
+              except: print("::error::Worker returned invalid JSON."); sys.exit(1)
+              if status<200 or status>=300 or not result.get("ok"):
+                  print("::error::Web Push failed."); sys.exit(1)
+          PY
