@@ -48,7 +48,7 @@ permalink: /x7k9p2m4/
 <section id="dashboard-view" class="view active-view">
 <div class="welcome-panel"><div><p class="eyebrow">إدارة سهلة</p><h2>كل محتوى Infograf+ من مكان واحد.</h2><p class="muted">أضف أو عدّل أو احذف الإنفوغرافيكات، وستُحفظ التغييرات مباشرة في مستودع الموقع.</p></div><button class="button button-primary" data-go="editor" type="button">+ إضافة إنفوغرافيك</button></div>
 <div class="stats-grid"><article class="stat-card"><span>إجمالي الإنفوغرافيكات</span><strong id="stat-total">—</strong></article><article class="stat-card"><span>آخر تحديث</span><strong id="stat-latest">—</strong></article><article class="stat-card"><span>الأقسام المستخدمة</span><strong id="stat-categories">—</strong></article></div>
-<div class="section-card push-diagnostics"><div class="section-title-row"><div><p class="eyebrow">Web Push</p><h2>فحص الإشعارات</h2></div><button id="push-test-button" class="button button-primary" type="button">إرسال إشعار تجريبي</button></div><div id="push-status" class="status" hidden></div><p class="muted">هذا الاختبار يرسل إشعارًا فعليًا إلى الأجهزة المشتركة حاليًا. استخدمه قبل اختبار نشر مقال جديد.</p></div>
+<div class="section-card push-diagnostics"><div class="section-title-row"><div><p class="eyebrow">Web Push</p><h2>فحص الإشعارات</h2></div><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button id="push-test-button" class="button button-primary" type="button">إرسال إشعار تجريبي</button><button id="push-reset-button" class="button button-secondary" type="button">إعادة ضبط الاشتراكات</button></div></div><div id="push-status" class="status" hidden></div><p class="muted">هذا الاختبار يرسل إشعارًا فعليًا إلى الأجهزة المشتركة حاليًا. استخدمه قبل اختبار نشر مقال جديد.</p></div>
 <div class="section-card"><div class="section-title-row"><div><p class="eyebrow">آخر المحتوى</p><h2>الإنفوغرافيكات الأخيرة</h2></div><button class="button button-secondary" data-go="posts" type="button">عرض الكل</button></div><div id="recent-posts" class="mini-posts"></div></div>
 </section>
 <section id="posts-view" class="view" hidden>
@@ -211,6 +211,34 @@ permalink: /x7k9p2m4/
     }
   }
 
+  async function resetPushSubscriptions() {
+    const button = $('push-reset-button');
+    const box = $('push-status');
+    if (!button) return;
+    if (!confirm('سيتم حذف اشتراكات Web Push الحالية فقط من KV، وبعدها يجب إعادة تفعيل الإشعارات من الأجهزة المطلوبة. هل تريد المتابعة؟')) return;
+    button.disabled = true;
+    button.textContent = 'جارٍ الحذف...';
+    try {
+      const response = await fetch(API + '/api/push/reset', {
+        method: 'POST',
+        headers: headers()
+      });
+      let data = null;
+      try { data = await response.json(); } catch (_) {}
+      box.textContent = 'HTTP: ' + response.status + ' · ' + (data?.message || data?.error || 'تعذر إعادة ضبط الاشتراكات.');
+      box.className = response.ok && data?.ok ? 'status success' : 'status error';
+      box.hidden = false;
+      if (response.ok && data?.ok) setTimeout(loadPushStatus, 500);
+    } catch (error) {
+      box.textContent = error.message || 'فشل إعادة ضبط الاشتراكات.';
+      box.className = 'status error';
+      box.hidden = false;
+    } finally {
+      button.disabled = false;
+      button.textContent = 'إعادة ضبط الاشتراكات';
+    }
+  }
+
   async function testPush() {
     const button = $('push-test-button');
     const box = $('push-status');
@@ -251,6 +279,7 @@ permalink: /x7k9p2m4/
   document.addEventListener('DOMContentLoaded', () => {
     $('add-admin-button')?.addEventListener('click', addAdmin);
     $('push-test-button')?.addEventListener('click', testPush);
+    $('push-reset-button')?.addEventListener('click', resetPushSubscriptions);
     $('admin-login-input')?.addEventListener('keydown', event => { if (event.key === 'Enter') addAdmin(); });
     $('admins-list')?.addEventListener('click', event => {
       const button = event.target.closest('[data-remove-admin]');
