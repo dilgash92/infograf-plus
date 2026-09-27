@@ -238,6 +238,53 @@ jobs:
             exit 1
           fi
 
+      - name: Wait for every new post page
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '') && steps.posts.outputs.has_posts == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          site="https://infografplus.com"
+
+          echo "Waiting for every new post page to return HTTP 200..."
+          pages_ok=false
+
+          for attempt in {1..72}; do
+            all_ok=true
+
+            while IFS= read -r post_path; do
+              [[ -z "$post_path" ]] && continue
+
+              slug=$(basename "$post_path")
+              slug="${slug#*-}"
+              slug="${slug%.md}"
+              post_url="$site/i/$slug/"
+
+              status=$(curl -L -sS -o /dev/null -w "%{http_code}" --max-time 20 "$post_url" || true)
+
+              if [[ "$status" != "200" ]]; then
+                all_ok=false
+                echo "Post not ready yet: $post_url (HTTP $status)"
+                break
+              fi
+
+              echo "Post ready: $post_url (HTTP 200)"
+            done < /tmp/new_posts.txt
+
+            if [[ "$all_ok" == "true" ]]; then
+              pages_ok=true
+              echo "All new post pages are live."
+              break
+            fi
+
+            echo "Post pages not ready yet (attempt $attempt/72). Waiting 5 seconds..."
+            sleep 5
+          done
+
+          if [[ "$pages_ok" != "true" ]]; then
+            echo "::error::One or more new post pages did not become available within 6 minutes."
+            exit 1
+          fi
+
       - name: Send Web Push notifications after deployment
         if: ${{ (github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '') && steps.posts.outputs.has_posts == 'true' }}
         env:
