@@ -292,6 +292,22 @@
     );
   }
 
+  function subscriptionUsesCurrentVapidKey(subscription) {
+    try {
+      var actual = subscription && subscription.options && subscription.options.applicationServerKey;
+      if (!actual) return false;
+      var expected = urlBase64ToUint8Array(CONFIG.vapidPublicKey);
+      var bytes = new Uint8Array(actual);
+      if (bytes.length !== expected.length) return false;
+      for (var i = 0; i < bytes.length; i += 1) {
+        if (bytes[i] !== expected[i]) return false;
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   async function subscribe() {
     var button = getButton();
     if (!button) return;
