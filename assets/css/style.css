@@ -2738,18 +2738,44 @@ button {
 .notification-panel-header strong {
   color: var(--text);
   font-size: 14px;
+  flex-shrink: 0;
+}
+
+.notification-panel-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  flex-wrap: wrap;
 }
 
 .notification-mark-read {
-  padding: 0;
-  background: none;
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-soft);
   color: var(--accent);
   font-size: 10px;
   font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
 }
 
 .notification-mark-read:hover {
-  text-decoration: underline;
+  background: var(--accent-light);
+  border-color: var(--accent);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.notification-unsubscribe {
+  color: var(--text-muted);
+}
+
+.notification-unsubscribe:hover {
+  color: var(--text);
 }
 
 .notification-list {
