@@ -187,12 +187,23 @@ permalink: /x7k9p2m4/
     if (!session()) return;
     const box = $('push-status');
     try {
-      const data = await roleRequest('/api/push/status');
-      const storage = data?.storage || {};
-      const vapid = data?.vapid || {};
-      box.textContent = 'KV: ' + (storage.configured ? 'متصل' : 'غير مضبوط') + ' · المشتركين: ' + (storage.subscribers ?? 0) + ' · VAPID: ' + (vapid.valid ? 'صالح' : 'خطأ: ' + (vapid.message || 'غير صالح'));
-      box.className = data?.ok ? 'status success' : 'status error';
-      box.hidden = false;
+      const response = await fetch(API + '/api/push/status', {
+        method: 'GET',
+        headers: headers()
+      });
+      let data = null;
+      try { data = await response.json(); } catch (_) {}
+      if (data && (data.storage || data.vapid)) {
+        const storage = data.storage || {};
+        const vapid = data.vapid || {};
+        const kvText = storage.configured ? 'متصل' : 'غير مضبوط';
+        const vapidText = vapid.valid ? 'صالح' : ('خطأ: ' + (vapid.message || 'غير صالح'));
+        box.textContent = 'HTTP: ' + response.status + ' · KV: ' + kvText + ' · المشتركين: ' + (storage.subscribers ?? 0) + ' · VAPID: ' + vapidText;
+        box.className = data.ok ? 'status success' : 'status error';
+        box.hidden = false;
+        return;
+      }
+      throw new Error('HTTP ' + response.status + ' — لم تصل تفاصيل فحص الإشعارات.');
     } catch (error) {
       box.textContent = error.message || 'تعذر فحص الإشعارات.';
       box.className = 'status error';
