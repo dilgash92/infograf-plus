@@ -2683,7 +2683,9 @@ button {
 .notification-panel {
   position: absolute;
   top: calc(100% + 12px);
-  right: 0;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
   z-index: 1000;
   width: min(380px, calc(100vw - 28px));
   max-width: calc(100vw - 20px);
@@ -2805,6 +2807,7 @@ button {
     top: 66px;
     right: 14px;
     left: 14px;
+    transform: none;
     width: auto;
     max-width: none;
   }
