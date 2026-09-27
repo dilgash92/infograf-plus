@@ -2377,6 +2377,81 @@ button {
 
   /* Footer */
 
+  .site-footer {
+    margin-top: 18px;
+  }
+
+  .footer-inner {
+    width: calc(100% - 28px);
+    min-height: 0;
+    padding: 34px 20px 34px;
+    display: block;
+    text-align: center;
+    border-radius: 22px 22px 0 0;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-brand .brand-name,
+  .footer-brand .brand-plus {
+    font-size: 27px;
+  }
+
+  .footer-brand p {
+    margin: 9px 0 0;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .footer-links {
+    margin-top: 24px;
+    display: block;
+  }
+
+  .footer-links .footer-nav-primary {
+    display: none;
+  }
+
+  .footer-secondary-links {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .footer-secondary-links a {
+    min-width: 112px;
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-soft);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .18s ease, border-color .18s ease, transform .18s ease;
+  }
+
+  .footer-secondary-links a:hover,
+  .footer-secondary-links a:focus-visible {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .footer-info {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 11px;
+  }
+
+
   .footer-inner {
     width: calc(100% - 28px);
 
