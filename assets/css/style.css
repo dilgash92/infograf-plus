@@ -441,10 +441,37 @@ button {
 }
 
 .notification-header-button:hover,
-.notification-header-button:focus-visible,
-.notification-header-button.is-subscribed {
+.notification-header-button:focus-visible {
   background: var(--accent-light);
   color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* A subscribed bell uses the Infograf+ section palette instead of a status dot. */
+.notification-header-button.is-subscribed {
+  color: #fff;
+  background: linear-gradient(
+    115deg,
+    #22A06B 0%,
+    #D99A00 12%,
+    #0043F7 24%,
+    #921E7A 36%,
+    #E74F1B 48%,
+    #A71C1C 60%,
+    #555555 70%,
+    #FC8FC5 80%,
+    #2A2A2D 90%,
+    #13CBFF 100%
+  );
+  background-size: 300% 100%;
+  animation: infograf-push-spectrum 12s ease-in-out infinite alternate;
+  box-shadow: 0 6px 18px rgba(19, 203, 255, .16);
+  transform: translateY(-1px);
+}
+
+.notification-header-button.is-subscribed:hover,
+.notification-header-button.is-subscribed:focus-visible {
+  color: #fff;
   transform: translateY(-2px);
 }
 
@@ -460,21 +487,19 @@ button {
 }
 
 .notification-status-dot {
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--success);
-  opacity: 0;
-  transform: scale(.6);
-  transition: opacity .2s ease, transform .2s ease;
+  display: none;
 }
 
-.notification-header-button.is-subscribed .notification-status-dot {
-  opacity: 1;
-  transform: scale(1);
+@keyframes infograf-push-spectrum {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notification-header-button.is-subscribed {
+    animation: none;
+    background-position: 50% 50%;
+  }
 }
 
 .notification-header-button.is-loading {
