@@ -1,3 +1,11 @@
+self.addEventListener("install", event => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(self.clients.claim());
+});
+
 /* Infograf+ Web Push Service Worker */
 const DB_NAME = "infograf-plus-notifications";
 const DB_VERSION = 1;
@@ -52,6 +60,58 @@ async function markNotificationRead(id) {
     tx.oncomplete = resolve;
     tx.onerror = () => reject(tx.error);
   });
+}
+
+
+async function waitForPublishedPage(url) {
+  let targetUrl;
+
+  try {
+    targetUrl = new URL(url || "/", self.location.origin);
+  } catch (error) {
+    return url || "/";
+  }
+
+  // Only poll our own site. External links are opened immediately.
+  if (targetUrl.origin !== self.location.origin) {
+    return targetUrl.href;
+  }
+
+  const maxAttempts = 20;
+  const delayMs = 3000;
+
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    try {
+      const response = await fetch(targetUrl.href, {
+        method: "HEAD",
+        cache: "no-store",
+        redirect: "follow"
+      });
+
+      if (response.ok) {
+        return targetUrl.href;
+      }
+
+      // Some hosts do not implement HEAD correctly. Fall back to GET.
+      if (response.status === 405 || response.status === 501) {
+        const getResponse = await fetch(targetUrl.href, {
+          method: "GET",
+          cache: "no-store",
+          redirect: "follow"
+        });
+
+        if (getResponse.ok) {
+          return targetUrl.href;
+        }
+      }
+    } catch (error) {}
+
+    await new Promise(resolve => setTimeout(resolve, delayMs));
+  }
+
+  // Do not trap the user indefinitely. Open the target even if publication
+  // still has not completed after about one minute.
+  return targetUrl.href;
 }
 
 async function broadcast(message) {
@@ -138,7 +198,10 @@ self.addEventListener("notificationclick", event => {
       id: data.id || null
     });
 
-    const targetUrl = data.url || "/";
+    // GitHub Pages can take a short time to publish a newly created post.
+    // Wait until the notification target actually exists before navigating,
+    // so users do not land on the site's 404 page.
+    const targetUrl = await waitForPublishedPage(data.url || "/");
 
     const clientList = await self.clients.matchAll({
       type: "window",
