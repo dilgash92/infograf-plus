@@ -12,7 +12,7 @@ permalink: /privacy/
     <span class="privacy-kicker">Infograf+</span>
     <h1>حماية البيانات <span>|</span> Datenschutz</h1>
     <p>معلومات واضحة ومختصرة عن البيانات المرتبطة باستخدام الموقع.</p>
-    <div class="privacy-meta">آخر تحديث: 26 سبتمبر 2026</div>
+    <div class="privacy-meta">آخر تحديث: 27 سبتمبر 2026</div>
   </header>
 
   <div class="privacy-language-switch" role="tablist" aria-label="لغة سياسة الخصوصية">
@@ -79,6 +79,18 @@ permalink: /privacy/
     <article class="privacy-section">
       <span class="privacy-number">06</span>
       <div>
+        <h2>إشعارات Web Push</h2>
+        <p>إذا اختار الزائر تفعيل إشعارات Infograf+، يطلب الموقع إذن الإشعارات من المتصفح ثم ينشئ اشتراك Web Push خاصًا بالمتصفح والجهاز. لا يتم تفعيل هذه الوظيفة تلقائيًا؛ تبدأ فقط بعد اختيار المستخدم تفعيل الإشعارات.</p>
+        <p>لإرسال الإشعارات، تتم معالجة بيانات الاشتراك التقنية، ومنها عنوان نقطة الإرسال (endpoint) ومفاتيح التشفير اللازمة لـ Web Push. تُرسل هذه البيانات إلى خادم Infograf+ وتُحفظ في مساحة تخزين KV لدى Cloudflare Worker لاستخدامها في إرسال الإشعارات إلى الأجهزة المشتركة.</p>
+        <p>عند نشر إنفوغرافيك جديد، قد يتضمن الإشعار عنوان الإنفوغرافيك وملخصه ورابطه، وتُرسل هذه البيانات إلى خدمة Web Push اللازمة لتوصيل الإشعار إلى الجهاز. لا يستخدم Infograf+ هذه البيانات لإنشاء ملف شخصي أو للإعلانات.</p>
+        <p>يمكن للمستخدم إيقاف الاشتراك من داخل الموقع عبر خيار «إيقاف الإشعارات»، كما يمكنه إدارة إذن الإشعارات من إعدادات المتصفح أو الجهاز. عند إلغاء الاشتراك، يُحذف اشتراك الجهاز من مساحة التخزين الخاصة بالإشعارات.</p>
+        <p>تُحتفظ باشتراكات Web Push ما دام الاشتراك فعالًا أو إلى أن يصبح الاشتراك غير صالح تقنيًا، مثل استجابة خدمة Push التي تفيد بأن نقطة الإرسال لم تعد صالحة. ولا نحتفظ بسجل مستقل لرسائل الإشعارات بعد إرسالها.</p>
+      </div>
+    </article>
+
+    <article class="privacy-section">
+      <span class="privacy-number">07</span>
+      <div>
         <h2>الروابط الخارجية</h2>
         <p>يحتوي الموقع على روابط خارجية، منها Instagram وFacebook. لا يتم تحميل محتوى هذه الخدمات داخل صفحات Infograf+ تلقائياً.</p>
         <p>عند الانتقال إلى خدمة خارجية، تصبح معالجة البيانات خاضعة لسياسة الخصوصية الخاصة بمقدم تلك الخدمة.</p>
@@ -112,7 +124,7 @@ permalink: /privacy/
     </article>
 
     <article class="privacy-section">
-      <span class="privacy-number">10</span>
+      <span class="privacy-number">12</span>
       <div>
         <h2>حقوق الزوار</h2>
         <p>في الحالات التي تنطبق فيها أحكام حماية البيانات، تمنح DSGVO للأشخاص المعنيين حقوقاً مثل الوصول إلى البيانات الشخصية، وتصحيحها، ومحوها، وتقييد معالجتها، والاعتراض على بعض المعالجات، وكذلك نقل البيانات عند استيفاء الشروط القانونية.</p>
@@ -121,7 +133,7 @@ permalink: /privacy/
     </article>
 
     <article class="privacy-section">
-      <span class="privacy-number">11</span>
+      <span class="privacy-number">13</span>
       <div>
         <h2>حق تقديم شكوى</h2>
         <p>إذا كان الشخص المعني يرى أن معالجة بياناته الشخصية تخالف قانون حماية البيانات، فله الحق في تقديم شكوى إلى سلطة حماية البيانات المختصة.</p>
@@ -130,7 +142,7 @@ permalink: /privacy/
     </article>
 
     <article class="privacy-section">
-      <span class="privacy-number">12</span>
+      <span class="privacy-number">13</span>
       <div>
         <h2>الأمان والتغييرات</h2>
         <p>نستخدم وسائل تقنية وتنظيمية مناسبة لتشغيل الموقع وتقليل مخاطر الوصول غير المصرح به أو التلاعب.</p>
@@ -198,6 +210,18 @@ permalink: /privacy/
     <article class="privacy-section">
       <span class="privacy-number">06</span>
       <div>
+        <h2>Web-Push-Benachrichtigungen</h2>
+        <p>Wenn Besucher die Infograf+-Benachrichtigungen aktivieren, fordert die Website die Benachrichtigungsberechtigung des Browsers an und erstellt ein Web-Push-Abonnement für den jeweiligen Browser bzw. das Gerät. Diese Funktion wird nicht automatisch aktiviert, sondern erst nach einer bewussten Aktivierung durch den Nutzer.</p>
+        <p>Für den Versand werden technische Abonnementdaten verarbeitet, insbesondere der Push-Endpunkt (Endpoint) und die für Web Push erforderlichen Verschlüsselungsschlüssel. Diese Daten werden an den Server von Infograf+ übermittelt und in einem KV-Speicher des Cloudflare Workers gespeichert, damit Benachrichtigungen an die abonnierten Geräte versendet werden können.</p>
+        <p>Bei der Veröffentlichung einer neuen Infografik können der Titel, eine kurze Beschreibung und der Link der Infografik Bestandteil der Benachrichtigung sein. Diese Daten werden an den für die Zustellung erforderlichen Web-Push-Dienst übermittelt. Infograf+ verwendet diese Daten nicht zur Erstellung von Nutzerprofilen oder für Werbung.</p>
+        <p>Nutzer können das Abonnement über die Funktion „Benachrichtigungen deaktivieren“ auf der Website beenden und die Benachrichtigungsberechtigung zusätzlich über die Einstellungen des Browsers oder Geräts verwalten. Beim Abmelden wird das Geräteabonnement aus dem für Benachrichtigungen verwendeten Speicher gelöscht.</p>
+        <p>Web-Push-Abonnements werden gespeichert, solange das Abonnement aktiv ist oder bis es technisch ungültig wird, beispielsweise wenn der Push-Dienst meldet, dass der Endpunkt nicht mehr gültig ist. Ein separates Protokoll der zugestellten Benachrichtigungsinhalte wird nicht geführt.</p>
+      </div>
+    </article>
+
+    <article class="privacy-section">
+      <span class="privacy-number">07</span>
+      <div>
         <h2>Externe Links</h2>
         <p>Die Website enthält externe Links, unter anderem zu Instagram und Facebook. Diese Dienste sind nicht in unsere Seiten eingebettet und werden nicht automatisch geladen.</p>
         <p>Beim Wechsel zu einem externen Dienst gelten die Datenschutzbestimmungen des jeweiligen Anbieters.</p>
@@ -231,7 +255,7 @@ permalink: /privacy/
     </article>
 
     <article class="privacy-section">
-      <span class="privacy-number">10</span>
+      <span class="privacy-number">12</span>
       <div>
         <h2>Rechte der betroffenen Personen</h2>
         <p>Unter den gesetzlichen Voraussetzungen bestehen insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch gegen bestimmte Verarbeitungen sowie – soweit die Voraussetzungen erfüllt sind – auf Datenübertragbarkeit.</p>
@@ -240,7 +264,7 @@ permalink: /privacy/
     </article>
 
     <article class="privacy-section">
-      <span class="privacy-number">11</span>
+      <span class="privacy-number">13</span>
       <div>
         <h2>Beschwerderecht</h2>
         <p>Wenn eine betroffene Person der Ansicht ist, dass die Verarbeitung ihrer personenbezogenen Daten gegen Datenschutzrecht verstößt, besteht das Recht, sich bei einer zuständigen Datenschutzaufsichtsbehörde zu beschweren.</p>
@@ -249,7 +273,7 @@ permalink: /privacy/
     </article>
 
     <article class="privacy-section">
-      <span class="privacy-number">12</span>
+      <span class="privacy-number">13</span>
       <div>
         <h2>Sicherheit und Änderungen</h2>
         <p>Wir setzen angemessene technische und organisatorische Maßnahmen ein, um die Website zu betreiben und Risiken eines unbefugten Zugriffs oder einer Manipulation zu reduzieren.</p>
