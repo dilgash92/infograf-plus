@@ -218,11 +218,26 @@ permalink: /x7k9p2m4/
     button.disabled = true;
     button.textContent = 'جارٍ الاختبار...';
     try {
-      const data = await roleRequest('/api/push/test', {method:'POST', body:JSON.stringify({category:'منوع'})});
-      box.textContent = 'تم الاختبار · المشتركون: ' + (data.total ?? 0) + ' · أُرسل: ' + (data.sent ?? 0) + ' · فشل: ' + (data.failed ?? 0) + ' · حُذف: ' + (data.removed ?? 0);
-      box.className = data?.ok ? 'status success' : 'status error';
+      const response = await fetch(API + '/api/push/test', {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify({category:'منوع'})
+      });
+      let data = null;
+      try { data = await response.json(); } catch (_) {}
+      if (data && (data.total !== undefined || data.errors || data.sent !== undefined)) {
+        box.textContent = 'HTTP: ' + response.status + ' · المشتركون: ' + (data.total ?? 0) + ' · أُرسل: ' + (data.sent ?? 0) + ' · فشل: ' + (data.failed ?? 0) + ' · حُذف: ' + (data.removed ?? 0);
+        box.className = data?.ok ? 'status success' : 'status error';
+        box.hidden = false;
+        if (data?.errors?.length) {
+          const e = data.errors[0] || {};
+          box.textContent += ' · الخطأ: ' + (e.message || e.status || e.code || 'غير معروف');
+        }
+        return;
+      }
+      box.textContent = 'HTTP: ' + response.status + ' · ' + (data?.message || data?.error || 'تعذر قراءة نتيجة الاختبار.');
+      box.className = 'status error';
       box.hidden = false;
-      if (data?.errors?.length) box.textContent += ' · الخطأ: ' + (data.errors[0].message || data.errors[0].status || 'غير معروف');
     } catch (error) {
       box.textContent = error.message || 'فشل اختبار الإشعارات.';
       box.className = 'status error';
