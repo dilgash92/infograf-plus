@@ -3,6 +3,7 @@
 
   var CONFIG = {
     subscribeEndpoint: "https://calm-dream-ae41.dilgash-ibrahim.workers.dev/api/push/subscribe",
+    unsubscribeEndpoint: "https://calm-dream-ae41.dilgash-ibrahim.workers.dev/api/push/unsubscribe",
     vapidPublicKey: "BMJfCBmBZz87prlj7PFRe2vUDG1v33iidJkVtHFUWbLejpAJxCcKHpCvF-9Gro-q1HdbxYxrgOZsIGtC_mNj8GA"
   };
 
@@ -27,6 +28,7 @@
   function getPanel() { return document.getElementById("notification-panel"); }
   function getList() { return document.getElementById("notification-list"); }
   function getBadge() { return document.getElementById("notification-badge"); }
+  function getUnsubscribeButton() { return document.getElementById("notification-unsubscribe"); }
 
   function setState(button, subscribed, loading) {
     if (!button) return;
@@ -45,6 +47,12 @@
       "title",
       subscribed ? "إشعارات Infograf+" : "تفعيل إشعارات Infograf+"
     );
+
+    var unsubscribeButton = getUnsubscribeButton();
+    if (unsubscribeButton) {
+      unsubscribeButton.hidden = !subscribed || !!loading;
+      unsubscribeButton.disabled = !!loading;
+    }
   }
 
   function urlBase64ToUint8Array(base64String) {
@@ -266,6 +274,55 @@
     });
   }
 
+  async function unsubscribe() {
+    var button = getButton();
+    var unsubscribeButton = getUnsubscribeButton();
+    if (unsubscribeButton) {
+      unsubscribeButton.disabled = true;
+      unsubscribeButton.textContent = "جارٍ الإيقاف...";
+    }
+
+    try {
+      var subscription = await getExistingSubscription();
+      if (!subscription) {
+        setState(button, false, false);
+        return;
+      }
+
+      if (!CONFIG.unsubscribeEndpoint) {
+        throw new Error("push_unsubscribe_endpoint_missing");
+      }
+
+      var response = await fetch(CONFIG.unsubscribeEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "omit",
+        body: JSON.stringify({
+          subscription: subscription.toJSON(),
+          origin: window.location.origin
+        })
+      });
+
+      if (!response.ok) {
+        var data = null;
+        try { data = await response.json(); } catch (error) {}
+        throw new Error(data && (data.message || data.error) || "push_unsubscribe_failed");
+      }
+
+      await subscription.unsubscribe();
+      setState(button, false, false);
+      togglePanel(true);
+    } catch (error) {
+      console.error("Infograf+ push unsubscribe error:", error);
+      window.alert("تعذر إيقاف الإشعارات حاليًا. حاول مرة أخرى.");
+      setState(button, true, false);
+    } finally {
+      if (unsubscribeButton) {
+        unsubscribeButton.textContent = "إيقاف الإشعارات";
+      }
+    }
+  }
+
   function isIOSDevice() {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -404,6 +461,11 @@
       .catch(function () {});
 
     button.addEventListener("click", handleButtonClick);
+
+    var unsubscribeButton = getUnsubscribeButton();
+    if (unsubscribeButton) {
+      unsubscribeButton.addEventListener("click", unsubscribe);
+    }
 
     var markReadButton = document.getElementById("notification-mark-read");
     if (markReadButton) {
