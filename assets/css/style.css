@@ -462,7 +462,22 @@ button {
 }
 
 .notification-header-button.is-subscribed svg {
-  stroke: url(#infograf-push-gradient);
+  fill: currentColor;
+  stroke: none;
+  animation: infograf-bell-colors 20s steps(1, end) infinite;
+}
+
+@keyframes infograf-bell-colors {
+  0%, 9.99% { color: #22A06B; }
+  10%, 19.99% { color: #D99A00; }
+  20%, 29.99% { color: #0043F7; }
+  30%, 39.99% { color: #921E7A; }
+  40%, 49.99% { color: #E74F1B; }
+  50%, 59.99% { color: #A71C1C; }
+  60%, 69.99% { color: #555555; }
+  70%, 79.99% { color: #FC8FC5; }
+  80%, 89.99% { color: #2A2A2D; }
+  90%, 100% { color: #13CBFF; }
 }
 
 .notification-header-button svg {
@@ -481,8 +496,9 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .notification-header-button.is-subscribed svg stop animate {
-    display: none;
+  .notification-header-button.is-subscribed svg {
+    animation: none;
+    color: #0043F7;
   }
 }
 
