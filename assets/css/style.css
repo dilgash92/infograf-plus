@@ -2452,21 +2452,6 @@ button {
   }
 
 
-  .footer-inner {
-    width: calc(100% - 28px);
-
-    min-height: 130px;
-
-    padding: 25px 0;
-
-    display: block;
-  }
-
-  .footer-info {
-    margin-top: 15px;
-  }
-
-
   /* Mobile Navigation */
 
   .mobile-navigation {
