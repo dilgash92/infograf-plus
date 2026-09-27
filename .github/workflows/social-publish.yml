@@ -158,11 +158,30 @@ jobs:
           post_url=""
           while IFS= read -r path; do
             [[ -z "$path" ]] && continue
-            post_url=$(python3 - "$path" <<'PY'
-          import re, sys
-          path = sys.argv[1]
-          text = open(path, encoding="utf-8").read()
-          m = re.search(r'^slug:\s*["\x27]?([^"\x27\n]+)["\x27]?\s*
+            post_url=$(python3 -c 'import re,sys; p=sys.argv[1]; t=open(p,encoding="utf-8").read(); m=re.search(r"^slug:\\s*[\"\x27]?([^\"\x27\\n]+)[\"\x27]?\\s*$",t,re.M); s=m.group(1).strip() if m else re.sub(r"^\\d{4}-\\d{2}-\\d{2}-","",re.sub(r"\\.md$","",p.rsplit("/",1)[-1])); print("https://infografplus.com/i/"+s+"/")' "$path")
+            echo "Post URL: $post_url"
+            break
+          done < /tmp/new_posts.txt
+
+          if [[ -z "$post_url" ]]; then
+            echo "::error::Could not determine the post URL."
+            exit 1
+          fi
+
+          for attempt in {1..144}; do
+            if curl -fsS --max-time 20 -L "$post_url" >/dev/null; then
+              echo "Post is live."
+              post_ok=true
+              break
+            fi
+            echo "Post not live yet (attempt $attempt/144)."
+            sleep 5
+          done
+
+          if [[ "$post_ok" != "true" ]]; then
+            echo "::error::Post did not become reachable within 12 minutes."
+            exit 1
+          fi
 
           echo "Building the list of image URLs for the new posts..."
           python3 - <<'PY'
