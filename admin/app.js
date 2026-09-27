@@ -543,17 +543,28 @@
         // not the UTC date, which can be one day earlier/later around midnight.
         const filename = `${date.slice(0, 10)}-${slug}.md`;
         const path = `_posts/${filename}`;
+        const postUrl = new URL(`/i/${encodeURIComponent(slug)}/`, window.location.origin).href;
         const saveResult = await api('/api/file', {
           method: 'PUT',
           body: JSON.stringify({
             path,
             content: base64FromText(markdown),
-            message: `Add infographic: ${title}`
+            message: `Add infographic: ${title}`,
+            title,
+            notification_body: description || 'تم نشر إنفوغرافيك جديد على Infograf+.',
+            category,
+            post_url: postUrl
           })
         });
 
         const push = saveResult?.push;
-        if (push && push.ok) {
+        if (push?.queued) {
+          showStatus(
+            $('global-status'),
+            'تمت إضافة الإنفوغرافيك. سيصل الإشعار بعد اكتمال نشر المقال.',
+            'success'
+          );
+        } else if (push && push.ok) {
           showStatus(
             $('global-status'),
             `تمت إضافة الإنفوغرافيك بنجاح. الإشعارات: ${push.sent ?? 0} من ${push.total ?? 0} أُرسلت.`,
