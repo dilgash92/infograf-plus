@@ -8,11 +8,6 @@ on:
         required: false
         default: ""
         type: string
-      post_file:
-        description: "Specific _posts/*.md file to publish (optional)"
-        required: false
-        default: ""
-        type: string
   push:
     branches: [main]
     paths: ['_posts/**.md']
@@ -128,12 +123,8 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            # Manual run: process the selected post, or fall back to the newest post.
-            if [[ -n "${{ inputs.post_file }}" ]]; then
-              printf '%s\n' "${{ inputs.post_file }}" > /tmp/new_posts.txt
-            else
-              ls -1t _posts/*.md | head -n 1 > /tmp/new_posts.txt
-            fi
+            # Manual run: process the newest post so a previously failed post can be republished.
+            ls -1t _posts/*.md | head -n 1 > /tmp/new_posts.txt
           else
             BEFORE="${{ github.event.before }}"
             if [[ "$BEFORE" =~ ^0+$ ]]; then
@@ -153,33 +144,20 @@ jobs:
 
           site="https://infografplus.com"
 
-          echo "Waiting for the actual new post to be published..."
-          post_ok=false
-          post_url=""
-          while IFS= read -r path; do
-            [[ -z "$path" ]] && continue
-            post_url=$(python3 -c 'import re,sys; p=sys.argv[1]; t=open(p,encoding="utf-8").read(); m=re.search(r"^slug:\\s*[\"\x27]?([^\"\x27\\n]+)[\"\x27]?\\s*$",t,re.M); s=m.group(1).strip() if m else re.sub(r"^\\d{4}-\\d{2}-\\d{2}-","",re.sub(r"\\.md$","",p.rsplit("/",1)[-1])); print("https://infografplus.com/i/"+s+"/")' "$path")
-            echo "Post URL: $post_url"
-            break
-          done < /tmp/new_posts.txt
-
-          if [[ -z "$post_url" ]]; then
-            echo "::error::Could not determine the post URL."
-            exit 1
-          fi
-
-          for attempt in {1..144}; do
-            if curl -fsS --max-time 20 -L "$post_url" >/dev/null; then
-              echo "Post is live."
-              post_ok=true
+          echo "Waiting for the site deployment..."
+          site_ok=false
+          for attempt in {1..36}; do
+            if curl -fsS --max-time 15 "$site/" >/dev/null; then
+              echo "Site is reachable."
+              site_ok=true
               break
             fi
-            echo "Post not live yet (attempt $attempt/144)."
-            sleep 5
+            echo "Site not ready yet (attempt $attempt/36)."
+            sleep 10
           done
 
-          if [[ "$post_ok" != "true" ]]; then
-            echo "::error::Post did not become reachable within 12 minutes."
+          if [[ "$site_ok" != "true" ]]; then
+            echo "::error::Site did not become reachable within 6 minutes."
             exit 1
           fi
 
@@ -260,11 +238,10 @@ jobs:
             exit 1
           fi
 
-      - name: Publish to Facebook and Instagram
+      - name: Send Web Push notifications after deployment
         if: ${{ (github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '') && steps.posts.outputs.has_posts == 'true' }}
         env:
           AUTOMATION_SECRET: ${{ secrets.AUTOMATION_SECRET }}
-          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
@@ -274,13 +251,13 @@ jobs:
           fi
 
           python3 - <<'PY'
-          import json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
+          import json, os, re, sys, urllib.error, urllib.request
 
           site = "https://infografplus.com"
           worker = "https://calm-dream-ae41.dilgash-ibrahim.workers.dev"
-          secret = os.environ["AUTOMATION_SECRET"]
+          secret = os.environ["AUTOMATION_SECRET"].strip()
 
-          def read_post(path):
+          def read_front_matter(path):
               text = open(path, encoding="utf-8").read()
               match = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
               if not match:
@@ -300,29 +277,27 @@ jobs:
           paths = [x.strip() for x in open("/tmp/new_posts.txt", encoding="utf-8") if x.strip()]
 
           for path in paths:
-              data = read_post(path)
+              data = read_front_matter(path)
               slug = str(data.get("slug", "")).strip()
-
               if not slug:
                   filename = os.path.basename(path)
                   slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", re.sub(r"\.md$", "", filename))
 
+              title = str(data.get("title", "")).strip() or "إنفوغرافيك جديد على Infograf+"
+              description = str(data.get("description", "")).strip() or "تم نشر محتوى جديد على Infograf+."
+              category = str(data.get("category", "misc")).strip() or "misc"
               post_url = site + "/i/" + slug + "/"
-              image = str(data.get("image", "")).strip()
-              image_url = image if image.startswith(("http://", "https://")) else site + "/" + image.lstrip("/")
 
-              title = str(data.get("title", "")).strip()
-              description = str(data.get("description", "")).strip()
-              caption = "\n\n".join(x for x in (title, description, post_url) if x)
+              payload = json.dumps({
+                  "title": title,
+                  "body": description,
+                  "url": post_url,
+                  "category": category,
+                  "id": "post-" + slug + "-" + str(os.environ.get("GITHUB_SHA", ""))
+              }, ensure_ascii=False).encode("utf-8")
 
-              payload = json.dumps({"image_url": image_url, "caption": caption}, ensure_ascii=False).encode("utf-8")
-
-              print("Publishing: " + path)
-              print("Image: " + image_url)
-              print("URL: " + post_url)
-
-              request = urllib.request.Request(
-                  worker + "/api/social/publish",
+              req = urllib.request.Request(
+                  worker + "/api/push/send",
                   data=payload,
                   method="POST",
                   headers={
@@ -334,534 +309,28 @@ jobs:
               )
 
               try:
-                  with urllib.request.urlopen(request, timeout=120) as response:
-                      raw = response.read().decode("utf-8")
+                  with urllib.request.urlopen(req, timeout=60) as response:
                       status = response.status
+                      raw = response.read().decode("utf-8", errors="replace")
               except urllib.error.HTTPError as exc:
-                  raw = exc.read().decode("utf-8", errors="replace")
                   status = exc.code
+                  raw = exc.read().decode("utf-8", errors="replace")
 
               print(raw)
-
               try:
                   result = json.loads(raw)
               except json.JSONDecodeError:
-                  print("::error::Worker returned invalid JSON.")
+                  print("::error::Push Worker returned invalid JSON.")
                   sys.exit(1)
 
               if status < 200 or status >= 300 or not result.get("ok"):
-                  instagram = result.get("results", {}).get("instagram", {})
-                  facebook = result.get("results", {}).get("facebook", {})
-
-                  # Facebook may already be published while Instagram only needs
-                  # a little more time after its container reaches FINISHED.
-                  # In that case, retry the SAME creation_id so Facebook is never
-                  # published a second time.
-                  creation_id = str(instagram.get("creation_id") or "").strip()
-                  token = os.environ.get("INSTAGRAM_ACCESS_TOKEN", "").strip()
-                  ig_error = str(instagram.get("error") or "").strip()
-                  ig_message = str(instagram.get("message") or "").strip().lower()
-
-                  retryable_instagram = (
-                      creation_id
-                      and token
-                      and ig_error == "instagram_publish_error"
-                      and "media id is not available" in ig_message
-                  )
-
-                  if retryable_instagram:
-                      print("Instagram container exists but is not publishable yet.")
-                      print("Retrying the SAME Instagram creation_id; Facebook will not be called again.")
-
-                      ig_base = "https://graph.instagram.com/v24.0"
-                      ig_headers = {
-                          "Authorization": f"Bearer {token}",
-                          "Accept": "application/json",
-                          "User-Agent": "Infograf-Plus-GitHub-Actions"
-                      }
-
-                      published_id = None
-
-                      for attempt in range(1, 9):
-                          # Re-check the container state before each publish attempt.
-                          status_req = urllib.request.Request(
-                              f"{ig_base}/{urllib.parse.quote(creation_id, safe='')}?fields=status_code,status",
-                              method="GET",
-                              headers=ig_headers
-                          )
-
-                          try:
-                              with urllib.request.urlopen(status_req, timeout=30) as response:
-                                  status_data = json.loads(response.read().decode("utf-8"))
-                          except Exception as exc:
-                              status_data = {}
-                              print(f"Instagram status check attempt {attempt} failed: {exc}")
-
-                          status_code = str(status_data.get("status_code") or "").upper()
-                          status_text = str(status_data.get("status") or "")
-                          print(f"Instagram container attempt {attempt}: {status_code} {status_text}")
-
-                          if status_code in ("ERROR", "EXPIRED"):
-                              print("::error::Instagram container entered a terminal failure state.")
-                              sys.exit(1)
-
-                          if status_code not in ("FINISHED", "PUBLISHED"):
-                              time.sleep(3)
-                              continue
-
-                          # Small stabilization delay: Meta can report FINISHED
-                          # a moment before media_publish is actually available.
-                          time.sleep(3)
-
-                          publish_req = urllib.request.Request(
-                              f"{ig_base}/me/media_publish",
-                              data=json.dumps({"creation_id": creation_id}).encode("utf-8"),
-                              method="POST",
-                              headers={
-                                  **ig_headers,
-                                  "Content-Type": "application/json"
-                              }
-                          )
-
-                          try:
-                              with urllib.request.urlopen(publish_req, timeout=30) as response:
-                                  publish_data = json.loads(response.read().decode("utf-8"))
-                                  publish_status = response.status
-                          except urllib.error.HTTPError as exc:
-                              publish_status = exc.code
-                              try:
-                                  publish_data = json.loads(exc.read().decode("utf-8", errors="replace"))
-                              except Exception:
-                                  publish_data = {}
-
-                          print(json.dumps(publish_data, ensure_ascii=False))
-
-                          if 200 <= publish_status < 300 and publish_data.get("id"):
-                              published_id = str(publish_data["id"])
-                              print(f"Instagram published successfully on retry: {published_id}")
-                              break
-
-                          retry_message = str(
-                              publish_data.get("error", {}).get("message")
-                              or publish_data.get("error_message")
-                              or ""
-                          ).lower()
-
-                          if "media id is not available" not in retry_message:
-                              print("::error::Instagram retry failed with a non-retryable error.")
-                              sys.exit(1)
-
-                          if attempt < 8:
-                              print("Instagram media is still not available. Waiting 5 seconds...")
-                              time.sleep(5)
-
-                      if not published_id:
-                          print("::error::Instagram remained unavailable after 8 retry attempts.")
-                          sys.exit(1)
-
-                      # Facebook was already successful; the Instagram retry completed.
-                      if facebook.get("ok") is True:
-                          print("Facebook and Instagram publishing completed successfully.")
-                          continue
-
-                  print("::error::Social publishing failed.")
+                  print("::error::Web Push notification failed.")
                   sys.exit(1)
 
-          print("All new posts published successfully.")
+              print(f"Web Push sent: {result.get('sent', 0)}/{result.get('total', 0)}; failed={result.get('failed', 0)}; removed={result.get('removed', 0)}")
+
+          print("Web Push processing completed.")
           PY
-, text, re.M)
-          slug = m.group(1).strip() if m else re.sub(r'^\d{4}-\d{2}-\d{2}-', '', re.sub(r'\.md
-
-          echo "Building the list of image URLs for the new posts..."
-          python3 - <<'PY'
-          import os, re
-
-          site = "https://infografplus.com"
-          paths = [x.strip() for x in open("/tmp/new_posts.txt", encoding="utf-8") if x.strip()]
-
-          with open("/tmp/image_urls.txt", "w", encoding="utf-8") as out:
-              for path in paths:
-                  text = open(path, encoding="utf-8").read()
-                  match = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
-                  if not match:
-                      raise SystemExit("Invalid front matter: " + path)
-
-                  data = {}
-                  for line in match.group(1).splitlines():
-                      m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
-                      if not m:
-                          continue
-                      key, value = m.groups()
-                      value = value.strip()
-                      if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
-                          value = value[1:-1]
-                      data[key] = value
-
-                  image = str(data.get("image", "")).strip()
-                  if not image:
-                      raise SystemExit("Missing image in front matter: " + path)
-
-                  image_url = image if image.startswith(("http://", "https://")) else site + "/" + image.lstrip("/")
-                  out.write(image_url + "\n")
-                  print("Image to wait for: " + image_url)
-          PY
-
-          echo "Waiting for every new post image to be publicly available as an image..."
-          images_ok=false
-          for attempt in {1..60}; do
-            all_ok=true
-
-            while IFS= read -r image_url; do
-              [[ -z "$image_url" ]] && continue
-
-              headers_file=$(mktemp)
-              if ! curl -fsS --max-time 20 -D "$headers_file" -o /dev/null "$image_url"; then
-                all_ok=false
-                rm -f "$headers_file"
-                echo "Image not reachable yet: $image_url"
-                break
-              fi
-
-              content_type=$(awk 'BEGIN{IGNORECASE=1} /^Content-Type:/ {print $2}' "$headers_file" | tr -d '\r' | tail -1)
-              rm -f "$headers_file"
-
-              if [[ "$content_type" != image/* ]]; then
-                all_ok=false
-                echo "Image URL does not return an image yet ($content_type): $image_url"
-                break
-              fi
-
-              echo "Image ready: $image_url ($content_type)"
-            done < /tmp/image_urls.txt
-
-            if [[ "$all_ok" == "true" ]]; then
-              images_ok=true
-              echo "All new post images are live and return image content types."
-              break
-            fi
-
-            echo "Images not ready yet (attempt $attempt/60). Waiting 5 seconds..."
-            sleep 5
-          done
-
-          if [[ "$images_ok" != "true" ]]; then
-            echo "::error::One or more post images did not become publicly available as images within 5 minutes."
-            exit 1
-          fi
-
-      - name: Publish to Facebook and Instagram
-        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '') && steps.posts.outputs.has_posts == 'true' }}
-        env:
-          AUTOMATION_SECRET: ${{ secrets.AUTOMATION_SECRET }}
-          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [[ -z "${AUTOMATION_SECRET:-}" ]]; then
-            echo "::error::GitHub Secret AUTOMATION_SECRET is missing."
-            exit 1
-          fi
-
-          python3 - <<'PY'
-          import json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
-
-          site = "https://infografplus.com"
-          worker = "https://calm-dream-ae41.dilgash-ibrahim.workers.dev"
-          secret = os.environ["AUTOMATION_SECRET"]
-
-          def read_post(path):
-              text = open(path, encoding="utf-8").read()
-              match = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
-              if not match:
-                  raise ValueError("Invalid front matter: " + path)
-              data = {}
-              for line in match.group(1).splitlines():
-                  m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
-                  if not m:
-                      continue
-                  key, value = m.groups()
-                  value = value.strip()
-                  if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
-                      value = value[1:-1]
-                  data[key] = value
-              return data
-
-          paths = [x.strip() for x in open("/tmp/new_posts.txt", encoding="utf-8") if x.strip()]
-
-          for path in paths:
-              data = read_post(path)
-              slug = str(data.get("slug", "")).strip()
-
-              if not slug:
-                  filename = os.path.basename(path)
-                  slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", re.sub(r"\.md$", "", filename))
-
-              post_url = site + "/i/" + slug + "/"
-              image = str(data.get("image", "")).strip()
-              image_url = image if image.startswith(("http://", "https://")) else site + "/" + image.lstrip("/")
-
-              title = str(data.get("title", "")).strip()
-              description = str(data.get("description", "")).strip()
-              caption = "\n\n".join(x for x in (title, description, post_url) if x)
-
-              payload = json.dumps({"image_url": image_url, "caption": caption}, ensure_ascii=False).encode("utf-8")
-
-              print("Publishing: " + path)
-              print("Image: " + image_url)
-              print("URL: " + post_url)
-
-              request = urllib.request.Request(
-                  worker + "/api/social/publish",
-                  data=payload,
-                  method="POST",
-                  headers={
-                      "Content-Type": "application/json",
-                      "Accept": "application/json",
-                      "X-Automation-Key": secret,
-                      "User-Agent": "Infograf-Plus-GitHub-Actions"
-                  }
-              )
-
-              try:
-                  with urllib.request.urlopen(request, timeout=120) as response:
-                      raw = response.read().decode("utf-8")
-                      status = response.status
-              except urllib.error.HTTPError as exc:
-                  raw = exc.read().decode("utf-8", errors="replace")
-                  status = exc.code
-
-              print(raw)
-
-              try:
-                  result = json.loads(raw)
-              except json.JSONDecodeError:
-                  print("::error::Worker returned invalid JSON.")
-                  sys.exit(1)
-
-              if status < 200 or status >= 300 or not result.get("ok"):
-                  instagram = result.get("results", {}).get("instagram", {})
-                  facebook = result.get("results", {}).get("facebook", {})
-
-                  # Facebook may already be published while Instagram only needs
-                  # a little more time after its container reaches FINISHED.
-                  # In that case, retry the SAME creation_id so Facebook is never
-                  # published a second time.
-                  creation_id = str(instagram.get("creation_id") or "").strip()
-                  token = os.environ.get("INSTAGRAM_ACCESS_TOKEN", "").strip()
-                  ig_error = str(instagram.get("error") or "").strip()
-                  ig_message = str(instagram.get("message") or "").strip().lower()
-
-                  retryable_instagram = (
-                      creation_id
-                      and token
-                      and ig_error == "instagram_publish_error"
-                      and "media id is not available" in ig_message
-                  )
-
-                  if retryable_instagram:
-                      print("Instagram container exists but is not publishable yet.")
-                      print("Retrying the SAME Instagram creation_id; Facebook will not be called again.")
-
-                      ig_base = "https://graph.instagram.com/v24.0"
-                      ig_headers = {
-                          "Authorization": f"Bearer {token}",
-                          "Accept": "application/json",
-                          "User-Agent": "Infograf-Plus-GitHub-Actions"
-                      }
-
-                      published_id = None
-
-                      for attempt in range(1, 9):
-                          # Re-check the container state before each publish attempt.
-                          status_req = urllib.request.Request(
-                              f"{ig_base}/{urllib.parse.quote(creation_id, safe='')}?fields=status_code,status",
-                              method="GET",
-                              headers=ig_headers
-                          )
-
-                          try:
-                              with urllib.request.urlopen(status_req, timeout=30) as response:
-                                  status_data = json.loads(response.read().decode("utf-8"))
-                          except Exception as exc:
-                              status_data = {}
-                              print(f"Instagram status check attempt {attempt} failed: {exc}")
-
-                          status_code = str(status_data.get("status_code") or "").upper()
-                          status_text = str(status_data.get("status") or "")
-                          print(f"Instagram container attempt {attempt}: {status_code} {status_text}")
-
-                          if status_code in ("ERROR", "EXPIRED"):
-                              print("::error::Instagram container entered a terminal failure state.")
-                              sys.exit(1)
-
-                          if status_code not in ("FINISHED", "PUBLISHED"):
-                              time.sleep(3)
-                              continue
-
-                          # Small stabilization delay: Meta can report FINISHED
-                          # a moment before media_publish is actually available.
-                          time.sleep(3)
-
-                          publish_req = urllib.request.Request(
-                              f"{ig_base}/me/media_publish",
-                              data=json.dumps({"creation_id": creation_id}).encode("utf-8"),
-                              method="POST",
-                              headers={
-                                  **ig_headers,
-                                  "Content-Type": "application/json"
-                              }
-                          )
-
-                          try:
-                              with urllib.request.urlopen(publish_req, timeout=30) as response:
-                                  publish_data = json.loads(response.read().decode("utf-8"))
-                                  publish_status = response.status
-                          except urllib.error.HTTPError as exc:
-                              publish_status = exc.code
-                              try:
-                                  publish_data = json.loads(exc.read().decode("utf-8", errors="replace"))
-                              except Exception:
-                                  publish_data = {}
-
-                          print(json.dumps(publish_data, ensure_ascii=False))
-
-                          if 200 <= publish_status < 300 and publish_data.get("id"):
-                              published_id = str(publish_data["id"])
-                              print(f"Instagram published successfully on retry: {published_id}")
-                              break
-
-                          retry_message = str(
-                              publish_data.get("error", {}).get("message")
-                              or publish_data.get("error_message")
-                              or ""
-                          ).lower()
-
-                          if "media id is not available" not in retry_message:
-                              print("::error::Instagram retry failed with a non-retryable error.")
-                              sys.exit(1)
-
-                          if attempt < 8:
-                              print("Instagram media is still not available. Waiting 5 seconds...")
-                              time.sleep(5)
-
-                      if not published_id:
-                          print("::error::Instagram remained unavailable after 8 retry attempts.")
-                          sys.exit(1)
-
-                      # Facebook was already successful; the Instagram retry completed.
-                      if facebook.get("ok") is True:
-                          print("Facebook and Instagram publishing completed successfully.")
-                          continue
-
-                  print("::error::Social publishing failed.")
-                  sys.exit(1)
-
-          print("All new posts published successfully.")
-          PY
-, '', path.rsplit('/',1)[-1]))
-          print("https://infografplus.com/i/" + slug + "/")
-          PY
-            )
-            echo "Post URL: $post_url"
-            break
-          done < /tmp/new_posts.txt
-
-          if [[ -z "$post_url" ]]; then
-            echo "::error::Could not determine the post URL."
-            exit 1
-          fi
-
-          for attempt in {1..144}; do
-            if curl -fsS --max-time 20 -L "$post_url" >/dev/null; then
-              echo "Post is live."
-              post_ok=true
-              break
-            fi
-            echo "Post not live yet (attempt $attempt/144)."
-            sleep 5
-          done
-
-          if [[ "$post_ok" != "true" ]]; then
-            echo "::error::Post did not become reachable within 12 minutes."
-            exit 1
-          fi
-
-          echo "Building the list of image URLs for the new posts..."
-          python3 - <<'PY'
-          import os, re
-
-          site = "https://infografplus.com"
-          paths = [x.strip() for x in open("/tmp/new_posts.txt", encoding="utf-8") if x.strip()]
-
-          with open("/tmp/image_urls.txt", "w", encoding="utf-8") as out:
-              for path in paths:
-                  text = open(path, encoding="utf-8").read()
-                  match = re.match(r"^---\s*\n(.*?)\n---", text, re.S)
-                  if not match:
-                      raise SystemExit("Invalid front matter: " + path)
-
-                  data = {}
-                  for line in match.group(1).splitlines():
-                      m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
-                      if not m:
-                          continue
-                      key, value = m.groups()
-                      value = value.strip()
-                      if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
-                          value = value[1:-1]
-                      data[key] = value
-
-                  image = str(data.get("image", "")).strip()
-                  if not image:
-                      raise SystemExit("Missing image in front matter: " + path)
-
-                  image_url = image if image.startswith(("http://", "https://")) else site + "/" + image.lstrip("/")
-                  out.write(image_url + "\n")
-                  print("Image to wait for: " + image_url)
-          PY
-
-          echo "Waiting for every new post image to be publicly available as an image..."
-          images_ok=false
-          for attempt in {1..60}; do
-            all_ok=true
-
-            while IFS= read -r image_url; do
-              [[ -z "$image_url" ]] && continue
-
-              headers_file=$(mktemp)
-              if ! curl -fsS --max-time 20 -D "$headers_file" -o /dev/null "$image_url"; then
-                all_ok=false
-                rm -f "$headers_file"
-                echo "Image not reachable yet: $image_url"
-                break
-              fi
-
-              content_type=$(awk 'BEGIN{IGNORECASE=1} /^Content-Type:/ {print $2}' "$headers_file" | tr -d '\r' | tail -1)
-              rm -f "$headers_file"
-
-              if [[ "$content_type" != image/* ]]; then
-                all_ok=false
-                echo "Image URL does not return an image yet ($content_type): $image_url"
-                break
-              fi
-
-              echo "Image ready: $image_url ($content_type)"
-            done < /tmp/image_urls.txt
-
-            if [[ "$all_ok" == "true" ]]; then
-              images_ok=true
-              echo "All new post images are live and return image content types."
-              break
-            fi
-
-            echo "Images not ready yet (attempt $attempt/60). Waiting 5 seconds..."
-            sleep 5
-          done
-
-          if [[ "$images_ok" != "true" ]]; then
-            echo "::error::One or more post images did not become publicly available as images within 5 minutes."
-            exit 1
-          fi
 
       - name: Publish to Facebook and Instagram
         if: ${{ (github.event_name != 'workflow_dispatch' || inputs.recovery_creation_id == '') && steps.posts.outputs.has_posts == 'true' }}
