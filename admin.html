@@ -48,6 +48,7 @@ permalink: /x7k9p2m4/
 <section id="dashboard-view" class="view active-view">
 <div class="welcome-panel"><div><p class="eyebrow">إدارة سهلة</p><h2>كل محتوى Infograf+ من مكان واحد.</h2><p class="muted">أضف أو عدّل أو احذف الإنفوغرافيكات، وستُحفظ التغييرات مباشرة في مستودع الموقع.</p></div><button class="button button-primary" data-go="editor" type="button">+ إضافة إنفوغرافيك</button></div>
 <div class="stats-grid"><article class="stat-card"><span>إجمالي الإنفوغرافيكات</span><strong id="stat-total">—</strong></article><article class="stat-card"><span>آخر تحديث</span><strong id="stat-latest">—</strong></article><article class="stat-card"><span>الأقسام المستخدمة</span><strong id="stat-categories">—</strong></article></div>
+<div class="section-card push-diagnostics"><div class="section-title-row"><div><p class="eyebrow">Web Push</p><h2>فحص الإشعارات</h2></div><button id="push-test-button" class="button button-primary" type="button">إرسال إشعار تجريبي</button></div><div id="push-status" class="status" hidden></div><p class="muted">هذا الاختبار يرسل إشعارًا فعليًا إلى الأجهزة المشتركة حاليًا. استخدمه قبل اختبار نشر مقال جديد.</p></div>
 <div class="section-card"><div class="section-title-row"><div><p class="eyebrow">آخر المحتوى</p><h2>الإنفوغرافيكات الأخيرة</h2></div><button class="button button-secondary" data-go="posts" type="button">عرض الكل</button></div><div id="recent-posts" class="mini-posts"></div></div>
 </section>
 <section id="posts-view" class="view" hidden>
@@ -182,14 +183,55 @@ permalink: /x7k9p2m4/
     }
   }
 
+  async function loadPushStatus() {
+    if (!session()) return;
+    const box = $('push-status');
+    try {
+      const data = await roleRequest('/api/push/status');
+      const storage = data?.storage || {};
+      const vapid = data?.vapid || {};
+      box.textContent = 'KV: ' + (storage.configured ? 'متصل' : 'غير مضبوط') + ' · المشتركين: ' + (storage.subscribers ?? 0) + ' · VAPID: ' + (vapid.valid ? 'صالح' : 'خطأ: ' + (vapid.message || 'غير صالح'));
+      box.className = data?.ok ? 'status success' : 'status error';
+      box.hidden = false;
+    } catch (error) {
+      box.textContent = error.message || 'تعذر فحص الإشعارات.';
+      box.className = 'status error';
+      box.hidden = false;
+    }
+  }
+
+  async function testPush() {
+    const button = $('push-test-button');
+    const box = $('push-status');
+    if (!button) return;
+    button.disabled = true;
+    button.textContent = 'جارٍ الاختبار...';
+    try {
+      const data = await roleRequest('/api/push/test', {method:'POST', body:JSON.stringify({category:'منوع'})});
+      box.textContent = 'تم الاختبار · المشتركون: ' + (data.total ?? 0) + ' · أُرسل: ' + (data.sent ?? 0) + ' · فشل: ' + (data.failed ?? 0) + ' · حُذف: ' + (data.removed ?? 0);
+      box.className = data?.ok ? 'status success' : 'status error';
+      box.hidden = false;
+      if (data?.errors?.length) box.textContent += ' · الخطأ: ' + (data.errors[0].message || data.errors[0].status || 'غير معروف');
+    } catch (error) {
+      box.textContent = error.message || 'فشل اختبار الإشعارات.';
+      box.className = 'status error';
+      box.hidden = false;
+    } finally {
+      button.disabled = false;
+      button.textContent = 'إرسال إشعار تجريبي';
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     $('add-admin-button')?.addEventListener('click', addAdmin);
+    $('push-test-button')?.addEventListener('click', testPush);
     $('admin-login-input')?.addEventListener('keydown', event => { if (event.key === 'Enter') addAdmin(); });
     $('admins-list')?.addEventListener('click', event => {
       const button = event.target.closest('[data-remove-admin]');
       if (button) removeAdmin(button.dataset.removeAdmin);
     });
     loadRoleAndAdmins();
+    setTimeout(loadPushStatus, 1400);
     setTimeout(loadRoleAndAdmins, 1200);
   });
 })();
