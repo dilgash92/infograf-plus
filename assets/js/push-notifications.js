@@ -3,7 +3,7 @@
 
   var CONFIG = {
     subscribeEndpoint: "https://calm-dream-ae41.dilgash-ibrahim.workers.dev/api/push/subscribe",
-    vapidPublicKey: "BMf0OcEiHeCaxXEq2QdV1aG9Jk1dad0wB4N519Da_PnRNh3453c-hxQ0cAFd55gUSIj-v8L1ydRbhopPY8zpLWQ"
+    vapidPublicKey: "BHLeAgGxwrk3f4zmxjjCD1FuuNehxSi1vVqauNt1w4puf3sY9dx8nHt_x_07Q7JLTz9GmNsmhor4KR771_WeBto"
   };
 
   var DB_NAME = "infograf-plus-notifications";
