@@ -324,13 +324,23 @@
           >
             <div class="notification-panel-header">
               <strong>الإشعارات</strong>
-              <button
-                type="button"
-                id="notification-mark-read"
-                class="notification-mark-read"
-              >
-                تحديد الكل كمقروء
-              </button>
+              <div class="notification-panel-actions">
+                <button
+                  type="button"
+                  id="notification-mark-read"
+                  class="notification-mark-read"
+                >
+                  تحديد الكل كمقروء
+                </button>
+                <button
+                  type="button"
+                  id="notification-unsubscribe"
+                  class="notification-mark-read notification-unsubscribe"
+                  hidden
+                >
+                  إيقاف الإشعارات
+                </button>
+              </div>
             </div>
 
             <div id="notification-list" class="notification-list">
