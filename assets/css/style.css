@@ -2985,7 +2985,7 @@ button {
   display: flex;
   align-items: center;
   gap: 0;
-  animation: infografTicker 42s linear infinite;
+  animation: infografTicker 95s linear infinite;
   will-change: transform;
 }
 
@@ -3068,7 +3068,7 @@ button {
   }
 
   .latest-ticker-track {
-    animation-duration: 34s;
+    animation-duration: 78s;
   }
 
   .latest-ticker-item {
