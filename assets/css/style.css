@@ -2990,7 +2990,7 @@ button {
 }
 
 .latest-ticker-item {
-  direction: ltr;
+  direction: rtl;
   display: inline-flex;
   align-items: center;
   gap: 8px;
