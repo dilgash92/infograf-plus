@@ -2990,7 +2990,7 @@ button {
 }
 
 .latest-ticker-item {
-  direction: rtl;
+  direction: ltr;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -3081,6 +3081,8 @@ button {
   }
 
   .latest-ticker-item-title {
+    direction: rtl;
+    unicode-bidi: plaintext;
     font-size: 10px;
   }
 
