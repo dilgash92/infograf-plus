@@ -2923,3 +2923,182 @@ button {
     max-width: none;
   }
 }
+
+
+/* =========================================================
+   Latest Infographics Ticker
+   ========================================================= */
+
+.latest-ticker {
+  width: 100%;
+  margin: 0;
+  padding: 8px 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.latest-ticker-inner {
+  width: min(1400px, calc(100% - 32px));
+  min-height: 44px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+}
+
+.latest-ticker-label {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 11px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.latest-ticker-label-plus {
+  font-size: 21px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.latest-ticker-window {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  direction: ltr;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+}
+
+.latest-ticker-track {
+  width: max-content;
+  min-width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  animation: infografTicker 42s linear infinite;
+  will-change: transform;
+}
+
+.latest-ticker-item {
+  direction: rtl;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 10px;
+  transition: background .18s ease, transform .18s ease;
+}
+
+.latest-ticker-item-plus {
+  color: var(--ticker-category-color);
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: .8;
+}
+
+.latest-ticker-item-title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.latest-ticker-item:hover,
+.latest-ticker-item:focus-visible {
+  background: var(--surface-soft);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.latest-ticker-separator {
+  flex: 0 0 auto;
+  padding: 0 4px;
+  color: var(--text-light);
+  font-size: 13px;
+}
+
+.latest-ticker-window:hover .latest-ticker-track,
+.latest-ticker-window:focus-within .latest-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes infografTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 700px) {
+  .latest-ticker {
+    padding: 6px 0;
+  }
+
+  .latest-ticker-inner {
+    width: calc(100% - 20px);
+    min-height: 40px;
+    gap: 8px;
+  }
+
+  .latest-ticker-label {
+    min-height: 31px;
+    padding: 0 9px;
+    gap: 5px;
+    border-radius: 9px;
+    font-size: 10px;
+  }
+
+  .latest-ticker-label-plus {
+    font-size: 18px;
+  }
+
+  .latest-ticker-track {
+    animation-duration: 34s;
+  }
+
+  .latest-ticker-item {
+    gap: 6px;
+    padding: 6px 7px;
+  }
+
+  .latest-ticker-item-plus {
+    font-size: 22px;
+  }
+
+  .latest-ticker-item-title {
+    font-size: 10px;
+  }
+
+  .latest-ticker-separator {
+    padding: 0 2px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .latest-ticker-track {
+    animation: none;
+    transform: none;
+  }
+
+  .latest-ticker-window {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
