@@ -1,0 +1,53 @@
+{% assign ticker_posts = site.posts | limit: 10 %}
+{% if ticker_posts.size > 0 %}
+<section class="latest-ticker" aria-label="أحدث الإنفوغرافيكات">
+  <div class="latest-ticker-inner">
+    <div class="latest-ticker-label">
+      <span class="latest-ticker-label-plus" aria-hidden="true">+</span>
+      <span>الأحدث</span>
+    </div>
+    <div class="latest-ticker-window">
+      <div class="latest-ticker-track">
+        {% for ticker_post in ticker_posts %}
+          {% assign ticker_color = '#635BFF' %}
+          {% if ticker_post.category == 'العالم' %}{% assign ticker_color = '#0043F7' %}
+          {% elsif ticker_post.category == 'سياسة' %}{% assign ticker_color = '#921E7A' %}
+          {% elsif ticker_post.category == 'اقتصاد ومال' %}{% assign ticker_color = '#D99A00' %}
+          {% elsif ticker_post.category == 'تقنية' %}{% assign ticker_color = '#13CBFF' %}
+          {% elsif ticker_post.category == 'علوم' %}{% assign ticker_color = '#555555' %}
+          {% elsif ticker_post.category == 'صحة' %}{% assign ticker_color = '#22A06B' %}
+          {% elsif ticker_post.category == 'رياضة' %}{% assign ticker_color = '#A71C1C' %}
+          {% elsif ticker_post.category == 'سيارات' %}{% assign ticker_color = '#2A2A2D' %}
+          {% elsif ticker_post.category == 'سفر' %}{% assign ticker_color = '#FC8FC5' %}
+          {% elsif ticker_post.category == 'منوع' %}{% assign ticker_color = '#E74F1B' %}
+          {% endif %}
+          <a class="latest-ticker-item" href="{{ ticker_post.url | relative_url }}" style="--ticker-category-color: {{ ticker_color }};">
+            <span class="latest-ticker-item-plus" aria-hidden="true">+</span>
+            <span class="latest-ticker-item-title">{{ ticker_post.title }}</span>
+          </a>
+          <span class="latest-ticker-separator" aria-hidden="true">•</span>
+        {% endfor %}
+        {% for ticker_post in ticker_posts %}
+          {% assign ticker_color = '#635BFF' %}
+          {% if ticker_post.category == 'العالم' %}{% assign ticker_color = '#0043F7' %}
+          {% elsif ticker_post.category == 'سياسة' %}{% assign ticker_color = '#921E7A' %}
+          {% elsif ticker_post.category == 'اقتصاد ومال' %}{% assign ticker_color = '#D99A00' %}
+          {% elsif ticker_post.category == 'تقنية' %}{% assign ticker_color = '#13CBFF' %}
+          {% elsif ticker_post.category == 'علوم' %}{% assign ticker_color = '#555555' %}
+          {% elsif ticker_post.category == 'صحة' %}{% assign ticker_color = '#22A06B' %}
+          {% elsif ticker_post.category == 'رياضة' %}{% assign ticker_color = '#A71C1C' %}
+          {% elsif ticker_post.category == 'سيارات' %}{% assign ticker_color = '#2A2A2D' %}
+          {% elsif ticker_post.category == 'سفر' %}{% assign ticker_color = '#FC8FC5' %}
+          {% elsif ticker_post.category == 'منوع' %}{% assign ticker_color = '#E74F1B' %}
+          {% endif %}
+          <a class="latest-ticker-item" href="{{ ticker_post.url | relative_url }}" style="--ticker-category-color: {{ ticker_color }};" tabindex="-1" aria-hidden="true">
+            <span class="latest-ticker-item-plus" aria-hidden="true">+</span>
+            <span class="latest-ticker-item-title">{{ ticker_post.title }}</span>
+          </a>
+          <span class="latest-ticker-separator" aria-hidden="true">•</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
