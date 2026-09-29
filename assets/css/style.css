@@ -250,6 +250,7 @@ button {
 
   .header-actions .instagram-header-link,
   .header-actions .facebook-header-link,
+  .header-actions .tiktok-header-link,
   .header-actions .notification-header-button,
   .header-actions .search-button,
   .header-actions .theme-toggle {
@@ -304,6 +305,7 @@ button {
 
     .header-actions .instagram-header-link,
     .header-actions .facebook-header-link,
+    .header-actions .tiktok-header-link,
     .header-actions .notification-header-button,
     .header-actions .search-button,
     .header-actions .theme-toggle {
@@ -319,6 +321,7 @@ button {
 
     .header-actions .instagram-header-link svg,
     .header-actions .facebook-header-link svg,
+    .header-actions .tiktok-header-link svg,
     .header-actions .notification-header-button svg,
     .header-actions .theme-toggle svg {
       width: 17px;
@@ -372,6 +375,33 @@ button {
 /* =========================================================
    Instagram Header Link
    ========================================================= */
+
+.tiktok-header-link {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--surface-soft);
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.tiktok-header-link:hover,
+.tiktok-header-link:focus-visible {
+  background: var(--accent-light);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.tiktok-header-link svg {
+  width: 21px;
+  height: 21px;
+  display: block;
+  fill: currentColor;
+}
 
 .instagram-header-link {
   width: 44px;
