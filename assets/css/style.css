@@ -3013,6 +3013,7 @@ button {
   width: max-content;
   min-width: max-content;
   display: flex;
+  direction: ltr;
   align-items: center;
   gap: 0;
   animation: infografTicker 360s linear infinite;
