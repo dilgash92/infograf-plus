@@ -102,6 +102,31 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
     {% else %}<div class="empty-state"><div class="empty-icon">+</div><h3>أول إنفوغرافيك قريباً</h3><p>عندما تضيف أول إنفوغرافيك، سيظهر هنا تلقائياً.</p></div>{% endif %}
   </section>
 
+  {% if site.posts.size > 0 %}
+  <section class="random-discovery-section" aria-labelledby="random-discovery-title">
+    <div class="random-discovery-card">
+      <div class="random-discovery-content">
+        <span class="section-kicker">اكتشاف</span>
+        <h2 id="random-discovery-title">فاجئني بإنفوغرافيك</h2>
+        <p>لا تعرف ماذا تشاهد؟ اترك الاختيار لنا واكتشف إنفوغرافيكاً عشوائياً من أرشيف Infograf+.</p>
+        <button type="button" class="random-discovery-button" id="random-infographic-button">
+          <span class="random-discovery-button-icon" aria-hidden="true"><span>+</span></span>
+          <span>فاجئني الآن</span>
+          <span class="random-discovery-button-arrow" aria-hidden="true">←</span>
+        </button>
+      </div>
+      <div class="random-discovery-visual" aria-hidden="true">
+        <span class="random-discovery-plus random-discovery-plus-main">+</span>
+        <span class="random-discovery-plus random-discovery-plus-small">+</span>
+        <span class="random-discovery-dot random-discovery-dot-one"></span>
+        <span class="random-discovery-dot random-discovery-dot-two"></span>
+        <span class="random-discovery-line"></span>
+        <span class="random-discovery-label">Infograf+</span>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
   <section class="about-section">
     <div class="about-content"><span class="section-kicker">عن Infograf+</span><h2>معلومات كثيرة.<br><span>طريقة أبسط لفهمها.</span></h2><p>نحول البيانات والأرقام والأحداث إلى محتوى بصري مختصر وسهل القراءة، حتى تصل إلى المعلومة بسرعة ووضوح.</p></div>
     <div class="about-mark" aria-hidden="true"><span>Infograf</span><strong>+</strong></div>
@@ -170,6 +195,23 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
     }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ]
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const randomButton = document.getElementById('random-infographic-button');
+      if (!randomButton) return;
+      const randomPosts = [
+        {% for post in site.posts %}
+        {{ post.url | relative_url | jsonify }}{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ];
+      if (!randomPosts.length) return;
+      randomButton.addEventListener('click', function () {
+        const target = randomPosts[Math.floor(Math.random() * randomPosts.length)];
+        if (target) window.location.href = target;
+      });
+    });
   </script>
 
   <script>
