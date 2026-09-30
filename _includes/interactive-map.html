@@ -1,205 +1,68 @@
-
-/* =========================================================
-   Interactive World Map
-   ========================================================= */
-
-.interactive-map-section {
-  width: min(var(--max-width), calc(100% - 40px));
-  margin: 0 auto;
-  padding: 0 0 75px;
-}
-
-.interactive-map-card {
-  overflow: hidden;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  box-shadow: var(--shadow-sm);
-}
-
-.interactive-map-toolbar {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 22px 24px 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.interactive-map-search {
-  display: grid;
-  gap: 7px;
-  min-width: min(340px, 100%);
-  color: var(--text);
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.interactive-map-search input {
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 42px;
-  padding: 0 13px;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: var(--surface-soft);
-  color: var(--text);
-  font: inherit;
-  font-size: 13px;
-  outline: none;
-}
-
-.interactive-map-search input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-light);
-}
-
-.interactive-map-hint {
-  color: var(--text-light);
-  font-size: 10px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.interactive-map-stage {
-  position: relative;
-  min-height: 330px;
-  padding: 8px;
-  background: var(--surface-soft);
-}
-
-#interactive-world-map {
-  width: 100%;
-  height: auto;
-  display: block;
-  cursor: grab;
-  touch-action: none;
-}
-
-#interactive-world-map:active {
-  cursor: grabbing;
-}
-
-.interactive-map-sphere {
-  fill: var(--surface);
-  stroke: var(--border);
-  stroke-width: 1;
-}
-
-.interactive-map-country {
-  fill: var(--background, #f5f5f5);
-  stroke: var(--border);
-  stroke-width: .7;
-  cursor: pointer;
-  outline: none;
-  transition: fill .15s ease, stroke .15s ease;
-}
-
-.interactive-map-country:hover,
-.interactive-map-country:focus-visible {
-  fill: var(--accent-light);
-  stroke: var(--accent);
-  stroke-width: 1.5;
-}
-
-.interactive-map-country.is-selected {
-  fill: var(--accent-light);
-  stroke: var(--accent);
-  stroke-width: 2;
-}
-
-.interactive-map-info {
-  padding: 18px 22px;
-  border-top: 1px solid var(--border);
-}
-
-.interactive-map-info-placeholder {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-}
-
-.interactive-map-info-placeholder > div {
-  display: grid;
-  gap: 3px;
-}
-
-.interactive-map-info-placeholder strong {
-  color: var(--text);
-  font-size: 14px;
-}
-
-.interactive-map-info-placeholder span:not(.interactive-map-info-plus) {
-  color: var(--text-secondary);
-  font-size: 11px;
-  line-height: 1.7;
-}
-
-.interactive-map-info-plus {
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: var(--accent-light);
-  color: var(--accent);
-  font-family: Arial, sans-serif;
-  font-size: 25px;
-  font-weight: 800;
-}
-
-.interactive-map-loading {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  background: var(--surface-soft);
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.interactive-map-loading[hidden] {
-  display: none;
-}
-
-.interactive-map-loading.is-error {
-  color: var(--text-secondary);
-}
-
-@media (max-width: 700px) {
-  .interactive-map-section {
-    width: calc(100% - 28px);
-    padding-bottom: 50px;
-  }
-
-  .interactive-map-card {
-    border-radius: 23px;
-  }
-
-  .interactive-map-toolbar {
-    display: grid;
-    align-items: stretch;
-    gap: 10px;
-    padding: 17px 16px 14px;
-  }
-
-  .interactive-map-search {
-    min-width: 0;
-  }
-
-  .interactive-map-hint {
-    white-space: normal;
-  }
-
-  .interactive-map-stage {
-    min-height: 210px;
-    padding: 5px;
-  }
-
-  .interactive-map-info {
-    padding: 15px 16px;
-  }
-}
+<section class="interactive-map-section" aria-labelledby="interactive-map-title">
+  <div class="section-heading">
+    <div><span class="section-kicker">استكشف العالم</span><h2 id="interactive-map-title">خريطة Infograf+ التفاعلية</h2></div>
+    <span class="section-count">اضغط على أي دولة</span>
+  </div>
+  <div class="interactive-map-card">
+    <div class="interactive-map-toolbar">
+      <label class="interactive-map-search"><span>ابحث عن دولة</span><input type="search" id="interactive-map-search" placeholder="مثلاً Germany" autocomplete="off"></label>
+      <div class="interactive-map-hint">تكبير وتحريك الخريطة متاحان</div>
+    </div>
+    <div class="interactive-map-stage">
+      <div class="interactive-map-loading" id="interactive-map-loading">جاري تحميل الخريطة…</div>
+      <svg id="interactive-world-map" viewBox="0 0 960 500" role="img" aria-labelledby="interactive-map-title interactive-map-description">
+        <desc id="interactive-map-description">خريطة عالم تفاعلية، اضغط على دولة لعرض اسمها.</desc>
+      </svg>
+    </div>
+    <div class="interactive-map-info" id="interactive-map-info" aria-live="polite">
+      <div class="interactive-map-info-placeholder"><span class="interactive-map-info-plus" aria-hidden="true">+</span><div><strong>اختر دولة من الخريطة</strong><span>ستظهر هنا معلوماتها ويمكن لاحقاً ربطها بإنفوغرافيكات Infograf+.</span></div></div>
+    </div>
+  </div>
+  <script type="module">
+    (() => {
+      const root=document.querySelector('.interactive-map-section');
+      if(!root || root.dataset.mapReady==='1') return;
+      root.dataset.mapReady='1';
+      const svg=root.querySelector('#interactive-world-map');
+      const loading=root.querySelector('#interactive-map-loading');
+      const info=root.querySelector('#interactive-map-info');
+      const search=root.querySelector('#interactive-map-search');
+      const esc=v=>String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+      const showInfo=d=>{
+        const name=d?.properties?.name||'دولة';
+        info.innerHTML='<div class="interactive-map-info-placeholder"><span class="interactive-map-info-plus" aria-hidden="true">+</span><div><strong>'+esc(name)+'</strong><span>تم اختيار الدولة. هذه النسخة تعرض الخريطة أولاً، ويمكن ربطها لاحقاً ببيانات موثقة وإنفوغرافيكات مرتبطة بها.</span></div></div>';
+      };
+      Promise.all([
+        import('https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm'),
+        import('https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm'),
+        import('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json/+esm')
+      ]).then(([d3m,tm,wm])=>{
+        const d3=d3m.default||d3m, topo=tm.default||tm, world=wm.default||wm;
+        const countries=topo.feature(world,world.objects.countries).features;
+        const width=960,height=500;
+        const projection=d3.geoNaturalEarth1().fitSize([width-28,height-28],{type:'Sphere'});
+        const path=d3.geoPath(projection);
+        svg.innerHTML='';
+        const layer=d3.select(svg).append('g');
+        layer.append('path').datum({type:'Sphere'}).attr('class','interactive-map-sphere').attr('d',path);
+        const countryPaths=layer.selectAll('.interactive-map-country').data(countries).join('path').attr('class','interactive-map-country').attr('d',path).attr('tabindex',0).attr('role','button').attr('aria-label',d=>d.properties?.name||'دولة')
+          .on('click',(e,d)=>{countryPaths.classed('is-selected',false);d3.select(e.currentTarget).classed('is-selected',true);showInfo(d);})
+          .on('keydown',(e,d)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();countryPaths.classed('is-selected',false);d3.select(e.currentTarget).classed('is-selected',true);showInfo(d);}});
+        const zoom=d3.zoom().scaleExtent([1,6]).on('zoom',e=>layer.attr('transform',e.transform));
+        d3.select(svg).call(zoom);
+        const focus=term=>{
+          const q=term.trim().toLowerCase(); if(!q)return;
+          const match=countries.find(d=>String(d.properties?.name||'').toLowerCase().includes(q)); if(!match)return;
+          const node=countryPaths.filter(d=>d===match).node(); if(!node)return;
+          countryPaths.classed('is-selected',false);d3.select(node).classed('is-selected',true);showInfo(match);
+          const b=path.bounds(match),dx=b[1][0]-b[0][0],dy=b[1][1]-b[0][1],x=(b[0][0]+b[1][0])/2,y=(b[0][1]+b[1][1])/2;
+          const scale=Math.max(1,Math.min(5,.75/Math.max(dx/width,dy/height)));
+          const t=[width/2-scale*x,height/2-scale*y];
+          d3.select(svg).transition().duration(600).call(zoom.transform,d3.zoomIdentity.translate(t[0],t[1]).scale(scale));
+        };
+        search.addEventListener('input',()=>{if(search.value.trim().length>=2)focus(search.value);});
+        loading.hidden=true;
+      }).catch(()=>{loading.textContent='تعذر تحميل الخريطة الآن. حاول تحديث الصفحة.';loading.classList.add('is-error');});
+    })();
+  </script>
+</section>
