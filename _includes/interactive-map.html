@@ -34,10 +34,11 @@
       };
       Promise.all([
         import('https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm'),
-        import('https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm'),
-        import('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json/+esm')
-      ]).then(([d3m,tm,wm])=>{
-        const d3=d3m.default||d3m, topo=tm.default||tm, world=wm.default||wm;
+        import('https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm')
+      ]).then(async ([d3m,tm])=>{
+        const d3=d3m.default||d3m, topo=tm.default||tm;
+        const world=await d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json');
+        if(!world || !world.objects || !world.objects.countries) throw new Error('World map data unavailable');
         const countries=topo.feature(world,world.objects.countries).features;
         const width=960,height=500;
         const projection=d3.geoNaturalEarth1().fitSize([width-28,height-28],{type:'Sphere'});
