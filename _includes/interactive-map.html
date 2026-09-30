@@ -1,0 +1,205 @@
+
+/* =========================================================
+   Interactive World Map
+   ========================================================= */
+
+.interactive-map-section {
+  width: min(var(--max-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: 0 0 75px;
+}
+
+.interactive-map-card {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.interactive-map-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.interactive-map-search {
+  display: grid;
+  gap: 7px;
+  min-width: min(340px, 100%);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.interactive-map-search input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.interactive-map-search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.interactive-map-hint {
+  color: var(--text-light);
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.interactive-map-stage {
+  position: relative;
+  min-height: 330px;
+  padding: 8px;
+  background: var(--surface-soft);
+}
+
+#interactive-world-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+#interactive-world-map:active {
+  cursor: grabbing;
+}
+
+.interactive-map-sphere {
+  fill: var(--surface);
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.interactive-map-country {
+  fill: var(--background, #f5f5f5);
+  stroke: var(--border);
+  stroke-width: .7;
+  cursor: pointer;
+  outline: none;
+  transition: fill .15s ease, stroke .15s ease;
+}
+
+.interactive-map-country:hover,
+.interactive-map-country:focus-visible {
+  fill: var(--accent-light);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.interactive-map-country.is-selected {
+  fill: var(--accent-light);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.interactive-map-info {
+  padding: 18px 22px;
+  border-top: 1px solid var(--border);
+}
+
+.interactive-map-info-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.interactive-map-info-placeholder > div {
+  display: grid;
+  gap: 3px;
+}
+
+.interactive-map-info-placeholder strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.interactive-map-info-placeholder span:not(.interactive-map-info-plus) {
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.interactive-map-info-plus {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.interactive-map-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.interactive-map-loading[hidden] {
+  display: none;
+}
+
+.interactive-map-loading.is-error {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 700px) {
+  .interactive-map-section {
+    width: calc(100% - 28px);
+    padding-bottom: 50px;
+  }
+
+  .interactive-map-card {
+    border-radius: 23px;
+  }
+
+  .interactive-map-toolbar {
+    display: grid;
+    align-items: stretch;
+    gap: 10px;
+    padding: 17px 16px 14px;
+  }
+
+  .interactive-map-search {
+    min-width: 0;
+  }
+
+  .interactive-map-hint {
+    white-space: normal;
+  }
+
+  .interactive-map-stage {
+    min-height: 210px;
+    padding: 5px;
+  }
+
+  .interactive-map-info {
+    padding: 15px 16px;
+  }
+}
