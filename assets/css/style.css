@@ -3434,3 +3434,8 @@ button {
 .interactive-map-loading{position:absolute;inset:0;z-index:2;display:grid;place-items:center;background:var(--surface-soft);color:var(--text-secondary);font-size:12px;font-weight:700}
 .interactive-map-loading[hidden]{display:none}
 @media(max-width:700px){.interactive-map-section{width:calc(100% - 28px);padding-bottom:50px}.interactive-map-card{border-radius:23px}.interactive-map-toolbar{display:grid;align-items:stretch;gap:10px;padding:17px 16px 14px}.interactive-map-search{min-width:0}.interactive-map-hint{white-space:normal}.interactive-map-stage{min-height:210px;padding:5px}.interactive-map-info{padding:15px 16px}}
+
+/* Interactive map visibility fix */
+.interactive-map-sphere{fill:var(--surface-soft)!important}
+.interactive-map-country{fill:#e8e8ec!important;stroke:#8a8a93!important;stroke-width:.8!important}
+.interactive-map-country:hover,.interactive-map-country:focus-visible,.interactive-map-country.is-selected{fill:var(--accent-light)!important;stroke:var(--accent)!important}
