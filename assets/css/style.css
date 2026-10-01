@@ -3439,3 +3439,39 @@ button {
 .interactive-map-sphere{fill:var(--surface-soft)!important}
 .interactive-map-country{fill:#e8e8ec!important;stroke:#8a8a93!important;stroke-width:.8!important}
 .interactive-map-country:hover,.interactive-map-country:focus-visible,.interactive-map-country.is-selected{fill:var(--accent-light)!important;stroke:var(--accent)!important}
+
+/* Interactive map data UI */
+.interactive-map-metric-wrap{display:grid;gap:7px;min-width:170px;color:var(--text);font-size:10px;font-weight:800}
+.interactive-map-metric-wrap select{min-height:42px;padding:0 12px;border:1px solid var(--border);border-radius:11px;background:var(--surface-soft);color:var(--text);font:inherit;outline:none}
+.interactive-map-metric-wrap select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
+.interactive-map-legend{display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:9px;font-weight:800}
+.interactive-map-legend i{display:block;width:24px;height:8px;border-radius:20px;background:color-mix(in srgb,var(--accent) 12%,var(--surface-soft))}
+.interactive-map-legend i:nth-of-type(2){background:color-mix(in srgb,var(--accent) 30%,var(--surface-soft))}
+.interactive-map-legend i:nth-of-type(3){background:color-mix(in srgb,var(--accent) 48%,var(--surface-soft))}
+.interactive-map-legend i:nth-of-type(4){background:color-mix(in srgb,var(--accent) 70%,var(--surface-soft))}
+.interactive-map-country-info{display:grid;grid-template-columns:minmax(220px,1fr) minmax(180px,.55fr);gap:18px;align-items:start}
+.interactive-map-country-heading{display:flex;align-items:center;gap:13px}
+.interactive-map-country-heading>div{display:grid;gap:3px}
+.interactive-map-country-heading strong{font-size:17px;color:var(--text)}
+.interactive-map-country-heading span:not(.interactive-map-info-plus){font-size:10px;color:var(--text-secondary);line-height:1.7}
+.interactive-map-stat{padding:15px 17px;border:1px solid var(--border);border-radius:15px;background:var(--surface-soft);display:grid;gap:4px}
+.interactive-map-stat small{font-size:9px;color:var(--text-secondary);font-weight:800}
+.interactive-map-stat b{font-size:24px;color:var(--accent);letter-spacing:-.5px}
+.interactive-map-stat span{font-size:9px;color:var(--text-light)}
+.interactive-map-posts{grid-column:1 / -1;padding-top:4px}
+.interactive-map-posts-title{margin-bottom:9px;color:var(--text);font-size:11px;font-weight:900}
+.interactive-map-posts p{margin:0;color:var(--text-secondary);font-size:10px;line-height:1.8}
+.interactive-map-posts code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+.interactive-map-post-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.interactive-map-post-list a{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;min-height:44px;padding:8px 10px;border:1px solid var(--border);border-radius:12px;background:var(--surface);text-decoration:none;transition:border-color .15s ease,transform .15s ease}
+.interactive-map-post-list a:hover{border-color:var(--accent);transform:translateY(-1px)}
+.interactive-map-post-list a span{color:var(--accent);font-size:18px;font-weight:900}
+.interactive-map-post-list a strong{color:var(--text);font-size:10px;line-height:1.55}
+.interactive-map-post-list a em{color:var(--text-light);font-size:11px;font-style:normal}
+@media(max-width:700px){
+  .interactive-map-metric-wrap{min-width:0}
+  .interactive-map-country-info{grid-template-columns:1fr}
+  .interactive-map-posts{grid-column:auto}
+  .interactive-map-post-list{grid-template-columns:1fr}
+  .interactive-map-legend{flex-wrap:wrap}
+}
