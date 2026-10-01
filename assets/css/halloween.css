@@ -689,3 +689,163 @@ html.halloween-mode body::before {
     border-color: rgba(255,122,0,.42);
   }
 }
+
+
+/* =========================================================
+   Halloween Edition — playful interactive polish
+   ========================================================= */
+
+/* Playful web anchored to the main Infograf+ logo. */
+html.halloween-mode .brand {
+  isolation: isolate;
+}
+
+html.halloween-mode .brand::before {
+  content: "";
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  top: -23px;
+  right: -17px;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, transparent 0 8px, rgba(255,255,255,.24) 9px 10px),
+    repeating-conic-gradient(from 0deg, transparent 0 14deg, rgba(255,255,255,.23) 15deg 16deg, transparent 17deg 30deg);
+  opacity: .9;
+  pointer-events: none;
+  z-index: -1;
+  animation: halloween-logo-web-drift 6s ease-in-out infinite;
+}
+
+html.halloween-mode .brand::after {
+  width: 28px;
+  height: 14px;
+  top: -13px;
+  left: 51%;
+  background: #08070d;
+  filter: drop-shadow(0 0 5px rgba(255,122,0,.35));
+  animation: halloween-logo-bat-playful 5s ease-in-out infinite;
+}
+
+@keyframes halloween-logo-web-drift {
+  0%,100% { transform: rotate(-4deg) scale(1); }
+  50% { transform: rotate(4deg) scale(1.04); }
+}
+
+@keyframes halloween-logo-bat-playful {
+  0%,100% { transform: translateX(-50%) translateY(0) rotate(-8deg); }
+  50% { transform: translateX(-50%) translateY(-4px) rotate(5deg); }
+}
+
+/* Make the Halloween control look like a real switch. */
+.halloween-toggle {
+  position: relative;
+  justify-content: center;
+  gap: 9px;
+  overflow: hidden;
+}
+
+.halloween-toggle::after {
+  content: "";
+  display: inline-block;
+  width: 46px;
+  height: 25px;
+  margin-inline-start: 2px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.16);
+  border: 1px solid currentColor;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.18);
+  background-image: radial-gradient(circle at 9px 50%, currentColor 0 7px, transparent 8px);
+  transition: background .3s ease, box-shadow .3s ease, background-position .3s ease;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+.halloween-toggle[aria-pressed="true"]::after {
+  background-color: rgba(255,255,255,.18);
+  background-image: radial-gradient(circle at calc(100% - 9px) 50%, #fff 0 7px, transparent 8px);
+  box-shadow: 0 0 12px rgba(255,122,0,.35);
+}
+
+.halloween-toggle .halloween-toggle-icon {
+  flex: 0 0 auto;
+  transition: transform .3s ease;
+}
+
+.halloween-toggle[aria-pressed="true"] .halloween-toggle-icon {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+/* Header buttons get a subtle festive outline, while staying clean. */
+html.halloween-mode .header-actions > * {
+  transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease, background .25s ease;
+}
+
+html.halloween-mode .instagram-header-link,
+html.halloween-mode .tiktok-header-link,
+html.halloween-mode .facebook-header-link,
+html.halloween-mode .notification-header-button,
+html.halloween-mode .search-button,
+html.halloween-mode .theme-toggle {
+  background: #171120;
+  border: 1px solid rgba(146,30,122,.45);
+  box-shadow: inset 0 0 0 1px rgba(255,122,0,.04);
+}
+
+html.halloween-mode .header-actions > *:hover {
+  box-shadow: 0 0 16px rgba(255,122,0,.13);
+}
+
+/* More festive atmosphere: tiny floating sparks. */
+html.halloween-mode .hero-visual::before,
+html.halloween-mode .hero-visual::after {
+  content: "✦";
+  position: absolute;
+  color: #ffad33;
+  font-size: 12px;
+  opacity: .7;
+  pointer-events: none;
+  animation: halloween-sparkle 3.4s ease-in-out infinite;
+}
+
+html.halloween-mode .hero-visual::before { top: 10%; left: 12%; }
+html.halloween-mode .hero-visual::after { bottom: 15%; right: 11%; animation-delay: 1.4s; }
+
+@keyframes halloween-sparkle {
+  0%,100% { opacity: .2; transform: scale(.8) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.35) rotate(25deg); }
+}
+
+@media (max-width:700px) {
+  html.halloween-mode .brand::before {
+    width: 48px;
+    height: 48px;
+    top: -18px;
+    right: -13px;
+  }
+
+  html.halloween-mode .brand::after {
+    width: 24px;
+    height: 12px;
+    top: -10px;
+  }
+
+  .halloween-toggle::after {
+    width: 42px;
+    height: 23px;
+    background-image: radial-gradient(circle at 8px 50%, currentColor 0 6px, transparent 7px);
+  }
+
+  .halloween-toggle[aria-pressed="true"]::after {
+    background-image: radial-gradient(circle at calc(100% - 8px) 50%, #fff 0 6px, transparent 7px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.halloween-mode .brand::before,
+  html.halloween-mode .brand::after,
+  html.halloween-mode .hero-visual::before,
+  html.halloween-mode .hero-visual::after {
+    animation: none !important;
+  }
+}
