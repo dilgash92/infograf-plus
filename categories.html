@@ -148,18 +148,32 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const all = `
       <button type="button" class="category-card active" data-category="all">
-        <span class="category-card-icon">+</span>
+        <span class="category-card-icon" style="color:#ffffff !important;">+</span>
         <span class="category-card-name">الكل</span>
         <span class="category-card-count">${posts.length} إنفوغرافيك</span>
       </button>`;
+
+    const categoryColors = {
+      'العالم': '#0043F7',
+      'سياسة': '#921E7A',
+      'اقتصاد ومال': '#D99A00',
+      'تقنية': '#13CBFF',
+      'علوم': '#555555',
+      'صحة': '#22A06B',
+      'رياضة': '#A71C1C',
+      'سيارات': '#2A2A2D',
+      'سفر': '#FC8FC5',
+      'منوع': '#E74F1B'
+    };
 
     const buttons = clean.map(category => {
       const categoryPosts = posts.filter(post =>
         normalizeArabic(post.dataset.category || '') === normalizeArabic(category)
       ).length;
+      const color = categoryColors[category] || '#635BFF';
       return `
         <button type="button" class="category-card" data-category="${escapeHtml(category)}">
-          <span class="category-card-icon">+</span>
+          <span class="category-card-icon" style="color:${color} !important;">+</span>
           <span class="category-card-name">${escapeHtml(category)}</span>
           <span class="category-card-count">${categoryPosts} إنفوغرافيك</span>
         </button>`;
