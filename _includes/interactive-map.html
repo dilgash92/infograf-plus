@@ -175,13 +175,7 @@
 
       function getPopulation(country){
         const names=countryNames(country).map(norm);
-        const rows=populationRows.filter(r=>names.includes(norm(r.Entity)));
-        if(!rows.length){
-          const wantedCode=country?.id;
-          return populationRows.filter(r=>String(r.Code||'')===String(wantedCode||'')).slice(-1)[0]||null;
-        }
-        if(!rows.length) return null;
-        return rows[rows.length-1];
+        return populationRows.find(r=>names.includes(norm(r.name?.common||r.name||'')))||null;
       }
 
       function populationValue(row){\n        if(!row) return null;\n        const key=Object.keys(row).find(k=>/^Population(?:$| -)/.test(k));\n        return key ? Number(row[key]) : null;\n      }\n\n      function formatPopulation(value){
@@ -240,13 +234,14 @@
       ]).then(async ([d3m,tm])=>{
         d3=d3m.default||d3m;
         topo=tm.default||tm;
-        const [world,csv]=await Promise.all([
+        const [world,apiCountries]=await Promise.all([
           d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json'),
-          d3.csv('https://ourworldindata.org/grapher/population-unwpp.csv?v=1&csvType=full&useColumnShortNames=false')
+          d3.json('https://restcountries.com/v3.1/all?fields=name,population,cca3')
         ]);
         if(!world?.objects?.countries) throw new Error('World map data unavailable');
+        if(!Array.isArray(apiCountries)) throw new Error('Population data unavailable');
         countries=topo.feature(world,world.objects.countries).features;
-        populationRows=csv.filter(r=>r.Code && r.Entity && r.Year && r.Population).sort((a,b)=>Number(a.Year)-Number(b.Year));
+        populationRows=apiCountries.filter(r=>r?.name?.common && Number.isFinite(Number(r.population)));
 
         const width=960,height=500;
         projection=d3.geoNaturalEarth1().fitSize([width-28,height-28],{type:'Sphere'});
