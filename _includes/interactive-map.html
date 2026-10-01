@@ -176,6 +176,10 @@
       function getPopulation(country){
         const names=countryNames(country).map(norm);
         const rows=populationRows.filter(r=>names.includes(norm(r.Entity)));
+        if(!rows.length){
+          const wantedCode=country?.id;
+          return populationRows.filter(r=>String(r.Code||'')===String(wantedCode||'')).slice(-1)[0]||null;
+        }
         if(!rows.length) return null;
         return rows[rows.length-1];
       }
@@ -238,7 +242,7 @@
         topo=tm.default||tm;
         const [world,csv]=await Promise.all([
           d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json'),
-          d3.csv('https://ourworldindata.org/grapher/population-unwpp.csv')
+          d3.csv('https://ourworldindata.org/grapher/population-unwpp.csv?v=1&csvType=full&useColumnShortNames=false')
         ]);
         if(!world?.objects?.countries) throw new Error('World map data unavailable');
         countries=topo.feature(world,world.objects.countries).features;
