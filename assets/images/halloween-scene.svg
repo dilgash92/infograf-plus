@@ -21,14 +21,27 @@
 <path d="M0 510L80 480 125 505 160 460 210 500 260 470 310 510 365 450 410 500 455 465 510 505 565 455 620 505 670 470 720 505 780 445 830 500 890 460 940 505 1000 455 1060 495 1120 465 1200 500V650H0Z" fill="#120a20" opacity=".95"/>
 
 <!-- castle silhouette -->
-<g fill="#08050d" stroke="#ff9a2e" stroke-opacity=".18" stroke-width="3">
- <path d="M795 455V318h38v-72h25v72h34v-48h31v48h40v-94h30v94h42v-55h25v55h35v137z"/>
- <path d="M770 455v-105h45l22 28v77zM930 455V326h45l23 30v99zM1040 455V340h46l20 29v86z"/>
- <path d="M870 455V350h58v105z"/>
+<path d="M710 575 Q825 425 950 445 Q1060 465 1150 575Z" fill="#21102f"/>
+<path d="M735 575 Q840 460 955 465 Q1050 478 1128 575Z" fill="#09060f"/>
+<g fill="#07040b" stroke="#1d0b28" stroke-width="4">
+ <path d="M835 525V305H925V525Z"/><path d="M810 305L880 218 950 305Z"/><path d="M870 230L880 192 890 230Z"/>
+ <path d="M750 540V360H820V540Z"/><path d="M737 360L785 282 833 360Z"/><path d="M772 295L785 255 798 295Z"/>
+ <path d="M930 540V345H1005V540Z"/><path d="M916 345L968 260 1019 345Z"/><path d="M954 275L968 235 982 275Z"/>
+ <path d="M700 565V420H750V565Z"/><path d="M691 420L725 365 759 420Z"/>
+ <path d="M1005 565V395H1060V565Z"/><path d="M996 395L1032 335 1068 395Z"/>
+ <path d="M805 540V420H855V540Z"/><path d="M910 540V410H955V540Z"/><path d="M975 540V430H1020V540Z"/>
 </g>
-<g fill="#ffb238" filter="url(#smallglow)">
- <rect x="824" y="345" width="12" height="19"/><rect x="885" y="376" width="12" height="20"/><rect x="950" y="360" width="12" height="20"/><rect x="1012" y="390" width="12" height="18"/><rect x="1070" y="366" width="11" height="18"/>
+<g fill="#07040b">
+ <path d="M830 334h20v-14h16v14h20v-14h16v14h20v22h-92z"/>
+ <path d="M746 390h16v-13h14v13h16v20h-46z"/><path d="M926 376h18v-13h15v13h18v20h-51z"/>
 </g>
+<g fill="#ffb83f" filter="url(#smallglow)">
+ <path d="M862 345h16v29h-16z"/><path d="M884 400h16v29h-16z"/><path d="M775 391h12v22h-12z"/><path d="M963 374h12v24h-12z"/>
+ <path d="M817 456h12v22h-12z"/><path d="M845 456h12v22h-12z"/><path d="M930 445h12v22h-12z"/><path d="M975 458h12v22h-12z"/>
+ <path d="M718 452h10v18h-10z"/><path d="M1030 430h10v19h-10z"/>
+</g>
+<g stroke="#08050d" stroke-width="4"><path d="M880 193V135"/><path d="M785 255V205"/><path d="M968 235V180"/><path d="M725 365V325"/><path d="M1032 335V290"/></g>
+<g fill="#ff6d12"><path d="M880 135l45 16-45 16z"/><path d="M785 205l35 13-35 13z"/><path d="M968 180l40 14-40 14z"/><path d="M725 325l30 11-30 11z"/><path d="M1032 290l32 12-32 12z"/></g>
 
 <!-- left dead tree -->
 <g fill="none" stroke="#050309" stroke-linecap="round">
