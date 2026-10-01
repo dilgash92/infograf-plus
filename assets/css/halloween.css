@@ -403,3 +403,289 @@
     transition: none;
   }
 }
+
+
+/* =========================================================
+   Strong Halloween visual layer
+   ========================================================= */
+
+html.halloween-mode {
+  color-scheme: dark;
+  --background: #08070d;
+  --surface: #12101a;
+  --surface-soft: #1d1826;
+  --border: #3b2a43;
+  --text: #f7f1f8;
+  --text-secondary: #c0b5c4;
+  --text-light: #8e8092;
+  --accent: #ff7a00;
+  --accent-dark: #d95f00;
+  --accent-light: #2c1820;
+}
+
+html.halloween-mode body {
+  background:
+    radial-gradient(circle at 50% -5%, rgba(255,122,0,.14), transparent 28%),
+    radial-gradient(circle at 5% 45%, rgba(146,30,122,.12), transparent 25%),
+    #08070d;
+  color: var(--text);
+}
+
+html.halloween-mode .site-header {
+  background: rgba(8,7,13,.94);
+  border-bottom-color: rgba(255,122,0,.28);
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+html.halloween-mode .nav-link,
+html.halloween-mode .section-count,
+html.halloween-mode .text-secondary {
+  color: var(--text-secondary);
+}
+
+html.halloween-mode .nav-link:hover,
+html.halloween-mode .instagram-header-link:hover,
+html.halloween-mode .tiktok-header-link:hover,
+html.halloween-mode .facebook-header-link:hover,
+html.halloween-mode .notification-header-button:hover,
+html.halloween-mode .search-button:hover,
+html.halloween-mode .theme-toggle:hover {
+  background: #2b1821;
+  color: #ff9b32;
+}
+
+html.halloween-mode .category-chip,
+html.halloween-mode .infographic-card,
+html.halloween-mode .home-benefit,
+html.halloween-mode .featured-carousel-arrow,
+html.halloween-mode .btn-secondary,
+html.halloween-mode .visitor-counter-card,
+html.halloween-mode .site-footer {
+  background: #12101a;
+  border-color: #3b2a43;
+  box-shadow: 0 10px 28px rgba(0,0,0,.28);
+}
+
+html.halloween-mode .category-chip:hover,
+html.halloween-mode .btn-secondary:hover {
+  border-color: #ff7a00;
+  color: #ff9b32;
+  background: #211620;
+}
+
+html.halloween-mode .hero-content h1 span,
+html.halloween-mode .section-kicker {
+  color: #ff7a00;
+}
+
+html.halloween-mode .hero-badge {
+  background: #2b1821;
+  color: #ff9b32;
+}
+
+html.halloween-mode .btn-primary {
+  background: linear-gradient(135deg, #ff7a00, #d94e00);
+  box-shadow: 0 10px 28px rgba(255,122,0,.24);
+}
+
+html.halloween-mode .identity-card {
+  background: rgba(12,9,17,.88);
+  border: 1px solid rgba(255,122,0,.48);
+  box-shadow:
+    0 0 0 1px rgba(146,30,122,.22),
+    0 24px 70px rgba(0,0,0,.58),
+    0 0 55px rgba(255,122,0,.10);
+  backdrop-filter: blur(4px);
+}
+
+html.halloween-mode .identity-tagline,
+html.halloween-mode .identity-footer {
+  color: #bbaabd;
+}
+
+html.halloween-mode .halloween-hero-scene {
+  z-index: 3;
+  inset: -18px;
+  border-radius: 34px;
+  opacity: 1;
+  transform: scale(1);
+  filter: drop-shadow(0 18px 30px rgba(0,0,0,.38));
+}
+
+html.halloween-mode .halloween-scene-backdrop {
+  inset: 0;
+  border: 1px solid rgba(255,122,0,.34);
+  background:
+    radial-gradient(circle at 67% 24%, rgba(255,183,77,.38) 0 7%, transparent 7.5%),
+    radial-gradient(circle at 67% 24%, rgba(255,122,0,.14) 0 23%, transparent 23.5%),
+    linear-gradient(160deg, #090711 0%, #1a0d23 52%, #32102b 100%);
+}
+
+html.halloween-mode .halloween-moon {
+  width: 132px;
+  height: 132px;
+  top: 8%;
+  right: 16%;
+  background: #ffb347;
+  box-shadow:
+    0 0 18px #ff8a00,
+    0 0 55px rgba(255,122,0,.5),
+    0 0 105px rgba(255,122,0,.22);
+}
+
+html.halloween-mode .halloween-moon::after {
+  background: #090711;
+}
+
+html.halloween-mode .halloween-web {
+  width: 220px;
+  height: 220px;
+  top: -7%;
+  right: -5%;
+  opacity: .95;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, transparent 0 18px, rgba(255,255,255,.34) 19px 20px),
+    repeating-conic-gradient(from 0deg, transparent 0 14deg, rgba(255,255,255,.3) 15deg 17deg, transparent 18deg 30deg);
+}
+
+html.halloween-mode .halloween-spider {
+  width: 20px;
+  height: 20px;
+  right: 12%;
+  background: #020204;
+  box-shadow: 0 0 8px rgba(255,255,255,.12);
+}
+
+html.halloween-mode .halloween-spider::before {
+  height: 105px;
+  top: -105px;
+  background: rgba(255,255,255,.5);
+}
+
+html.halloween-mode .halloween-spider::after {
+  color: #020204;
+  font-size: 14px;
+}
+
+html.halloween-mode .halloween-bat {
+  filter: drop-shadow(0 0 7px rgba(0,0,0,.9));
+}
+
+html.halloween-mode .halloween-bat-one {
+  width: 58px;
+  height: 27px;
+  top: 22%;
+}
+
+html.halloween-mode .halloween-bat-two {
+  width: 48px;
+  height: 23px;
+  top: 43%;
+}
+
+html.halloween-mode .halloween-bat-three {
+  width: 44px;
+  height: 21px;
+  top: 13%;
+}
+
+html.halloween-mode .halloween-ground {
+  height: 36%;
+  background:
+    linear-gradient(to top, #030207 0%, #09060d 72%, transparent 100%);
+}
+
+html.halloween-mode .halloween-pumpkin {
+  width: 86px;
+  height: 66px;
+  right: 15%;
+  bottom: 13%;
+  background: linear-gradient(90deg, #c84b00, #ff7a00 45%, #ff9a22 58%, #c84b00);
+  box-shadow:
+    0 0 16px rgba(255,122,0,.5),
+    0 0 42px rgba(255,122,0,.25);
+}
+
+html.halloween-mode .halloween-pumpkin::after {
+  left: 16px;
+  top: 22px;
+  font-size: 17px;
+  color: #180702;
+}
+
+html.halloween-mode .halloween-surprise {
+  bottom: 26%;
+  padding: 9px 15px;
+  background: #ff7a00;
+  color: #160a03;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+
+html.halloween-mode .halloween-toggle {
+  background: #ff7a00;
+  border-color: #ff7a00;
+  color: #160a03;
+  box-shadow: 0 7px 22px rgba(255,122,0,.22);
+}
+
+html.halloween-mode .halloween-toggle:hover {
+  background: #ff922b;
+  border-color: #ff922b;
+  color: #160a03;
+}
+
+html.halloween-mode .brand::after {
+  width: 34px;
+  height: 16px;
+  top: -11px;
+}
+
+html.halloween-mode .brand-plus {
+  color: #ff7a00 !important;
+  text-shadow:
+    0 0 7px rgba(255,122,0,.8),
+    0 0 20px rgba(255,122,0,.55);
+}
+
+/* Visible atmospheric glow around the whole page. */
+html.halloween-mode body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 30%, rgba(255,122,0,.055), transparent 18%),
+    radial-gradient(circle at 85% 65%, rgba(146,30,122,.08), transparent 22%);
+  mix-blend-mode: screen;
+}
+
+/* Make the mobile Halloween state unmistakably dark too. */
+@media (max-width: 700px) {
+  html.halloween-mode .halloween-hero-scene {
+    inset: -8px;
+    border-radius: 27px;
+  }
+
+  html.halloween-mode .halloween-moon {
+    width: 92px;
+    height: 92px;
+    right: 13%;
+  }
+
+  html.halloween-mode .halloween-web {
+    width: 150px;
+    height: 150px;
+  }
+
+  html.halloween-mode .halloween-pumpkin {
+    width: 66px;
+    height: 51px;
+    right: 13%;
+  }
+
+  html.halloween-mode .identity-card {
+    background: rgba(10,8,14,.82);
+    border-color: rgba(255,122,0,.42);
+  }
+}
