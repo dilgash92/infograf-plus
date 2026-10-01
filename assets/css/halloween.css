@@ -1094,3 +1094,200 @@ html.halloween-mode .halloween-scene-frame{box-shadow:inset 0 0 100px rgba(0,0,0
  .halloween-switch{min-width:88px;height:44px}
  .halloween-switch i{width:34px;height:34px}
 }
+
+/* =========================================================
+   Halloween Ambient Edition — no hero box, only atmosphere
+   ========================================================= */
+html.halloween-mode .hero-section{
+  position:relative;
+  overflow:visible;
+  background:
+    radial-gradient(circle at 7% 18%,rgba(255,92,0,.16),transparent 18%),
+    radial-gradient(circle at 88% 22%,rgba(137,30,160,.22),transparent 26%),
+    radial-gradient(circle at 52% 85%,rgba(255,122,0,.07),transparent 28%);
+}
+html.halloween-mode .hero-section::before{
+  width:520px;height:520px;left:-300px;top:-80px;
+  background:radial-gradient(circle,rgba(255,88,0,.16),rgba(255,88,0,.04) 35%,transparent 70%);
+  opacity:1;filter:blur(18px);
+}
+html.halloween-mode .hero-section::after{
+  width:520px;height:520px;right:-300px;bottom:-100px;
+  background:radial-gradient(circle,rgba(125,30,160,.20),rgba(255,106,0,.05) 38%,transparent 70%);
+  opacity:1;filter:blur(22px);
+}
+html.halloween-mode .hero-visual{
+  position:relative;
+  min-height:115px !important;
+  overflow:visible;
+}
+html.halloween-mode .halloween-ambient-layer{
+  position:absolute !important;
+  inset:-70px -12px -35px !important;
+  width:auto !important;
+  height:auto !important;
+  min-height:0 !important;
+  z-index:1 !important;
+  overflow:visible !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  pointer-events:none;
+}
+html.halloween-mode .halloween-scene-art,
+html.halloween-mode .halloween-scene-frame{display:none !important}
+
+/* warm atmospheric lights */
+.halloween-glow{
+  position:absolute;
+  width:180px;height:180px;border-radius:50%;
+  pointer-events:none;
+  filter:blur(28px);
+  opacity:.5;
+}
+.halloween-glow-one{left:4%;bottom:-30px;background:rgba(255,91,0,.32)}
+.halloween-glow-two{right:5%;top:-40px;background:rgba(145,30,170,.28)}
+
+/* elegant spider webs, outside the content rather than inside a card */
+.halloween-web-corner{
+  position:absolute;
+  width:185px;height:185px;
+  opacity:.8;
+  pointer-events:none;
+  background:
+    repeating-radial-gradient(circle at 50% 0%,transparent 0 17px,rgba(255,255,255,.42) 18px 19px),
+    repeating-conic-gradient(from 0deg at 50% 0%,transparent 0 10deg,rgba(255,255,255,.38) 11deg 12deg,transparent 13deg 22deg);
+  filter:drop-shadow(0 0 7px rgba(255,255,255,.15));
+}
+.halloween-web-corner-left{left:-58px;top:-42px;transform:rotate(4deg)}
+.halloween-web-corner-right{right:-58px;top:-42px;transform:rotate(-4deg)}
+
+/* floating bats */
+.halloween-floating-bat{
+  pointer-events:auto !important;
+  background:#050309 !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+html.halloween-mode .halloween-floating-bat{
+  opacity:.95;
+  filter:drop-shadow(0 0 9px rgba(255,86,0,.45));
+}
+.bat-a{top:12%;left:44%}
+.bat-b{top:44%;left:68%}
+.bat-c{top:29%;left:20%}
+
+/* pumpkins become glowing decorations, not a card */
+.halloween-pumpkin-decor{
+  position:absolute;
+  z-index:5;
+  padding:0;
+  border:0;
+  background:transparent;
+  font-size:58px;
+  line-height:1;
+  cursor:pointer;
+  filter:drop-shadow(0 0 13px rgba(255,94,0,.8));
+  animation:halloween-pumpkin-float 4.2s ease-in-out infinite;
+  pointer-events:auto;
+}
+.pumpkin-left{left:1%;bottom:-18px}
+.pumpkin-right{right:2%;bottom:-10px;font-size:46px;animation-delay:1.2s}
+@keyframes halloween-pumpkin-float{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-8px) rotate(3deg)}
+}
+
+/* remove the old central square pumpkin treatment */
+.halloween-pumpkin-center{
+  position:absolute !important;
+  width:auto !important;height:auto !important;
+  right:46% !important;bottom:-20px !important;
+  font-size:48px !important;
+  z-index:7;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+/* subtle hanging spider */
+.halloween-spider-interactive{
+  top:-28px !important;
+  right:15% !important;
+  font-size:24px !important;
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.28));
+}
+
+/* moon hotspot is now just an invisible interactive light zone */
+.halloween-moon-hotspot{
+  top:0 !important;right:38% !important;
+  width:140px !important;height:90px !important;
+  background:transparent !important;border:0 !important;
+  pointer-events:auto;
+}
+
+/* header gets the strongest Halloween identity */
+html.halloween-mode .site-header{
+  background:rgba(8,5,14,.88) !important;
+  border-bottom-color:rgba(255,101,0,.42) !important;
+  box-shadow:0 6px 30px rgba(255,75,0,.10);
+}
+html.halloween-mode .header-actions > *,
+html.halloween-mode .brand{
+  filter:drop-shadow(0 0 7px rgba(255,91,0,.16));
+}
+html.halloween-mode .brand-plus{
+  color:#ff7a00 !important;
+  text-shadow:0 0 12px rgba(255,122,0,.85);
+}
+
+/* make the Halloween mode button the single large orange control */
+html.halloween-mode .halloween-toggle{
+  background:linear-gradient(135deg,#ff8b12,#ff5a00) !important;
+  border-color:#ff9a2e !important;
+  color:#fff !important;
+  box-shadow:0 10px 35px rgba(255,83,0,.28),inset 0 1px rgba(255,255,255,.2) !important;
+}
+html.halloween-mode .halloween-toggle .halloween-switch{
+  background:rgba(25,10,25,.25) !important;
+  border-color:rgba(255,255,255,.8) !important;
+}
+html.halloween-mode .halloween-toggle .halloween-pumpkin-icon{
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.35));
+}
+
+/* animated ember particles using existing pseudo elements */
+html.halloween-mode .site-home::before,
+html.halloween-mode .site-home::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  background:
+    radial-gradient(circle at 12% 28%,rgba(255,143,45,.75) 0 2px,transparent 3px),
+    radial-gradient(circle at 76% 34%,rgba(255,143,45,.55) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 48% 70%,rgba(255,184,71,.45) 0 2px,transparent 3px),
+    radial-gradient(circle at 91% 64%,rgba(255,120,28,.55) 0 1.5px,transparent 3px);
+  animation:halloween-embers 6s linear infinite;
+}
+html.halloween-mode .site-home::after{
+  transform:translateY(35px);
+  opacity:.45;
+  animation-delay:-3s;
+}
+@keyframes halloween-embers{
+  0%{transform:translateY(20px);opacity:.15}
+  45%{opacity:.7}
+  100%{transform:translateY(-35px);opacity:.1}
+}
+@media(max-width:700px){
+  html.halloween-mode .hero-visual{min-height:95px !important}
+  html.halloween-mode .halloween-ambient-layer{inset:-48px -8px -25px !important}
+  .halloween-web-corner{width:135px;height:135px}
+  .halloween-pumpkin-decor{font-size:46px}
+  .pumpkin-right{font-size:37px}
+  .halloween-pumpkin-center{font-size:40px !important;right:45% !important}
+  .halloween-spider-interactive{right:18% !important;font-size:19px !important}
+}
