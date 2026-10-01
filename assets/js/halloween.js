@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
       root.classList.remove("dark-mode");
     }
 
-    body.classList.toggle("halloween-mode", enabled);
+    body.classList.toggle("halloween-mode", enabled);\n    body.classList.toggle("halloween-just-enabled", enabled);
     root.classList.toggle("halloween-mode", enabled);
     toggle.setAttribute("aria-pressed", String(enabled));
     toggle.setAttribute("title", enabled ? "إيقاف نسخة الهالوين" : "تشغيل نسخة الهالوين");
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setMode(!body.classList.contains("halloween-mode"), true);
   });
 
-  if (pumpkin && surprise) {
+  window.setTimeout(function () { body.classList.remove("halloween-just-enabled"); }, 900);\n\n  if (pumpkin && surprise) {
     pumpkin.addEventListener("click", function () {
       pumpkin.classList.remove("is-surprised");
       void pumpkin.offsetWidth;
