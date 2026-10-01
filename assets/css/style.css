@@ -2030,6 +2030,9 @@ button {
 }
 
 .category-card {
+  --category-color: var(--accent);
+
+  position: relative;
   min-height: 125px;
 
   padding: 20px;
@@ -2044,6 +2047,8 @@ button {
 
   gap: 12px;
 
+  overflow: hidden;
+
   background: var(--surface);
 
   border: 1px solid var(--border);
@@ -2054,6 +2059,8 @@ button {
 
   text-align: right;
 
+  box-shadow: var(--shadow-sm);
+
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
@@ -2061,12 +2068,37 @@ button {
     box-shadow 0.2s ease;
 }
 
+.category-card::after {
+  content: "";
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  left: 20px;
+  height: 3px;
+  border-radius: 999px 999px 0 0;
+  background: var(--category-color);
+  opacity: 0.9;
+  transform: scaleX(0.72);
+  transform-origin: center;
+  transition: transform 0.2s ease, height 0.2s ease;
+}
+
 .category-card:hover {
   transform: translateY(-3px);
 
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--category-color) 35%, var(--border));
 
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 9px 24px rgba(20, 20, 40, 0.08);
+}
+
+.category-card:hover::after {
+  transform: scaleX(1);
+  height: 4px;
+}
+
+.category-card.active::after {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scaleX(0.72);
 }
 
 .category-card.active {
