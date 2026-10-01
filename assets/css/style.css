@@ -2086,6 +2086,7 @@ button {
   display: inline-block;
   letter-spacing: -2px;
 }
+
 .category-card[data-category="العالم"] { --category-color: #0043F7; }
 .category-card[data-category="سياسة"] { --category-color: #921E7A; }
 .category-card[data-category="اقتصاد ومال"] { --category-color: #D99A00; }
