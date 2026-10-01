@@ -230,3 +230,53 @@ html.dark-mode .about-section .about-content h2 span,
 html.dark-mode .about-section .about-mark strong {
   color: #635bff !important;
 }
+
+
+/* About page: explicitly adapt the editorial page surfaces for dark mode. */
+html.dark-mode .about-page .about-hero::after {
+  background: var(--surface-soft) !important;
+}
+
+html.dark-mode .about-page .about-hero-mark,
+html.dark-mode .about-page .founder-card,
+html.dark-mode .about-page .method-item,
+html.dark-mode .about-page .about-category-list a {
+  border-color: var(--border) !important;
+}
+
+html.dark-mode .about-page .about-hero-mark {
+  background: var(--surface) !important;
+  box-shadow: 0 25px 70px rgba(0,0,0,.28) !important;
+}
+
+html.dark-mode .about-page .founder-card,
+html.dark-mode .about-page .method-item,
+html.dark-mode .about-page .about-category-list a {
+  background: var(--surface-soft) !important;
+}
+
+html.dark-mode .about-page .founder-photo-plus {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 15px 30px rgba(0,0,0,.28) !important;
+}
+
+html.dark-mode .about-page .founder-content blockquote {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--accent) !important;
+}
+
+html.dark-mode .about-page .about-final {
+  background: #0b0c0f !important;
+  color: #fff !important;
+}
+
+html.dark-mode .about-page .about-final h2 span {
+  color: #fff !important;
+}
+
+html.dark-mode .about-page .about-final .about-small-title,
+html.dark-mode .about-page .about-final p {
+  color: rgba(255,255,255,.62) !important;
+}
