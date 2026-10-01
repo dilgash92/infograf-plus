@@ -2097,18 +2097,19 @@ button {
 }
 
 .category-card.active {
-  background: var(--category-color);
+  background: var(--surface);
 
-  border-color: var(--category-color);
+  border-color: color-mix(in srgb, var(--category-color) 42%, var(--border));
 
-  color: #ffffff;
+  color: var(--text);
 
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--category-color) 22%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--category-color) 10%, transparent);
 }
 
 .category-card.active::after {
-  background: rgba(255, 255, 255, 0.9);
-  transform: scaleX(0.72);
+  background: var(--category-color);
+  transform: scaleX(1);
+  height: 4px;
 }
 
 .category-card-icon {
@@ -2131,7 +2132,11 @@ button {
 }
 
 .category-card.active .category-card-icon {
-  color: #ffffff !important;
+  color: var(--category-color) !important;
+}
+
+.category-card.active .category-card-count {
+  color: var(--text-light);
 }
 
 .category-card[data-category="العالم"] { --category-color: #0043F7; }
