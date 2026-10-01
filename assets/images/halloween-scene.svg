@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-label="مشهد هالوين ليلي">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#090516"/><stop offset=".55" stop-color="#261044"/><stop offset="1" stop-color="#5b173f"/></linearGradient>
+  <radialGradient id="moon"><stop stop-color="#ffd66b"/><stop offset=".72" stop-color="#ff9d20"/><stop offset="1" stop-color="#ff7510"/></radialGradient>
+  <linearGradient id="mist" x1="0" x2="1"><stop stop-color="#7c3fa8" stop-opacity=".05"/><stop offset=".5" stop-color="#d65aff" stop-opacity=".35"/><stop offset="1" stop-color="#ff8a20" stop-opacity=".08"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="1200" height="760" fill="url(#sky)"/>
+<g opacity=".75" fill="#ff9b36"><circle cx="120" cy="115" r="3"/><circle cx="270" cy="80" r="2"/><circle cx="450" cy="140" r="3"/><circle cx="840" cy="110" r="2"/><circle cx="1030" cy="170" r="3"/><circle cx="1130" cy="90" r="2"/></g>
+<circle cx="850" cy="235" r="155" fill="#ff8a18" opacity=".18" filter="url(#glow)"/>
+<circle cx="850" cy="235" r="112" fill="url(#moon)" filter="url(#glow)"/>
+<path d="M0 540 Q170 430 340 530 T700 510 T1200 490 V760 H0Z" fill="#171022"/>
+<path d="M0 620 Q180 505 370 610 T760 590 T1200 550 V760 H0Z" fill="#09070f"/>
+<!-- castle -->
+<g fill="#08060c" stroke="#ff9a2e" stroke-opacity=".18">
+<path d="M820 430v-150h32v-45h30v45h36v-75h34v75h36v150z"/>
+<path d="M780 430v-95h45v-45l23 45h20v95zM960 430v-120h44v-48l24 48h35v120z"/>
+<path d="M872 430v-120h34v120z"/>
+</g>
+<g fill="#ffb13b"><rect x="848" y="315" width="11" height="17"/><rect x="923" y="350" width="11" height="18"/><rect x="985" y="330" width="10" height="16"/><rect x="890" y="382" width="12" height="18"/></g>
+<!-- crooked tree -->
+<g fill="none" stroke="#08060c" stroke-linecap="round"><path stroke-width="30" d="M145 690 Q170 500 210 350 Q225 280 170 225"/><path stroke-width="16" d="M205 390 Q120 300 55 300M210 355 Q310 260 355 175M180 470 Q95 410 25 430"/></g>
+<g fill="#0a0710" opacity=".95"><path d="M20 315q70-80 150-55-65 40-150 55zM245 285q75-95 150-75-60 55-150 75zM70 410q80-65 145-35-70 35-145 35z"/></g>
+<!-- bats -->
+<g fill="#050309">
+<path d="M610 210q-35-42-70-10l18 28-45-8 35 35q22 12 45-10 23 22 45 10l35-35-45 8 18-28q-35-32-71 10z"/>
+<path d="M470 330q-25-30-50-8l12 20-32-6 25 26q16 9 32-8 16 17 32 8l25-26-32 6 12-20q-25-22-50 8z"/>
+<path d="M1020 250q-20-25-42-7l10 17-27-5 21 21q13 7 26-6 13 13 26 6l21-21-27 5 10-17q-22-18-42 7z"/>
+</g>
+<!-- fence -->
+<g stroke="#0a070d" stroke-width="13"><path d="M0 655h1200"/><path d="M80 650l-10 110M190 650l-4 110M320 650l-8 110M460 650l-3 110M610 650l-10 110M760 650l-5 110M900 650l-7 110M1040 650l-3 110"/></g>
+<!-- pumpkins -->
+<g transform="translate(120 590)">
+<ellipse cx="75" cy="80" rx="82" ry="60" fill="#d95d09"/><ellipse cx="75" cy="80" rx="58" ry="57" fill="#ff7a0a"/><path d="M75 25q-4-25 15-35" fill="none" stroke="#4b702d" stroke-width="14"/>
+<path d="M35 75l22-14 16 18 18-18 24 14-12 27-58 0z" fill="#180803"/><path d="M53 111q22 15 45 0" fill="none" stroke="#180803" stroke-width="9"/>
+</g>
+<g transform="translate(250 640) scale(.65)"><ellipse cx="75" cy="80" rx="82" ry="60" fill="#e76808"/><ellipse cx="75" cy="80" rx="58" ry="57" fill="#ff8a10"/><path d="M35 75l22-14 16 18 18-18 24 14-12 27-58 0z" fill="#180803"/></g>
+<!-- mist -->
+<path d="M0 545 Q300 500 600 560 T1200 530 L1200 650 Q850 600 550 650 T0 625Z" fill="url(#mist)" opacity=".8"/>
+<!-- foreground glow -->
+<g fill="#ff9a2e" opacity=".8"><circle cx="430" cy="640" r="4"/><circle cx="520" cy="610" r="3"/><circle cx="1080" cy="610" r="4"/></g>
+</svg>
