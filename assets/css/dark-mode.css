@@ -206,3 +206,22 @@ html.dark-mode .identity-misc { color:#E74F1B; }
 @media (prefers-reduced-motion: reduce) {
   .theme-toggle { transition: none; }
 }
+
+/* About section: dark surface only in dark mode. */
+html.dark-mode .about-section {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+html.dark-mode .about-section .about-content h2,
+html.dark-mode .about-section .about-content p,
+html.dark-mode .about-section .about-mark {
+  color: var(--text);
+}
+
+html.dark-mode .about-section .about-content h2 span,
+html.dark-mode .about-section .about-mark strong {
+  color: var(--accent);
+}
