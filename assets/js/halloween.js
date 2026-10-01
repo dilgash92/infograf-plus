@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const body = document.body;
   const root = document.documentElement;
   const toggle = document.getElementById("halloween-mode-toggle");
-  const pumpkin = document.querySelector(".halloween-pumpkin");
+  const pumpkins = document.querySelectorAll(".halloween-pumpkin-decor");
   const surprise = document.querySelector(".halloween-surprise");
 
   if (!toggle) return;
@@ -26,7 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
     toggle.setAttribute("title", enabled ? "إيقاف نسخة الهالوين" : "تشغيل نسخة الهالوين");
 
     const label = toggle.querySelector(".halloween-toggle-label");
-    if (label) label.textContent = enabled ? "Halloween Mode ON" : "Halloween Mode";
+    if (label) label.textContent = "Halloween Mode";
+    const switchLabel = toggle.querySelector(".halloween-switch span");
+    if (switchLabel) switchLabel.textContent = enabled ? "ON" : "OFF";
 
     if (persist) {
       try {
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const scene = document.querySelector(".halloween-hero-scene");
   const moonHotspot = document.querySelector(".halloween-moon-hotspot");
   const bats = document.querySelectorAll(".halloween-floating-bat");
-  const webs = document.querySelectorAll(".halloween-scene-web");
+  const webs = document.querySelectorAll(".halloween-web-corner");
 
   function showSurprise(message) {
     if (!surprise) return;
@@ -101,16 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  if (pumpkin && surprise) {
+  pumpkins.forEach(function (pumpkin) {
     pumpkin.addEventListener("click", function () {
       pumpkin.classList.remove("is-surprised");
       void pumpkin.offsetWidth;
       pumpkin.classList.add("is-surprised");
-      surprise.classList.add("is-visible");
-
-      window.setTimeout(function () {
-        surprise.classList.remove("is-visible");
-      }, 1500);
+      showSurprise("🎃 القرعة مستيقظة!");
     });
-  }
+  });
 });
