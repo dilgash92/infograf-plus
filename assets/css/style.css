@@ -2030,9 +2030,12 @@ button {
 }
 
 .category-card {
-  min-height: 125px;
+  --category-color: var(--accent);
 
-  padding: 20px;
+  position: relative;
+  min-height: 132px;
+
+  padding: 20px 20px 18px;
 
   display: flex;
 
@@ -2044,6 +2047,8 @@ button {
 
   gap: 12px;
 
+  overflow: hidden;
+
   background: var(--surface);
 
   border: 1px solid var(--border);
@@ -2054,37 +2059,79 @@ button {
 
   text-align: right;
 
+  box-shadow: 0 5px 18px rgba(20, 20, 40, 0.045);
+
   transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.category-card::after {
+  content: "";
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  left: 20px;
+  height: 3px;
+  border-radius: 999px 999px 0 0;
+  background: var(--category-color);
+  opacity: 0.95;
+  transform: scaleX(0.72);
+  transform-origin: center;
+  transition: transform 0.22s ease, height 0.22s ease;
 }
 
 .category-card:hover {
   transform: translateY(-3px);
 
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--category-color) 45%, var(--border));
 
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 28px rgba(20, 20, 40, 0.08);
+}
+
+.category-card:hover::after {
+  transform: scaleX(1);
+  height: 4px;
 }
 
 .category-card.active {
-  background: var(--accent);
+  background: var(--category-color);
 
-  border-color: var(--accent);
+  border-color: var(--category-color);
 
   color: #ffffff;
+
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--category-color) 22%, transparent);
+}
+
+.category-card.active::after {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scaleX(0.72);
 }
 
 .category-card-icon {
+  position: relative;
+  z-index: 1;
+
   font-family: Arial, sans-serif;
-  font-size: 31px;
+  font-size: 34px;
   line-height: 1;
   font-weight: 800;
-  color: var(--category-color, var(--accent)) !important;
+  color: var(--category-color);
   display: inline-block;
   letter-spacing: -2px;
+
+  transition: transform 0.22s ease, color 0.22s ease;
+}
+
+.category-card:hover .category-card-icon {
+  transform: scale(1.08);
+}
+
+.category-card.active .category-card-icon {
+  color: #ffffff !important;
 }
 
 .category-card[data-category="العالم"] { --category-color: #0043F7; }
