@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const all = `
       <button type="button" class="category-card active" data-category="all">
-        <span class="category-card-icon" style="color:#ffffff;">+</span>
+        <span class="category-card-icon" style="color:#ffffff !important;">+</span>
         <span class="category-card-name">الكل</span>
         <span class="category-card-count">${posts.length} إنفوغرافيك</span>
       </button>`;
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       const color = categoryColors[category] || '#635BFF';
       return `
         <button type="button" class="category-card" data-category="${escapeHtml(category)}">
-          <span class="category-card-icon" style="color:${color};">+</span>
+          <span class="category-card-icon" style="color:${color} !important;">+</span>
           <span class="category-card-name">${escapeHtml(category)}</span>
           <span class="category-card-count">${categoryPosts} إنفوغرافيك</span>
         </button>`;
