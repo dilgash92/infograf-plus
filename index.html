@@ -15,9 +15,25 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
         <a href="#latest" class="btn btn-primary">اكتشف الإنفوغرافيكات</a>
         <a href="{{ site.baseurl }}/categories/" class="btn btn-secondary">تصفح الأقسام</a>
         {% if site.posts.size > 0 %}<button type="button" class="btn random-hero-button" id="random-infographic-button"><span aria-hidden="true">+</span> فاجئني بإنفوغرافيك</button>{% endif %}
+        <button type="button" class="btn halloween-toggle" id="halloween-mode-toggle" aria-pressed="false" title="تشغيل نسخة الهالوين">
+          <span class="halloween-toggle-icon" aria-hidden="true"></span>
+          <span class="halloween-toggle-label">Halloween Mode</span>
+        </button>
       </div>
     </div>
     <div class="hero-visual infograf-identity" aria-label="هوية أقسام Infograf+">
+      <div class="halloween-hero-scene" aria-hidden="true">
+        <div class="halloween-scene-backdrop"></div>
+        <div class="halloween-moon"></div>
+        <div class="halloween-web"></div>
+        <div class="halloween-spider"></div>
+        <span class="halloween-bat halloween-bat-one"></span>
+        <span class="halloween-bat halloween-bat-two"></span>
+        <span class="halloween-bat halloween-bat-three"></span>
+        <div class="halloween-ground"></div>
+        <button type="button" class="halloween-pumpkin" aria-label="مفاجأة الهالوين"></button>
+        <span class="halloween-surprise">وجدت المفاجأة 🎃</span>
+      </div>
       <div class="identity-card">
         <div class="identity-header">
           <div class="identity-logo"><span class="identity-brand-name">Infograf</span><span class="identity-brand-plus">+</span></div>
