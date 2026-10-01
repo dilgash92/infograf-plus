@@ -2080,10 +2080,25 @@ button {
 .category-card-icon {
   font-family: Arial, sans-serif;
 
-  font-size: 25px;
+  font-size: 31px;
 
   line-height: 1;
+
+  color: var(--category-color, var(--accent));
+
+  font-weight: 700;
 }
+
+.category-card[data-category="العالم"] { --category-color: #0043F7; }
+.category-card[data-category="سياسة"] { --category-color: #921E7A; }
+.category-card[data-category="اقتصاد ومال"] { --category-color: #D99A00; }
+.category-card[data-category="تقنية"] { --category-color: #13CBFF; }
+.category-card[data-category="علوم"] { --category-color: #555555; }
+.category-card[data-category="صحة"] { --category-color: #22A06B; }
+.category-card[data-category="رياضة"] { --category-color: #A71C1C; }
+.category-card[data-category="سيارات"] { --category-color: #2A2A2D; }
+.category-card[data-category="سفر"] { --category-color: #FC8FC5; }
+.category-card[data-category="منوع"] { --category-color: #E74F1B; }
 
 .category-card-name {
   font-size: 14px;
