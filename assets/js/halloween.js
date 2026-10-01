@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   "use strict";
 
   const body = document.body;
+  const root = document.documentElement;
   const toggle = document.getElementById("halloween-mode-toggle");
   const pumpkin = document.querySelector(".halloween-pumpkin");
   const surprise = document.querySelector(".halloween-surprise");
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function setMode(enabled, persist) {
     body.classList.toggle("halloween-mode", enabled);
+    root.classList.toggle("halloween-mode", enabled);
     toggle.setAttribute("aria-pressed", String(enabled));
     toggle.setAttribute("title", enabled ? "إيقاف نسخة الهالوين" : "تشغيل نسخة الهالوين");
 
