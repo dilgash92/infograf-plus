@@ -1361,3 +1361,44 @@ html.halloween-mode .hero-visual::after{
   0%,100%{transform:scale(.92);opacity:.45}
   50%{transform:scale(1.12);opacity:.9}
 }
+
+/* Halloween interaction polish: make every effect actually respond */
+html.halloween-mode .halloween-ambient-layer.moon-pulse::before{
+  animation:halloween-moon-flash .9s ease-out;
+}
+html.halloween-mode .halloween-ambient-layer.moon-pulse .halloween-glow-two{
+  opacity:.95;
+  transform:scale(1.3);
+}
+@keyframes halloween-moon-flash{
+  0%{filter:brightness(1)}
+  30%{filter:brightness(1.35)}
+  100%{filter:brightness(1)}
+}
+html.halloween-mode .halloween-ambient-layer.bat-burst .halloween-floating-bat{
+  animation:halloween-bat-burst .75s ease-in-out infinite !important;
+}
+@keyframes halloween-bat-burst{
+  0%,100%{transform:translate(0,0) scale(1)}
+  35%{transform:translate(18px,-16px) scale(1.18)}
+  70%{transform:translate(-16px,10px) scale(.9)}
+}
+html.halloween-mode .halloween-web-corner:focus-visible{
+  outline:2px solid #ff9b32;
+  outline-offset:5px;
+}
+html.halloween-mode .halloween-pumpkin-decor.is-surprised{
+  animation:halloween-pumpkin-pop .55s ease;
+}
+html.halloween-mode .halloween-switch span{min-width:22px;text-align:center}
+html.halloween-mode .halloween-toggle[aria-pressed="false"] .halloween-switch{
+  background:rgba(25,10,25,.35) !important;
+}
+@media(prefers-reduced-motion:reduce){
+  html.halloween-mode .halloween-ambient-layer::before,
+  html.halloween-mode .halloween-ambient-layer::after,
+  html.halloween-mode .halloween-pumpkin-decor,
+  html.halloween-mode .halloween-floating-bat,
+  html.halloween-mode .halloween-hero-scene::before,
+  html.halloween-mode .halloween-hero-scene::after{animation:none !important}
+}
