@@ -1031,3 +1031,47 @@ html.halloween-mode .halloween-hero-scene:hover + .identity-card {
   .bat-b {font-size:25px;}
   .bat-c {font-size:20px;}
 }
+
+/* =========================================================
+   Halloween Edition — closer to the reference + interactions
+   ========================================================= */
+html.halloween-mode .identity-card{display:none !important}
+html.halloween-mode .hero-visual{min-height:430px}
+html.halloween-mode .halloween-hero-scene{position:relative !important;inset:0 !important;width:100%;height:430px;min-height:430px;border-radius:30px !important;opacity:1 !important;transform:none !important;z-index:4 !important;overflow:hidden;box-shadow:0 0 0 1px rgba(255,122,0,.55),0 18px 60px rgba(0,0,0,.62),0 0 70px rgba(146,30,122,.18)}
+.halloween-scene-art{z-index:0 !important;transition:filter .35s ease,transform .8s ease}
+html.halloween-mode .halloween-scene-art{filter:saturate(1.18) contrast(1.05)}
+.halloween-scene-frame{z-index:1 !important;border:1px solid rgba(255,122,0,.28);box-shadow:inset 0 0 60px rgba(0,0,0,.25)}
+.halloween-scene-web{appearance:none;-webkit-appearance:none;position:absolute;z-index:7;width:170px;height:170px;padding:0;border:0;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 15px,rgba(255,255,255,.55) 16px 17px),repeating-conic-gradient(from 0deg,transparent 0 14deg,rgba(255,255,255,.48) 15deg 17deg,transparent 18deg 30deg);opacity:.82;cursor:pointer;transition:transform .35s ease,filter .35s ease}
+.halloween-scene-web-left{top:-60px;left:-58px;transform:rotate(9deg)}
+.halloween-scene-web-right{top:-55px;right:-55px;transform:rotate(-9deg)}
+.halloween-scene-web:hover,.halloween-scene-web:focus-visible{filter:drop-shadow(0 0 12px rgba(255,122,0,.8));transform:scale(1.05) rotate(5deg)}
+.halloween-floating-bat{appearance:none;-webkit-appearance:none;position:absolute;z-index:8;width:58px;height:30px;padding:0;border:0;background:#030207;clip-path:polygon(0 38%,14% 5%,34% 31%,50% 0,66% 31%,86% 5%,100% 38%,84% 76%,66% 61%,50% 100%,34% 61%,16% 76%);filter:drop-shadow(0 0 7px rgba(0,0,0,.95));cursor:pointer;transition:filter .2s ease}
+.halloween-floating-bat.bat-a{top:20%;left:46%}
+.halloween-floating-bat.bat-b{top:35%;left:67%;width:45px;height:24px;animation-delay:1s}
+.halloween-floating-bat.bat-c{top:27%;left:25%;width:39px;height:21px;animation-delay:2s}
+.halloween-floating-bat:hover,.halloween-floating-bat:focus-visible{filter:drop-shadow(0 0 12px #ff7a00);transform:scale(1.18)}
+@keyframes halloween-bat-hover{0%,100%{transform:translate(0,0) rotate(-4deg)}50%{transform:translate(12px,-9px) rotate(5deg)}}
+.halloween-floating-bat{animation:halloween-bat-hover 5s ease-in-out infinite}
+.halloween-moon-hotspot{appearance:none;-webkit-appearance:none;position:absolute;z-index:6;top:8%;right:12%;width:250px;height:250px;border:0;border-radius:50%;background:transparent;cursor:pointer}
+.halloween-moon-hotspot:focus-visible{outline:3px solid #ffad33;outline-offset:5px}
+html.halloween-mode .halloween-hero-scene.moon-pulse .halloween-scene-art{transform:scale(1.025);filter:saturate(1.4) brightness(1.12)}
+html.halloween-mode .halloween-hero-scene.bat-burst .halloween-floating-bat{animation-duration:1.1s}
+.halloween-spider-interactive{position:absolute;z-index:9;top:3%;right:13%;font-size:24px;filter:drop-shadow(0 0 6px rgba(255,255,255,.35));animation:halloween-spider-swing 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes halloween-spider-swing{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(65px) rotate(5deg)}}
+.halloween-toggle .halloween-toggle-icon{display:none !important}
+.halloween-toggle .halloween-pumpkin-icon{display:inline-grid;place-items:center}
+.halloween-toggle[aria-pressed="true"] .halloween-pumpkin-icon{animation:halloween-pumpkin-mini .8s ease}
+@keyframes halloween-pumpkin-mini{50%{transform:rotate(-8deg) scale(1.16)}}
+.halloween-surprise{z-index:12 !important;pointer-events:none}
+html.halloween-mode .halloween-surprise{font-size:13px;border:1px solid rgba(255,173,51,.55);background:rgba(12,5,18,.92);color:#fff;box-shadow:0 0 25px rgba(255,122,0,.2)}
+@media(max-width:700px){
+ html.halloween-mode .hero-visual{min-height:350px}
+ html.halloween-mode .halloween-hero-scene{height:350px;min-height:350px;border-radius:25px !important}
+ .halloween-scene-web{width:125px;height:125px}
+ .halloween-moon-hotspot{width:170px;height:170px;top:9%;right:8%}
+ .halloween-spider-interactive{right:12%;font-size:20px}
+ .halloween-floating-bat.bat-a{left:42%}
+}
+@media(prefers-reduced-motion:reduce){
+ .halloween-floating-bat,.halloween-spider-interactive{animation:none !important}
+}
