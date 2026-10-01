@@ -515,6 +515,9 @@
     rel="stylesheet"
     href="{{ site.baseurl }}/assets/css/homepage.css"
   >
+  {% if page.url == "/" %}
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/halloween.css?v=20261002-1">
+  {% endif %}
 
 
 
