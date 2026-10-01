@@ -10,8 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!toggle) return;
 
   const storageKey = "infograf-halloween-mode";
+  let previousDarkMode = root.classList.contains("dark-mode");
 
   function setMode(enabled, persist) {
+    if (enabled) {
+      previousDarkMode = root.classList.contains("dark-mode");
+      root.classList.add("dark-mode");
+    } else if (!previousDarkMode) {
+      root.classList.remove("dark-mode");
+    }
+
     body.classList.toggle("halloween-mode", enabled);
     root.classList.toggle("halloween-mode", enabled);
     toggle.setAttribute("aria-pressed", String(enabled));
