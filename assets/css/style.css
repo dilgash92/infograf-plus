@@ -2030,12 +2030,9 @@ button {
 }
 
 .category-card {
-  --category-color: var(--accent);
+  min-height: 125px;
 
-  position: relative;
-  min-height: 132px;
-
-  padding: 20px 20px 18px;
+  padding: 20px;
 
   display: flex;
 
@@ -2047,8 +2044,6 @@ button {
 
   gap: 12px;
 
-  overflow: hidden;
-
   background: var(--surface);
 
   border: 1px solid var(--border);
@@ -2059,86 +2054,38 @@ button {
 
   text-align: right;
 
-  box-shadow: 0 5px 18px rgba(20, 20, 40, 0.045);
-
   transition:
-    transform 0.22s ease,
-    border-color 0.22s ease,
-    background 0.22s ease,
-    box-shadow 0.22s ease;
-}
-
-.category-card::after {
-  content: "";
-  position: absolute;
-  right: 20px;
-  bottom: 0;
-  left: 20px;
-  height: 3px;
-  border-radius: 999px 999px 0 0;
-  background: var(--category-color);
-  opacity: 0.95;
-  transform: scaleX(0.72);
-  transform-origin: center;
-  transition: transform 0.22s ease, height 0.22s ease;
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .category-card:hover {
   transform: translateY(-3px);
 
-  border-color: color-mix(in srgb, var(--category-color) 45%, var(--border));
+  border-color: var(--accent);
 
-  box-shadow: 0 10px 28px rgba(20, 20, 40, 0.08);
-}
-
-.category-card:hover::after {
-  transform: scaleX(1);
-  height: 4px;
+  box-shadow: var(--shadow-sm);
 }
 
 .category-card.active {
-  background: var(--surface);
+  background: var(--accent);
 
-  border-color: color-mix(in srgb, var(--category-color) 42%, var(--border));
+  border-color: var(--accent);
 
-  color: var(--text);
-
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--category-color) 10%, transparent);
-}
-
-.category-card.active::after {
-  background: var(--category-color);
-  transform: scaleX(1);
-  height: 4px;
+  color: #ffffff;
 }
 
 .category-card-icon {
-  position: relative;
-  z-index: 1;
-
   font-family: Arial, sans-serif;
-  font-size: 34px;
+  font-size: 31px;
   line-height: 1;
   font-weight: 800;
-  color: var(--category-color);
+  color: var(--category-color, var(--accent)) !important;
   display: inline-block;
   letter-spacing: -2px;
-
-  transition: transform 0.22s ease, color 0.22s ease;
 }
-
-.category-card:hover .category-card-icon {
-  transform: scale(1.08);
-}
-
-.category-card.active .category-card-icon {
-  color: var(--category-color) !important;
-}
-
-.category-card.active .category-card-count {
-  color: var(--text-light);
-}
-
 .category-card[data-category="العالم"] { --category-color: #0043F7; }
 .category-card[data-category="سياسة"] { --category-color: #921E7A; }
 .category-card[data-category="اقتصاد ومال"] { --category-color: #D99A00; }
