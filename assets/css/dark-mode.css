@@ -209,19 +209,24 @@ html.dark-mode .identity-misc { color:#E74F1B; }
 
 /* About section: dark surface only in dark mode. */
 html.dark-mode .about-section {
-  background: var(--surface);
-  border-color: var(--border);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
+  background: #191b1f !important;
+  border-color: #2d3138 !important;
+  color: #f1f2f4 !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.22) !important;
 }
 
+html.dark-mode .about-section .about-content,
 html.dark-mode .about-section .about-content h2,
 html.dark-mode .about-section .about-content p,
 html.dark-mode .about-section .about-mark {
-  color: var(--text);
+  color: #f1f2f4 !important;
+}
+
+html.dark-mode .about-section .section-kicker {
+  color: #635bff !important;
 }
 
 html.dark-mode .about-section .about-content h2 span,
 html.dark-mode .about-section .about-mark strong {
-  color: var(--accent);
+  color: #635bff !important;
 }
