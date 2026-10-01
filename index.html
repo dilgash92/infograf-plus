@@ -14,6 +14,7 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
       <div class="hero-actions">
         <a href="#latest" class="btn btn-primary">اكتشف الإنفوغرافيكات</a>
         <a href="{{ site.baseurl }}/categories/" class="btn btn-secondary">تصفح الأقسام</a>
+        {% if site.posts.size > 0 %}<button type="button" class="btn random-hero-button" id="random-infographic-button"><span aria-hidden="true">+</span> فاجئني بإنفوغرافيك</button>{% endif %}
       </div>
     </div>
     <div class="hero-visual infograf-identity" aria-label="هوية أقسام Infograf+">
@@ -101,33 +102,6 @@ description: "Infograf+ — معلومات وإنفوغرافيك بطريقة �
       {% if site.posts.size > 6 %}<div class="section-footer"><a href="{{ site.baseurl }}/latest/" class="btn btn-secondary">عرض جميع الإنفوغرافيكات <span aria-hidden="true">←</span></a></div>{% endif %}
     {% else %}<div class="empty-state"><div class="empty-icon">+</div><h3>أول إنفوغرافيك قريباً</h3><p>عندما تضيف أول إنفوغرافيك، سيظهر هنا تلقائياً.</p></div>{% endif %}
   </section>
-
-  {% if site.posts.size > 0 %}
-  <section class="random-discovery-section" aria-labelledby="random-discovery-title">
-    <div class="random-discovery-card">
-      <div class="random-discovery-content">
-        <span class="section-kicker">اكتشاف</span>
-        <h2 id="random-discovery-title">فاجئني بإنفوغرافيك</h2>
-        <p>لا تعرف ماذا تشاهد؟ اترك الاختيار لنا واكتشف إنفوغرافيكاً عشوائياً من أرشيف Infograf+.</p>
-        <button type="button" class="random-discovery-button" id="random-infographic-button">
-          <span class="random-discovery-button-icon" aria-hidden="true"><span>+</span></span>
-          <span>فاجئني الآن</span>
-          <span class="random-discovery-button-arrow" aria-hidden="true">←</span>
-        </button>
-      </div>
-      <div class="random-discovery-visual" aria-hidden="true">
-        <span class="random-discovery-plus random-discovery-plus-main">+</span>
-        <span class="random-discovery-plus random-discovery-plus-small">+</span>
-        <span class="random-discovery-dot random-discovery-dot-one"></span>
-        <span class="random-discovery-dot random-discovery-dot-two"></span>
-        <span class="random-discovery-line"></span>
-        <span class="random-discovery-label">Infograf+</span>
-      </div>
-    </div>
-  </section>
-  {% endif %}
-
-  {% include interactive-map.html %}
 
   <section class="about-section">
     <div class="about-content"><span class="section-kicker">عن Infograf+</span><h2>معلومات كثيرة.<br><span>طريقة أبسط لفهمها.</span></h2><p>نحول البيانات والأرقام والأحداث إلى محتوى بصري مختصر وسهل القراءة، حتى تصل إلى المعلومة بسرعة ووضوح.</p></div>
