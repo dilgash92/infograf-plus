@@ -15,7 +15,7 @@ description: "تصفح جميع أقسام Infograf+"
 
   <section class="all-categories" id="categories-list">
     <button type="button" class="category-card active" data-category="all">
-      <span class="category-card-icon">✦</span>
+      <span class="category-card-icon">+</span>
       <span class="category-card-name">الكل</span>
       <span class="category-card-count">{{ site.posts.size }} إنفوغرافيك</span>
     </button>
@@ -91,14 +91,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const results = document.getElementById('category-results');
   if (!list) return;
 
-  const icons = {
-    'العالم': '🌍', 'سياسة': '🏛️', 'اقتصاد ومال': '💰', 'تقنية': '💻',
-    'علوم': '🔬', 'صحة': '🩺', 'رياضة': '⚽', 'ترفيه': '🎬', 'سيارات': '🚗',
-    'سفر': '✈️', 'تعليم': '📚', 'تاريخ': '🏺', 'مجتمع': '👥', 'فن وثقافة': '🎨',
-    'طبيعة وبيئة': '🌱', 'منوع': '✨'
-  };
-
-  function normalizeArabic(text) {
+    function normalizeArabic(text) {
     return String(text || '').trim().toLowerCase()
       .replace(/[\u064B-\u065F\u0670]/g, '')
       .replace(/[إأآا]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/ـ/g, '');
@@ -155,7 +148,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const all = `
       <button type="button" class="category-card active" data-category="all">
-        <span class="category-card-icon">✦</span>
+        <span class="category-card-icon">+</span>
         <span class="category-card-name">الكل</span>
         <span class="category-card-count">${posts.length} إنفوغرافيك</span>
       </button>`;
@@ -166,7 +159,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       ).length;
       return `
         <button type="button" class="category-card" data-category="${escapeHtml(category)}">
-          <span class="category-card-icon">${icons[category] || '✦'}</span>
+          <span class="category-card-icon">+</span>
           <span class="category-card-name">${escapeHtml(category)}</span>
           <span class="category-card-count">${categoryPosts} إنفوغرافيك</span>
         </button>`;
