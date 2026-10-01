@@ -1,0 +1,405 @@
+/* =========================================================
+   Infograf+ — Halloween Mode
+   Decorative seasonal layer; enabled with .halloween-mode.
+   ========================================================= */
+
+:root {
+  --halloween-orange: #ff7a00;
+  --halloween-amber: #ffad33;
+  --halloween-night: #100b18;
+  --halloween-purple: #921e7a;
+}
+
+.halloween-toggle {
+  border: 1px solid color-mix(in srgb, var(--halloween-orange) 32%, var(--border));
+  background: color-mix(in srgb, var(--halloween-orange) 8%, var(--surface));
+  color: var(--halloween-orange);
+}
+
+.halloween-toggle:hover,
+.halloween-toggle[aria-pressed="true"] {
+  background: var(--halloween-orange);
+  border-color: var(--halloween-orange);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.halloween-toggle .halloween-toggle-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-inline-start: 7px;
+  border-radius: 7px;
+  background: currentColor;
+  color: var(--halloween-orange);
+  position: relative;
+}
+
+.halloween-toggle .halloween-toggle-icon::before,
+.halloween-toggle .halloween-toggle-icon::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  width: 7px;
+  height: 5px;
+  background: #fff;
+  border-radius: 50% 50% 40% 40%;
+}
+
+.halloween-toggle .halloween-toggle-icon::before { left: 4px; }
+.halloween-toggle .halloween-toggle-icon::after { right: 4px; }
+
+.halloween-toggle[aria-pressed="true"] .halloween-toggle-icon {
+  color: #fff;
+}
+
+.halloween-logo-effects {
+  display: none;
+}
+
+.halloween-mode .brand {
+  position: relative;
+}
+
+.halloween-mode .brand::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 11px;
+  top: -7px;
+  left: 45%;
+  background: var(--halloween-night);
+  clip-path: polygon(0 55%, 18% 18%, 35% 43%, 50% 0, 65% 43%, 82% 18%, 100% 55%, 82% 72%, 62% 60%, 50% 100%, 38% 60%, 18% 72%);
+  transform: translateX(-50%) rotate(-8deg);
+  animation: halloween-logo-bat 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.halloween-mode .brand-plus {
+  color: var(--halloween-orange) !important;
+  text-shadow: 0 0 10px rgba(255, 122, 0, .35);
+  animation: halloween-plus-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes halloween-plus-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.12); opacity: .78; }
+}
+
+@keyframes halloween-logo-bat {
+  0%, 100% { transform: translate(-50%, 0) rotate(-8deg); opacity: .9; }
+  50% { transform: translate(-50%, -5px) rotate(4deg); opacity: 1; }
+}
+
+.halloween-hero-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(.985);
+  transition: opacity .45s ease, transform .55s ease;
+}
+
+.halloween-mode .halloween-hero-scene {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.halloween-scene-backdrop {
+  position: absolute;
+  inset: 3% 2%;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 66% 28%, rgba(255, 173, 51, .22) 0 8%, transparent 8.5%),
+    radial-gradient(circle at 66% 28%, rgba(255, 122, 0, .08) 0 16%, transparent 16.5%),
+    linear-gradient(160deg, rgba(16, 11, 24, .96), rgba(45, 20, 55, .94) 52%, rgba(99, 37, 64, .92));
+  box-shadow: inset 0 0 70px rgba(0,0,0,.28);
+}
+
+.halloween-moon {
+  position: absolute;
+  width: 108px;
+  height: 108px;
+  top: 9%;
+  right: 19%;
+  border-radius: 50%;
+  background: #ffad33;
+  box-shadow: 0 0 42px rgba(255, 122, 0, .35);
+}
+
+.halloween-moon::after {
+  content: "";
+  position: absolute;
+  width: 108px;
+  height: 108px;
+  top: -5px;
+  right: -14px;
+  border-radius: 50%;
+  background: var(--halloween-night);
+}
+
+.halloween-web {
+  position: absolute;
+  top: -2%;
+  right: -2%;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, transparent 0 13px, rgba(255,255,255,.2) 14px 15px),
+    repeating-conic-gradient(from 0deg, transparent 0 14deg, rgba(255,255,255,.18) 15deg 16deg, transparent 17deg 30deg);
+  opacity: .7;
+}
+
+.halloween-spider {
+  position: absolute;
+  top: 4%;
+  right: 8%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #09070d;
+  animation: halloween-spider-drop 6s ease-in-out infinite;
+}
+
+.halloween-spider::before {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 65px;
+  top: -65px;
+  left: 7px;
+  background: rgba(255,255,255,.35);
+}
+
+.halloween-spider::after {
+  content: "‹  ›";
+  position: absolute;
+  width: 34px;
+  left: -10px;
+  top: -1px;
+  color: #09070d;
+  font-size: 11px;
+  letter-spacing: 4px;
+}
+
+@keyframes halloween-spider-drop {
+  0%, 72%, 100% { transform: translateY(0); }
+  80% { transform: translateY(32px); }
+  88% { transform: translateY(20px); }
+}
+
+.halloween-bat {
+  position: absolute;
+  width: 38px;
+  height: 17px;
+  background: #09070d;
+  clip-path: polygon(0 38%, 18% 7%, 36% 34%, 50% 0, 64% 34%, 82% 7%, 100% 38%, 82% 75%, 64% 61%, 50% 100%, 36% 61%, 18% 75%);
+  opacity: .95;
+}
+
+.halloween-bat-one {
+  top: 24%;
+  left: -45px;
+  animation: halloween-bat-fly-one 11s linear infinite;
+}
+
+.halloween-bat-two {
+  top: 45%;
+  left: -55px;
+  transform: scale(.7);
+  animation: halloween-bat-fly-two 14s linear 2s infinite;
+}
+
+.halloween-bat-three {
+  top: 16%;
+  left: -50px;
+  transform: scale(.55);
+  animation: halloween-bat-fly-three 17s linear 5s infinite;
+}
+
+@keyframes halloween-bat-fly-one {
+  from { transform: translateX(0) translateY(0) rotate(-3deg); }
+  45% { transform: translateX(180px) translateY(-18px) rotate(4deg); }
+  to { transform: translateX(480px) translateY(3px) rotate(-3deg); }
+}
+
+@keyframes halloween-bat-fly-two {
+  from { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(230px) translateY(16px); }
+  to { transform: translateX(500px) translateY(-4px); }
+}
+
+@keyframes halloween-bat-fly-three {
+  from { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(210px) translateY(-12px); }
+  to { transform: translateX(510px) translateY(6px); }
+}
+
+.halloween-ground {
+  position: absolute;
+  right: -4%;
+  bottom: -5%;
+  left: -4%;
+  height: 28%;
+  background: #08060d;
+  clip-path: polygon(0 55%, 8% 42%, 15% 58%, 22% 35%, 28% 55%, 36% 28%, 45% 54%, 52% 39%, 60% 57%, 70% 31%, 77% 54%, 86% 37%, 94% 55%, 100% 40%, 100% 100%, 0 100%);
+}
+
+.halloween-pumpkin {
+  position: absolute;
+  width: 64px;
+  height: 49px;
+  right: 20%;
+  bottom: 14%;
+  border-radius: 48% 48% 42% 42%;
+  background: linear-gradient(90deg, #d85f00, #ff8a12, #d85f00);
+  box-shadow: 0 0 22px rgba(255, 122, 0, .18);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.halloween-pumpkin:hover {
+  transform: translateY(-3px) scale(1.04);
+  filter: brightness(1.1);
+}
+
+.halloween-pumpkin::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 9px;
+  top: -7px;
+  left: 27px;
+  border-radius: 4px;
+  background: #496b28;
+  transform: rotate(12deg);
+}
+
+.halloween-pumpkin::after {
+  content: "▲  ▲";
+  position: absolute;
+  left: 12px;
+  top: 15px;
+  color: #1b0b05;
+  font-size: 13px;
+  letter-spacing: 4px;
+  white-space: nowrap;
+}
+
+.halloween-pumpkin.is-surprised {
+  animation: halloween-pumpkin-pop .55s ease;
+  filter: brightness(1.25);
+}
+
+@keyframes halloween-pumpkin-pop {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.16) rotate(-3deg); }
+  70% { transform: scale(.96) rotate(3deg); }
+}
+
+.halloween-surprise {
+  position: absolute;
+  right: 50%;
+  bottom: 22%;
+  z-index: 3;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(10, 7, 15, .86);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  opacity: 0;
+  transform: translate(50%, 7px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.halloween-surprise.is-visible {
+  opacity: 1;
+  transform: translate(50%, 0);
+}
+
+.halloween-hero-copy {
+  display: none;
+}
+
+.halloween-mode .halloween-hero-copy {
+  display: block;
+  margin-top: 8px;
+  color: var(--halloween-orange);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.halloween-mode .identity-card {
+  position: relative;
+  z-index: 2;
+}
+
+.halloween-mode .identity-brand-plus {
+  color: var(--halloween-orange) !important;
+  text-shadow: 0 0 12px rgba(255, 122, 0, .4);
+  animation: halloween-plus-pulse 2.8s ease-in-out infinite;
+}
+
+@media (max-width: 700px) {
+  .halloween-toggle {
+    min-height: 44px;
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+
+  .halloween-hero-scene {
+    border-radius: 22px;
+  }
+
+  .halloween-scene-backdrop {
+    inset: 2% 1%;
+    border-radius: 22px;
+  }
+
+  .halloween-moon {
+    width: 78px;
+    height: 78px;
+    right: 15%;
+  }
+
+  .halloween-moon::after {
+    width: 78px;
+    height: 78px;
+  }
+
+  .halloween-web {
+    width: 110px;
+    height: 110px;
+  }
+
+  .halloween-pumpkin {
+    width: 54px;
+    height: 42px;
+    right: 17%;
+  }
+
+  .halloween-bat-one { animation-duration: 9s; }
+  .halloween-bat-two { animation-duration: 11s; }
+  .halloween-bat-three { animation-duration: 13s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halloween-mode .brand::after,
+  .halloween-mode .brand-plus,
+  .halloween-bat,
+  .halloween-spider,
+  .halloween-pumpkin {
+    animation: none !important;
+  }
+
+  .halloween-hero-scene {
+    transition: none;
+  }
+}
