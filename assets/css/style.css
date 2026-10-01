@@ -2079,14 +2079,12 @@ button {
 
 .category-card-icon {
   font-family: Arial, sans-serif;
-
   font-size: 31px;
-
   line-height: 1;
-
-  color: var(--category-color, var(--accent));
-
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--category-color, var(--accent)) !important;
+  display: inline-block;
+  letter-spacing: -2px;
 }
 
 .category-card[data-category="العالم"] { --category-color: #0043F7; }
