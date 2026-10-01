@@ -180,7 +180,7 @@
         return rows[rows.length-1];
       }
 
-      function formatPopulation(value){
+      function populationValue(row){\n        if(!row) return null;\n        const key=Object.keys(row).find(k=>/^Population(?:$| -)/.test(k));\n        return key ? Number(row[key]) : null;\n      }\n\n      function formatPopulation(value){
         if(value==null || !Number.isFinite(Number(value))) return 'غير متاح';
         const n=Number(value);
         if(n>=1000000000) return (n/1000000000).toFixed(n>=10000000000?1:2).replace(/\.0+$/,'')+' مليار';
@@ -211,7 +211,7 @@
           ? '<div class="interactive-map-posts"><div class="interactive-map-posts-title">إنفوغرافيكات مرتبطة بـ '+esc(name)+'</div><div class="interactive-map-post-list">'+related.map(p=>'<a href="'+esc(p.url)+'"><span>+</span><strong>'+esc(p.title)+'</strong><em>←</em></a>').join('')+'</div></div>'
           : '<div class="interactive-map-posts"><div class="interactive-map-posts-title">إنفوغرافيكات مرتبطة</div><p>لا توجد منشورات موسومة بهذه الدولة حالياً. عند إضافة <code>countries:</code> إلى المنشور سيظهر هنا بدقة.</p></div>';
 
-        info.innerHTML='<div class="interactive-map-country-info"><div class="interactive-map-country-heading"><span class="interactive-map-info-plus" aria-hidden="true">+</span><div><strong>'+esc(name)+'</strong><span>بيانات السكان من الأمم المتحدة عبر Our World in Data</span></div></div><div class="interactive-map-stat"><small>عدد السكان</small><b>'+formatPopulation(pop?.population)+'</b><span>آخر سنة متاحة: '+esc(pop?.Year||'غير متاح')+'</span></div>'+relatedHtml+'</div>';
+        info.innerHTML='<div class="interactive-map-country-info"><div class="interactive-map-country-heading"><span class="interactive-map-info-plus" aria-hidden="true">+</span><div><strong>'+esc(name)+'</strong><span>بيانات السكان من الأمم المتحدة عبر Our World in Data</span></div></div><div class="interactive-map-stat"><small>عدد السكان</small><b>'+formatPopulation(populationValue(pop))+'</b><span>آخر سنة متاحة: '+esc(pop?.Year||'غير متاح')+'</span></div>'+relatedHtml+'</div>';
       }
 
       function selectCountry(country,zoomTo=false){
@@ -251,14 +251,14 @@
         const layer=d3.select(svg).append('g');
         layer.append('path').datum({type:'Sphere'}).attr('class','interactive-map-sphere').attr('d',path);
 
-        const maxPopulation=Math.max(...countries.map(c=>Number(getPopulation(c)?.Population||0)));
+        const maxPopulation=Math.max(...countries.map(c=>populationValue(getPopulation(c))||0));
         countryPaths=layer.selectAll('.interactive-map-country').data(countries).join('path')
           .attr('class','interactive-map-country')
           .attr('d',path)
           .attr('tabindex',0)
           .attr('role','button')
           .attr('aria-label',d=>countryNames(d)[0])
-          .style('fill',d=>colorScale(getPopulation(d)?.Population,maxPopulation))
+          .style('fill',d=>colorScale(populationValue(getPopulation(d)),maxPopulation))
           .on('click',(e,d)=>selectCountry(d))
           .on('keydown',(e,d)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectCountry(d);}});
 
