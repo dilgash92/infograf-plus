@@ -1,31 +1,47 @@
-/* Infograf+ — refined seasonal Halloween accent. Automatically active in October. */
+/* Infograf+ — premium seasonal Halloween accent. Automatically active in October. */
 
-html.halloween-season .brand{
+html.halloween-season .site-header .brand{
   position:relative;
-  z-index:1;
+  z-index:2;
+  isolation:isolate;
 }
 
-/* One custom vector accent: fine web + small pumpkin. No emoji, no cartoon UI. */
-html.halloween-season .brand::after{
+html.halloween-season .site-header .brand::after{
   content:"";
   position:absolute;
-  width:78px;
-  height:52px;
-  right:-31px;
-  top:-18px;
-  background:url("../icons/halloween-brand.svg") center/contain no-repeat;
+  width:150px;
+  height:84px;
+  right:-70px;
+  top:-25px;
+  background:url("../icons/halloween-brand.svg") right top/contain no-repeat;
   pointer-events:none;
   z-index:-1;
+  opacity:.94;
 }
 
-html.halloween-season .brand-plus{
+/* The + becomes the seasonal signature: vivid orange with a controlled neon glow. */
+html.halloween-season .site-header .brand-plus{
   color:#FF6A00 !important;
-  text-shadow:0 0 7px rgba(255,106,0,.18);
+  text-shadow:
+    0 0 3px rgba(255,106,0,.95),
+    0 0 8px rgba(255,106,0,.72),
+    0 0 17px rgba(255,106,0,.46),
+    0 0 28px rgba(255,106,0,.22);
+  transition:text-shadow .2s ease, color .2s ease;
 }
 
-/* Keep the original header intact, adding only a very restrained seasonal line. */
+html.halloween-season .site-header .brand:hover .brand-plus{
+  color:#FF7A1A !important;
+  text-shadow:
+    0 0 4px rgba(255,122,26,1),
+    0 0 11px rgba(255,106,0,.88),
+    0 0 23px rgba(255,106,0,.58),
+    0 0 36px rgba(255,106,0,.30);
+}
+
+/* Restrained seasonal detail on the header — the layout itself stays unchanged. */
 html.halloween-season .site-header{
-  border-bottom-color:rgba(255,106,0,.22);
+  border-bottom-color:rgba(255,106,0,.28);
 }
 
 html.halloween-season .site-header::after{
@@ -35,24 +51,33 @@ html.halloween-season .site-header::after{
   right:0;
   bottom:-1px;
   height:1px;
-  background:linear-gradient(90deg,transparent 0%,rgba(255,106,0,.18) 20%,rgba(255,106,0,.65) 50%,rgba(255,106,0,.18) 80%,transparent 100%);
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,106,0,.12) 18%,
+    rgba(255,106,0,.58) 50%,
+    rgba(255,106,0,.12) 82%,
+    transparent 100%);
   pointer-events:none;
 }
 
-/* A small orange hover treatment on the header brand during the season. */
-html.halloween-season .brand:hover .brand-plus{
-  text-shadow:0 0 10px rgba(255,106,0,.28);
-}
-
 @media(max-width:700px){
-  html.halloween-season .brand::after{
-    width:68px;
-    height:46px;
-    right:-27px;
-    top:-15px;
+  html.halloween-season .site-header .brand::after{
+    width:126px;
+    height:72px;
+    right:-59px;
+    top:-21px;
+  }
+
+  html.halloween-season .site-header .brand-plus{
+    text-shadow:
+      0 0 3px rgba(255,106,0,.95),
+      0 0 7px rgba(255,106,0,.72),
+      0 0 14px rgba(255,106,0,.42);
   }
 }
 
 @media(prefers-reduced-motion:reduce){
-  html.halloween-season .brand-plus{text-shadow:none}
+  html.halloween-season .site-header .brand-plus{
+    transition:none;
+  }
 }
