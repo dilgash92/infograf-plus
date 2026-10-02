@@ -1967,3 +1967,178 @@ html.halloween-mode .halloween-ambient-layer{
     top:10px !important;right:16% !important;
   }
 }
+ 
+/* =========================================================
+   HALLOWEEN — CLEAN FINAL COMPOSITION
+   One scene, no panels, no oversized glow, no legacy layers.
+   ========================================================= */
+html.halloween-mode .hero-section{
+  position:relative !important;
+  overflow:visible !important;
+  background:transparent !important;
+}
+html.halloween-mode .hero-section::before,
+html.halloween-mode .hero-section::after{
+  display:none !important;
+}
+html.halloween-mode .hero-content{position:relative;z-index:20}
+html.halloween-mode .hero-visual{
+  position:relative !important;
+  min-height:360px !important;
+  height:360px !important;
+  overflow:visible !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+html.halloween-mode .identity-card{display:none !important}
+
+/* One contained atmosphere field — no rectangular background. */
+html.halloween-mode .halloween-ambient-layer{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:360px !important;
+  min-height:360px !important;
+  overflow:visible !important;
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  transform:none !important;
+  pointer-events:none !important;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+}
+html.halloween-mode .halloween-ambient-layer::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:
+    radial-gradient(circle at 13% 30%,rgba(255,145,40,.9) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 28% 64%,rgba(255,184,70,.85) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 48% 22%,rgba(255,119,25,.85) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 69% 67%,rgba(255,185,70,.8) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 88% 34%,rgba(255,120,25,.85) 0 1.5px,transparent 3px);
+  opacity:.7 !important;
+  filter:none !important;
+  animation:halloween-spark-drift 6s ease-in-out infinite !important;
+  z-index:1 !important;
+}
+html.halloween-mode .halloween-ambient-layer::after{display:none !important}
+
+/* Soft local light only, never a big rectangle. */
+html.halloween-mode .halloween-glow-one{
+  width:220px !important;height:180px !important;
+  left:-40px !important;bottom:5px !important;
+  background:radial-gradient(circle,rgba(255,83,0,.20),transparent 68%) !important;
+  filter:blur(24px) !important;opacity:1 !important;z-index:0 !important;
+}
+html.halloween-mode .halloween-glow-two{
+  width:230px !important;height:190px !important;
+  right:-35px !important;top:-25px !important;
+  background:radial-gradient(circle,rgba(137,30,160,.18),rgba(255,105,15,.05) 42%,transparent 72%) !important;
+  filter:blur(26px) !important;opacity:1 !important;z-index:0 !important;
+}
+
+/* Moon becomes the single main visual anchor. */
+html.halloween-mode .halloween-moon-hotspot{
+  display:block !important;
+  top:38px !important;
+  right:13% !important;
+  width:150px !important;height:150px !important;
+  border:0 !important;border-radius:50% !important;
+  background:
+    radial-gradient(circle at 64% 36%,rgba(22,10,25,.98) 0 31%,transparent 32%),
+    radial-gradient(circle,rgba(255,211,103,1) 0 47%,rgba(255,143,20,.92) 58%,rgba(255,92,0,.18) 72%,transparent 73%) !important;
+  box-shadow:0 0 22px rgba(255,130,20,.48),0 0 58px rgba(255,83,0,.18) !important;
+  opacity:.95 !important;
+  z-index:3 !important;
+  pointer-events:auto !important;
+}
+html.halloween-mode .halloween-moon-hotspot::after{
+  content:"" !important;
+  position:absolute !important;
+  width:10px;height:10px;border-radius:50%;
+  left:27%;top:26%;
+  background:rgba(190,91,20,.20);
+  box-shadow:34px 24px 0 rgba(190,91,20,.16),18px 58px 0 rgba(190,91,20,.14);
+}
+
+/* Two subtle corner webs only. */
+html.halloween-mode .halloween-web-corner{
+  display:block !important;
+  width:105px !important;height:105px !important;
+  opacity:.28 !important;
+  filter:none !important;
+  z-index:5 !important;
+}
+html.halloween-mode .halloween-web-corner-left{left:-18px !important;top:-6px !important}
+html.halloween-mode .halloween-web-corner-right{right:-18px !important;top:-6px !important}
+
+/* Bats form a simple flight path around the moon. */
+html.halloween-mode .halloween-floating-bat{
+  z-index:7 !important;
+  filter:drop-shadow(0 0 5px rgba(0,0,0,.75)) !important;
+}
+html.halloween-mode .bat-a{top:26% !important;left:39% !important}
+html.halloween-mode .bat-b{top:43% !important;left:65% !important}
+html.halloween-mode .bat-c{top:49% !important;left:19% !important}
+
+/* Spider hangs from the right web. */
+html.halloween-mode .halloween-spider-interactive{
+  top:5px !important;right:14% !important;
+  z-index:8 !important;font-size:20px !important;
+}
+
+/* Three pumpkins, but with restrained glow so they read as objects. */
+html.halloween-mode .halloween-pumpkin-decor{
+  z-index:10 !important;
+  font-size:62px !important;
+  line-height:1 !important;
+  filter:drop-shadow(0 0 7px rgba(255,118,20,.65)) !important;
+  text-shadow:none !important;
+}
+html.halloween-mode .pumpkin-left{left:5% !important;bottom:12px !important;transform:rotate(-5deg)}
+html.halloween-mode .pumpkin-center{left:50% !important;bottom:5px !important;transform:translateX(-50%) scale(.82) !important}
+html.halloween-mode .pumpkin-right{right:5% !important;bottom:14px !important;transform:rotate(5deg)}
+
+/* No Halloween border around the whole scene or toggle. */
+html.halloween-mode .halloween-toggle{
+  border:0 !important;
+  box-shadow:0 8px 24px rgba(255,83,0,.16) !important;
+}
+
+/* Desktop: keep the scene in the left visual column. */
+@media(min-width:701px){
+  html.halloween-mode .hero-visual{
+    min-height:390px !important;height:390px !important;
+  }
+  html.halloween-mode .halloween-ambient-layer{
+    height:390px !important;min-height:390px !important;
+  }
+  html.halloween-mode .halloween-moon-hotspot{
+    width:170px !important;height:170px !important;
+    top:38px !important;right:15% !important;
+  }
+  html.halloween-mode .halloween-pumpkin-decor{font-size:68px !important}
+  html.halloween-mode .pumpkin-left{left:5% !important;bottom:18px !important}
+  html.halloween-mode .pumpkin-center{bottom:8px !important}
+  html.halloween-mode .pumpkin-right{right:5% !important;bottom:20px !important}
+}
+
+/* Mobile keeps the same composition, just tighter. */
+@media(max-width:700px){
+  html.halloween-mode .hero-visual{
+    min-height:300px !important;height:300px !important;
+  }
+  html.halloween-mode .halloween-ambient-layer{
+    height:300px !important;min-height:300px !important;
+  }
+  html.halloween-mode .halloween-moon-hotspot{
+    width:120px !important;height:120px !important;
+    top:28px !important;right:12% !important;
+  }
+  html.halloween-mode .halloween-pumpkin-decor{font-size:56px !important}
+  html.halloween-mode .pumpkin-center{font-size:50px !important}
+}
