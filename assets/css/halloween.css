@@ -1569,3 +1569,146 @@ html.halloween-mode .hero-visual::after{
   html.halloween-mode .pumpkin-right{font-size:55px !important}
   html.halloween-mode .halloween-web-corner{width:92px !important;height:92px !important}
 }
+
+/* =========================================================
+   CLEAN HALLOWEEN PASS — one visual system, no legacy layers
+   ========================================================= */
+
+/* Kill every legacy hard edge / pseudo-decoration */
+html.halloween-mode body::before,
+html.halloween-mode .site-header::before,
+html.halloween-mode .site-header::after,
+html.halloween-mode .brand::before,
+html.halloween-mode .brand::after,
+html.halloween-mode .hero-visual::before,
+html.halloween-mode .hero-visual::after{
+  display:none !important;
+  content:none !important;
+}
+
+/* No rectangular Halloween "cut" behind the content */
+html.halloween-mode .hero-section{
+  position:relative !important;
+  overflow:visible !important;
+  background:
+    radial-gradient(ellipse 70% 38% at 8% 44%,rgba(255,88,0,.10),transparent 68%),
+    radial-gradient(ellipse 65% 42% at 92% 54%,rgba(130,28,145,.12),transparent 70%),
+    transparent !important;
+}
+html.halloween-mode .hero-content,
+html.halloween-mode .hero-visual{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+/* Header: clean, thin, no old web/cut line */
+html.halloween-mode .site-header{
+  background:rgba(8,6,12,.96) !important;
+  border-bottom:1px solid rgba(255,122,0,.12) !important;
+  box-shadow:0 5px 18px rgba(0,0,0,.20) !important;
+}
+
+/* The ambient layer is the ONLY Halloween decoration field */
+html.halloween-mode .halloween-ambient-layer{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:250px !important;
+  min-height:250px !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:visible !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 14%,#000 80%,transparent 100%) !important;
+  mask-image:linear-gradient(to bottom,transparent 0,#000 14%,#000 80%,transparent 100%) !important;
+}
+
+/* Controlled soft light — no visible rectangle */
+html.halloween-mode .halloween-glow-one{
+  width:280px !important;height:210px !important;
+  left:-90px !important;bottom:-75px !important;
+  border-radius:50% !important;
+  background:radial-gradient(circle,rgba(255,87,0,.28) 0,rgba(255,87,0,.12) 34%,transparent 72%) !important;
+  opacity:1 !important;filter:blur(24px) !important;
+}
+html.halloween-mode .halloween-glow-two{
+  width:300px !important;height:220px !important;
+  right:-95px !important;top:-55px !important;
+  border-radius:50% !important;
+  background:radial-gradient(circle,rgba(146,30,122,.24) 0,rgba(255,105,15,.09) 38%,transparent 74%) !important;
+  opacity:1 !important;filter:blur(25px) !important;
+}
+
+/* Replace the old corner webs with two subtle, clean webs */
+html.halloween-mode .halloween-web-corner{
+  display:block !important;
+  position:absolute !important;
+  width:112px !important;height:112px !important;
+  opacity:.26 !important;
+  filter:none !important;
+  background:
+    repeating-radial-gradient(circle at 50% 0,transparent 0 14px,rgba(255,255,255,.55) 15px 16px),
+    repeating-conic-gradient(from 0deg at 50% 0,transparent 0 12deg,rgba(255,255,255,.48) 13deg 14deg,transparent 15deg 24deg) !important;
+  pointer-events:none !important;
+}
+html.halloween-mode .halloween-web-corner-left{left:-28px !important;top:-8px !important;transform:none !important}
+html.halloween-mode .halloween-web-corner-right{right:-28px !important;top:-8px !important;transform:scaleX(-1) !important}
+
+/* Sparks: visible but without a glowing box */
+html.halloween-mode .halloween-ambient-layer::before{
+  content:"" !important;
+  display:block !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:
+    radial-gradient(circle at 8% 40%,rgba(255,172,53,.9) 0 2px,transparent 3px),
+    radial-gradient(circle at 18% 68%,rgba(255,104,18,.85) 0 2px,transparent 3px),
+    radial-gradient(circle at 30% 30%,rgba(255,192,76,.9) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 44% 72%,rgba(255,117,20,.85) 0 2px,transparent 3px),
+    radial-gradient(circle at 58% 26%,rgba(255,183,55,.9) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 72% 64%,rgba(255,112,20,.85) 0 2px,transparent 3px),
+    radial-gradient(circle at 84% 34%,rgba(255,187,65,.9) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 94% 72%,rgba(255,112,20,.8) 0 2px,transparent 3px) !important;
+  opacity:.8 !important;
+  filter:none !important;
+  animation:halloween-spark-drift 5.5s ease-in-out infinite !important;
+  pointer-events:none !important;
+  z-index:3 !important;
+}
+html.halloween-mode .halloween-ambient-layer::after{
+  display:none !important;
+}
+
+/* Put the pumpkins above everything and make them the visual anchor */
+html.halloween-mode .halloween-pumpkin-decor{
+  z-index:12 !important;
+  filter:drop-shadow(0 0 9px rgba(255,120,20,.95)) drop-shadow(0 0 24px rgba(255,75,0,.38)) !important;
+}
+html.halloween-mode .pumpkin-left{left:1% !important;bottom:28px !important}
+html.halloween-mode .pumpkin-center{left:50% !important;bottom:12px !important}
+html.halloween-mode .pumpkin-right{right:1% !important;bottom:32px !important}
+
+/* Bats and spider sit between sparks and pumpkins */
+html.halloween-mode .halloween-floating-bat{
+  z-index:8 !important;
+  filter:drop-shadow(0 0 5px rgba(255,91,0,.24)) !important;
+}
+html.halloween-mode .halloween-spider-interactive{
+  z-index:11 !important;
+}
+
+/* No Halloween border around the orange activation button */
+html.halloween-mode .halloween-toggle{
+  border:0 !important;
+  box-shadow:0 8px 24px rgba(255,83,0,.18) !important;
+}
+
+/* Respect reduced motion */
+@media(prefers-reduced-motion:reduce){
+  html.halloween-mode .halloween-ambient-layer::before,
+  html.halloween-mode .halloween-pumpkin-decor{animation:none !important}
+}
