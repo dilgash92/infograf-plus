@@ -2870,10 +2870,33 @@ html.christmas-mode .o16{left:190px;top:339px}
 
 html.christmas-mode .tree-bow{
   position:absolute;z-index:10;left:50%;top:58px;
-  transform:translateX(-50%) rotate(-8deg);
-  color:#b61527;
-  font-size:46px;
-  text-shadow:0 3px 5px rgba(0,0,0,.25),0 0 12px rgba(255,70,80,.22);
+  width:70px;height:42px;
+  transform:translateX(-50%) rotate(-5deg);
+  filter:drop-shadow(0 4px 5px rgba(0,0,0,.25));
+}
+html.christmas-mode .tree-bow::before,
+html.christmas-mode .tree-bow::after{
+  content:"";position:absolute;top:2px;
+  width:35px;height:30px;
+  background:linear-gradient(145deg,#ef3345,#9c0c1b);
+  border-radius:80% 20% 70% 25%;
+  box-shadow:inset 5px 3px 7px rgba(255,255,255,.18),inset -6px -5px 8px rgba(0,0,0,.24);
+}
+html.christmas-mode .tree-bow::before{left:1px;transform:rotate(18deg)}
+html.christmas-mode .tree-bow::after{right:1px;transform:scaleX(-1) rotate(18deg)}
+html.christmas-mode .tree-bow span{
+  position:absolute;left:50%;top:11px;
+  width:17px;height:17px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,#ffb1b7,#d51b2f 42%,#8c0917);
+  z-index:2;
+}
+html.christmas-mode .tree-bow span::after{
+  content:"";position:absolute;left:5px;top:16px;
+  width:8px;height:19px;
+  background:#a30d1d;
+  clip-path:polygon(0 0,100% 0,82% 100%,50% 82%,18% 100%);
 }
 
 html.christmas-mode .tree-star{
@@ -2927,7 +2950,16 @@ html.christmas-mode .christmas-ambient-layer::after{
   html.christmas-mode .ornament{width:15px;height:15px}
   html.christmas-mode .ornament::before{left:5px}
   html.christmas-mode .ornament::after{left:3px;top:3px;width:4px;height:4px}
-  html.christmas-mode .tree-bow{top:45px;font-size:36px}
+  html.christmas-mode .tree-bow{top:45px;width:56px;height:34px}
+  html.christmas-mode .tree-bow::before,html.christmas-mode .tree-bow::after{width:28px;height:24px}
+  html.christmas-mode .tree-bow span{width:14px;height:14px;top:9px}
+  html.christmas-mode .tree-bow span::after{left:4px;top:13px;width:7px;height:16px}
+  html.christmas-mode .o1{left:99px;top:72px}.o2{left:131px;top:81px}.o3{left:71px;top:104px}
+  html.christmas-mode .o4{left:108px;top:121px}.o5{left:150px;top:129px}.o6{left:50px;top:151px}
+  html.christmas-mode .o7{left:88px;top:158px}.o8{left:124px;top:168px}.o9{left:177px;top:171px}
+  html.christmas-mode .o10{left:37px;top:200px}.o11{left:77px;top:208px}.o12{left:118px;top:215px}
+  html.christmas-mode .o13{left:163px;top:226px}.o14{left:194px;top:212px}.o15{left:57px;top:246px}
+  html.christmas-mode .o16{left:142px;top:253px}
   html.christmas-mode .christmas-hat{
     width:23px;height:15px;right:8px;top:-9px;
   }
