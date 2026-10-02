@@ -1,5 +1,6 @@
-/* Infograf+ — premium seasonal Halloween accent. Automatically active in October. */
+/* Infograf+ — premium Halloween identity. Active automatically throughout October. */
 
+/* Keep the original wordmark untouched; add one restrained seasonal detail. */
 html.halloween-season .site-header .brand{
   position:relative;
   z-index:2;
@@ -9,70 +10,57 @@ html.halloween-season .site-header .brand{
 html.halloween-season .site-header .brand::after{
   content:"";
   position:absolute;
-  width:150px;
-  height:84px;
-  right:-70px;
-  top:-25px;
+  width:122px;
+  height:73px;
+  right:-55px;
+  top:-20px;
   background:url("../icons/halloween-brand.svg") right top/contain no-repeat;
   pointer-events:none;
-  z-index:-1;
-  opacity:.94;
+  z-index:1;
+  opacity:.9;
 }
 
-/* The + becomes the seasonal signature: vivid orange with a controlled neon glow. */
+/* The + is the hero: rich Halloween orange + controlled luminous glow. */
 html.halloween-season .site-header .brand-plus{
+  position:relative;
+  z-index:3;
   color:#FF6A00 !important;
   text-shadow:
-    0 0 3px rgba(255,106,0,.95),
-    0 0 8px rgba(255,106,0,.72),
-    0 0 17px rgba(255,106,0,.46),
-    0 0 28px rgba(255,106,0,.22);
-  transition:text-shadow .2s ease, color .2s ease;
+    0 0 2px rgba(255,255,255,.65),
+    0 0 5px rgba(255,106,0,.95),
+    0 0 12px rgba(255,106,0,.78),
+    0 0 22px rgba(255,106,0,.42);
+  transition:color .2s ease, text-shadow .2s ease;
 }
 
 html.halloween-season .site-header .brand:hover .brand-plus{
-  color:#FF7A1A !important;
+  color:#FF781A !important;
   text-shadow:
-    0 0 4px rgba(255,122,26,1),
-    0 0 11px rgba(255,106,0,.88),
-    0 0 23px rgba(255,106,0,.58),
-    0 0 36px rgba(255,106,0,.30);
+    0 0 3px rgba(255,255,255,.72),
+    0 0 7px rgba(255,120,26,1),
+    0 0 16px rgba(255,106,0,.9),
+    0 0 30px rgba(255,106,0,.5);
 }
 
-/* Restrained seasonal detail on the header — the layout itself stays unchanged. */
+/* No decorative border, no theme change — the existing header stays clean. */
 html.halloween-season .site-header{
-  border-bottom-color:rgba(255,106,0,.28);
-}
-
-html.halloween-season .site-header::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:-1px;
-  height:1px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    rgba(255,106,0,.12) 18%,
-    rgba(255,106,0,.58) 50%,
-    rgba(255,106,0,.12) 82%,
-    transparent 100%);
-  pointer-events:none;
+  border-bottom-color:rgba(255,106,0,.16);
 }
 
 @media(max-width:700px){
   html.halloween-season .site-header .brand::after{
-    width:126px;
-    height:72px;
-    right:-59px;
-    top:-21px;
+    width:104px;
+    height:63px;
+    right:-47px;
+    top:-17px;
   }
 
   html.halloween-season .site-header .brand-plus{
     text-shadow:
-      0 0 3px rgba(255,106,0,.95),
-      0 0 7px rgba(255,106,0,.72),
-      0 0 14px rgba(255,106,0,.42);
+      0 0 2px rgba(255,255,255,.6),
+      0 0 5px rgba(255,106,0,.95),
+      0 0 11px rgba(255,106,0,.72),
+      0 0 19px rgba(255,106,0,.36);
   }
 }
 
