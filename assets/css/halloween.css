@@ -1445,3 +1445,127 @@ html.halloween-mode .halloween-ambient-layer::after{
 html.halloween-mode .halloween-ambient-layer::after{
   opacity:.32 !important;
 }
+
+/* =========================================================
+   Final mobile Halloween composition
+   Keep the atmosphere in one clean zone below the controls.
+   ========================================================= */
+html.halloween-mode .hero-visual{
+  min-height:250px !important;
+  height:250px !important;
+  margin-top:2px;
+  position:relative !important;
+  overflow:visible !important;
+}
+html.halloween-mode .halloween-ambient-layer{
+  inset:0 !important;
+  width:100% !important;
+  height:250px !important;
+  min-height:250px !important;
+  overflow:visible !important;
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.05),#000 12%,#000 82%,rgba(0,0,0,0) 100%);
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.05),#000 12%,#000 82%,rgba(0,0,0,0) 100%);
+}
+html.halloween-mode .halloween-web-corner{
+  display:block !important;
+  width:105px !important;
+  height:105px !important;
+  opacity:.34 !important;
+  filter:drop-shadow(0 0 5px rgba(255,255,255,.08)) !important;
+}
+html.halloween-mode .halloween-web-corner-left{left:-34px !important;top:-10px !important}
+html.halloween-mode .halloween-web-corner-right{right:-34px !important;top:-10px !important}
+
+html.halloween-mode .halloween-glow-one{
+  width:230px !important;height:230px !important;
+  left:-45px !important;bottom:-70px !important;
+  background:radial-gradient(circle,rgba(255,102,12,.32),rgba(255,76,0,.12) 38%,transparent 70%) !important;
+  opacity:.9 !important;filter:blur(18px) !important;
+}
+html.halloween-mode .halloween-glow-two{
+  width:250px !important;height:250px !important;
+  right:-55px !important;top:-70px !important;
+  background:radial-gradient(circle,rgba(255,120,20,.22),rgba(133,30,160,.20) 45%,transparent 72%) !important;
+  opacity:.95 !important;filter:blur(20px) !important;
+}
+
+/* Make the pumpkins visible and intentionally placed */
+html.halloween-mode .halloween-pumpkin-decor{
+  z-index:20 !important;
+  font-family:inherit;
+  font-size:72px !important;
+  line-height:1;
+  text-shadow:0 0 8px rgba(255,145,35,.9),0 0 28px rgba(255,92,0,.65);
+}
+html.halloween-mode .pumpkin-left{
+  left:2% !important;bottom:34px !important;
+  transform:rotate(-5deg);
+}
+html.halloween-mode .pumpkin-center{
+  left:50% !important;bottom:17px !important;
+  transform:translateX(-50%) scale(.78) !important;
+  font-size:60px !important;
+}
+html.halloween-mode .pumpkin-right{
+  right:2% !important;bottom:39px !important;
+  font-size:60px !important;
+  transform:rotate(5deg);
+}
+html.halloween-mode .halloween-pumpkin-decor.is-surprised{
+  animation:halloween-pumpkin-pop .55s ease !important;
+}
+
+/* Bats: smaller, softer and distributed */
+html.halloween-mode .halloween-floating-bat{
+  z-index:18 !important;
+  filter:drop-shadow(0 0 7px rgba(255,92,0,.32)) !important;
+}
+html.halloween-mode .bat-a{top:25% !important;left:38% !important}
+html.halloween-mode .bat-b{top:45% !important;left:66% !important}
+html.halloween-mode .bat-c{top:37% !important;left:17% !important}
+
+/* Spider hangs naturally between the webs */
+html.halloween-mode .halloween-spider-interactive{
+  z-index:22 !important;
+  top:2px !important;
+  right:16% !important;
+  font-size:21px !important;
+  filter:drop-shadow(0 0 5px rgba(255,255,255,.25)) !important;
+}
+
+/* Softer header webs — decorative, never dominant */
+html.halloween-mode .site-header::before,
+html.halloween-mode .site-header::after{
+  width:82px !important;
+  height:62px !important;
+  opacity:.42 !important;
+}
+html.halloween-mode .site-header::before{left:-18px !important;top:-3px !important}
+html.halloween-mode .site-header::after{right:-18px !important;top:-3px !important}
+
+/* Clean transition after the Halloween atmosphere */
+html.halloween-mode .categories-section{
+  background:linear-gradient(to bottom,rgba(10,6,14,.08),transparent 80px) !important;
+}
+html.halloween-mode .hero-section{
+  padding-bottom:0 !important;
+}
+html.halloween-mode .hero-visual::before,
+html.halloween-mode .hero-visual::after{
+  display:none !important;
+}
+
+@media(max-width:700px){
+  html.halloween-mode .hero-visual{
+    min-height:250px !important;
+    height:250px !important;
+  }
+  html.halloween-mode .halloween-ambient-layer{
+    height:250px !important;
+    min-height:250px !important;
+  }
+  html.halloween-mode .halloween-pumpkin-decor{font-size:66px !important}
+  html.halloween-mode .pumpkin-center{font-size:55px !important}
+  html.halloween-mode .pumpkin-right{font-size:55px !important}
+  html.halloween-mode .halloween-web-corner{width:92px !important;height:92px !important}
+}
