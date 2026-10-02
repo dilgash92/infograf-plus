@@ -2303,3 +2303,405 @@ html.christmas-mode .christmas-ambient-layer::before{
 /* keep Christmas completely independent from Halloween */
 html.christmas-mode .halloween-hero-scene{display:none !important}
 html.christmas-mode .halloween-toggle{display:none !important}
+
+
+/* =========================================================
+   Christmas Edition — luxury full-site override
+   ========================================================= */
+
+/* Christmas is invisible until the user activates it. */
+.christmas-ambient-layer{display:none !important}
+
+html.christmas-mode body{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(58,110,178,.30),transparent 38%),
+    linear-gradient(180deg,#071321 0%,#091827 48%,#0b111a 100%) !important;
+  color:#f8fbff;
+}
+
+html.christmas-mode body::before{
+  content:"";
+  position:fixed;
+  inset:-18vh -8vw;
+  z-index:9996;
+  pointer-events:none;
+  opacity:.78;
+  background-image:
+    radial-gradient(circle at 3% 4%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 11% 23%,#dff4ff 0 1.5px,transparent 3px),
+    radial-gradient(circle at 19% 9%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 27% 35%,#fff 0 1.5px,transparent 3px),
+    radial-gradient(circle at 36% 15%,#d9f1ff 0 1px,transparent 2px),
+    radial-gradient(circle at 44% 43%,#fff 0 1.5px,transparent 3px),
+    radial-gradient(circle at 53% 7%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 62% 28%,#dff4ff 0 1.5px,transparent 3px),
+    radial-gradient(circle at 71% 12%,#fff 0 1px,transparent 2px),
+    radial-gradient(circle at 80% 39%,#fff 0 1.5px,transparent 3px),
+    radial-gradient(circle at 90% 18%,#dff4ff 0 1px,transparent 2px),
+    radial-gradient(circle at 97% 47%,#fff 0 1.5px,transparent 3px);
+  background-size:100% 38vh;
+  animation:christmas-global-snow 10s linear infinite;
+}
+
+html.christmas-mode body::after{
+  content:"";
+  position:fixed;
+  inset:-15vh -8vw;
+  z-index:9995;
+  pointer-events:none;
+  opacity:.42;
+  background-image:
+    radial-gradient(circle at 7% 15%,rgba(255,255,255,.95) 0 2.5px,transparent 5px),
+    radial-gradient(circle at 24% 5%,rgba(210,239,255,.9) 0 2px,transparent 4px),
+    radial-gradient(circle at 41% 25%,rgba(255,255,255,.9) 0 3px,transparent 5px),
+    radial-gradient(circle at 59% 10%,rgba(255,255,255,.9) 0 2.5px,transparent 5px),
+    radial-gradient(circle at 76% 31%,rgba(210,239,255,.9) 0 2px,transparent 4px),
+    radial-gradient(circle at 92% 8%,rgba(255,255,255,.9) 0 3px,transparent 5px);
+  background-size:100% 52vh;
+  filter:blur(.2px);
+  animation:christmas-global-snow-slow 16s linear infinite;
+}
+
+@keyframes christmas-global-snow{
+  0%{transform:translate3d(0,-8vh,0)}
+  50%{transform:translate3d(2vw,48vh,0)}
+  100%{transform:translate3d(-1vw,108vh,0)}
+}
+@keyframes christmas-global-snow-slow{
+  0%{transform:translate3d(-1vw,-10vh,0)}
+  50%{transform:translate3d(3vw,50vh,0)}
+  100%{transform:translate3d(0,112vh,0)}
+}
+
+/* A premium winter atmosphere across the homepage, not a card. */
+html.christmas-mode .site-home{
+  position:relative;
+  overflow:visible !important;
+  background:
+    radial-gradient(circle at 18% 8%,rgba(82,147,214,.16),transparent 25%),
+    radial-gradient(circle at 84% 18%,rgba(112,166,220,.13),transparent 28%),
+    linear-gradient(180deg,#071625 0%,#0a1726 34%,#0b121b 100%) !important;
+}
+
+html.christmas-mode .site-home::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#bfe8ff 18%,#fff 50%,#bfe8ff 82%,transparent);
+  box-shadow:0 0 22px rgba(191,232,255,.45);
+  pointer-events:none;
+}
+
+html.christmas-mode .hero-section{
+  min-height:650px !important;
+  padding-top:54px !important;
+  padding-bottom:40px !important;
+  background:
+    radial-gradient(circle at 74% 28%,rgba(80,143,208,.23),transparent 24%),
+    radial-gradient(circle at 12% 76%,rgba(37,106,161,.17),transparent 30%),
+    linear-gradient(180deg,rgba(4,20,38,.22),rgba(5,16,27,.72)) !important;
+  border-bottom:1px solid rgba(190,224,255,.12);
+}
+
+html.christmas-mode .hero-section::before{
+  width:620px !important;height:620px !important;
+  left:-310px !important;top:-180px !important;
+  background:radial-gradient(circle,rgba(83,157,226,.18),transparent 68%) !important;
+  filter:blur(10px) !important;
+}
+html.christmas-mode .hero-section::after{
+  width:560px !important;height:560px !important;
+  right:-280px !important;bottom:-260px !important;
+  background:radial-gradient(circle,rgba(255,214,119,.12),transparent 66%) !important;
+  filter:blur(18px) !important;
+}
+
+html.christmas-mode .hero-content,
+html.christmas-mode .hero-content h1,
+html.christmas-mode .hero-content p{color:#f7fbff !important}
+html.christmas-mode .hero-content h1 span{
+  color:#ffd36a !important;
+  text-shadow:0 0 28px rgba(255,205,91,.20);
+}
+html.christmas-mode .hero-badge{
+  background:rgba(255,255,255,.08) !important;
+  border:1px solid rgba(255,255,255,.16) !important;
+  color:#dff4ff !important;
+  box-shadow:0 8px 30px rgba(0,0,0,.20) !important;
+}
+
+html.christmas-mode .hero-visual{
+  min-height:470px !important;
+  height:470px !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+html.christmas-mode .identity-card{display:none !important}
+
+/* The Christmas artwork occupies the hero naturally. */
+html.christmas-mode .christmas-ambient-layer{
+  display:block !important;
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  overflow:visible !important;
+  pointer-events:none !important;
+  z-index:3 !important;
+}
+
+html.christmas-mode .christmas-ambient-layer::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 10% 22%,rgba(255,255,255,.72) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 31% 12%,rgba(255,255,255,.62) 0 1px,transparent 2.5px),
+    radial-gradient(circle at 67% 20%,rgba(255,255,255,.7) 0 1.5px,transparent 3px),
+    radial-gradient(circle at 88% 37%,rgba(255,255,255,.65) 0 1px,transparent 2.5px),
+    radial-gradient(circle at 54% 61%,rgba(255,255,255,.52) 0 1px,transparent 2.5px);
+  animation:christmas-stars-drift 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes christmas-stars-drift{
+  0%,100%{opacity:.42;transform:translateY(0)}
+  50%{opacity:.95;transform:translateY(8px)}
+}
+
+html.christmas-mode .christmas-snow-glow{
+  position:absolute !important;
+  inset:5% 0 0 !important;
+  background:
+    radial-gradient(circle at 78% 38%,rgba(103,180,245,.20),transparent 27%),
+    radial-gradient(circle at 22% 70%,rgba(75,151,211,.15),transparent 30%),
+    radial-gradient(circle at 55% 65%,rgba(255,216,122,.09),transparent 24%) !important;
+  filter:blur(25px) !important;
+}
+
+html.christmas-mode .christmas-stars{display:none !important}
+
+/* More sculpted, layered tree instead of flat triangles. */
+html.christmas-mode .christmas-tree{
+  width:310px !important;height:430px !important;
+  left:18% !important;bottom:-2px !important;
+  transform:none !important;
+  filter:drop-shadow(0 24px 30px rgba(0,0,0,.45));
+}
+html.christmas-mode .tree-layer{
+  border:0 !important;
+  clip-path:polygon(50% 0,92% 100%,8% 100%) !important;
+  background:linear-gradient(155deg,#2e7459 0%,#0d4b38 42%,#073526 100%) !important;
+  box-shadow:inset 0 18px 28px rgba(255,255,255,.06),inset 0 -25px 30px rgba(0,0,0,.18);
+}
+html.christmas-mode .tree-layer-one{
+  width:155px !important;height:165px !important;
+  left:50% !important;top:20px !important;
+  transform:translateX(-50%) !important;
+}
+html.christmas-mode .tree-layer-two{
+  width:230px !important;height:205px !important;
+  left:50% !important;top:105px !important;
+  transform:translateX(-50%) !important;
+  background:linear-gradient(155deg,#357f61 0%,#11533e 40%,#083727 100%) !important;
+}
+html.christmas-mode .tree-layer-three{
+  width:300px !important;height:245px !important;
+  left:50% !important;top:195px !important;
+  transform:translateX(-50%) !important;
+  background:linear-gradient(155deg,#2d7357 0%,#0c4936 45%,#062f24 100%) !important;
+}
+html.christmas-mode .christmas-tree::before{
+  content:"";
+  position:absolute;
+  left:50%;top:88px;
+  width:190px;height:230px;
+  transform:translateX(-50%);
+  border-radius:48%;
+  border-left:2px solid rgba(255,214,103,.75);
+  border-bottom:2px solid rgba(255,214,103,.28);
+  box-shadow:0 18px 0 -17px rgba(255,214,103,.85),0 62px 0 -59px rgba(255,214,103,.8),0 106px 0 -103px rgba(255,214,103,.7);
+  opacity:.85;
+  z-index:7;
+}
+html.christmas-mode .christmas-tree::after{
+  content:"";
+  position:absolute;
+  left:50%;top:42px;
+  width:230px;height:28px;
+  transform:translateX(-50%) rotate(-7deg);
+  border-top:7px solid rgba(244,249,255,.78);
+  border-radius:50%;
+  filter:blur(.3px);
+  opacity:.9;
+  z-index:7;
+}
+html.christmas-mode .tree-star{
+  font-size:58px !important;
+  color:#ffe08a !important;
+  text-shadow:0 0 8px #fff2b7,0 0 24px rgba(255,210,96,.9),0 0 55px rgba(255,184,63,.5) !important;
+}
+html.christmas-mode .tree-lights{
+  inset:55px 48px 48px !important;
+  background:
+    radial-gradient(circle at 24% 12%,#ffe17b 0 4px,transparent 7px),
+    radial-gradient(circle at 66% 17%,#ffffff 0 4px,transparent 7px),
+    radial-gradient(circle at 37% 34%,#9bdcff 0 4px,transparent 7px),
+    radial-gradient(circle at 76% 40%,#ffe17b 0 4px,transparent 7px),
+    radial-gradient(circle at 22% 57%,#ffffff 0 4px,transparent 7px),
+    radial-gradient(circle at 55% 61%,#9bdcff 0 4px,transparent 7px),
+    radial-gradient(circle at 78% 73%,#ffe17b 0 4px,transparent 7px),
+    radial-gradient(circle at 35% 83%,#ffffff 0 4px,transparent 7px) !important;
+  filter:drop-shadow(0 0 7px rgba(255,224,120,.82)) !important;
+}
+html.christmas-mode .tree-trunk{
+  width:48px !important;height:62px !important;
+  background:linear-gradient(90deg,#392215,#70482b,#3b2416) !important;
+}
+html.christmas-mode .tree-gifts{
+  bottom:-8px !important;
+  font-size:34px !important;
+  filter:drop-shadow(0 7px 8px rgba(0,0,0,.35));
+}
+html.christmas-mode .christmas-tree-hotspot{
+  width:310px !important;height:430px !important;
+  left:18% !important;bottom:-2px !important;
+  transform:none !important;
+}
+
+html.christmas-mode .christmas-bell{
+  font-size:38px !important;
+  filter:drop-shadow(0 0 8px rgba(255,212,105,.7));
+  z-index:8;
+}
+html.christmas-mode .christmas-bell-left{left:4% !important;top:17% !important}
+html.christmas-mode .christmas-bell-right{right:7% !important;top:28% !important}
+
+html.christmas-mode .christmas-surprise{
+  bottom:12px !important;
+  background:rgba(5,20,34,.88) !important;
+  border-color:rgba(255,218,132,.42) !important;
+  box-shadow:0 10px 35px rgba(0,0,0,.28) !important;
+}
+
+/* Premium glass controls and content sections. */
+html.christmas-mode .hero-actions .btn{
+  border-color:rgba(214,238,255,.18) !important;
+  background:rgba(8,24,42,.62) !important;
+  color:#f7fbff !important;
+  box-shadow:0 10px 28px rgba(0,0,0,.22) !important;
+  backdrop-filter:blur(14px);
+}
+html.christmas-mode .hero-actions .btn-primary{
+  background:linear-gradient(135deg,#b97813,#e6b957) !important;
+  color:#071321 !important;
+  border-color:rgba(255,226,146,.65) !important;
+  box-shadow:0 10px 30px rgba(224,165,61,.22) !important;
+}
+html.christmas-mode .christmas-toggle{
+  background:linear-gradient(135deg,#174a70,#0a2946) !important;
+  border-color:rgba(181,225,255,.40) !important;
+  box-shadow:0 10px 34px rgba(39,131,198,.22) !important;
+}
+html.christmas-mode .christmas-toggle[aria-pressed="true"]{
+  background:linear-gradient(135deg,#17608c,#0a3557) !important;
+  border-color:rgba(145,216,255,.65) !important;
+}
+html.christmas-mode .categories-section,
+html.christmas-mode .latest-section,
+html.christmas-mode .featured-section{
+  color:#f7fbff;
+}
+html.christmas-mode .section-heading h2,
+html.christmas-mode .section-count,
+html.christmas-mode .section-kicker{
+  color:#f7fbff !important;
+}
+html.christmas-mode .category-list{position:relative;z-index:3}
+html.christmas-mode .category-chip{
+  background:rgba(9,28,47,.66) !important;
+  color:#eaf7ff !important;
+  border:1px solid rgba(173,218,245,.16) !important;
+  box-shadow:0 8px 22px rgba(0,0,0,.18);
+  backdrop-filter:blur(12px);
+}
+html.christmas-mode .category-chip.active{
+  background:linear-gradient(135deg,#c48a24,#e7c15e) !important;
+  color:#071321 !important;
+  border-color:#f3d47b !important;
+}
+html.christmas-mode .infographic-card{
+  background:rgba(11,28,45,.80) !important;
+  border:1px solid rgba(178,219,243,.13) !important;
+  box-shadow:0 18px 45px rgba(0,0,0,.25) !important;
+}
+html.christmas-mode .infographic-card h3 a,
+html.christmas-mode .infographic-card p,
+html.christmas-mode .card-meta,
+html.christmas-mode .read-more{
+  color:#edf7ff !important;
+}
+html.christmas-mode .about-section{
+  background:linear-gradient(135deg,rgba(14,39,61,.86),rgba(8,22,37,.90)) !important;
+  border:1px solid rgba(177,218,242,.13) !important;
+  box-shadow:0 22px 55px rgba(0,0,0,.24) !important;
+}
+html.christmas-mode .visitor-counter-card{
+  background:rgba(10,29,47,.82) !important;
+  border-color:rgba(177,218,242,.13) !important;
+}
+
+/* Keep normal page interaction above the snowfall. */
+html.christmas-mode .site-header,
+html.christmas-mode .page-wrapper,
+html.christmas-mode .mobile-navigation,
+html.christmas-mode .site-footer{
+  position:relative;
+  z-index:10000;
+}
+html.christmas-mode .site-header{background:rgba(6,18,31,.82) !important;backdrop-filter:blur(16px)}
+html.christmas-mode .site-footer{background:rgba(5,16,27,.92) !important;color:#eaf7ff}
+html.christmas-mode .site-header::before{
+  content:"";
+  position:absolute;
+  left:4%;right:4%;top:-1px;height:4px;
+  background:linear-gradient(90deg,transparent,#d8f2ff 15%,#ffd56f 32%,#d8f2ff 50%,#ffd56f 68%,#d8f2ff 85%,transparent);
+  box-shadow:0 0 20px rgba(198,231,255,.45);
+  opacity:.85;
+  pointer-events:none;
+}
+
+@media(max-width:700px){
+  html.christmas-mode .hero-section{
+    min-height:720px !important;
+    padding-top:34px !important;
+  }
+  html.christmas-mode .hero-visual{
+    min-height:390px !important;height:390px !important;
+  }
+  html.christmas-mode .christmas-tree{
+    width:235px !important;height:330px !important;
+    left:50% !important;bottom:-8px !important;
+    transform:translateX(-50%) !important;
+  }
+  html.christmas-mode .tree-layer-one{
+    width:120px !important;height:125px !important;top:15px !important;
+  }
+  html.christmas-mode .tree-layer-two{
+    width:175px !important;height:160px !important;top:78px !important;
+  }
+  html.christmas-mode .tree-layer-three{
+    width:225px !important;height:190px !important;top:148px !important;
+  }
+  html.christmas-mode .christmas-tree-hotspot{
+    width:235px !important;height:330px !important;
+    left:50% !important;bottom:-8px !important;
+    transform:translateX(-50%) !important;
+  }
+  html.christmas-mode .christmas-bell{font-size:29px !important}
+  html.christmas-mode .christmas-bell-left{left:7% !important;top:12% !important}
+  html.christmas-mode .christmas-bell-right{right:7% !important;top:22% !important}
+  html.christmas-mode .hero-actions{position:relative;z-index:10001}
+}
