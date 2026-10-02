@@ -211,6 +211,48 @@
     }
   }
 
+  function resetPanelPosition() {
+    var panel = getPanel();
+    if (!panel) return;
+
+    panel.style.position = "";
+    panel.style.top = "";
+    panel.style.left = "";
+    panel.style.right = "";
+    panel.style.width = "";
+    panel.style.transform = "";
+  }
+
+  function positionPanel() {
+    var panel = getPanel();
+    var button = getButton();
+    if (!panel || panel.hidden || !button) return;
+
+    // On mobile the stylesheet owns the panel position.
+    if (window.innerWidth <= 700) {
+      resetPanelPosition();
+      return;
+    }
+
+    // The panel is intentionally moved to <body>, so desktop positioning
+    // must be calculated from the button's viewport coordinates.
+    var rect = button.getBoundingClientRect();
+    var gap = 12;
+    var sideMargin = 14;
+    var width = Math.min(380, window.innerWidth - (sideMargin * 2));
+    var left = rect.left + (rect.width / 2) - (width / 2);
+    var maxLeft = window.innerWidth - width - sideMargin;
+
+    left = Math.max(sideMargin, Math.min(left, maxLeft));
+
+    panel.style.position = "fixed";
+    panel.style.width = width + "px";
+    panel.style.left = left + "px";
+    panel.style.right = "auto";
+    panel.style.top = (rect.bottom + gap) + "px";
+    panel.style.transform = "none";
+  }
+
   function togglePanel(forceOpen) {
     var panel = getPanel();
     var button = getButton();
@@ -223,7 +265,14 @@
       button.setAttribute("aria-expanded", String(open));
     }
 
-    if (open) refreshNotifications();
+    if (open) {
+      // Wait until the panel is visible so its fixed position is applied
+      // against the current viewport coordinates.
+      window.requestAnimationFrame(positionPanel);
+      refreshNotifications();
+    } else {
+      resetPanelPosition();
+    }
   }
 
   async function getRegistration() {
@@ -469,6 +518,10 @@
       .catch(function () {});
 
     button.addEventListener("click", handleButtonClick);
+
+    // Keep the desktop panel anchored to the bell while the viewport moves.
+    window.addEventListener("resize", positionPanel);
+    window.addEventListener("scroll", positionPanel, { passive: true });
 
     var unsubscribeButton = getUnsubscribeButton();
     if (unsubscribeButton) {
