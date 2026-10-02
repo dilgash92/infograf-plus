@@ -1789,3 +1789,36 @@ html.halloween-mode .notification-panel *{
     max-height:calc(100vh - 108px) !important;
   }
 }
+
+/* Notification panel lives under body now; keep it completely independent of Halloween layers. */
+html.halloween-mode body > #notification-panel.notification-panel{
+  position:fixed !important;
+  top:72px !important;
+  left:12px !important;
+  right:12px !important;
+  width:auto !important;
+  height:auto !important;
+  max-height:calc(100vh - 92px) !important;
+  transform:none !important;
+  margin:0 !important;
+  z-index:2147483647 !important;
+  display:block !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+}
+html.halloween-mode body > #notification-panel.notification-panel[hidden]{
+  display:none !important;
+}
+html.halloween-mode body > #notification-panel .notification-list{
+  max-height:calc(100vh - 165px) !important;
+  overflow-y:auto !important;
+}
+@media(min-width:701px){
+  html.halloween-mode body > #notification-panel.notification-panel{
+    top:84px !important;
+    left:auto !important;
+    right:24px !important;
+    width:min(380px,calc(100vw - 48px)) !important;
+    max-height:calc(100vh - 108px) !important;
+  }
+}
