@@ -4,10 +4,53 @@ document.addEventListener("DOMContentLoaded", function () {
   const body = document.body;
   const root = document.documentElement;
   const toggle = document.getElementById("halloween-mode-toggle");
+  const christmasToggle = document.getElementById("christmas-mode-toggle");
+  const christmasLayer = document.querySelector(".christmas-ambient-layer");
+  const christmasSurprise = document.querySelector(".christmas-surprise");
   const pumpkins = document.querySelectorAll(".halloween-pumpkin-decor");
   const surprise = document.querySelector(".halloween-surprise");
 
-  if (!toggle) return;
+  if (!toggle && !christmasToggle) return;
+
+
+  function setChristmasMode(enabled, persist) {
+    body.classList.toggle("christmas-mode", enabled);
+    root.classList.toggle("christmas-mode", enabled);
+    if (christmasToggle) {
+      christmasToggle.setAttribute("aria-pressed", String(enabled));
+      const label = christmasToggle.querySelector(".christmas-switch span");
+      if (label) label.textContent = enabled ? "ON" : "OFF";
+      christmasToggle.title = enabled ? "إيقاف نسخة الكريسماس" : "تشغيل نسخة الكريسماس";
+    }
+    if (persist) {
+      try { localStorage.setItem("infograf-christmas-mode", enabled ? "on" : "off"); } catch (error) {}
+    }
+  }
+
+  let savedChristmas = null;
+  try { savedChristmas = localStorage.getItem("infograf-christmas-mode"); } catch (error) {}
+  setChristmasMode(savedChristmas === "on", false);
+
+  if (christmasToggle) {
+    christmasToggle.addEventListener("click", function () {
+      const enabled = !body.classList.contains("christmas-mode");
+      if (enabled && body.classList.contains("halloween-mode") && toggle) setMode(false, true);
+      setChristmasMode(enabled, true);
+    });
+  }
+
+  if (christmasLayer && christmasSurprise) {
+    const treeHotspot = christmasLayer.querySelector(".christmas-tree-hotspot");
+    if (treeHotspot) {
+      treeHotspot.addEventListener("click", function () {
+        christmasLayer.classList.add("is-lit");
+        christmasSurprise.classList.remove("is-visible");
+        void christmasSurprise.offsetWidth;
+        christmasSurprise.classList.add("is-visible");
+        window.setTimeout(function () { christmasSurprise.classList.remove("is-visible"); }, 1700);
+      });
+    }
+  }
 
   const storageKey = "infograf-halloween-mode";
   let previousDarkMode = root.classList.contains("dark-mode");
