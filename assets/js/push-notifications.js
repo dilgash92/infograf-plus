@@ -446,6 +446,13 @@
     var button = getButton();
     if (!button) return;
 
+    // The notification panel is moved to <body> so header/Halloween
+    // transforms, clipping and stacking contexts can never collapse it.
+    var panel = getPanel();
+    if (panel && panel.parentElement !== document.body) {
+      document.body.appendChild(panel);
+    }
+
     getExistingSubscription()
       .then(function (existing) {
         var subscribed = !!existing && Notification.permission === "granted";
