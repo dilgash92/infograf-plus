@@ -1712,3 +1712,80 @@ html.halloween-mode .halloween-toggle{
   html.halloween-mode .halloween-ambient-layer::before,
   html.halloween-mode .halloween-pumpkin-decor{animation:none !important}
 }
+
+/* =========================================================
+   Halloween notification panel fix
+   The Halloween visual layer must never affect the notification UI.
+   ========================================================= */
+html.halloween-mode .site-header{
+  overflow:visible !important;
+  z-index:1000 !important;
+}
+html.halloween-mode .header-actions,
+html.halloween-mode .notification-header-wrap{
+  overflow:visible !important;
+}
+html.halloween-mode .notification-header-wrap{
+  z-index:1100 !important;
+}
+html.halloween-mode .notification-panel{
+  position:fixed !important;
+  top:72px !important;
+  left:12px !important;
+  right:12px !important;
+  bottom:auto !important;
+  width:auto !important;
+  max-width:none !important;
+  min-width:0 !important;
+  height:auto !important;
+  max-height:calc(100vh - 92px) !important;
+  margin:0 !important;
+  padding:0 !important;
+  transform:none !important;
+  z-index:99999 !important;
+  display:block;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+  border:1px solid rgba(255,122,0,.28) !important;
+  border-radius:18px !important;
+  background:rgba(13,9,20,.97) !important;
+  box-shadow:0 18px 55px rgba(0,0,0,.48),0 0 28px rgba(255,86,0,.10) !important;
+}
+html.halloween-mode .notification-panel[hidden]{
+  display:none !important;
+}
+html.halloween-mode .notification-panel-header{
+  min-height:52px !important;
+  box-sizing:border-box !important;
+  background:rgba(255,122,0,.07) !important;
+  border-bottom:1px solid rgba(255,255,255,.10) !important;
+}
+html.halloween-mode .notification-list{
+  width:100% !important;
+  max-height:calc(100vh - 165px) !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  box-sizing:border-box !important;
+}
+html.halloween-mode .notification-item{
+  width:100% !important;
+  box-sizing:border-box !important;
+  background:transparent !important;
+  color:#fff !important;
+}
+html.halloween-mode .notification-item:hover,
+html.halloween-mode .notification-item.is-unread{
+  background:rgba(255,122,0,.09) !important;
+}
+html.halloween-mode .notification-panel *{
+  max-width:100%;
+}
+@media(min-width:701px){
+  html.halloween-mode .notification-panel{
+    top:84px !important;
+    left:auto !important;
+    right:24px !important;
+    width:min(380px,calc(100vw - 48px)) !important;
+    max-height:calc(100vh - 108px) !important;
+  }
+}
