@@ -1822,3 +1822,79 @@ html.halloween-mode body > #notification-panel .notification-list{
     max-height:calc(100vh - 108px) !important;
   }
 }
+
+/* =========================================================
+   Desktop composition fix
+   Halloween atmosphere spans the hero, not the identity column.
+   ========================================================= */
+@media(min-width:701px){
+  html.halloween-mode .hero-section{
+    min-height:520px !important;
+    position:relative !important;
+  }
+  html.halloween-mode .hero-visual{
+    min-height:360px !important;
+    height:360px !important;
+    overflow:visible !important;
+  }
+  html.halloween-mode .halloween-ambient-layer{
+    position:absolute !important;
+    top:-25px !important;
+    left:50% !important;
+    width:100vw !important;
+    height:390px !important;
+    min-height:390px !important;
+    transform:translateX(-50%) !important;
+    inset:auto !important;
+    overflow:visible !important;
+    pointer-events:none !important;
+    background:transparent !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+  }
+  html.halloween-mode .halloween-glow-one{
+    width:430px !important;height:300px !important;
+    left:8% !important;bottom:-45px !important;
+    filter:blur(34px) !important;
+    opacity:.75 !important;
+  }
+  html.halloween-mode .halloween-glow-two{
+    width:460px !important;height:320px !important;
+    right:6% !important;top:-50px !important;
+    filter:blur(36px) !important;
+    opacity:.72 !important;
+  }
+  html.halloween-mode .halloween-web-corner{
+    width:150px !important;height:150px !important;
+    opacity:.22 !important;
+  }
+  html.halloween-mode .halloween-web-corner-left{
+    left:2% !important;top:5px !important;
+  }
+  html.halloween-mode .halloween-web-corner-right{
+    right:2% !important;top:5px !important;
+  }
+  html.halloween-mode .pumpkin-left{
+    left:12% !important;bottom:18px !important;
+  }
+  html.halloween-mode .pumpkin-center{
+    left:50% !important;bottom:8px !important;
+  }
+  html.halloween-mode .pumpkin-right{
+    right:12% !important;bottom:22px !important;
+  }
+  html.halloween-mode .bat-a{top:28% !important;left:43% !important}
+  html.halloween-mode .bat-b{top:52% !important;left:67% !important}
+  html.halloween-mode .bat-c{top:42% !important;left:26% !important}
+  html.halloween-mode .halloween-spider-interactive{
+    top:28px !important;right:18% !important;
+  }
+}
+
+/* Never show a clipped rectangular Halloween field */
+html.halloween-mode .halloween-ambient-layer{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
