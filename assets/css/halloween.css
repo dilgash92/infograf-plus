@@ -1402,3 +1402,46 @@ html.halloween-mode .halloween-toggle[aria-pressed="false"] .halloween-switch{
   html.halloween-mode .halloween-hero-scene::before,
   html.halloween-mode .halloween-hero-scene::after{animation:none !important}
 }
+
+/* Final edge cleanup — remove hard cuts and over-bright corner webs */
+html.halloween-mode .halloween-ambient-layer{
+  inset:-55px -12px -190px !important;
+  overflow:visible !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 72%,transparent 100%);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 72%,transparent 100%);
+}
+html.halloween-mode .halloween-web-corner{
+  display:none !important;
+}
+html.halloween-mode .site-header{
+  border-bottom-color:rgba(255,101,0,.18) !important;
+  box-shadow:0 4px 24px rgba(255,75,0,.06) !important;
+}
+html.halloween-mode .halloween-toggle{
+  border-color:rgba(255,154,46,.38) !important;
+  box-shadow:
+    0 8px 26px rgba(255,83,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.14) !important;
+}
+html.halloween-mode .halloween-toggle::before{
+  box-shadow:none !important;
+}
+html.halloween-mode .hero-visual::before,
+html.halloween-mode .hero-visual::after{
+  opacity:.55 !important;
+  filter:blur(52px) !important;
+}
+html.halloween-mode .halloween-glow{
+  opacity:.32 !important;
+  filter:blur(38px) !important;
+}
+html.halloween-mode .halloween-ambient-layer::before,
+html.halloween-mode .halloween-ambient-layer::after{
+  opacity:.65 !important;
+}
+html.halloween-mode .halloween-ambient-layer::after{
+  opacity:.32 !important;
+}
