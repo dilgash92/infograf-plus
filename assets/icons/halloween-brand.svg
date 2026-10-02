@@ -1,25 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="100" viewBox="0 0 180 100" fill="none">
-  <defs>
-    <filter id="orangeGlow" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="2.2" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
-
-  <!-- Fine cobweb draped over the logo corner -->
-  <g stroke="#252733" stroke-width="1.25" stroke-linecap="round" opacity=".78">
-    <path d="M132 2H178V48"/>
-    <path d="M132 2L174 44M132 2L156 50M132 2L178 26"/>
-    <path d="M142 2V12H132M153 2V23H132M164 2V34H132M175 2V45H132"/>
-    <path d="M132 12L142 2M132 23L153 2M132 34L164 2M132 45L175 2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="90" viewBox="0 0 150 90" fill="none">
+  <g stroke="#17191F" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M92 3H147V58" stroke-width="1.15" opacity=".58"/>
+    <path d="M92 3L147 58M92 3L126 58M92 3L147 28" stroke-width="1.05" opacity=".58"/>
+    <path d="M103 3V14H92M115 3V26H92M127 3V38H92M139 3V50H92" stroke-width="1.05" opacity=".58"/>
+    <path d="M92 14L103 3M92 26L115 3M92 38L127 3M92 50L139 3" stroke-width="1.05" opacity=".58"/>
   </g>
-
-  <!-- Small premium orange pumpkin accent -->
-  <g filter="url(#orangeGlow)" stroke="#FF6A00" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M154 62C153 57 156 54 160 53" stroke-width="1.5"/>
-    <path d="M160 54C163 51 166 52 167 55" stroke-width="1.5"/>
-    <path d="M150 71C150 65 154 60 160 60C166 60 170 65 170 71C170 78 166 83 160 85C154 83 150 78 150 71Z" fill="rgba(255,106,0,.10)" stroke-width="1.7"/>
-    <path d="M154 64C155 69 155 78 154 81M160 62C161 68 161 79 160 84M166 64C166 69 165 77 164 81" stroke-width="1.15"/>
-    <path d="M153 71C155 72 157 72 160 71C162 72 165 72 168 71" stroke-width="1.15"/>
-  </g>
+  <path d="M145 48C145 58 143 65 138 70C134 74 133 79 135 84" stroke="#FF6A00" stroke-width="1.25" stroke-linecap="round" opacity=".78"/>
+  <circle cx="135" cy="84" r="2" fill="#FF6A00"/>
 </svg>
