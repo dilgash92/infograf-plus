@@ -1898,3 +1898,72 @@ html.halloween-mode .halloween-ambient-layer{
   border:0 !important;
   box-shadow:none !important;
 }
+
+/* =========================================================
+   Desktop rollback — keep Halloween inside the visual column.
+   The previous full-viewport layer caused the large rectangle/glow.
+   ========================================================= */
+@media(min-width:701px){
+  html.halloween-mode .hero-section{
+    min-height:500px !important;
+    padding-bottom:30px !important;
+  }
+  html.halloween-mode .hero-visual{
+    min-height:330px !important;
+    height:330px !important;
+    overflow:visible !important;
+    z-index:2 !important;
+  }
+  html.halloween-mode .halloween-ambient-layer{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:330px !important;
+    min-height:330px !important;
+    transform:none !important;
+    overflow:visible !important;
+    background:transparent !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    -webkit-mask-image:none !important;
+    mask-image:none !important;
+  }
+  html.halloween-mode .halloween-glow-one{
+    width:220px !important;height:190px !important;
+    left:-25px !important;bottom:5px !important;
+    filter:blur(32px) !important;
+    opacity:.42 !important;
+  }
+  html.halloween-mode .halloween-glow-two{
+    width:230px !important;height:200px !important;
+    right:-25px !important;top:0 !important;
+    filter:blur(34px) !important;
+    opacity:.38 !important;
+  }
+  html.halloween-mode .halloween-web-corner{
+    width:105px !important;height:105px !important;
+    opacity:.24 !important;
+  }
+  html.halloween-mode .halloween-web-corner-left{
+    left:-12px !important;top:0 !important;
+  }
+  html.halloween-mode .halloween-web-corner-right{
+    right:-12px !important;top:0 !important;
+  }
+  html.halloween-mode .pumpkin-left{
+    left:4% !important;bottom:18px !important;
+  }
+  html.halloween-mode .pumpkin-center{
+    left:50% !important;bottom:8px !important;
+  }
+  html.halloween-mode .pumpkin-right{
+    right:4% !important;bottom:18px !important;
+  }
+  html.halloween-mode .bat-a{top:25% !important;left:40% !important}
+  html.halloween-mode .bat-b{top:48% !important;left:68% !important}
+  html.halloween-mode .bat-c{top:40% !important;left:18% !important}
+  html.halloween-mode .halloween-spider-interactive{
+    top:10px !important;right:16% !important;
+  }
+}
